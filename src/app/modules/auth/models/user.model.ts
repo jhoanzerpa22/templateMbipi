@@ -18,6 +18,8 @@ export class UserModel extends AuthModel {
   // personal information
   firstname: string;
   lastname: string;
+  nombre: string;
+  correo_login: string;
   website: string;
   // account information
   language: string;
