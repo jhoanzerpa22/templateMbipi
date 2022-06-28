@@ -39,6 +39,11 @@ const Routing: Routes = [
       import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
   },
   {
+    path: 'users',
+    loadChildren: () =>
+      import('./users/users.module').then((m) => m.UsersModule),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',

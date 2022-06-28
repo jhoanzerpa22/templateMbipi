@@ -27,7 +27,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
     this.user$ = this.auth.currentUserSubject.asObservable();
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
-    console.log('usuario',this._user);
+    //console.log('usuario',this._user);
     this.setLanguage(this.translationService.getSelectedLanguage());
   }
 
