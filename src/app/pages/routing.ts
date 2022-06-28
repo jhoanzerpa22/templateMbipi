@@ -44,6 +44,11 @@ const Routing: Routes = [
       import('./users/users.module').then((m) => m.UsersModule),
   },
   {
+    path: 'boards',
+    loadChildren: () =>
+      import('./boards/boards.module').then((m) => m.BoardsModule),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',

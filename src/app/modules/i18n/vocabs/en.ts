@@ -12,7 +12,7 @@ export const locale = {
       PAGES: 'Pages',
       FEATURES: 'Features',
       APPS: 'Apps',
-      DASHBOARD: 'Tablero',
+      DASHBOARD: 'Inicio',
     },
     AUTH: {
       GENERAL: {
