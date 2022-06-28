@@ -47,7 +47,7 @@
                   cursor-pointer
                 "
               >
-                Max Smith
+                {{user.nombre}}
               </a>
               <a class="cursor-pointer">
                 <span
@@ -70,7 +70,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#kt_modal_upgrade_plan"
               >
-                Upgrade to Pro
+              {{user.user.roles[0].nombre}}
               </a>
             </div>
 
@@ -91,9 +91,9 @@
                   "
                   class="svg-icon svg-icon-4 me-1"
                 ></span>
-                Developer
+                {{user.rut}}
               </a>
-              <a
+              <!--<a
                 class="
                   d-flex
                   align-items-center
@@ -110,7 +110,7 @@
                   class="svg-icon svg-icon-4 me-1"
                 ></span>
                 SF, Bay Area
-              </a>
+              </a>-->
               <a
                 class="
                   d-flex
@@ -126,7 +126,7 @@
                   "
                   class="svg-icon svg-icon-4 me-1"
                 ></span>
-                max@kt.com
+                {{user.user.correo_login}}
               </a>
             </div>
           </div>

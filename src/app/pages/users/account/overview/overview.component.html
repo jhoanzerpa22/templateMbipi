@@ -5,7 +5,7 @@
     </div>
 
     <a
-      routerLink="/users/edit/1/settings"
+      routerLink="/users/edit/{{user.id}}/settings"
       class="btn btn-primary align-self-center"
     >
       Editar
@@ -17,7 +17,7 @@
       <label class="col-lg-4 fw-bold text-muted">Nombre</label>
 
       <div class="col-lg-8">
-        <span class="fw-bolder fs-6 text-dark">Max Smith</span>
+        <span class="fw-bolder fs-6 text-dark">{{user.nombre}}</span>
       </div>
     </div>
 
@@ -25,7 +25,7 @@
       <label class="col-lg-4 fw-bold text-muted">RUT</label>
 
       <div class="col-lg-8 fv-row">
-        <span class="fw-bold fs-6">12345678-5</span>
+        <span class="fw-bold fs-6">{{user.rut}}</span>
       </div>
     </div>
 
@@ -40,9 +40,9 @@
       </label>
 
       <div class="col-lg-8 d-flex align-items-center">
-        <span class="fw-bolder fs-6 me-2">044 3276 454 935</span>
+        <span class="fw-bolder fs-6 me-2">{{user.fono}}</span>
 
-        <span class="badge badge-success">Verified</span>
+        <span class="badge badge-success">Verificado</span>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
 
       <div class="col-lg-8">
         <a href="#" class="fw-bold fs-6 text-dark text-hover-primary">
-          admin@demo.com
+          {{user.user.correo_login}}
         </a>
       </div>
     </div>

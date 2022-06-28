@@ -44,12 +44,12 @@
                     form-control form-control-lg form-control-solid
                     mb-3 mb-lg-0
                   "
-                  placeholder="Nombre"
-                  name="fName"
-                  value="Max"
+                  matInput
+                  [placeholder]="'Nombre'"
+                  [formControlName]="'nombre'"
                 />
               </div>
-              <div class="col-lg-6 fv-row">
+              <!--<div class="col-lg-6 fv-row">
                 <input
                   type="text"
                   class="form-control form-control-lg form-control-solid"
@@ -57,7 +57,7 @@
                   name="lName"
                   value="Smith"
                 />
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -69,9 +69,9 @@
             <input
               type="text"
               class="form-control form-control-lg form-control-solid"
-              placeholder="RUT"
-              name="rut"
-              value="Keenthemes"
+              matInput
+                  [placeholder]="'RUT'"
+                  [formControlName]="'rut'"
             />
           </div>
         </div>
@@ -83,9 +83,9 @@
             <input
               type="tel"
               class="form-control form-control-lg form-control-solid"
-              placeholder="Teléfono"
-              name="fono"
-              value="044 3276 454 935"
+              matInput
+              [placeholder]="'Teléfono'"
+              [formControlName]="'fono'"
             />
           </div>
         </div>
@@ -616,11 +616,58 @@
           <div class="col-lg-8 fv-row">
             <select
               class="form-select form-select-solid form-select-lg"
-              name="roles"
+                  [formControlName]="'roles'"
             >
               <option value="">Seleccione un Rol...</option>
               <option *ngFor="let r of filteredRoles | async; let i = index;"  [value]="r.id">{{r.nombre}}</option>
             </select>
+          </div>
+        </div>
+        
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            ><span class="required">Correo Electrónico</span></label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="email"
+              class="form-control form-control-lg form-control-solid"
+              matInput
+              [placeholder]="'Correo Electrónico'"
+              [formControlName]="'correo_login'"
+            />
+          </div>
+        </div>
+        
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            ><span class="required">Contraseña</span></label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="password"
+              class="form-control form-control-lg form-control-solid"
+              matInput
+              [placeholder]="'Contraseña'"
+              [formControlName]="'password'"
+            />
+          </div>
+        </div>
+
+        
+        
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            ><span class="required">Confirmar Contraseña</span></label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="password"
+              class="form-control form-control-lg form-control-solid"
+              matInput
+              [placeholder]="'Confirm Contraseña'"
+              [formControlName]="'conf_password'"
+            />
           </div>
         </div>
         <!--<div class="row mb-6">

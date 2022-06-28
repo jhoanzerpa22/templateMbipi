@@ -35,6 +35,7 @@ import { SettingsComponent } from './account/settings/settings.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 @NgModule({
     declarations: [
         UsersComponent, OverviewComponent, AccountComponent, SettingsComponent, 
