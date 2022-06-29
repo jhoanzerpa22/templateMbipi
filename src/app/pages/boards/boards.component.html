@@ -1,6 +1,6 @@
 <div
     class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
-    cdkScrollable>
+    cdkScrollable #tableroRef>
 
     <!-- Main -->
     <div class="flex flex-auto p-6 sm:p-10">
@@ -34,3 +34,8 @@
 </div>
 
 </div>
+<ng-container *ngFor="let eq of equipo; let i = index;">
+<img id="puntero-{{eq}}" src="assets/images/puntero.png" style="position: absolute;width: 30px;height: 30px;display: none;"/>
+<label id="equipo-{{eq}}" style="position: absolute;width: 100px;height: 100px;display: none;">{{eq}}</label>
+</ng-container>
+<canvas id="canvasId" #canvasRef width="100" height="100"></canvas>
