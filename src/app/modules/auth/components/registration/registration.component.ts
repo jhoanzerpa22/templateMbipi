@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../../../pages/users/users.service';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserModel } from '../../models/user.model';
 import { first } from 'rxjs/operators';
@@ -23,6 +24,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private _usersService: UsersService,
     private router: Router
   ) {
     this.isLoading$ = this.authService.isLoading$;
@@ -44,7 +46,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   initForm() {
     this.registrationForm = this.fb.group(
       {
-        fullname: [
+        nombre: [
           '',
           Validators.compose([
             Validators.required,
@@ -86,26 +88,45 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.hasError = false;
-    const result: {
-      [key: string]: string;
-    } = {};
-    Object.keys(this.f).forEach((key) => {
-      result[key] = this.f[key].value;
-    });
-    const newUser = new UserModel();
-    newUser.setUser(result);
-    const registrationSubscr = this.authService
-      .registration(newUser)
-      .pipe(first())
-      .subscribe((user: UserModel) => {
-        if (user) {
-          this.router.navigate(['/']);
-        } else {
-          this.hasError = true;
-        }
-      });
-    this.unsubscribe.push(registrationSubscr);
+
+    const val = this.registrationForm.value;
+
+    const data_general:any = {
+      'nombre'          : val.nombre,
+      'correo_login' : val.email.toLowerCase(),
+      'password' : val.password,
+      'roles'   : 2
+    }
+
+  this._usersService.create(data_general)
+  .subscribe(
+      (response) => {
+          // Navigate to the confirmation required page
+        this.hasError = false;
+        const result: {
+          [key: string]: string;
+        } = {};
+        Object.keys(this.f).forEach((key) => {
+          result[key] = this.f[key].value;
+        });
+        const newUser = new UserModel();
+        newUser.setUser(result);
+        const registrationSubscr = this.authService
+          .registration(newUser)
+          .pipe(first())
+          .subscribe((user: UserModel) => {
+            if (user) {
+              this.router.navigate(['/']);
+            } else {
+              this.hasError = true;
+            }
+          });
+        this.unsubscribe.push(registrationSubscr);
+      },
+      (response) => {
+          // Re-enable the form
+      }
+    );
   }
 
   ngOnDestroy() {
