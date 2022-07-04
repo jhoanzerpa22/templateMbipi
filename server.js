@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require('cors');
 var bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
 const path = require("path");
 
 app.use(cors({ origin: true, credentials: true, methods: 'GET,POST,PUT,DELETE,OPTIONS' }));
@@ -19,6 +20,16 @@ app.use(bodyParser.json({limit: '50mb'}));
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({limit: '50mb' ,extended: true }));
+
+app.post("/api/sendmail", (req, res) => {
+  console.log("request came");
+  let user = req.body;
+  sendMail(user, info => {
+    console.log(`The mail has beed send and the id is ${info.messageId}`);
+    res.send(info);
+  });
+
+});
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server, options);
@@ -136,3 +147,46 @@ function initial() {
 		}
     });
     }
+
+    //configuración envío de email
+async function sendMail(user, callback) {
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: 'jhoan.zerpa@tresidea.cl',
+      pass: '20588459jz'
+    }
+  });
+
+  let mailOptions = {
+    from: 'jhoan.zerpa@tresidea.cl', // sender address
+    to: user.correo_login, // list of receivers user.email
+    subject: "Registro Mbipi", // Subject line
+    html:
+    `<div class="border" style="width: 600px; height: 300px; border-top-color: rgb(0,188,212); border-color: black;">
+    <div class="border" style="width: 600px; height: 10px; background-color: rgb(0,188,212);border-color: rgb(0,188,212);">
+    </div>
+    <div class="border" style="width: 600px; height: 70px; background-color: #F6F6F6; border-color: #F6F6F6; font-family: 'Raleway', sans-serif;" >
+        <h1 style="text-align: center; padding-top: 12px;">Mbipi<span style="font-weight: bold; color: #23909F;">.</span></h1>
+    </div>
+    <div class="container">
+      <h3 style="text-align: center; padding-top: 20px;">¡Gracias `+user.nombre+` por registrarte en nuestro portal Mbipi!</h3>
+    </div>
+    <div class="container">
+      <h4 style="text-align: center; padding-top: 20px;">Por favor ingresa en el siguiente link para verificar tu cuenta.</h4>
+      <a style="text-align: center; padding-top: 20px;" href="http://localhost:57567/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
+    </div>
+  </div>
+    `
+  };
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail(mailOptions);
+
+  callback(info);
+
+}

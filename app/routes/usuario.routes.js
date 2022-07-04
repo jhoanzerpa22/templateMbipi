@@ -12,6 +12,9 @@ module.exports = app => {
   // Retrieve all active usuarios
   router.get("/active", usuarios.findAllActive);
 
+  // Verify usuarios
+  router.post("/verify", usuarios.verifyLogin);
+
   // Retrieve a single Usuario with id
   router.get("/:id", usuarios.findOne);
 
