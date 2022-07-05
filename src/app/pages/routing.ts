@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+
 const Routing: Routes = [
   {
     path: 'dashboard',
@@ -24,7 +25,7 @@ const Routing: Routes = [
   {
     path: 'crafted/pages/wizards',
     loadChildren: () =>
-      import('../modules/wizards/wizards.module').then((m) => m.WizardsModule),
+      import('../pages/config-wizzard/config-cta-wizard.module').then((m) => m.ConfigCtaWizardModule),
   },
   {
     path: 'crafted/widgets',
@@ -48,6 +49,11 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./boards/boards.module').then((m) => m.BoardsModule),
   },
+  // {
+  //   path: 'dflow',
+  //   loadChildren: () =>
+  //     import('./builder/builder.module').then((m) => m.),
+  // },
   {
     path: '',
     redirectTo: '/dashboard',

@@ -1,16 +1,14 @@
 module.exports = {
-  HOST: "localhost",
+
+  //Local
   USER: "postgres",
-  PASSWORD: "20588459jz",
-  //DB: "innovago",
-  //USER: "platafor_platafor",
-  //PASSWORD: ")XTc32;9;b4v",
-  //DB: "platafor_antofainnova",
-  //DB: "tresidea_innovagodb",
-  //USER: "postgres",
-  //PASSWORD: "test01",
+  PASSWORD: "test01",
   DB: "mbipi",
-  
+
+  //Produccion
+  //USER: "tresidea_mbipidb",
+  //PASSWORD: "k{ndin[m}maR",
+  //DB: "tresidea_mbipi",
   dialect: "postgres",
   pool: {
     max: 5,

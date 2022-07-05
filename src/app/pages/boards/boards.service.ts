@@ -15,7 +15,7 @@ export class SocketWebService extends Socket {
     //public cookieService: CookieService,
   ) {
     super({
-      url: 'http://localhost:4000',
+      url: 'https://mbipi.tresidea.cl/',
       options: {
         query: {
           nameRoom: 'mbipi'//cookieService.get('room')
@@ -27,14 +27,14 @@ export class SocketWebService extends Socket {
 
   listen = () => {
     this.ioSocket.on('evento', (res: any) => this.outEven.emit(res));
-    this.ioSocket.on('evento2', (res: any) => this.outEven2.emit(res));   
+    this.ioSocket.on('evento2', (res: any) => this.outEven2.emit(res));
 
   }
   emitEvent = (payload = {}) => {
     //console.log('evento',payload);
     this.ioSocket.emit('evento', payload)
   }
-  
+
   emitEvent2 = (payload = {}) => {
     //console.log('evento2',payload);
     this.ioSocket.emit('evento2', payload)

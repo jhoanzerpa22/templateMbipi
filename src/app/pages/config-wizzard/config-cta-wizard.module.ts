@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { HorizontalComponent } from './horizontal/horizontal.component';
-import { VerticalComponent } from './vertical/vertical.component';
+
 import { WizardsRoutingModule } from './wizards-routing.module';
 import { WizardsComponent } from './wizards.component';
 import { Step1Component } from './steps/step1/step1.component';
@@ -16,8 +15,6 @@ import { ConfigCtaWizardComponent } from './config-cta-wizzard/config-cta-wizzar
 
 @NgModule({
   declarations: [
-    HorizontalComponent,
-    VerticalComponent,
     WizardsComponent,
     Step1Component,
     Step2Component,
@@ -34,4 +31,4 @@ import { ConfigCtaWizardComponent } from './config-cta-wizzard/config-cta-wizzar
     NgbTooltipModule,
   ],
 })
-export class WizardsModule {}
+export class ConfigCtaWizardModule {}
