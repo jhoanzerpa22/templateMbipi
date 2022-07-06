@@ -29,6 +29,7 @@ export class ConfigCtaWizardComponent implements OnInit {
 
   nextStep() {
     const nextStep = this.currentStep$.value + 1;
+    // const tipo_plan = "";
     if (nextStep > this.formsCount) {
       return;
     }
