@@ -153,17 +153,17 @@ async function sendMail(user, callback) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "plataformantofainnova.cl",//"smtp.gmail.com",
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: 'jhoan.zerpa@tresidea.cl',
-      pass: '20588459jz'
+      user: 'no-reply@plataformantofainnova.cl',//'jhoan.zerpa@tresidea.cl',
+      pass: 'NoReplyAntofaInnova'
     }
   });
 
   let mailOptions = {
-    from: 'jhoan.zerpa@tresidea.cl', // sender address
+    from: 'no-reply@plataformantofainnova.cl', // sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Registro Mbipi", // Subject line
     html:

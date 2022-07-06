@@ -30,6 +30,8 @@ export class VerifyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    
+    localStorage.removeItem('usuario');
     const usuario: any = localStorage.getItem('usuario_verify');
     this._user = JSON.parse(usuario);
 

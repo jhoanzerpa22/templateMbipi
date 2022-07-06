@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { UserModel } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthModel } from '../../models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -77,9 +78,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     const loginSubscr = this.authService
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
-      .subscribe((user: UserModel | undefined) => {
+      .subscribe((user: any | undefined) => {
         if (user) {
-          this.router.navigate([this.returnUrl]);
+          const usuario: any = JSON.parse(user);
+          if(usuario.verify != true){
+            
+            localStorage.removeItem('usuario');
+            this.router.navigate(['auth/verify']);
+          }else{
+            this.router.navigate([this.returnUrl]);
+          }
+          
         } else {
           this.hasError = true;
         }
