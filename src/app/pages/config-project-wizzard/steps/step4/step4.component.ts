@@ -4,10 +4,10 @@ import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
 
 @Component({
-  selector: 'app-step2',
-  templateUrl: './step2.component.html',
+  selector: 'app-step4',
+  templateUrl: './step4.component.html',
 })
-export class Step2Component implements OnInit {
+export class Step4Component implements OnInit {
   @Input('updateParentModel') updateParentModel: (
     part: Partial<ICreateAccount>,
     isFormValid: boolean
@@ -26,20 +26,34 @@ export class Step2Component implements OnInit {
 
   initForm() {
     this.form = this.fb.group({
-      // accountTeamSize: [this.defaultValues.accountTeamSize,[Validators.required],],
-      // accountName: [this.defaultValues.accountName, [Validators.required]],
-      accountPlan: [this.defaultValues.accountPlan, [Validators.required]],
+      nameOnCard: [this.defaultValues.nameOnCard, [Validators.required]],
+      cardNumber: [this.defaultValues.cardNumber, [Validators.required]],
+      cardExpiryMonth: [
+        this.defaultValues.cardExpiryMonth,
+        [Validators.required],
+      ],
+      cardExpiryYear: [
+        this.defaultValues.cardExpiryYear,
+        [Validators.required],
+      ],
+      cardCvv: [this.defaultValues.cardCvv, [Validators.required]],
+      saveCard: ['1'],
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      console.log(val.accountPlan)
       this.updateParentModel(val, this.checkForm());
     });
     this.unsubscribe.push(formChangesSubscr);
   }
 
   checkForm() {
-    return !this.form.get('accountName')?.hasError('required');
+    return !(
+      this.form.get('nameOnCard')?.hasError('required') ||
+      this.form.get('cardNumber')?.hasError('required') ||
+      this.form.get('cardExpiryMonth')?.hasError('required') ||
+      this.form.get('cardExpiryYear')?.hasError('required') ||
+      this.form.get('cardCvv')?.hasError('required')
+    );
   }
 
   ngOnDestroy() {

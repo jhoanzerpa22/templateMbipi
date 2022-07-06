@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ICreateAccount, inits } from '../create-account.helper';
-
 @Component({
-  selector: 'app-config-cta-wizzard',
-  templateUrl: './config-cta-wizzard.html',
+  selector: 'app-horizontal',
+  templateUrl: './config-project-wizzard.component.html',
 })
-export class ConfigCtaWizardComponent implements OnInit {
+export class ConfigProjectWizzardComponent implements OnInit {
   formsCount = 5;
   account$: BehaviorSubject<ICreateAccount> =
     new BehaviorSubject<ICreateAccount>(inits);

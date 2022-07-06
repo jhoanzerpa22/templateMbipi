@@ -4,10 +4,10 @@ import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
 
 @Component({
-  selector: 'app-step2',
-  templateUrl: './step2.component.html',
+  selector: 'app-step3',
+  templateUrl: './step3.component.html',
 })
-export class Step2Component implements OnInit {
+export class Step3Component implements OnInit {
   @Input('updateParentModel') updateParentModel: (
     part: Partial<ICreateAccount>,
     isFormValid: boolean
@@ -26,20 +26,33 @@ export class Step2Component implements OnInit {
 
   initForm() {
     this.form = this.fb.group({
-      // accountTeamSize: [this.defaultValues.accountTeamSize,[Validators.required],],
-      // accountName: [this.defaultValues.accountName, [Validators.required]],
-      accountPlan: [this.defaultValues.accountPlan, [Validators.required]],
+      businessName: [this.defaultValues.businessName, [Validators.required]],
+      businessDescriptor: [
+        this.defaultValues.businessDescriptor,
+        [Validators.required],
+      ],
+      businessType: [this.defaultValues.businessType, [Validators.required]],
+      businessDescription: [this.defaultValues.businessDescription],
+      businessEmail: [
+        this.defaultValues.businessEmail,
+        [Validators.required, Validators.email],
+      ],
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      console.log(val.accountPlan)
       this.updateParentModel(val, this.checkForm());
     });
     this.unsubscribe.push(formChangesSubscr);
   }
 
   checkForm() {
-    return !this.form.get('accountName')?.hasError('required');
+    return !(
+      this.form.get('businessName')?.hasError('required') ||
+      this.form.get('businessDescriptor')?.hasError('required') ||
+      this.form.get('businessType')?.hasError('required') ||
+      this.form.get('businessEmail')?.hasError('required') ||
+      this.form.get('businessEmail')?.hasError('email')
+    );
   }
 
   ngOnDestroy() {

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ConfigProjectWizardModule } from './config-project-wizzard/config-project-wizard.module';
 
 
 const Routing: Routes = [
@@ -11,6 +12,11 @@ const Routing: Routes = [
     path: 'builder',
     loadChildren: () =>
       import('./builder/builder.module').then((m) => m.BuilderModule),
+  },
+  {
+    path: 'crafted/pages/wizards',
+    loadChildren: () =>
+      import('../pages/config-project-wizzard/config-project-wizard.module').then((m) => m.ConfigProjectWizardModule),
   },
   {
     path: 'crafted/pages/profile',
