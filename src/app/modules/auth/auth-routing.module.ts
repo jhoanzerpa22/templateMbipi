@@ -5,6 +5,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { VerifyComponent } from './components/verify/verify.component';
+import { VerifyLoginComponent } from './components/verify-login/verify-login.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,14 @@ const routes: Routes = [
       {
         path: 'registration',
         component: RegistrationComponent,
+      },
+      {
+        path: 'verify',
+        component: VerifyComponent,
+      },
+      {
+        path: 'verify-login',
+        component: VerifyLoginComponent,
       },
       {
         path: 'forgot-password',

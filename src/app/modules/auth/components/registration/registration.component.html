@@ -138,9 +138,10 @@
   <!--end::Form group-->
 
   <!--begin::Form group-->
-  <div class="mb-10 fv-row">
+  <div class="mb-10 fv-row" id="kt-div-login"><!--data-kt-password-meter="true"-->
     <label class="form-label fw-bolder text-dark fs-6">Contraseña</label>
     <input
+    #password
       class="form-control form-control-lg form-control-solid"
       type="password"
       placeholder="Contraseña"
@@ -152,6 +153,13 @@
         'is-valid': registrationForm.controls['password'].valid
       }"
     />
+    <ngx-password-strength-meter [password]="password.value"></ngx-password-strength-meter>
+    <!--<div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+      <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+      <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+      <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+      <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+    </div>-->
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{

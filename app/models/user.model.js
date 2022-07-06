@@ -18,8 +18,14 @@ module.exports = (sequelize, Sequelize) => {
     pass_recovery_time: {
       type: Sequelize.DATE
     },
+    pass_token_verify: {
+      type: Sequelize.STRING
+    },
     tipo_rol: {
       type: Sequelize.STRING
+    },
+    verify: {
+      type: Sequelize.BOOLEAN
     }
   }, {
     tableName: 'login',

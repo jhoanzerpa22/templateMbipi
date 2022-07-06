@@ -1,6 +1,7 @@
 const db = require("../models");
 const path = require("path");
 const serverConfig = require("../config/server.config.js");
+const nodemailer = require("nodemailer");
 
 const Usuario = db.usuario;
 const User = db.user;
@@ -31,11 +32,13 @@ exports.create = (req, res) => {
 
     require("fs").writeFile(serverConfig.HOST_SAVE+"usuarios/usuario-"+req.body.nombre+".png", base64Data, 'base64', function(err) { console.log(err); });
   }
-    
+  const pass_verify = bcrypt.hashSync(req.body.correo_login, 8);
   // Save User to Database
   User.create({
     correo_login: req.body.correo_login,
-    pass_hash: bcrypt.hashSync(req.body.password, 8)
+    pass_hash: bcrypt.hashSync(req.body.password, 8),
+    pass_token_verify: pass_verify,
+    verify: false
   })
     .then(user => {
       Usuario.create({
@@ -64,8 +67,15 @@ exports.create = (req, res) => {
           Role.findByPk(req.body.roles)
           .then(roles => {
             user.setRoles([roles]).then(() => {
-                    res.send({ message: "User was registered successfully!" });
-                  });
+              // create reusable transporter object using the default SMTP transport
+              const usuario_new = {
+                correo_login: req.body.correo_login,
+                pass_token_verify: pass_verify,
+                nombre: req.body.nombre
+              };
+              
+              res.send({ message: "User was registered successfully!", data: usuario_new });
+            });
           });
         } else {
           // user role = 1
@@ -173,6 +183,35 @@ exports.update = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Usuario with id=" + id
+      });
+    });
+};
+
+
+// Verify a Usuario by the pass_token in the request
+exports.verifyLogin = (req, res) => {
+	let usuario = {};
+    usuario = {
+      verify: true
+    };
+
+  User.update(usuario, {
+    where: { pass_token_verify: req.body.pass_token }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Usuario was verify successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot verify Usuario with pass_token=${req.body.pass_token}. Maybe Usuario was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Usuario with pass_token=" + req.body.pass_token
       });
     });
 };

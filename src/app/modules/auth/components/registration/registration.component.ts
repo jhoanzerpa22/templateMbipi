@@ -102,7 +102,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   .subscribe(
       (response) => {
           // Navigate to the confirmation required page
-        this.hasError = false;
+        /*this.hasError = false;
         const result: {
           [key: string]: string;
         } = {};
@@ -121,7 +121,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
               this.hasError = true;
             }
           });
-        this.unsubscribe.push(registrationSubscr);
+        this.unsubscribe.push(registrationSubscr);*/
+        
+        localStorage.setItem('usuario_verify', JSON.stringify(response.data));
+        this.router.navigate(['/auth/verify']);
       },
       (response) => {
           // Re-enable the form

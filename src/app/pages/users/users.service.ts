@@ -50,5 +50,11 @@ export class UsersService
         return this.http.get<[]>(environment.API_G +`${baseUrl}?nombre=${nombre}`);
       }
 
- 
+      sendMail(data: any): Observable<any> {
+        return this.http.post(environment.API_G + 'sendmail', data);
+      }
+
+      verifyLogin(data: any): Observable<any> {
+        return this.http.post(environment.API_G + 'usuarios/verify', data);
+      }
 }
