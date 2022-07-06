@@ -19,6 +19,11 @@ export const routes: Routes = [
       import('./modules/errors/errors.module').then((m) => m.ErrorsModule),
   },
   {
+    path: 'configuration',
+    loadChildren: () =>
+      import('./pages/config-wizzard/config-cta-wizard.module').then((m) => m.ConfigCtaWizardModule),
+  },
+  {
     path: '',
     canActivate: [AuthGuard],
     loadChildren: () =>
