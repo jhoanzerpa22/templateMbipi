@@ -69,12 +69,18 @@ export class AuthHTTPService {
         if (!user) {
           return notFoundError;
         }*/
+        
+        if(user.verify != true){
+          localStorage.setItem('usuario_verify', JSON.stringify(user));
+        }
 
-        localStorage.setItem('usuario', JSON.stringify(user));
+          localStorage.setItem('usuario', JSON.stringify(user));
 
         const auth = new AuthModel();
         auth.authToken = user.accessToken;
         auth.refreshToken = user.accessToken;
+        auth.verify = user.verify;
+        auth.completada = user.completada;
         auth.expiresIn = new Date(Date.now() + 100 * 24 * 60 * 60 * 1000);
         return auth;
       })

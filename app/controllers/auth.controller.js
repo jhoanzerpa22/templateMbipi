@@ -98,7 +98,9 @@ exports.signin = (req, res) => {
 		          correo_login: user.correo_login,
               img: serverConfig.HOST+'/'+usuario.img,
 		          roles: authorities,
-		          accessToken: token
+		          accessToken: token,
+              verify: user.verify,
+              completada: usuario.completada
 		        });
 		    }).catch(err => {
           res.status(500).send({ message: err.message });

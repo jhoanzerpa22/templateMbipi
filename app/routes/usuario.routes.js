@@ -18,6 +18,8 @@ module.exports = app => {
   // Retrieve a single Usuario with id
   router.get("/:id", usuarios.findOne);
 
+  router.put("/account/:id", usuarios.updateAccount);
+
   // Update a Usuario with id
   router.put("/:id", usuarios.update);
 

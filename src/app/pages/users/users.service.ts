@@ -57,4 +57,8 @@ export class UsersService
       verifyLogin(data: any): Observable<any> {
         return this.http.post(environment.API_G + 'usuarios/verify', data);
       }
+
+      updateAccount(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/account/${id}`, data);
+      }
 }

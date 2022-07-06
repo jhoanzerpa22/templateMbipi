@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ICreateAccount, inits } from '../create-account.helper';
+import { UsersService } from '../../users/users.service';
 
 @Component({
   selector: 'app-config-cta-wizzard',
@@ -16,12 +17,13 @@ export class ConfigCtaWizardComponent implements OnInit {
   );
   private unsubscribe: Subscription[] = [];
 
-  constructor() {}
+  constructor(private _usersService: UsersService) {}
 
   ngOnInit(): void {}
 
   updateAccount = (part: Partial<ICreateAccount>, isFormValid: boolean) => {
     const currentAccount = this.account$.value;
+    //console.log('currentAccount',this.account$.value);
     const updatedAccount = { ...currentAccount, ...part };
     this.account$.next(updatedAccount);
     this.isCurrentFormValid$.next(isFormValid);
@@ -30,6 +32,22 @@ export class ConfigCtaWizardComponent implements OnInit {
   nextStep() {
     const nextStep = this.currentStep$.value + 1;
     // const tipo_plan = "";
+    if(nextStep == 5){
+      
+      console.log('currentAccount',this.account$.value);
+      
+      const usuario: any = localStorage.getItem('usuario');
+      let user: any = JSON.parse(usuario);
+      this._usersService.updateAccount(user.id, this.account$.value)
+      .subscribe(
+          (response) => {
+          },
+          (response) => {
+              // Reset the form
+              //this.signUpNgForm.resetForm();
+          }
+      );
+    }
     if (nextStep > this.formsCount) {
       return;
     }

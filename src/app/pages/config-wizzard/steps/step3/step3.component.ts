@@ -28,6 +28,7 @@ export class Step3Component implements OnInit {
     this.form = this.fb.group({
       businessName: [this.defaultValues.businessName, [Validators.required]],
       businessDescriptor: [this.defaultValues.businessDescriptor, [Validators.required],],
+      business: [this.defaultValues.business, [Validators.required]],
       businessType: [this.defaultValues.businessType, [Validators.required]],
       businessDescription: [this.defaultValues.businessDescription],
       businessEmail: [
@@ -46,6 +47,7 @@ export class Step3Component implements OnInit {
     return !(
       this.form.get('businessName')?.hasError('required') ||
       this.form.get('businessDescriptor')?.hasError('required') ||
+      this.form.get('business')?.hasError('required') ||
       this.form.get('businessType')?.hasError('required') ||
       this.form.get('businessEmail')?.hasError('required') ||
       this.form.get('businessEmail')?.hasError('email')
