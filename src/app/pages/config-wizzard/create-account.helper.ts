@@ -1,12 +1,12 @@
 interface ICreateAccount {
-  accountType: 'personal' | 'corporate';
+  accountType: 'usuario' | 'incubadora';
   accountTeamSize: '1-1' | '2-10' | '10-50' | '50+';
   accountName: string;
-  accountPlan: '1' | '2' | '3';
+  accountPlan: 'gratuito' | 'pago';
   businessName: string;
   businessDescriptor: string;
-  business: '1' | '2';
-  businessType: '1' | '2' | '3' | '4' | '5' | '6';
+  business: 'si' | 'no';
+  businessType: 'publico' | 'privado';
   businessDescription: string;
   businessEmail: string;
   nameOnCard: string;
@@ -18,14 +18,14 @@ interface ICreateAccount {
 }
 
 const inits: ICreateAccount = {
-  accountType: 'personal',
+  accountType: 'usuario',
   accountTeamSize: '50+',
   accountName: '',
-  accountPlan: '1',
+  accountPlan: 'gratuito',
   businessName: 'Keenthemes Inc.',
   businessDescriptor: 'KEENTHEMES',
-  business: '1',
-  businessType: '1',
+  business: 'si',
+  businessType: 'publico',
   businessDescription: '',
   businessEmail: 'corp@support.com',
   nameOnCard: 'Max Doe',
