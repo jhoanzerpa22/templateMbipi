@@ -99,7 +99,8 @@ exports.signin = (req, res) => {
               img: serverConfig.HOST+'/'+usuario.img,
 		          roles: authorities,
 		          accessToken: token,
-              verify: user.verify
+              verify: user.verify,
+              completada: usuario.completada
 		        });
 		    }).catch(err => {
           res.status(500).send({ message: err.message });

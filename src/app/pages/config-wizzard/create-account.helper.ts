@@ -5,6 +5,7 @@ interface ICreateAccount {
   accountPlan: '1' | '2' | '3';
   businessName: string;
   businessDescriptor: string;
+  business: '1' | '2';
   businessType: '1' | '2' | '3' | '4' | '5' | '6';
   businessDescription: string;
   businessEmail: string;
@@ -23,6 +24,7 @@ const inits: ICreateAccount = {
   accountPlan: '1',
   businessName: 'Keenthemes Inc.',
   businessDescriptor: 'KEENTHEMES',
+  business: '1',
   businessType: '1',
   businessDescription: '',
   businessEmail: 'corp@support.com',

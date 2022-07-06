@@ -187,6 +187,46 @@ exports.update = (req, res) => {
     });
 };
 
+// Update a Account Usuario by the id in the request
+exports.updateAccount = (req, res) => {
+  const id = req.params.id;
+  
+  let usuario = {
+      tipo_plan: req.body.accountPlan,
+      tipo_cuenta: req.body.accountType,
+      informacion: req.body.businessDescription,
+      nombre_empresa: req.body.businessName,
+      tipo_financiamiento: req.body.businessType,
+      financiamiento: req.body.business,
+      completada: true
+      /*cardCvv: "123"
+      cardExpiryMonth: "1"
+      cardExpiryYear: "2"
+      cardNumber: "4111 1111 1111 1111"
+      nameOnCard: "Max Doe"
+      saveCard: "1"*/
+    };
+
+  Usuario.update(usuario, {
+    where: { login_id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Usuario was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Usuario with id=${id}. Maybe Usuario was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Usuario with id=" + id
+      });
+    });
+};
 
 // Verify a Usuario by the pass_token in the request
 exports.verifyLogin = (req, res) => {

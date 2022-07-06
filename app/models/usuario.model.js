@@ -26,6 +26,27 @@ module.exports = (sequelize, Sequelize) => {
     },
     login_id: {
       type: Sequelize.INTEGER
+    },
+    completada: {
+      type: Sequelize.BOOLEAN
+    },
+    tipo_cuenta: {
+      type: Sequelize.STRING
+    },
+    tipo_plan: {
+      type: Sequelize.STRING
+    },
+    nombre_empresa: {
+      type: Sequelize.STRING
+    },
+    financiamiento: {
+      type: Sequelize.STRING
+    },
+    tipo_financiamiento: {
+      type: Sequelize.STRING
+    },
+    informacion: {
+      type: Sequelize.TEXT
     }
   }, {
     tableName: 'usuario_plataforma',
