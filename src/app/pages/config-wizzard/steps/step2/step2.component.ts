@@ -32,10 +32,6 @@ export class Step2Component implements OnInit {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-<<<<<<< HEAD
-      console.log(val.accountPlan)
-=======
->>>>>>> c7180ea8259d426cebe02542c5d01ec1a351be7e
       this.updateParentModel(val, this.checkForm());
     });
     this.unsubscribe.push(formChangesSubscr);

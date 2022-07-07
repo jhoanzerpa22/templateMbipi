@@ -3,6 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
 
+type Tabs =
+  | 'kt_table_widget_4_tab_1'
+  | 'kt_table_widget_4_tab_2'
+  | 'kt_table_widget_4_tab_3';
+
 @Component({
   selector: 'app-step4',
   templateUrl: './step4.component.html',
@@ -16,6 +21,16 @@ export class Step4Component implements OnInit {
   @Input() defaultValues: Partial<ICreateAccount>;
 
   private unsubscribe: Subscription[] = [];
+
+  activeTab: Tabs = 'kt_table_widget_4_tab_1';
+
+  setTab(tab: Tabs) {
+    this.activeTab = tab;
+  }
+
+  activeClass(tab: Tabs) {
+    return tab === this.activeTab ? 'show active' : '';
+  }
 
   constructor(private fb: FormBuilder) {}
 
