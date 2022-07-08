@@ -30,9 +30,9 @@ export class ConfigProjectWizzardComponent implements OnInit {
 
   nextStep() {
     const nextStep = this.currentStep$.value + 1;
-    console.log('currentAccount',this.account$.value);
     
     if(nextStep == 5){
+      console.log('currentAccount',this.account$.value);
       
       const usuario: any = localStorage.getItem('usuario');
       let user: any = JSON.parse(usuario);

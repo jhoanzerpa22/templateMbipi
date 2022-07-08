@@ -21,7 +21,7 @@ const inits: ICreateAccount = {
   accountTeamSize: '50+',
   accountName: '',
   accountPlan: '1',
-  businessName: 'Keenthemes Inc.',
+  businessName: '',
   businessDescriptor: 'KEENTHEMES',
   businessType: '1',
   businessDescription: '',

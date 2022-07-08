@@ -22,7 +22,7 @@ const inits: ICreateAccount = {
   accountTeamSize: '50+',
   accountName: '',
   accountPlan: 'gratuito',
-  businessName: 'Keenthemes Inc.',
+  businessName: '',
   businessDescriptor: 'KEENTHEMES',
   business: 'si',
   businessType: 'publico',
