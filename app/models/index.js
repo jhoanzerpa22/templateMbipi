@@ -27,6 +27,7 @@ db.equipos = require("./equipos.model.js")(sequelize, Sequelize);
 db.metodologias = require("./metodologias.model.js")(sequelize, Sequelize);
 db.proyectos_tipos = require("./proyectos_tipos.model.js")(sequelize, Sequelize);
 db.proyectos = require("./proyectos.model.js")(sequelize, Sequelize);
+db.equipos_usuarios = require("./equipos_usuarios.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -50,6 +51,22 @@ db.proyectos.belongsTo(db.user, {
 db.user.hasMany(db.proyectos, { as: "proyectos",
   foreignKey: 'usuario_id'
  });
+
+db.user.hasMany(db.equipos_usuarios, { as: "equipos_usuarios",
+  foreignKey: 'usuario_id'
+});
+
+db.equipos.hasMany(db.equipos_usuarios, { as: "equipos_usuarios",
+  foreignKey: 'equipo_id'
+ });
+
+db.equipos_usuarios.belongsTo(db.user, {
+  foreignKey: 'usuario_id'
+});
+
+db.equipos_usuarios.belongsTo(db.equipos, {
+  foreignKey: 'equipo_id'
+});
 
 db.proyectos.belongsTo(db.proyectos_tipos, {
   foreignKey: 'proyecto_tipo_id'

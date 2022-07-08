@@ -3,6 +3,7 @@ const serverConfig = require("../config/server.config.js");
 
 const Proyectos = db.proyectos;
 const Equipos = db.equipos;
+const EquiposUsuarios = db.equipos_usuarios;
 
 const Op = db.Sequelize.Op;
 
@@ -29,7 +30,44 @@ exports.create = (req, res) => {
             equipo_id: equipo.id,
             metodologia_id: 1
             }).then(proyect =>{
-                res.send({ message: "Referencia was registered successfully!" });
+                
+                EquiposUsuarios.create({
+                    usuario_id: req.body.usuario_id,
+                    correo: null,
+                    rol: 'Decisor',
+                    participante: true,
+                    equipo_id: equipo.id,
+                    }).then(ep =>{
+                        
+                        if(req.body.data.members.length > 0){
+                            for (let i = 0; i < req.body.data.members.length; i++) {
+                                
+                                EquiposUsuarios.create({
+                                    usuario_id: null,
+                                    correo: req.body.data.members[i],
+                                    rol: 'Participante',
+                                    participante: false,
+                                    equipo_id: equipo.id,
+                                    }).then(ep2 =>{
+                                        if((i + 1) == req.body.data.members.length){
+                                            res.send({ message: "Proyecto was registered successfully!"});
+                                        }
+                                        
+                                    }).catch(err => {
+                                        res.status(500).send({
+                                        message: "Error creating EquiposProyectos"
+                                        });
+                                    });;
+                            }
+                        }else{
+                            res.send({ message: "Proyecto was registered successfully!" });
+                        }
+                    }).catch(err => {
+                        res.status(500).send({
+                        message: "Error creating EquipoProyecto"
+                        });
+                    });
+
         }).catch(err => {
             res.status(500).send({
             message: "Error creating Proyectos"

@@ -64,7 +64,14 @@
       <div class="fv-row mb-10">
         <label class="form-label">Invita a los miembros</label
         ><input
-          name="invitePersons"
+          name="search_members"
+          formControlName="search_members"
+          class="form-control form-control-lg form-control-solid"
+        /><a (click)="add()" style="cursor: pointer;">Agregar</a>
+        <input
+          name="members"
+          formControlName="members"
+          type="hidden"
           class="form-control form-control-lg form-control-solid"
         />
         <!-- <div
@@ -100,7 +107,7 @@
           <!-- end::Table head-->
           <!-- begin::Table body-->
           <tbody>
-            <tr>
+            <tr *ngFor="let m of members; let i = index;">
               <td>
                 <div class="symbol symbol-50px">
                   <img src="./assets/media/avatars/300-14.jpg" alt="" />
@@ -111,11 +118,11 @@
                   href="#"
                   class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
                 >
-                  Brad Simmons
+                  {{m}}
                 </a>
-                <span class="text-muted fw-bold d-block fs-7"
-                  >Movie Creator</span
-                >
+                <!--<span class="text-muted fw-bold d-block fs-7"
+                  >{{m.correo}}</span
+                >-->
               </td>
               <!-- <td>
                 <span class="text-muted fw-bold d-block fs-7">Rating</span>
