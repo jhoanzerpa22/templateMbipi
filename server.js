@@ -67,6 +67,7 @@ require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/usuario.routes')(app);
 require('./app/routes/rol.routes')(app);
+require('./app/routes/referencias.routes')(app);
 
 app.all('/api/*', (req, res) => {
   res.status(404).json({code:404, msg: 'Ruta API no reconocida.'});
@@ -90,6 +91,7 @@ const db = require("./app/models");
 const Role = db.role;
 const User = db.user;
 const Usuario = db.usuario;
+const Referencias = db.referencias;
 
 db.sequelize.sync().then(() => {
   console.log("Seeder db.");
@@ -146,6 +148,21 @@ function initial() {
 
 		}
     });
+
+    Referencias.findOne({
+      where: {
+        id: 1
+      }
+    }).then(valid => {
+        if (!valid) {
+  
+        Referencias.create({
+          id: 1,
+          nombre: "RRSS"
+        });
+  
+      }
+      });
     }
 
     //configuración envío de email
@@ -153,17 +170,17 @@ async function sendMail(user, callback) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "plataformantofainnova.cl",//"smtp.gmail.com",
+    host: "innovago.tresidea.cl",//"smtp.gmail.com",
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: 'no-reply@plataformantofainnova.cl',//'jhoan.zerpa@tresidea.cl',
-      pass: 'NoReplyAntofaInnova'
+      user: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl',
+      pass: 'Innovago123'
     }
   });
 
   let mailOptions = {
-    from: 'no-reply@plataformantofainnova.cl', // sender address
+    from: 'innovago@innovago.tresidea.cl', //'jhoan.zerpa@tresidea.cl', // sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Registro Mbipi", // Subject line
     html:

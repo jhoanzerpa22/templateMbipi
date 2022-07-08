@@ -196,7 +196,7 @@ exports.updateAccount = (req, res) => {
       tipo_cuenta: req.body.accountType,
       informacion: req.body.businessDescription,
       nombre_empresa: req.body.businessName,
-      tipo_financiamiento: req.body.businessType,
+      tipo_financiamiento: req.body.business == 'si' ? req.body.businessType : null,
       financiamiento: req.body.business,
       completada: true
       /*cardCvv: "123"
@@ -365,7 +365,7 @@ exports.findAllActive = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Usuarioes."
+          err.message || "Some error occurred while retrieving Usuarios."
       });
     });
 };
