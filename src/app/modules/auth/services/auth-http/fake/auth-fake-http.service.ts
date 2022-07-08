@@ -81,6 +81,7 @@ export class AuthHTTPService {
         auth.refreshToken = user.accessToken;
         auth.verify = user.verify;
         auth.completada = user.completada;
+        auth.proyectos = user.proyectos;
         auth.expiresIn = new Date(Date.now() + 100 * 24 * 60 * 60 * 1000);
         return auth;
       })

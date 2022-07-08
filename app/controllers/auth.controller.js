@@ -3,6 +3,7 @@ const config = require("../config/auth.config");
 const User = db.user;
 const Usuario = db.usuario;
 const Role = db.role;
+const Proyectos = db.proyectos;
 const serverConfig = require("../config/server.config.js");
 
 const Op = db.Sequelize.Op;
@@ -55,8 +56,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     where: {correo_login: req.body.email}/*db.Sequelize.where(
-      db.Sequelize.fn('upper',db.Sequelize.col('correo_login')), req.body.correo_login.toUpperCase())*/
-    
+      db.Sequelize.fn('upper',db.Sequelize.col('correo_login')), req.body.correo_login.toUpperCase())*/, include: ["proyectos"]
   })
     .then(user => {
       if (!user) {
@@ -89,6 +89,7 @@ exports.signin = (req, res) => {
 		      login_id: user.id
 		    }
 		    }).then(usuario => {
+          
 		        res.status(200).send({
 		          id: user.id,
 		          nombre: usuario.nombre,
@@ -100,7 +101,8 @@ exports.signin = (req, res) => {
 		          roles: authorities,
 		          accessToken: token,
               verify: user.verify,
-              completada: usuario.completada
+              completada: usuario.completada,
+              proyectos: user.proyectos
 		        });
 		    }).catch(err => {
           res.status(500).send({ message: err.message });

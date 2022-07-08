@@ -47,6 +47,10 @@ db.proyectos.belongsTo(db.user, {
   foreignKey: 'usuario_id'
 });
 
+db.user.hasMany(db.proyectos, { as: "proyectos",
+  foreignKey: 'usuario_id'
+ });
+
 db.proyectos.belongsTo(db.proyectos_tipos, {
   foreignKey: 'proyecto_tipo_id'
 });
