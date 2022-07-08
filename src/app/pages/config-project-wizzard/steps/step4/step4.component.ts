@@ -41,6 +41,7 @@ export class Step4Component implements OnInit {
 
   initForm() {
     this.form = this.fb.group({
+      businessName: [this.defaultValues.businessName, [Validators.required]],
       nameOnCard: [this.defaultValues.nameOnCard, [Validators.required]],
       cardNumber: [this.defaultValues.cardNumber, [Validators.required]],
       cardExpiryMonth: [
@@ -63,6 +64,7 @@ export class Step4Component implements OnInit {
 
   checkForm() {
     return !(
+      this.form.get('businessName')?.hasError('required') ||
       this.form.get('nameOnCard')?.hasError('required') ||
       this.form.get('cardNumber')?.hasError('required') ||
       this.form.get('cardExpiryMonth')?.hasError('required') ||

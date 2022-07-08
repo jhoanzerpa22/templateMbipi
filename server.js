@@ -68,6 +68,7 @@ require('./app/routes/user.routes')(app);
 require('./app/routes/usuario.routes')(app);
 require('./app/routes/rol.routes')(app);
 require('./app/routes/referencias.routes')(app);
+require('./app/routes/proyectos.routes')(app);
 
 app.all('/api/*', (req, res) => {
   res.status(404).json({code:404, msg: 'Ruta API no reconocida.'});
@@ -92,6 +93,8 @@ const Role = db.role;
 const User = db.user;
 const Usuario = db.usuario;
 const Referencias = db.referencias;
+const ProyectosTipos = db.proyectos_tipos;
+const Metodologias = db.metodologias;
 
 db.sequelize.sync().then(() => {
   console.log("Seeder db.");
@@ -163,6 +166,48 @@ function initial() {
   
       }
       });
+
+      Metodologias.findOne({
+        where: {
+          id: 1
+        }
+      }).then(valid => {
+          if (!valid) {
+    
+          Metodologias.create({
+            id: 1,
+            nombre: "Design"
+          });
+    
+        }
+        });
+
+        ProyectosTipos.findOne({
+          where: {
+            id: 1
+          }
+        }).then(valid => {
+            if (!valid) {
+      
+            ProyectosTipos.create({
+              id: 1,
+              nombre: "Uber Clon"
+            });
+
+            
+            ProyectosTipos.create({
+              id: 2,
+              nombre: "E-Commerce"
+            });
+
+            
+            ProyectosTipos.create({
+              id: 3,
+              nombre: "E-Learning"
+            });
+      
+          }
+          });
     }
 
     //configuración envío de email
