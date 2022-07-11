@@ -12,7 +12,6 @@ import { Step2Component } from './steps/step2/step2.component';
 import { Step3Component } from './steps/step3/step3.component';
 import { Step4Component } from './steps/step4/step4.component';
 import { Step5Component } from './steps/step5/step5.component';
-import { ConfigCtaWizardComponent } from './config-cta-wizzard/config-cta-wizzard';
 
 @NgModule({
   declarations: [
@@ -23,8 +22,7 @@ import { ConfigCtaWizardComponent } from './config-cta-wizzard/config-cta-wizzar
     Step2Component,
     Step3Component,
     Step4Component,
-    Step5Component,
-    ConfigCtaWizardComponent
+    Step5Component
   ],
   imports: [
     CommonModule,

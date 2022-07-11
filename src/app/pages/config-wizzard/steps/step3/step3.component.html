@@ -30,7 +30,7 @@
     <select
     name="businessType"
     class="form-select form-select-lg form-select-solid"
-    formControlName="business">
+    formControlName="business" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
     <option value="si">Sí</option>
     <option value="no">No</option>
     <!-- <option value="2">Sole Proprietorship</option>
@@ -58,7 +58,7 @@
     <label class="form-label required">Origen del financiamiento</label>
     <select
       name="businessType"
-      class="form-select form-select-lg form-select-solid"
+      class="form-select form-select-lg form-select-solid"  data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true"
       formControlName="businessType">
       <option value="publico">Público</option>
       <option value="privado">Privado</option>
@@ -74,7 +74,7 @@
     <select
       name="businessDescription"
       class="form-select form-select-lg form-select-solid"
-      formControlName="businessDescription">
+      formControlName="businessDescription" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
       <option *ngFor="let r of referencias; let i = index;"  [value]="r.id">{{r.nombre}}</option>
       <!--<option value="">Seleccione...</option>
       <option value="2">Sole Proprietorship</option>
