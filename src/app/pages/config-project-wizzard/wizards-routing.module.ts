@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WizardsComponent } from './wizards.component';
+import { ProyectsComponent } from './proyects.component';
 import { ConfigProjectWizzardComponent } from './config-project-wizzard/config-project-wizzard.component';
 
 const routes: Routes = [
@@ -9,6 +10,9 @@ const routes: Routes = [
     component: WizardsComponent,
     children: [
       {
+        path: 'project',
+        component: ProyectsComponent,
+      },{
         path: 'config-project',
         component: ConfigProjectWizzardComponent,
       },

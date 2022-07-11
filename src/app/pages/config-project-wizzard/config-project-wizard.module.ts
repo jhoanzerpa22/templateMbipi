@@ -6,6 +6,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { WizardsRoutingModule } from './wizards-routing.module';
 import { WizardsComponent } from './wizards.component';
+import { ProyectsComponent } from './proyects.component';
 import { Step1Component } from './steps/step1/step1.component';
 import { Step2Component } from './steps/step2/step2.component';
 import { Step3Component } from './steps/step3/step3.component';
@@ -21,7 +22,8 @@ import { ConfigProjectWizzardComponent } from './config-project-wizzard/config-p
     Step3Component,
     Step4Component,
     Step5Component,
-    ConfigProjectWizzardComponent
+    ConfigProjectWizzardComponent, 
+    ProyectsComponent
   ],
   imports: [
     CommonModule,

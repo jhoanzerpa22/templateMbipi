@@ -2,10 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
+import { ReferenciasService } from '../../referencias.service';
 
 @Component({
   selector: 'app-step3',
   templateUrl: './step3.component.html',
+  styleUrls: ['./step3.component.css'],
 })
 export class Step3Component implements OnInit {
   @Input('updateParentModel') updateParentModel: (
@@ -16,10 +18,13 @@ export class Step3Component implements OnInit {
   @Input() defaultValues: Partial<ICreateAccount>;
 
   private unsubscribe: Subscription[] = [];
+  referencias: any = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+    private refService: ReferenciasService) {}
 
   ngOnInit() {
+    this.getReferencias();
     this.initForm();
     this.updateParentModel({}, this.checkForm());
   }
@@ -41,6 +46,18 @@ export class Step3Component implements OnInit {
       this.updateParentModel(val, this.checkForm());
     });
     this.unsubscribe.push(formChangesSubscr);
+  }
+
+  getReferencias(): void {
+    this.refService.getAll()
+      .subscribe(
+        data => {
+          this.referencias = data;
+          
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   checkForm() {

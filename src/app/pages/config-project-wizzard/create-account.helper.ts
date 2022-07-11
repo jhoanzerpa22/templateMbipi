@@ -14,6 +14,8 @@ interface ICreateAccount {
   cardExpiryYear: string;
   cardCvv: string;
   saveCard: string;
+  search_members: string;
+  members: Array<1>;
 }
 
 const inits: ICreateAccount = {
@@ -21,7 +23,7 @@ const inits: ICreateAccount = {
   accountTeamSize: '50+',
   accountName: '',
   accountPlan: '1',
-  businessName: 'Keenthemes Inc.',
+  businessName: '',
   businessDescriptor: 'KEENTHEMES',
   businessType: '1',
   businessDescription: '',
@@ -32,6 +34,8 @@ const inits: ICreateAccount = {
   cardExpiryYear: '2',
   cardCvv: '123',
   saveCard: '1',
+  search_members: '',
+  members: []
 };
 
 export { ICreateAccount, inits };

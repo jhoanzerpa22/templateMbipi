@@ -19,6 +19,7 @@ export class Step1Component implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
+    
     this.initForm();
     this.updateParentModel({}, true);
   }

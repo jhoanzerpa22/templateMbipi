@@ -30,7 +30,7 @@ export class ConfigCtaWizardComponent implements OnInit {
   };
 
   nextStep() {
-    const nextStep = this.currentStep$.value + 1;
+    let nextStep = this.currentStep$.value + 1;
     // const tipo_plan = "";
     if(nextStep == 5){
       
@@ -48,16 +48,21 @@ export class ConfigCtaWizardComponent implements OnInit {
           }
       );
     }
+
     if (nextStep > this.formsCount) {
       return;
+    }else if(this.account$.value.accountPlan && this.account$.value.accountPlan == 'gratuito' && this.currentStep$.value == 2){
+      nextStep = nextStep + 1;
     }
     this.currentStep$.next(nextStep);
   }
 
   prevStep() {
-    const prevStep = this.currentStep$.value - 1;
+    let prevStep = this.currentStep$.value - 1;
     if (prevStep === 0) {
       return;
+    }else if(this.account$.value.accountPlan && this.account$.value.accountPlan == 'gratuito' && this.currentStep$.value == 4){
+      prevStep = prevStep - 1;
     }
     this.currentStep$.next(prevStep);
   }

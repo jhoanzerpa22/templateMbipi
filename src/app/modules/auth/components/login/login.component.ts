@@ -87,6 +87,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate(['auth/verify']);
           }else if(usuario.completada != true){
             this.router.navigate(['configuration/config-cta']);
+          }else if(usuario.proyectos < 1){
+            this.router.navigate(['/crafted/pages/wizards/project']);
           }else{
             this.router.navigate([this.returnUrl]);
           }

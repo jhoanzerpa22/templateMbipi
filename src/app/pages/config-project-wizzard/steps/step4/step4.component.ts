@@ -23,6 +23,7 @@ export class Step4Component implements OnInit {
   private unsubscribe: Subscription[] = [];
 
   activeTab: Tabs = 'kt_table_widget_4_tab_1';
+  members: any = [];
 
   setTab(tab: Tabs) {
     this.activeTab = tab;
@@ -41,6 +42,9 @@ export class Step4Component implements OnInit {
 
   initForm() {
     this.form = this.fb.group({
+      search_members: [this.defaultValues.search_members],
+      members: [this.defaultValues.members],
+      businessName: [this.defaultValues.businessName, [Validators.required]],
       nameOnCard: [this.defaultValues.nameOnCard, [Validators.required]],
       cardNumber: [this.defaultValues.cardNumber, [Validators.required]],
       cardExpiryMonth: [
@@ -61,8 +65,17 @@ export class Step4Component implements OnInit {
     this.unsubscribe.push(formChangesSubscr);
   }
 
+  add(){
+    const search_members = this.form.get('search_members')?.value;
+    this.members.push(search_members);
+    
+    this.form.get('search_members')?.setValue('');
+    this.form.get('members')?.setValue(this.members);
+  }
+
   checkForm() {
     return !(
+      this.form.get('businessName')?.hasError('required') ||
       this.form.get('nameOnCard')?.hasError('required') ||
       this.form.get('cardNumber')?.hasError('required') ||
       this.form.get('cardExpiryMonth')?.hasError('required') ||
