@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ConfigProjectWizardModule } from './config-project-wizzard/config-project-wizard.module';
+import { DashboardProjectModule } from './dashboard-project/dashboard-project.module';
 
 
 const Routing: Routes = [
@@ -7,6 +8,11 @@ const Routing: Routes = [
     path: 'dashboard',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
+    path: 'dashboard-project',
+    loadChildren: () =>
+      import('./dashboard-project/dashboard-project.module').then((m) => m.DashboardProjectModule),
   },
   {
     path: 'builder',
