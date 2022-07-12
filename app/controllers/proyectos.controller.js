@@ -50,7 +50,7 @@ exports.create = (req, res) => {
                                     equipo_id: equipo.id,
                                     }).then(ep2 =>{
                                         if((i + 1) == req.body.data.members.length){
-                                            res.send({ message: "Proyecto was registered successfully!"});
+                                            res.send({ message: "Proyecto was registered successfully!", data: proyect});
                                         }
                                         
                                     }).catch(err => {
@@ -60,7 +60,7 @@ exports.create = (req, res) => {
                                     });;
                             }
                         }else{
-                            res.send({ message: "Proyecto was registered successfully!" });
+                            res.send({ message: "Proyecto was registered successfully!", data: proyect });
                         }
                     }).catch(err => {
                         res.status(500).send({

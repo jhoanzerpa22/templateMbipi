@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ICreateAccount, inits } from '../create-account.helper';
-import { ProyectsService } from '../proyects.service';
+/*import { ProyectsService } from '../proyects.service';*/
 
 @Component({
   selector: 'app-horizontal',
@@ -9,6 +9,7 @@ import { ProyectsService } from '../proyects.service';
 })
 export class ConfigProjectWizzardComponent implements OnInit {
   formsCount = 5;
+  proyecto: any = {};
   account$: BehaviorSubject<ICreateAccount> =
     new BehaviorSubject<ICreateAccount>(inits);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
@@ -17,7 +18,7 @@ export class ConfigProjectWizzardComponent implements OnInit {
   );
   private unsubscribe: Subscription[] = [];
 
-  constructor(private _proyectsService: ProyectsService) {}
+  constructor(/*private _proyectsService: ProyectsService*/) {}
 
   ngOnInit(): void {}
 
@@ -31,7 +32,7 @@ export class ConfigProjectWizzardComponent implements OnInit {
   nextStep() {
     const nextStep = this.currentStep$.value + 1;
     
-    if(nextStep == 5){
+    /*if(nextStep == 5){
       console.log('currentAccount',this.account$.value);
       
       const usuario: any = localStorage.getItem('usuario');
@@ -39,18 +40,21 @@ export class ConfigProjectWizzardComponent implements OnInit {
 
       this._proyectsService.create({'usuario_id': user.id, 'data': this.account$.value})
       .subscribe(
-          (response) => {
+          (response) => {            
+            this.proyecto = response.data;
           },
           (response) => {
               // Reset the form
               //this.signUpNgForm.resetForm();
           }
       );
-    }
-    if (nextStep > this.formsCount) {
-      return;
-    }
-    this.currentStep$.next(nextStep);
+    }*/
+
+      if (nextStep > this.formsCount) {
+        return;
+      }
+      this.currentStep$.next(nextStep);
+    
   }
 
   prevStep() {

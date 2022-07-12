@@ -92,7 +92,7 @@
           </ng-container>
 
           <ng-container *ngIf="currentStep$.value === 5">
-            <app-step5 class="w-100"></app-step5>
+            <app-step5 class="w-100" [defaultValues]="account$.value"></app-step5>
           </ng-container>
         </div>
 

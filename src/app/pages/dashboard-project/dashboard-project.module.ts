@@ -14,6 +14,10 @@ import { WidgetsModule } from '../../_metronic/partials/content/widgets/widgets.
       {
         path: '',
         component: DashboardProjectComponent
+      },
+      {
+        path: ':id',
+        component: DashboardProjectComponent
       }
     ]),
     WidgetsModule
