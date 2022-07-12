@@ -68,7 +68,8 @@
           formControlName="search_members"
           class="form-control form-control-lg form-control-solid"
         /><a (click)="add()" class="btn btn-lg btn-primary me-3" style="cursor: pointer;">Agregar</a>
-        --><input
+        -->
+        <input
           name="members"
           formControlName="members"
           type="hidden"
@@ -118,7 +119,8 @@
             <tr *ngFor="let m of members; let i = index;">
               <td>
                 <div class="symbol symbol-50px">
-                  <img src="./assets/media/avatars/300-14.jpg" alt="" />
+                  <!--<img src="./assets/media/avatars/300-14.jpg" alt="" />-->
+                  <span class="symbol-label bg-light-danger text-danger fw-bold">{{m.substring(0, 1).toUpperCase()}}</span>
                 </div>
               </td>
               <td>
@@ -153,9 +155,15 @@
                 </div>
               </td> -->
               <td class="text-end">
-                <a href="#" class="btn btn-light btn-active-light-primary btn-sm">
+                <!--<a href="#" class="btn btn-light btn-active-light-primary btn-sm">
                   Acciones
-                </a>
+                </a>-->
+                <div class="ms-2 w-120px">
+                  <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true">
+                    <option value="1">Decisor</option>
+                    <option value="2" selected="selected">Participante</option>
+                  </select>
+                </div>
                 <!-- <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
                   <i class="bi bi-facebook fs-4"></i>
                 </a> -->
