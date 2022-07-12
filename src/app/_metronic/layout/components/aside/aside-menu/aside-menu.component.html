@@ -1,5 +1,5 @@
 <!-- Dashboard -->
-<div class="menu-item">
+<div class="menu-item" *ngIf="user && user.proyectos.length > 0">
   <a
     class="menu-link without-sub"
     routerLink="/dashboard"
@@ -29,7 +29,7 @@
   ></a>
 </div>-->
 
-<div class="menu-item">
+<div class="menu-item" *ngIf="user && user.proyectos.length > 0">
   <a
     class="menu-link without-sub"
     routerLink="/users"
@@ -43,7 +43,7 @@
   >
 </div>
 
-<div class="menu-item">
+<div class="menu-item" *ngIf="user && user.proyectos.length > 0">
   <a
     class="menu-link without-sub"
     routerLink="/boards"
