@@ -14,7 +14,6 @@ export class AsideMenuComponent implements OnInit {
 
   constructor(private ref: ChangeDetectorRef) {
     this.user = JSON.parse(this.usuario);
-    console.log('usuario',this.user);
     //this.ref.detectChanges();
   }
 
