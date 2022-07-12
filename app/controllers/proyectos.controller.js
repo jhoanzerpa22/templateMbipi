@@ -119,6 +119,30 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Find Dashboard with an id usuario
+exports.dashboard = (req, res) => {
+    const usuario_id = req.params.id;
+  
+    Proyectos.findAll({ where: {usuario_id: usuario_id}})
+    .then(data => {
+        EquiposUsuarios.findAll({ where: {usuario_id: usuario_id}})
+        .then(equipos => {
+            
+            res.send({'proyectos': data, 'equipos': equipos});
+        })
+        .catch(err => {
+            
+            res.send({'proyectos': data});
+        });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving proyectos."
+      });
+    });
+  };
+
 // Update a Proyectos by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;

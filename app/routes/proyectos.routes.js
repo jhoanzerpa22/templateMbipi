@@ -11,6 +11,9 @@ module.exports = app => {
   
     // Retrieve all active Proyectos
     router.get("/active", proyectos.findAllActive);
+    
+    //dashboard
+    router.get("/byUsuario/:id", proyectos.dashboard);
   
     // Retrieve a single Proyectos with id
     router.get("/:id", proyectos.findOne);

@@ -25,6 +25,10 @@ export class ProyectsService
       get(id: any): Observable<any> {
         return this.http.get(environment.API_G +`${baseUrl}/${id}`);
       }
+
+      dashboard(id: any): Observable<any> {
+        return this.http.get(environment.API_G +`${baseUrl}/byUsuario/${id}`);
+      }
     
       create(data: any): Observable<any> {
         return this.http.post(environment.API_G + baseUrl, data);
