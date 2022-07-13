@@ -44,8 +44,8 @@ exports.create = (req, res) => {
                                 
                                 EquiposUsuarios.create({
                                     usuario_id: null,
-                                    correo: req.body.data.members[i],
-                                    rol: 'Participante',
+                                    correo: req.body.data.members[i].nombre,
+                                    rol: req.body.data.members[i].rol,
                                     participante: false,
                                     equipo_id: equipo.id,
                                     }).then(ep2 =>{
