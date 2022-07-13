@@ -67,10 +67,18 @@ export class Step4Component implements OnInit {
 
   add(){
     const search_members = this.form.get('search_members')?.value;
-    this.members.push(search_members);
+    this.members.push({nombre: search_members, rol: 'Participante'});
     
     this.form.get('search_members')?.setValue('');
     this.form.get('members')?.setValue(this.members);
+  }
+
+  changeRol($event: any, i: any){
+    this.members[i].rol = $event.target.value;
+  }
+
+  quitar(i: any){
+    this.members.splice(i, 1);
   }
 
   checkForm() {

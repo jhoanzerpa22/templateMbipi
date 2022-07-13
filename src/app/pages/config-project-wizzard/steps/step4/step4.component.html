@@ -110,7 +110,7 @@
               <th class="p-0 w-50px"></th>
               <!-- <th class="p-0 min-w-150px"></th>
               <th class="p-0 min-w-140px"></th> -->
-              <th class="p-0 min-w-300px"></th>
+              <th class="p-0 min-w-200px"></th>
             </tr>
           </thead>
           <!-- end::Table head-->
@@ -120,7 +120,7 @@
               <td>
                 <div class="symbol symbol-50px">
                   <!--<img src="./assets/media/avatars/300-14.jpg" alt="" />-->
-                  <span class="symbol-label bg-light-danger text-danger fw-bold">{{m.substring(0, 1).toUpperCase()}}</span>
+                  <span class="symbol-label bg-light-danger text-danger fw-bold">{{m.nombre.substring(0, 1).toUpperCase()}}</span>
                 </div>
               </td>
               <td>
@@ -128,7 +128,7 @@
                   href="#"
                   class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
                 >
-                  {{m}}
+                  {{m.nombre}}
                 </a>
                 <!--<span class="text-muted fw-bold d-block fs-7"
                   >{{m.correo}}</span
@@ -155,18 +155,20 @@
                 </div>
               </td> -->
               <td class="text-end">
-                <!--<a href="#" class="btn btn-light btn-active-light-primary btn-sm">
-                  Acciones
-                </a>-->
                 <div class="ms-2 w-120px">
-                  <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true">
-                    <option value="1">Decisor</option>
-                    <option value="2" selected="selected">Participante</option>
+                  <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true" (change)="changeRol($event, i)">
+                    <option value="Decisor">Decisor</option>
+                    <option value="Participante" selected="selected">Participante</option>
                   </select>
                 </div>
                 <!-- <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
                   <i class="bi bi-facebook fs-4"></i>
                 </a> -->
+              </td>
+              <td>
+              <a (click)="quitar(i)" class="btn btn-light btn-active-light-primary btn-sm">
+                Quitar
+              </a>
               </td>
             </tr>
             <!-- <tr>
