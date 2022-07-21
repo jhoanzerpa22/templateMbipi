@@ -4,6 +4,7 @@ const User = db.user;
 const Usuario = db.usuario;
 const Role = db.role;
 const Proyectos = db.proyectos;
+const EquiposUsuarios = db.equipos_usuarios;
 const serverConfig = require("../config/server.config.js");
 
 const Op = db.Sequelize.Op;
@@ -56,7 +57,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     where: {correo_login: req.body.email}/*db.Sequelize.where(
-      db.Sequelize.fn('upper',db.Sequelize.col('correo_login')), req.body.correo_login.toUpperCase())*/, include: ["proyectos"]
+      db.Sequelize.fn('upper',db.Sequelize.col('correo_login')), req.body.correo_login.toUpperCase())*/, include: ['proyectos']
   })
     .then(user => {
       if (!user) {
@@ -89,21 +90,64 @@ exports.signin = (req, res) => {
 		      login_id: user.id
 		    }
 		    }).then(usuario => {
-          
-		        res.status(200).send({
-		          id: user.id,
-		          nombre: usuario.nombre,
-		          rut: usuario.rut,
-		          fono: usuario.fono,
-		          email: usuario.correo,
-		          correo_login: user.correo_login,
-              img: serverConfig.HOST+'/'+usuario.img,
-		          roles: authorities,
-		          accessToken: token,
-              verify: user.verify,
-              completada: usuario.completada,
-              proyectos: user.proyectos
-		        });
+
+          EquiposUsuarios.findOne({
+            where: {correo: user.correo_login, participante: false}
+          })
+            .then(invitacion => {
+              if (!invitacion) {
+                res.status(200).send({
+                  id: user.id,
+                  nombre: usuario.nombre,
+                  rut: usuario.rut,
+                  fono: usuario.fono,
+                  email: usuario.correo,
+                  correo_login: user.correo_login,
+                  img: serverConfig.HOST+'/'+usuario.img,
+                  roles: authorities,
+                  accessToken: token,
+                  verify: user.verify,
+                  completada: usuario.completada,
+                  proyectos: user.proyectos,
+                  invitaciones: []
+                });
+              }else{
+
+                res.status(200).send({
+                  id: user.id,
+                  nombre: usuario.nombre,
+                  rut: usuario.rut,
+                  fono: usuario.fono,
+                  email: usuario.correo,
+                  correo_login: user.correo_login,
+                  img: serverConfig.HOST+'/'+usuario.img,
+                  roles: authorities,
+                  accessToken: token,
+                  verify: user.verify,
+                  completada: usuario.completada,
+                  proyectos: user.proyectos,
+                  invitaciones: invitacion
+                });
+
+              }
+            }).catch(err => {
+              res.status(200).send({
+                id: user.id,
+                nombre: usuario.nombre,
+                rut: usuario.rut,
+                fono: usuario.fono,
+                email: usuario.correo,
+                correo_login: user.correo_login,
+                img: serverConfig.HOST+'/'+usuario.img,
+                roles: authorities,
+                accessToken: token,
+                verify: user.verify,
+                completada: usuario.completada,
+                proyectos: user.proyectos,
+                invitaciones: []
+              });
+            });
+        
 		    }).catch(err => {
           res.status(500).send({ message: err.message });
         });

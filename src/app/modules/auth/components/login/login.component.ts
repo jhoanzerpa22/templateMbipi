@@ -81,12 +81,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe((user: any | undefined) => {
         if (user) {
           const usuario: any = JSON.parse(user);
+          //console.log('usuario',usuario);
           if(usuario.verify != true){
             
             localStorage.removeItem('usuario');
             this.router.navigate(['auth/verify']);
           }else if(usuario.completada != true){
             this.router.navigate(['configuration/config-cta']);
+          }else if(usuario.invitaciones && usuario.invitaciones.id){
+            this.router.navigate(['/invitations']);
           }else if(usuario.proyectos < 1){
             this.router.navigate(['/crafted/pages/wizards/project']);
           }else{

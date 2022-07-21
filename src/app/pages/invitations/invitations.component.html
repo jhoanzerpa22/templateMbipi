@@ -12,7 +12,8 @@
           <h2 class="fs-2x fw-bolder mb-0">Invitaciones</h2>
           <!--end::Title-->
           <!--begin::Description-->
-          <p class="text-gray-400 fs-4 fw-bold py-7">¡Tienes invitaciones pendientes!<br> Por favor acepta si quieres participar en el proyecto o rechaza la invitación</p>
+          <p class="text-gray-400 fs-4 fw-bold py-7" *ngIf="invitaciones.length > 0">¡Tienes invitaciones pendientes!<br> Por favor acepta si quieres participar en el proyecto o rechaza la invitación</p>
+          <p class="text-gray-400 fs-4 fw-bold py-7" *ngIf="invitaciones.length < 1">No posee ninguna invitación pendiente</p>
           <!--end::Description-->
           
           <ng-container *ngFor="let inv of filteredInvitaciones | async; let i = index;">

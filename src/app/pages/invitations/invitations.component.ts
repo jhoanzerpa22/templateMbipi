@@ -18,7 +18,7 @@ declare var jQuery: any;
 export class InvitationsComponent implements OnInit, AfterViewInit {
   
   invitation: any;
-  private invitaciones: any = [];
+  invitaciones: any = [];
   
   public filteredInvitaciones: ReplaySubject<any> = new ReplaySubject<[]>(1);
 
