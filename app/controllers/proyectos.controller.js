@@ -7,6 +7,8 @@ const EquiposUsuarios = db.equipos_usuarios;
 
 const Op = db.Sequelize.Op;
 
+var bcrypt = require("bcryptjs");
+
 // Create and Save a new Proyectos
 exports.create = (req, res) => {
   // Validate request
@@ -21,9 +23,12 @@ exports.create = (req, res) => {
       Equipos.create({
         nombre: 'Equipo - '+req.body.data.businessName
       }).then(equipo =>{
+        
+        const code = bcrypt.hashSync(req.body.data.businessName, 6);
         Proyectos.create({
             usuario_id: req.body.usuario_id,
             nombre: req.body.data.businessName,
+            code: code,
             descripcion: req.body.data.businessDescription,
             aplicacion_tipo: req.body.data.accountType,
             proyecto_tipo_id: req.body.data.accountPlan,

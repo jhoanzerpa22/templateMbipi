@@ -61,6 +61,11 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./boards/boards.module').then((m) => m.BoardsModule),
   },
+  {
+    path: 'invitations',
+    loadChildren: () =>
+      import('./invitations/invitations.module').then((m) => m.InvitationsModule),
+  },
   // {
   //   path: 'dflow',
   //   loadChildren: () =>
