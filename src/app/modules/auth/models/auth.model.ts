@@ -5,6 +5,7 @@ export class AuthModel {
   verify: Boolean;
   completada: Boolean;
   proyectos: Number;
+  invitaciones: Number;
 
   setAuth(auth: AuthModel) {
     this.authToken = auth.authToken;
@@ -13,5 +14,6 @@ export class AuthModel {
     this.verify = auth.verify;
     this.completada = auth.completada;
     this.proyectos = auth.proyectos;
+    this.invitaciones = auth.invitaciones;
   }
 }

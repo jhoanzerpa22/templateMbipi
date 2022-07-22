@@ -56,15 +56,19 @@ db.user.hasMany(db.equipos_usuarios, { as: "equipos_usuarios",
   foreignKey: 'usuario_id'
 });
 
-db.equipos.hasMany(db.equipos_usuarios, { as: "equipos_usuarios",
+db.equipos.hasMany(db.equipos_usuarios, { as: "usuarios_equipos",
   foreignKey: 'equipo_id'
  });
 
-db.equipos_usuarios.belongsTo(db.user, {
+db.equipos.hasMany(db.proyectos, { as: "proyectos_equipos",
+foreignKey: 'equipo_id'
+});
+
+db.equipos_usuarios.belongsTo(db.user, { as: "usuario_equipo" ,
   foreignKey: 'usuario_id'
 });
 
-db.equipos_usuarios.belongsTo(db.equipos, {
+db.equipos_usuarios.belongsTo(db.equipos, { as: "equipos_equipo",
   foreignKey: 'equipo_id'
 });
 

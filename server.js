@@ -31,6 +31,16 @@ app.post("/api/sendmail", (req, res) => {
 
 });
 
+app.post("/api/invitacions", (req, res) => {
+  console.log("request came");
+  let user = req.body;
+  sendMailInvitacions(user, info => {
+    console.log(`The mail has beed send and the id is ${info.messageId}`);
+    res.send(info);
+  });
+
+});
+
 const server = require('http').Server(app);
 const io = require('socket.io')(server, options);
 
@@ -69,6 +79,7 @@ require('./app/routes/usuario.routes')(app);
 require('./app/routes/rol.routes')(app);
 require('./app/routes/referencias.routes')(app);
 require('./app/routes/proyectos.routes')(app);
+require('./app/routes/invitaciones.routes')(app);
 
 app.all('/api/*', (req, res) => {
   res.status(404).json({code:404, msg: 'Ruta API no reconocida.'});
@@ -252,3 +263,55 @@ async function sendMail(user, callback) {
   callback(info);
 
 }
+
+    //configuración envío de email invitaciones
+    async function sendMailInvitacions(user, callback) {
+
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: 'innovago@innovago.tresidea.cl',/*'jhoan.zerpa@tresidea.cl',*/
+          pass: 'Innovago123'
+        }
+      });
+
+      let emails = '';
+      let lista_emails = [];
+      if(user.emails.length > 0){
+        for (let i = 0; i < user.emails.length; i++) {
+          lista_emails.push(user.emails[i].nombre);
+        }
+        emails = lista_emails.join(',');
+      }
+    
+      let mailOptions = {
+        from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
+        to: emails, // list of receivers user.email
+        subject: "Invitación Mbipi", // Subject line
+        html:
+        `<div class="border" style="width: 600px; height: 300px; border-top-color: rgb(0,188,212); border-color: black;">
+        <div class="border" style="width: 600px; height: 10px; background-color: rgb(0,188,212);border-color: rgb(0,188,212);">
+        </div>
+        <div class="border" style="width: 600px; height: 70px; background-color: #F6F6F6; border-color: #F6F6F6; font-family: 'Raleway', sans-serif;" >
+            <h1 style="text-align: center; padding-top: 12px;">Mbipi<span style="font-weight: bold; color: #23909F;">.</span></h1>
+        </div>
+        <div class="container">
+          <h3 style="text-align: center; padding-top: 20px;">¡Ha recibido una invitación!</h3>
+        </div>
+        <div class="container">
+          <h4 style="text-align: center; padding-top: 20px;">El Usuario `+user.nombre_usuario+` lo ha invitado ha unirse al proyecto `+user.nombre+`. Por favor ingresa en el siguiente link para ingresar al sistema y aceptar la invitación.</h4>
+          <a style="text-align: center; padding-top: 20px;" href="http://localhost:52065/invitations?code=`+user.code+`">Ingresar</a>
+        </div>
+      </div>
+        `
+      };
+    
+      // send mail with defined transport object
+      let info = await transporter.sendMail(mailOptions);
+    
+      callback(info);
+    
+    }

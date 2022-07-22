@@ -30,6 +30,13 @@ export class Step5Component implements OnInit  {
       .subscribe(
           (response) => {            
             this.proyecto = response.data;
+
+            const datos = { nombre_usuario: user.nombre, nombre: response.data.nombre, code: response.data.code, emails: this.defaultValues.members}; 
+            
+            this._proyectsService.invitations(datos)
+            .subscribe(
+                (response) => {
+                });
           },
           (response) => {
               // Reset the form
