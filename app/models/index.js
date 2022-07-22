@@ -84,6 +84,6 @@ db.proyectos.belongsTo(db.metodologias, {
   foreignKey: 'metodologia_id'
 });
 
-db.ROLES = ["Administrador", "Usuario"];
+db.ROLES = ["Administrador", "Usuario", "Invitado"];
 
 module.exports = db;

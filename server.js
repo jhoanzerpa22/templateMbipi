@@ -128,15 +128,22 @@ function initial() {
 		  Role.create({
 		    id: 1,
 		    nombre: "Administrador",
-		    createdAt: "2021-11-02 00:00:00",
-		    updatedAt: "2021-11-02 00:00:00"
+		    createdAt: "2022-06-02 00:00:00",
+		    updatedAt: "2022-06-02 00:00:00"
 		  });
 
 		  Role.create({
 		    id: 2,
 		    nombre: "Usuario",
-		    createdAt: "2021-11-02 00:00:00",
-		    updatedAt: "2021-11-02 00:00:00"
+		    createdAt: "2022-06-02 00:00:00",
+		    updatedAt: "2022-06-02 00:00:00"
+		  });
+
+		  Role.create({
+		    id: 3,
+		    nombre: "Invitado",
+		    createdAt: "2022-06-02 00:00:00",
+		    updatedAt: "2022-06-02 00:00:00"
 		  });
 
 		  User.create({
@@ -269,11 +276,11 @@ async function sendMail(user, callback) {
 
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+        host: "innovago.tresidea.cl",//"smtp.gmail.com",
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: 'innovago@innovago.tresidea.cl',/*'jhoan.zerpa@tresidea.cl',*/
+          user: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl',
           pass: 'Innovago123'
         }
       });
@@ -288,7 +295,7 @@ async function sendMail(user, callback) {
       }
     
       let mailOptions = {
-        from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
+        from: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
         to: emails, // list of receivers user.email
         subject: "Invitación Mbipi", // Subject line
         html:

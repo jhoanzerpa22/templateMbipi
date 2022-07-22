@@ -38,7 +38,7 @@ exports.create = (req, res) => {
     correo_login: req.body.correo_login,
     pass_hash: bcrypt.hashSync(req.body.password, 8),
     pass_token_verify: pass_verify,
-    verify: false
+    verify: req.body.verify
   })
     .then(user => {
       Usuario.create({
@@ -46,6 +46,7 @@ exports.create = (req, res) => {
           rut: req.body.rut,
           fono: req.body.fono,
           correo: req.body.correo,
+          completada: req.body.completada,
           //direccion: req.body.direccion,
           img: !empty(req.body.img) ? "assets/img/usuarios/usuario-"+req.body.nombre+".png" : null,
           login_id: user.id
