@@ -19,12 +19,13 @@ export class DashboardComponent implements OnInit {
 
       this._proyectsService.dashboard(user.id)
       .subscribe(
-          (response) => {            
+          (response) => {
             this.proyectos = response.proyectos;
             this.num_proyectos = response.proyectos.length;
             this.equipos = response.equipos;
             this.num_equipos = response.equipos.length;
             this.ref.detectChanges();
+            console.log(this.proyectos);
           },
           (response) => {
               // Reset the form

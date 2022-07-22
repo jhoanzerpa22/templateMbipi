@@ -26,11 +26,12 @@ exports.create = (req, res) => {
             nombre: req.body.data.businessName,
             descripcion: req.body.data.businessDescription,
             aplicacion_tipo: req.body.data.accountType,
+            estado: req.body.data.estado,
             proyecto_tipo_id: req.body.data.accountPlan,
             equipo_id: equipo.id,
             metodologia_id: 1
             }).then(proyect =>{
-                
+
                 EquiposUsuarios.create({
                     usuario_id: req.body.usuario_id,
                     correo: null,
@@ -38,10 +39,10 @@ exports.create = (req, res) => {
                     participante: true,
                     equipo_id: equipo.id,
                     }).then(ep =>{
-                        
+
                         if(req.body.data.members.length > 0){
                             for (let i = 0; i < req.body.data.members.length; i++) {
-                                
+
                                 EquiposUsuarios.create({
                                     usuario_id: null,
                                     correo: req.body.data.members[i],
@@ -52,7 +53,7 @@ exports.create = (req, res) => {
                                         if((i + 1) == req.body.data.members.length){
                                             res.send({ message: "Proyecto was registered successfully!", data: proyect});
                                         }
-                                        
+
                                     }).catch(err => {
                                         res.status(500).send({
                                         message: "Error creating EquiposProyectos"
@@ -122,16 +123,16 @@ exports.findOne = (req, res) => {
 // Find Dashboard with an id usuario
 exports.dashboard = (req, res) => {
     const usuario_id = req.params.id;
-  
+
     Proyectos.findAll({ where: {usuario_id: usuario_id}})
     .then(data => {
         EquiposUsuarios.findAll({ where: {usuario_id: usuario_id}})
         .then(equipos => {
-            
+
             res.send({'proyectos': data, 'equipos': equipos});
         })
         .catch(err => {
-            
+
             res.send({'proyectos': data});
         });
     })

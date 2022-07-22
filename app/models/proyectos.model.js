@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
       aplicacion_tipo: {
         type: Sequelize.STRING
       },
+      estado:{
+        type: Sequelize.STRING
+      },
       proyecto_tipo_id: {
         type: Sequelize.INTEGER
       },
@@ -31,6 +34,6 @@ module.exports = (sequelize, Sequelize) => {
       tableName: 'proyectos',
       timestamps: false
     });
-  
+
     return Proyectos;
   };
