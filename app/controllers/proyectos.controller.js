@@ -23,7 +23,7 @@ exports.create = (req, res) => {
       Equipos.create({
         nombre: 'Equipo - '+req.body.data.businessName
       }).then(equipo =>{
-        
+
         const code = bcrypt.hashSync(req.body.data.businessName, 6);
         Proyectos.create({
             usuario_id: req.body.usuario_id,
@@ -31,7 +31,7 @@ exports.create = (req, res) => {
             code: code,
             descripcion: req.body.data.businessDescription,
             aplicacion_tipo: req.body.data.accountType,
-            estado: req.body.data.estado,
+            estado: "Sin Iniciar",
             proyecto_tipo_id: req.body.data.accountPlan,
             equipo_id: equipo.id,
             metodologia_id: 1

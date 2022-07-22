@@ -22,17 +22,17 @@ export class Step5Component implements OnInit  {
     ngOnInit() {
 
       console.log('currentAccount',this.defaultValues);
-      
+      console.log(this.defaultValues);
       const usuario: any = localStorage.getItem('usuario');
       let user: any = JSON.parse(usuario);
 
       this._proyectsService.create({'usuario_id': user.id, 'data': this.defaultValues})
       .subscribe(
-          (response) => {            
+          (response) => {
             this.proyecto = response.data;
+            console.log(this.proyecto);
+            const datos = { nombre_usuario: user.nombre, nombre: response.data.nombre, code: response.data.code, emails: this.defaultValues.members};
 
-            const datos = { nombre_usuario: user.nombre, nombre: response.data.nombre, code: response.data.code, emails: this.defaultValues.members}; 
-            
             this._proyectsService.invitations(datos)
             .subscribe(
                 (response) => {
