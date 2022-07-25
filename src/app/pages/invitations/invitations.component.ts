@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { InvitationsService } from './invitations.service';
+import { Location } from '@angular/common';
 
 declare var $: any; 
 declare var jQuery: any;
@@ -26,8 +27,10 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router:Router,
     private ref:ChangeDetectorRef,
-    private _invitationsService: InvitationsService
+    private _invitationsService: InvitationsService,
+     public _location: Location
   ) {
    }
 
@@ -78,6 +81,15 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
           this.invitaciones.splice(i, 1);
           this.filteredInvitaciones.next(this.invitaciones.slice());
           this.ref.detectChanges();
+          /*this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+          this.router.navigate(['/invitations']));
+          */
+          location.reload();
+          /*this.router.navigateByUrl("/", { skipLocationChange: true }).then(() => {
+            console.log(decodeURI(this._location.path()));
+            this.router.navigate([decodeURI(this._location.path())]);
+            });*/
+
         },
         (response) => {
             // Reset the form

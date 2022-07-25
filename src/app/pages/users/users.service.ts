@@ -25,6 +25,10 @@ export class UsersService
       get(id: any): Observable<any> {
         return this.http.get(environment.API_G +`${baseUrl}/${id}`);
       }
+
+      getMenu(id: any, correo: any): Observable<any> {
+        return this.http.get(environment.API_G +`${baseUrl}/getMenu/${id}/${correo}`);
+      }
     
       create(data: any): Observable<any> {
         return this.http.post(environment.API_G + baseUrl, data);

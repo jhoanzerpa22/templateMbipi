@@ -6,12 +6,14 @@ const nodemailer = require("nodemailer");
 const Usuario = db.usuario;
 const User = db.user;
 const Role = db.role;
+const EquiposUsuarios = db.equipos_usuarios;
 
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { empty } = require("rxjs");
+const { user } = require("../models");
 
 //var fs = require('fs');
 
@@ -134,6 +136,44 @@ exports.findOne = (req, res) => {
         message: "Error retrieving Usuario with id=" + id
       });
     });
+};
+
+// Find a single Usuario with an id
+exports.findMenu = (req, res) => {
+  const id = req.params.id;
+  const correo = req.params.correo;
+
+  User.findByPk(id, {include: /*[{model: User, attributes:['correo_login'], include: */[{model: Role, attributes:['id','nombre']}]}/*}] }*/)
+    .then(data => {
+      if (data) {
+      EquiposUsuarios.findAll({ where: {
+        [Op.or]: [
+          { correo: correo },
+          { usuario_id: id }
+        ]
+      }})
+          .then(invitaciones => {
+              const usuario = {
+                usuario: data,
+                invitaciones: invitaciones
+              }
+              res.send(usuario);
+          }).catch(err => {
+            res.status(500).send({
+              message: "Error retrieving Invitaciones"
+            });
+          });
+          
+        }else{
+          res.status(500).send({
+            message: "Error retrieving clear Usuario with id=" + id
+          });
+        }
+      }).catch(err => {
+            res.status(500).send({
+              message: "Error retrieving Usuario with id=" + id
+            });
+      });
 };
 
 // Update a Usuario by the id in the request

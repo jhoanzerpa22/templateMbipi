@@ -10,6 +10,9 @@ module.exports = app => {
   router.get("/", usuarios.findAll);
 
   // Retrieve all active usuarios
+  router.get("/getMenu/:id/:correo", usuarios.findMenu);
+
+  // Retrieve all active usuarios
   router.get("/active", usuarios.findAllActive);
 
   // Verify usuarios
