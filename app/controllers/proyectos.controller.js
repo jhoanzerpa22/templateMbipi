@@ -129,20 +129,24 @@ exports.findOne = (req, res) => {
 // Find Dashboard with an id usuario
 exports.dashboard = (req, res) => {
     const usuario_id = req.params.id;
+    const correo = req.params.correo;
 
-    EquiposUsuarios.findAll({
-      where: {usuario_id: usuario_id}
-    })
-    .then(data => {
+    EquiposUsuarios.findAll({ where: {
+      [Op.or]: [
+        { correo: correo },
+        { usuario_id: usuario_id }
+      ]
+    }, include: [{model: Equipos, as: "equipos_equipo", attributes:['nombre'], include: [{model: Proyectos, as: "proyectos_equipos", attributes:['id','nombre']}]}]})
+    .then(data => {/*
       Proyectos.findAll({
-        where: {usuario_id: usuario_id}
+        where: {equipo_id: data.equipo_id}
       })
-      .then(proyectos =>{
-        res.send({'equipos': data, 'proyectos': proyectos})
-      })
+      .then(proyectos =>{*/
+        res.send(data)
+      /*})
       .catch(err =>{
         res.send({'equipos': data})
-      })
+      })*/
     })
     .catch(err =>{
       res.status(500).send({

@@ -13,7 +13,7 @@ module.exports = app => {
     router.get("/active", proyectos.findAllActive);
     
     //dashboard
-    router.get("/byUsuario/:id", proyectos.dashboard);
+    router.get("/byUsuario/:id/:correo", proyectos.dashboard);
   
     // Retrieve a single Proyectos with id
     router.get("/:id", proyectos.findOne);

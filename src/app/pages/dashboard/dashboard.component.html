@@ -198,7 +198,7 @@
   <ng-container *ngFor="let proyecto of proyectos; let i = index;">
   <div class="col-md-6 col-xl-4" >
     <!--begin::Card-->
-    <a routerLink="/dashboard-project/{{proyecto.id}}" class="card border-hover-primary">
+    <a routerLink="/dashboard-project/{{proyecto.equipos_equipo.proyectos_equipos[0].id}}" class="card border-hover-primary">
       <!--begin::Card header-->
       <div class="card-header border-0 pt-9">
         <!--begin::Card Title-->
@@ -212,7 +212,7 @@
         <!--end::Car Title-->
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
-          <span class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{proyecto.estado}}</span>
+          <span class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{proyecto.equipos_equipo.proyectos_equipos[0].estado}}</span>
         </div>
         <!--end::Card toolbar-->
       </div>
@@ -220,7 +220,7 @@
       <!--begin:: Card body-->
       <div class="card-body p-9">
         <!--begin::Name-->
-        <div class="fs-3 fw-bold text-dark">{{proyecto.nombre}}</div>
+        <div class="fs-3 fw-bold text-dark">{{proyecto.equipos_equipo.proyectos_equipos[0].nombre}}</div>
         <!--end::Name-->
         <!--begin::Description-->
         <p class="text-gray-400 fw-semibold fs-5 mt-1 mb-7">CRM App application to HR efficiency</p>

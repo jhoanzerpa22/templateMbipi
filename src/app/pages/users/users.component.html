@@ -94,9 +94,11 @@
               >-->
             </td>
             <td>
-              <span class="badge badge-light-primary fs-7 fw-bold" *ngIf="user.user.roles[0].nombre == 'Administrador'">{{user.user.roles[0].nombre}}</span>
+              <span class="badge badge-light-primary fs-7 fw-bold" *ngIf="user.user.roles.length > 0 && user.user.roles[0].nombre == 'Administrador'">Administrador</span>
 
-              <span class="badge badge-light-success fs-7 fw-bold" *ngIf="user.user.roles[0].nombre == 'Usuario'">{{user.user.roles[0].nombre}}</span>
+              <span class="badge badge-light-success fs-7 fw-bold" *ngIf="user.user.roles.length > 0 && user.user.roles[0].nombre == 'Usuario'">Usuario</span>
+
+              <span class="badge badge-light-warning fs-7 fw-bold" *ngIf="user.user.roles.length > 0 && user.user.roles[0].nombre == 'Invitado'">Invitado</span>
             </td>
             <td class="text-end">
                 <!--<a

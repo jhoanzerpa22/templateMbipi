@@ -17,17 +17,16 @@ export class DashboardComponent implements OnInit {
     const usuario: any = localStorage.getItem('usuario');
       let user: any = JSON.parse(usuario);
 
-      this._proyectsService.dashboard(user.id)
+      this._proyectsService.dashboard(user.id, user.correo_login)
       .subscribe(
-          (response) => {
+          (response) => {/*
             console.log(user);
-            console.log(response);
-            this.proyectos = response.proyectos;
-            this.num_proyectos = response.proyectos.length;
-            this.equipos = response.equipos;
-            this.num_equipos = response.equipos.length;
+            console.log(response);*/
+            this.proyectos = response;
+            this.num_proyectos = response.length;
+            this.equipos = response;
+            this.num_equipos = response.length;
             this.ref.detectChanges();
-            console.log(this.proyectos);
           },
           (response) => {
               // Reset the form
