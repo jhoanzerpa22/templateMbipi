@@ -8,6 +8,7 @@ const EquiposUsuarios = db.equipos_usuarios;
 const Op = db.Sequelize.Op;
 
 var bcrypt = require("bcryptjs");
+const { data } = require("jquery");
 
 // Create and Save a new Proyectos
 exports.create = (req, res) => {
@@ -129,24 +130,46 @@ exports.findOne = (req, res) => {
 exports.dashboard = (req, res) => {
     const usuario_id = req.params.id;
 
-    Proyectos.findAll({ where: {usuario_id: usuario_id}})
-    .then(data => {
-        EquiposUsuarios.findAll({ where: {usuario_id: usuario_id}})
-        .then(equipos => {
-
-            res.send({'proyectos': data, 'equipos': equipos});
-        })
-        .catch(err => {
-
-            res.send({'proyectos': data});
-        });
+    EquiposUsuarios.findAll({
+      where: {usuario_id: usuario_id}
     })
-    .catch(err => {
+    .then(data => {
+      Proyectos.findAll({
+        where: {usuario_id: usuario_id}
+      })
+      .then(proyectos =>{
+        res.send({'equipos': data, 'proyectos': proyectos})
+      })
+      .catch(err =>{
+        res.send({'equipos': data})
+      })
+    })
+    .catch(err =>{
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving proyectos."
-      });
-    });
+          err.message || "Some error ocurred while retrieving proyectos."
+      })
+    })
+
+
+    // Proyectos.findAll({ where: {usuario_id: usuario_id}})
+    // .then(data => {
+    //     EquiposUsuarios.findAll({ where: {usuario_id: usuario_id}})
+    //     .then(equipos => {
+
+    //         res.send({'proyectos': data, 'equipos': equipos});
+    //     })
+    //     .catch(err => {
+
+    //         res.send({'proyectos': data});
+    //     });
+    // })
+    // .catch(err => {
+    //   res.status(500).send({
+    //     message:
+    //       err.message || "Some error occurred while retrieving proyectos."
+    //   });
+    // });
   };
 
 // Update a Proyectos by the id in the request

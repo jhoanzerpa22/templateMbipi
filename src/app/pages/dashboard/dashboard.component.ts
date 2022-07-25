@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit {
       this._proyectsService.dashboard(user.id)
       .subscribe(
           (response) => {
+            console.log(user);
+            console.log(response);
             this.proyectos = response.proyectos;
             this.num_proyectos = response.proyectos.length;
             this.equipos = response.equipos;
