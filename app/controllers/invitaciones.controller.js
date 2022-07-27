@@ -79,7 +79,8 @@ exports.findByEmail = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
   let invitation = {
-      participante: true
+      participante: req.body.participante,
+      correo: req.body.correo
     };
 
   EquiposUsuarios.update(invitation, {

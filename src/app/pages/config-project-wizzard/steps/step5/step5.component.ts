@@ -26,7 +26,7 @@ export class Step5Component implements OnInit  {
       const usuario: any = localStorage.getItem('usuario');
       let user: any = JSON.parse(usuario);
 
-      this._proyectsService.create({'usuario_id': user.id, 'data': this.defaultValues})
+      this._proyectsService.create({'usuario_id': user.id,'correo': user.correo_login, 'data': this.defaultValues})
       .subscribe(
           (response) => {
             this.proyecto = response.data;

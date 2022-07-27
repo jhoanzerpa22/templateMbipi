@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 
                 EquiposUsuarios.create({
                     usuario_id: req.body.usuario_id,
-                    correo: null,
+                    correo: req.body.correo,
                     rol: 'Decisor',
                     participante: true,
                     equipo_id: equipo.id,

@@ -74,7 +74,11 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
   }
 
   aceptar(i: any, id: any){
-    const data = {participante: true};
+    
+    const usuario: any = localStorage.getItem('usuario');
+      let user: any = JSON.parse(usuario);
+
+    const data = {participante: true, correo: user.correo_login};
     this._invitationsService.update(id, data)
     .subscribe(
         data => {
