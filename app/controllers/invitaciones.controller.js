@@ -80,7 +80,7 @@ exports.update = (req, res) => {
   const id = req.params.id;
   let invitation = {
       participante: req.body.participante,
-      correo: req.body.correo
+      usuario_id: req.body.usuario_id
     };
 
   EquiposUsuarios.update(invitation, {
