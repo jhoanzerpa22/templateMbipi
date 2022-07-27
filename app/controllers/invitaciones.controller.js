@@ -63,7 +63,7 @@ exports.findOne = (req, res) => {
 exports.findByEmail = (req, res) => {
     const correo = req.params.email;
   
-    EquiposUsuarios.findAll({ where: {correo: correo, participante: false}, include: [{model: Equipos, as: "equipos_equipo" , attributes:['nombre'], include: [{model: Proyectos, as: "proyectos_equipos" , attributes:['id','nombre']}]}]})
+    EquiposUsuarios.findAll({ where: {correo: correo, participante: false}, include: [{model: Equipos, as: "equipos_equipo" , attributes:['nombre'], include: [{model: Proyectos, as: "equipo_proyecto" , attributes:['id','nombre']}]}]})
     .then(data => {
             res.send(data);
     })

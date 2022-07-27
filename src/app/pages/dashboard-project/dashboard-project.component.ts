@@ -16,6 +16,8 @@ export class DashboardProjectComponent implements OnInit {
 
   public proyecto: any = {};
   public proyecto_id: number;
+  public usuario: any = {};
+  public usuarios: any = [];
 
   constructor(private ref: ChangeDetectorRef, private _proyectsService: ProyectsService,
     private _router: Router,
@@ -23,6 +25,9 @@ export class DashboardProjectComponent implements OnInit {
 
   ngOnInit(): void {
 
+    const usuario: any = localStorage.getItem('usuario');
+      let user: any = JSON.parse(usuario);
+    this.usuario = user;
     this.route.params.subscribe(params => {
       //console.log('params',params);
       this.proyecto_id = params['id'];
@@ -31,6 +36,7 @@ export class DashboardProjectComponent implements OnInit {
       .subscribe(
           (response) => {            
             this.proyecto = response;
+            this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
             this.ref.detectChanges();
           },
           (response) => {

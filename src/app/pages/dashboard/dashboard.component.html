@@ -198,7 +198,7 @@
   <ng-container *ngFor="let proyecto of proyectos; let i = index;">
   <div class="col-md-6 col-xl-4" >
     <!--begin::Card-->
-    <a routerLink="/dashboard-project/{{proyecto.equipos_equipo.proyectos_equipos[0].id}}" class="card border-hover-primary">
+    <a routerLink="/dashboard-project/{{proyecto.equipos_equipo.equipo_proyecto[0].id}}" class="card border-hover-primary">
       <!--begin::Card header-->
       <div class="card-header border-0 pt-9">
         <!--begin::Card Title-->
@@ -212,7 +212,7 @@
         <!--end::Car Title-->
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
-          <span class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{proyecto.equipos_equipo.proyectos_equipos[0].estado}}</span>
+          <span class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{proyecto.equipos_equipo.equipo_proyecto[0].estado}}</span>
         </div>
         <!--end::Card toolbar-->
       </div>
@@ -220,7 +220,7 @@
       <!--begin:: Card body-->
       <div class="card-body p-9">
         <!--begin::Name-->
-        <div class="fs-3 fw-bold text-dark">{{proyecto.equipos_equipo.proyectos_equipos[0].nombre}}</div>
+        <div class="fs-3 fw-bold text-dark">{{proyecto.equipos_equipo.equipo_proyecto[0].nombre}}</div>
         <!--end::Name-->
         <!--begin::Description-->
         <p class="text-gray-400 fw-semibold fs-5 mt-1 mb-7">CRM App application to HR efficiency</p>
@@ -248,21 +248,24 @@
         <!--end::Progress-->
         <!--begin::Users-->
         <div class="symbol-group symbol-hover">
-          <!--begin::User-->
+
+          <ng-container *ngFor="let usu of proyecto.equipos_equipo.equipo_usuarios; let u = index;">
+          <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.correo != null ? usu.correo : usuario.correo_login}}">
+            <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.correo != null ? usu.correo.substring(0, 1).toUpperCase() : 'Yo')}}</span>
+          </div>
+          </ng-container>
+
+          <!--begin::User
           <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Emma Smith">
             <img alt="Pic" src="assets/media/avatars/300-6.jpg" />
           </div>
-          <!--begin::User-->
-          <!--begin::User-->
           <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Rudy Stone">
             <img alt="Pic" src="assets/media/avatars/300-1.jpg" />
           </div>
-          <!--begin::User-->
-          <!--begin::User-->
           <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Susan Redwood">
             <span class="symbol-label bg-primary text-inverse-primary fw-bold">S</span>
           </div>
-          <!--begin::User-->
+          begin::User-->
         </div>
         <!--end::Users-->
       </div>

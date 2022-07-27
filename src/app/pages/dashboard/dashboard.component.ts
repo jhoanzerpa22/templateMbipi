@@ -11,12 +11,13 @@ export class DashboardComponent implements OnInit {
   public num_proyectos: number = 0;
   public equipos: any = [];
   public num_equipos: number = 0;
+  public usuario: any = {};
   constructor(private ref:ChangeDetectorRef, private _proyectsService: ProyectsService) {}
 
   ngOnInit(): void {
     const usuario: any = localStorage.getItem('usuario');
       let user: any = JSON.parse(usuario);
-
+    this.usuario = user;
       this._proyectsService.dashboard(user.id, user.correo_login)
       .subscribe(
           (response) => {/*

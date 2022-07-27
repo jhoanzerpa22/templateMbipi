@@ -175,51 +175,40 @@
           <!--end::Stats-->
           <!--begin::Users-->
           <div class="symbol-group symbol-hover mb-3">
-            <!--begin::User-->
+            <ng-container *ngFor="let usu of usuarios; let u = index;">
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.correo != null ? usu.correo : usuario.correo_login}}">
+                <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.correo != null ? usu.correo.substring(0, 1).toUpperCase() : 'Yo')}}</span>
+              </div>
+            </ng-container>
+            <!--begin::User
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Alan Warden">
               <span class="symbol-label bg-warning text-inverse-warning fw-bold">A</span>
             </div>
-            <!--end::User-->
-            <!--begin::User-->
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Michael Eberon">
               <img alt="Pic" src="assets/media/avatars/300-11.jpg" />
             </div>
-            <!--end::User-->
-            <!--begin::User-->
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Michelle Swanston">
               <img alt="Pic" src="assets/media/avatars/300-7.jpg" />
             </div>
-            <!--end::User-->
-            <!--begin::User-->
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Francis Mitcham">
               <img alt="Pic" src="assets/media/avatars/300-20.jpg" />
             </div>
-            <!--end::User-->
-            <!--begin::User-->
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Susan Redwood">
               <span class="symbol-label bg-primary text-inverse-primary fw-bold">S</span>
             </div>
-            <!--end::User-->
-            <!--begin::User-->
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Melody Macy">
               <img alt="Pic" src="assets/media/avatars/300-2.jpg" />
             </div>
-            <!--end::User-->
-            <!--begin::User-->
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Perry Matthew">
               <span class="symbol-label bg-info text-inverse-info fw-bold">P</span>
             </div>
-            <!--end::User-->
-            <!--begin::User-->
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Barry Walter">
               <img alt="Pic" src="assets/media/avatars/300-12.jpg" />
             </div>
-            <!--end::User-->
-            <!--begin::All users-->
             <a href="#" class="symbol symbol-35px symbol-circle" data-bs-toggle="modal" data-bs-target="#kt_modal_view_users">
               <span class="symbol-label bg-dark text-inverse-dark fs-8 fw-bold" data-bs-toggle="tooltip" data-bs-trigger="hover" title="View more users">+42</span>
             </a>
-            <!--end::All users-->
+            end::All users-->
           </div>
           <!--end::Users-->
         </div>

@@ -52,19 +52,19 @@ db.user.hasMany(db.proyectos, { as: "proyectos",
   foreignKey: 'usuario_id'
  });
 
-db.user.hasMany(db.equipos_usuarios, { as: "equipos_usuarios",
+db.user.hasMany(db.equipos_usuarios, { as: "usuario_equipos",
   foreignKey: 'usuario_id'
 });
 
-db.equipos.hasMany(db.equipos_usuarios, { as: "usuarios_equipos",
+db.equipos.hasMany(db.equipos_usuarios, { as: "equipo_usuarios",
   foreignKey: 'equipo_id'
  });
 
-db.equipos.hasMany(db.proyectos, { as: "proyectos_equipos",
+db.equipos.hasMany(db.proyectos, { as: "equipo_proyecto",
 foreignKey: 'equipo_id'
 });
 
-db.equipos_usuarios.belongsTo(db.user, { as: "usuario_equipo" ,
+db.equipos_usuarios.belongsTo(db.user, { as: "equipos_usuario" ,
   foreignKey: 'usuario_id'
 });
 
@@ -72,15 +72,15 @@ db.equipos_usuarios.belongsTo(db.equipos, { as: "equipos_equipo",
   foreignKey: 'equipo_id'
 });
 
-db.proyectos.belongsTo(db.proyectos_tipos, {
+db.proyectos.belongsTo(db.proyectos_tipos, {as: "proyecto_tipo",
   foreignKey: 'proyecto_tipo_id'
 });
 
-db.proyectos.belongsTo(db.equipos, {
+db.proyectos.belongsTo(db.equipos, { as: "proyecto_equipo",
   foreignKey: 'equipo_id'
 });
 
-db.proyectos.belongsTo(db.metodologias, {
+db.proyectos.belongsTo(db.metodologias, {as: "proyecto_metodologia",
   foreignKey: 'metodologia_id'
 });
 

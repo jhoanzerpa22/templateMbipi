@@ -109,7 +109,9 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Proyectos.findByPk(id)
+  Proyectos.findByPk(id, {include: [{
+    model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], include: [{
+      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo']}]}]})
     .then(data => {
       if (data) {
         res.send(data);
@@ -136,7 +138,19 @@ exports.dashboard = (req, res) => {
         { correo: correo },
         { usuario_id: usuario_id }
       ]
-    }, include: [{model: Equipos, as: "equipos_equipo", attributes:['nombre'], include: [{model: Proyectos, as: "proyectos_equipos", attributes:['id','nombre']}]}]})
+    }, 
+    include: [{
+              model: Equipos, as: "equipos_equipo", attributes:['nombre'],      include: [{
+                 model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre']},/*
+                 include: [{
+                      model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], 
+                      include: [*/{
+                          model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo']
+                      /*}]*/
+                /*}]*/
+              }]
+            }]
+    })
     .then(data => {/*
       Proyectos.findAll({
         where: {equipo_id: data.equipo_id}
