@@ -140,8 +140,8 @@ exports.dashboard = (req, res) => {
       ]
     }, 
     include: [{
-              model: Equipos, as: "equipos_equipo", attributes:['nombre'],      include: [{
-                 model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre']},/*
+              model: Equipos, as: "equipos_equipo", attributes:['nombre'], include: [{
+                 model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre','descripcion']},/*
                  include: [{
                       model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], 
                       include: [*/{
