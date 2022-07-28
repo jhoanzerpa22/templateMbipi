@@ -140,14 +140,14 @@ exports.dashboard = (req, res) => {
       ]
     },
     include: [{
-              model: Equipos, as: "equipos_equipo", attributes:['nombre'],      include: [{
-              model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre', 'estado']},/*
-              include: [{
-              model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'],
-              include: [*/{
-              model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo']
-              /*}]*/
-              /*}]*/
+              model: Equipos, as: "equipos_equipo", attributes:['nombre'], include: [{
+                 model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre','descripcion', 'estado']},/*
+                 include: [{
+                      model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'],
+                      include: [*/{
+                          model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo']
+                      /*}]*/
+                /*}]*/
               }]
             }]
     })
