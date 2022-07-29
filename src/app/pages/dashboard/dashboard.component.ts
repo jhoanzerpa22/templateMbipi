@@ -33,22 +33,19 @@ export class DashboardComponent implements OnInit {
     this.usuario = user;
     this._proyectsService.dashboard(user.id, user.correo_login)
     .subscribe(
-        (response) => {/*
-          console.log(user);
-          console.log(response);*/
+        (response) => {
+          
           this.proyectos = response;
           this.num_proyectos = response.length;
           this.equipos = response;
-          this.num_equipos = response.length;
-          console.log(this.proyectos);
+          
           //Arreglo de arreglo de proyectos
           this.arrayProyectos=this.proyectos.map((element:any)=>element.equipos_equipo).map((element:any)=>element.equipo_proyecto);
-          // console.log(this.arrayProyectos);
+          
           this.estadoProyectCount(this.arrayProyectos);
           this.idEquiposArray=this.proyectos.map((element:any)=>element.equipos_equipo).map((element:any)=>element.equipo_usuarios);
-          // console.log(this.idEquiposArray);
+          
           this.correoMiembrosEquipoList = this.allProyectMembersList(this.idEquiposArray);
-          console.log(this.correoMiembrosEquipoList);
           
           this.ref.detectChanges();
         },
@@ -83,9 +80,15 @@ export class DashboardComponent implements OnInit {
       // console.log(i[0].correo);
       
       for (let j of i){
-      correoMiembrosEquipo.push(j.correo);
+        let index = correoMiembrosEquipo.findIndex((c: any) => c == j.correo);
+    
+        if (index == -1) {
+          correoMiembrosEquipo.push(j.correo);
+        }
       }
     }
+    
+    this.num_equipos = correoMiembrosEquipo.length;
     return new Set(correoMiembrosEquipo);
 
   }
