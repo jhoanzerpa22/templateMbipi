@@ -128,7 +128,12 @@
         <div class="fs-4 fw-semibold text-gray-400 mb-7">Miembros del equipo</div>
         <!--end::Heading-->
         <!--begin::Users group-->
-        <div class="symbol-group symbol-hover mb-9">
+        <ng-container *ngFor="let usu of correoMiembrosEquipoList; let u = index;">
+          <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu != null ? usu : usuario}}">
+            <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu != null ? usu.substring(0, 1).toUpperCase() : 'Yo')}}</span>
+          </div>
+        </ng-container>
+        <!-- <div class="symbol-group symbol-hover mb-9">
           <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Alan Warden">
             <span class="symbol-label bg-warning text-inverse-warning fw-bold">A</span>
           </div>
@@ -156,7 +161,7 @@
           <a href="#" class="symbol symbol-35px symbol-circle" data-bs-toggle="modal" data-bs-target="#kt_modal_view_users">
             <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bold">+42</span>
           </a>
-        </div>
+        </div> -->
         <!--end::Users group-->
         <!--begin::Actions-->
         <div class="d-flex">
