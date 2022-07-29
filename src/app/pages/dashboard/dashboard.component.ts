@@ -40,7 +40,6 @@ export class DashboardComponent implements OnInit {
           this.num_proyectos = response.length;
           this.equipos = response;
           this.num_equipos = response.length;
-          this.ref.detectChanges();
           console.log(this.proyectos);
           //Arreglo de arreglo de proyectos
           this.arrayProyectos=this.proyectos.map((element:any)=>element.equipos_equipo).map((element:any)=>element.equipo_proyecto);
@@ -50,6 +49,8 @@ export class DashboardComponent implements OnInit {
           // console.log(this.idEquiposArray);
           this.correoMiembrosEquipoList = this.allProyectMembersList(this.idEquiposArray);
           console.log(this.correoMiembrosEquipoList);
+          
+          this.ref.detectChanges();
         },
         (response) => {
             // Reset the form
