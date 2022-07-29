@@ -81,7 +81,10 @@ export class DashboardComponent implements OnInit {
     let correoMiembrosEquipo:any = [];
     for (let i of idEquiposArray){
       // console.log(i[0].correo);
-      correoMiembrosEquipo.push(i[0].correo)
+      
+      for (let j of i){
+      correoMiembrosEquipo.push(j.correo);
+      }
     }
     return new Set(correoMiembrosEquipo);
 
