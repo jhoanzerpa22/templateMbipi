@@ -1,7 +1,7 @@
 <div class="d-flex flex-wrap flex-stack my-5">
   <!--begin::Heading-->
   <h2 class="fs-2 fw-semibold my-2">Mis proyectos
-  <span class="fs-6 text-gray-400 ms-1">Detalle de proyecto</span>
+  <span class="fs-6 text-gray-400 ms-1">Detalles de proyectos</span>
   </h2>
   <!--end::Heading-->
   <!--begin::Controls-->
@@ -130,8 +130,8 @@
         <!--begin::Users group-->
         <div class="symbol-group symbol-hover mb-9">
         <ng-container *ngFor="let usu of correoMiembrosEquipoList; let u = index;">
-          <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu != null ? usu : usuario.correo_login}}">
-            <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu != null ? usu.substring(0, 1).toUpperCase() : 'Yo')}}</span>
+          <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.correo != null ? usu.correo : usuario.correo_login}}">
+            <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.correo != null ? usu.correo.substring(0, 1).toUpperCase() : 'Yo')}}</span>
           </div>
         </ng-container>
         </div>
@@ -168,7 +168,7 @@
         <!--begin::Actions-->
         <div class="d-flex">
           <a href="#" class="btn btn-primary btn-sm me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_view_users">Ver todos</a>
-          <a href="#" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">Invitar</a>
+          <!--<a href="#" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">Invitar</a>-->
         </div>
         <!--end::Actions-->
       </div>
@@ -284,3 +284,4 @@
   <!--end::Col-->
 
 </div>
+

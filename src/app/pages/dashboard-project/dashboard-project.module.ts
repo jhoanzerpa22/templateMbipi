@@ -4,7 +4,7 @@ import { DashboardProjectComponent } from './dashboard-project.component';
 import { RouterModule } from '@angular/router';
 import { WidgetsModule } from '../../_metronic/partials/content/widgets/widgets.module';
 
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [DashboardProjectComponent],
@@ -20,7 +20,8 @@ import { WidgetsModule } from '../../_metronic/partials/content/widgets/widgets.
         component: DashboardProjectComponent
       }
     ]),
-    WidgetsModule
+    WidgetsModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardProjectModule { }

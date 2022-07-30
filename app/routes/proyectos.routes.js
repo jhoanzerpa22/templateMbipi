@@ -20,6 +20,9 @@ module.exports = app => {
   
     // Update a Proyectos with id
     router.put("/:id", proyectos.update);
+
+    // Update the members of Proyectos with id
+    router.put("/updateMembers/:id", proyectos.updateMembers);
   
     // Delete a Proyectos with id
     router.delete("/:id", proyectos.delete);

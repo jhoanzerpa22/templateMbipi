@@ -80,10 +80,10 @@ export class DashboardComponent implements OnInit {
       // console.log(i[0].correo);
       
       for (let j of i){
-        let index = correoMiembrosEquipo.findIndex((c: any) => c == j.correo);
+        let index = correoMiembrosEquipo.findIndex((c: any) => c.correo == j.correo);
     
         if (index == -1) {
-          correoMiembrosEquipo.push(j.correo);
+          correoMiembrosEquipo.push(j);
         }
       }
     }

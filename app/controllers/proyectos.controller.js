@@ -111,7 +111,7 @@ exports.findOne = (req, res) => {
 
   Proyectos.findByPk(id, {include: [{
     model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], include: [{
-      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo']}]}]})
+      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol']}]}]})
     .then(data => {
       if (data) {
         res.send(data);
@@ -145,7 +145,7 @@ exports.dashboard = (req, res) => {
                  include: [{
                       model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'],
                       include: [*/{
-                          model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo']
+                          model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol']
                       /*}]*/
                 /*}]*/
               }]
@@ -216,6 +216,32 @@ exports.update = (req, res) => {
         message: "Error updating Proyectos with id=" + id
       });
     });
+};
+
+// Update the members of Proyectos by the id in the request
+exports.updateMembers = (req, res) => {
+  const id = req.params.id;
+
+    for (let i = 0; i < req.body.invitados.length; i++) {
+
+      EquiposUsuarios.create({
+          usuario_id: null,
+          correo: req.body.invitados[i].nombre,
+          rol: req.body.invitados[i].rol,
+          participante: false,
+          equipo_id: req.body.equipo_id,
+          }).then(ep2 =>{
+              if((i + 1) == req.body.invitados.length){
+                  res.send({ message: "Members was registered successfully!"});
+              }
+
+          }).catch(err => {
+              res.status(500).send({
+              message: "Error creating Members"
+              });
+          });;
+    }
+
 };
 
 
