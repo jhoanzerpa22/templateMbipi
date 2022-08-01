@@ -176,8 +176,8 @@
           <!--begin::Users-->
           <div class="symbol-group symbol-hover mb-3">
             <ng-container *ngFor="let usu of usuarios; let u = index;">
-              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.correo != null ? usu.correo : usuario.correo_login}}">
-                <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.correo != null ? usu.correo.substring(0, 1).toUpperCase() : 'Yo')}}</span>
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+                <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : (usu.correo.substring(0, 1).toUpperCase())))}}</span>
               </div>
             </ng-container>
             <!--begin::User
@@ -433,7 +433,7 @@
 												<!--begin::Heading-->
 												<div class="text-center mb-13">
 													<!--begin::Title-->
-													<h1 class="mb-3">Miembros de los equipos</h1>
+													<h1 class="mb-3">Miembros del equipo</h1>
 													<!--end::Title-->
 													<!--begin::Description-->
 													<!--<div class="text-muted fw-bold fs-5">If you need more info, please check out our
@@ -450,14 +450,16 @@
                               <ng-container *ngFor="let usu of usuarios; let u = index;">
                                 <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                   <div class="d-flex align-items-center">
-                                  <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.correo != null ? usu.correo : usuario.correo_login}}">
-                                    <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.correo != null ? usu.correo.substring(0, 1).toUpperCase() : 'Yo')}}</span>
+                                  <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+                                    <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : (usu.correo.substring(0, 1).toUpperCase())))}}</span>
                                   </div>
                                   
                                   <!--begin::Details-->
                                   <div class="ms-6">
                                     <!--begin::Name-->
                                     <a href="#" class="d-flex align-items-center fs-5 fw-bolder text-dark text-hover-primary">
+										<label class="fw-bold text-muted">{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : ''}}
+										</label>
                                     <span class="badge badge-light fs-8 fw-bold ms-2">{{usu.rol}}</span></a>
                                     <!--end::Name-->
                                     <!--begin::Email-->

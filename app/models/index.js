@@ -43,6 +43,11 @@ db.user.belongsToMany(db.role, {
 db.usuario.belongsTo(db.user, {
   foreignKey: 'login_id'
 });
+/*
+db.user.belongsTo(db.usuario, { as: "usuario_usuario",
+targetKey: 'login_id',
+foreignKey: 'id'
+});*/
 
 db.proyectos.belongsTo(db.user, {
   foreignKey: 'usuario_id'
@@ -65,6 +70,11 @@ foreignKey: 'equipo_id'
 });
 
 db.equipos_usuarios.belongsTo(db.user, { as: "equipos_usuario" ,
+  foreignKey: 'usuario_id'
+});
+
+db.equipos_usuarios.belongsTo(db.usuario, { as: "eq_usu_plat",
+  targetKey: 'login_id',
   foreignKey: 'usuario_id'
 });
 

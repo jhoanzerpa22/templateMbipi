@@ -4,6 +4,8 @@ const serverConfig = require("../config/server.config.js");
 const Proyectos = db.proyectos;
 const Equipos = db.equipos;
 const EquiposUsuarios = db.equipos_usuarios;
+const User = db.user;
+const Usuario = db.usuario;
 
 const Op = db.Sequelize.Op;
 
@@ -111,7 +113,10 @@ exports.findOne = (req, res) => {
 
   Proyectos.findByPk(id, {include: [{
     model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], include: [{
-      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol']}]}]})
+      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'], 
+      include: [{
+      model: Usuario, as: "eq_usu_plat"
+      }]}]}]})
     .then(data => {
       if (data) {
         res.send(data);
@@ -140,16 +145,19 @@ exports.dashboard = (req, res) => {
       ]
     },
     include: [{
-              model: Equipos, as: "equipos_equipo", attributes:['nombre'], include: [{
-                 model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre','descripcion', 'estado']},/*
-                 include: [{
-                      model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'],
-                      include: [*/{
-                          model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol']
-                      /*}]*/
-                /*}]*/
-              }]
-            }]
+              model: Equipos, as: "equipos_equipo", attributes:['nombre'], 
+                  include: [{
+                      model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre','descripcion', 'estado']
+                      },{
+                      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'], 
+                          include: [{
+                          model: Usuario, as: "eq_usu_plat"/*, attributes: ['id']*/ 
+                            /*,include: [{
+                              model: Usuario, as: "usuario_usuario"/*, attributes: ['nombre']
+                            }]*/
+                          }]
+                      }]
+    }]
     })
     .then(data => {/*
       Proyectos.findAll({
