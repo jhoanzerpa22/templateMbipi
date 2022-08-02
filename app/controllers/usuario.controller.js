@@ -47,12 +47,14 @@ exports.create = (req, res) => {
           nombre: req.body.nombre,
           rut: req.body.rut,
           fono: req.body.fono,
-          correo: req.body.correo,
+          correo: req.body.correo_login,
           completada: req.body.completada,
           //direccion: req.body.direccion,
           img: !empty(req.body.img) ? "assets/img/usuarios/usuario-"+req.body.nombre+".png" : null,
           login_id: user.id
         }).then(() =>{
+      }).catch(err => {
+        res.status(500).send({ message: err.message });
       });
 
         if (req.body.roles) {
