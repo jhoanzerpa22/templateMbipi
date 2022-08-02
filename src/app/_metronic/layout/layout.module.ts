@@ -10,6 +10,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
 import { LayoutComponent } from './layout.component';
+import { Layout2Component } from './layout2.component';
 import { ExtrasModule } from '../partials/layout/extras/extras.module';
 import { Routing } from '../../pages/routing';
 import { AsideComponent } from './components/aside/aside.component';
@@ -30,6 +31,10 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: Routing,
+  },
+  {
+    path: 'proyect-init',
+    component: Layout2Component
   },
 ];
 
