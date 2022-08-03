@@ -10,10 +10,9 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
 import { LayoutComponent } from './layout.component';
-/*import { Layout2Component } from './layout2.component';
-*/import { ExtrasModule } from '../partials/layout/extras/extras.module';
+import { ExtrasModule } from '../partials/layout/extras/extras.module';
 import { Routing } from '../../pages/routing';
-import { AsideComponent } from './components/aside/aside.component';
+/*import { AsideComponent } from './components/aside/aside.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ContentComponent } from './components/content/content.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -25,25 +24,20 @@ import { PageTitleComponent } from './components/header/page-title/page-title.co
 import { HeaderMenuComponent } from './components/header/header-menu/header-menu.component';
 import { DrawersModule, DropdownMenusModule, ModalsModule, EngagesModule} from '../partials';
 import {EngagesComponent} from "../partials/layout/engages/engages.component";
-/*import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';*/
-
+import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';
+*/
 const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
-    children: Routing,
-  }/*,
-  {
-    path: 'proyect-init',
-    component: Layout2Component
-  }*/
+    component: LayoutComponent
+    /*children: Routing,*/
+  },
 ];
 
 @NgModule({
   declarations: [
-    LayoutComponent,/*
-    Layout2Component,*/
-    AsideComponent,
+    LayoutComponent,
+    /*AsideComponent,
     HeaderComponent,
     ContentComponent,
     FooterComponent,
@@ -53,7 +47,7 @@ const routes: Routes = [
     TopbarComponent,
     PageTitleComponent,
     HeaderMenuComponent,
-    EngagesComponent,
+    EngagesComponent,*/
   ],
   imports: [
     CommonModule,
@@ -63,12 +57,12 @@ const routes: Routes = [
     NgbDropdownModule,
     NgbProgressbarModule,
     ExtrasModule,
-    ModalsModule,
+    /*ModalsModule,
     DrawersModule,
     EngagesModule,
     DropdownMenusModule,
     NgbTooltipModule,
-    TranslateModule/*,
+    TranslateModule,
     ThemeModeModule*/
   ],
   exports: [RouterModule],

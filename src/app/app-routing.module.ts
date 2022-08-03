@@ -24,6 +24,11 @@ export const routes: Routes = [
       import('./pages/config-wizzard/config-cta-wizard.module').then((m) => m.ConfigCtaWizardModule),
   },
   {
+    path: 'proyect-init',
+    loadChildren: () =>
+      import('./_metronic/layout2/layout.module').then((m) => m.LayoutModule),
+  },
+  {
     path: '',
     canActivate: [AuthGuard],
     loadChildren: () =>
