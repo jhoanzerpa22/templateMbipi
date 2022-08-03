@@ -15,16 +15,25 @@ import { OverviewComponent } from './overview/overview.component';
     RouterModule.forChild([
       {
         path: '',
-        component: DashboardProjectComponent
+        component: DashboardProjectComponent,
+        children: [
+          {
+            path: 'overview',
+            component: OverviewComponent
+          },
+          {
+            path: 'settings',
+            component: SettingsComponent
+          },
+          { path: '', redirectTo: 'overview', pathMatch: 'full' },
+          { path: '**', redirectTo: 'overview', pathMatch: 'full' },
+        ]
       },
       {
         path: ':id',
         component: DashboardProjectComponent
       },
-      // {
-      //   path: '/settings',
-      //   component: SettingsComponent
-      // }
+
     ]),
     WidgetsModule,
     ReactiveFormsModule

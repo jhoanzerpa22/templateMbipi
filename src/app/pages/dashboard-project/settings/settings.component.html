@@ -1,1 +1,162 @@
-<p>settings works!</p>
+<div class="card mb-5 mb-xl-10">
+  <div
+    class="card-header border-0 cursor-pointer"
+    role="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#kt_account_profile_details"
+    aria-expanded="true"
+    aria-controls="kt_account_profile_details"
+  >
+    <div class="card-title m-0">
+      <h3 class="fw-bolder m-0">Profile Details</h3>
+    </div>
+  </div>
+  <div id="kt_account_profile_details" class="collapse show">
+    <form novalidate="" class="form">
+      <div class="card-body border-top p-9">
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">Proyecto</label>
+          <div class="col-lg-8">
+            <div
+              class="image-input image-input-outline"
+              data-kt-image-input="true"
+              [style.background-image]="'url(./assets/media/avatars/blank.png'"
+            >
+              <div
+                class="image-input-wrapper w-125px h-125px"
+                [style.background-image]="
+                  'url(assets/media/svg/brand-logos/volicity-9.svg'
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6"
+            >Nombre Proyecto</label
+          >
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <input
+                  type="text"
+                  class="
+                    form-control form-control-lg form-control-solid
+                    mb-3 mb-lg-0
+                  "
+                  placeholder="First name"
+                  name="fName"
+                  value="Max"
+                />
+              </div>
+              <div class="col-lg-6 fv-row">
+                <input
+                  type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  placeholder="Last name"
+                  name="lName"
+                  value="Smith"
+                />
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6"
+            >Nombre Proyecto</label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              placeholder="Company name"
+              name="company"
+              value="Keenthemes"
+            />
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            ><span class="required">Descripción Proyecto</span></label
+          >
+          <div class="col-lg-8 fv-row">
+            <textarea
+              type="tel"
+              class="form-control form-control-lg form-control-solid"
+              placeholder="Descripcion de proyecto"
+              name="contactPhone"
+              value="044 3276 454 935"
+            ></textarea>
+          </div>
+        </div>
+        <!-- <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            ><span class="required">Company Site</span></label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              placeholder="Company website"
+              name="companySite"
+              value="keenthemes.com"
+            />
+          </div>
+        </div> -->
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            ><span class="required">Tipo de Proyecto</span></label
+          >
+          <div class="col-lg-8 fv-row">
+            <select
+              class="form-select form-select-solid form-select-lg fw-bold"
+              name="country"
+            >
+              <option value="">Web</option>
+              <option value="AF">Mobile</option>
+            </select>
+            <!-- <div class="fv-plugins-message-container">
+              <div class="fv-help-block">Country is required</div>
+            </div> -->
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            ><span class="required">Tipo de Aplicación</span></label
+          >
+          <div class="col-lg-8 fv-row">
+            <select
+              class="form-select form-select-solid form-select-lg fw-bold"
+              name="country"
+            >
+              <option value="">Uber Clon</option>
+              <option value="AF">E-commerce</option>
+              <option value="AF">E-learning</option>
+            </select>
+            <!-- <div class="fv-plugins-message-container">
+              <div class="fv-help-block">Country is required</div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button
+          type="button"
+          class="btn btn-primary"
+
+
+        >
+          <ng-container >Save Changes</ng-container>
+          <!-- <ng-container >
+            <span clas="indicator-progress" [style.display]="'block'">
+              Please wait...{{ " " }}
+              <span
+                class="spinner-border spinner-border-sm align-middle ms-2"
+              ></span>
+            </span>
+          </ng-container> -->
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
