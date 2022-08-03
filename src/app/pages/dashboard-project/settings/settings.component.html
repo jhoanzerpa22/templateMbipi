@@ -12,7 +12,7 @@
     </div>
   </div>
   <div id="kt_account_profile_details" class="collapse show">
-    <form novalidate="" class="form">
+    <form [formGroup]='formProyect' class="form">
       <div class="card-body border-top p-9">
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6">Proyecto</label>
@@ -31,36 +31,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="row mb-6">
-          <label class="col-lg-4 col-form-label required fw-bold fs-6"
-            >Nombre Proyecto</label
-          >
-          <div class="col-lg-8">
-            <div class="row">
-              <div class="col-lg-6 fv-row">
-                <input
-                  type="text"
-                  class="
-                    form-control form-control-lg form-control-solid
-                    mb-3 mb-lg-0
-                  "
-                  placeholder="First name"
-                  name="fName"
-                  value="Max"
-                />
-              </div>
-              <div class="col-lg-6 fv-row">
-                <input
-                  type="text"
-                  class="form-control form-control-lg form-control-solid"
-                  placeholder="Last name"
-                  name="lName"
-                  value="Smith"
-                />
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label required fw-bold fs-6"
             >Nombre Proyecto</label
@@ -69,9 +39,10 @@
             <input
               type="text"
               class="form-control form-control-lg form-control-solid"
-              placeholder="Company name"
-              name="company"
-              value="Keenthemes"
+              placeholder=""
+              name="nombre"
+              value=""
+              formControlName="nombre"
             />
           </div>
         </div>
@@ -83,9 +54,10 @@
             <textarea
               type="tel"
               class="form-control form-control-lg form-control-solid"
-              placeholder="Descripcion de proyecto"
-              name="contactPhone"
-              value="044 3276 454 935"
+              placeholder=""
+              name="descripcion"
+              value=""
+              formControlName="descripcion"
             ></textarea>
           </div>
         </div>
@@ -105,15 +77,16 @@
         </div> -->
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6"
-            ><span class="required">Tipo de Proyecto</span></label
+            ><span class="required">Tipo de Aplicacion</span></label
           >
           <div class="col-lg-8 fv-row">
             <select
               class="form-select form-select-solid form-select-lg fw-bold"
-              name="country"
+              name="aplicacion_tipo"
+              formControlName="aplicacion_tipo"
             >
-              <option value="">Web</option>
-              <option value="AF">Mobile</option>
+              <option value="personal">Web</option>
+              <option value="corporate">Mobile</option>
             </select>
             <!-- <div class="fv-plugins-message-container">
               <div class="fv-help-block">Country is required</div>
@@ -122,16 +95,17 @@
         </div>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6"
-            ><span class="required">Tipo de Aplicación</span></label
+            ><span class="required">Tipo de Proyecto</span></label
           >
           <div class="col-lg-8 fv-row">
             <select
               class="form-select form-select-solid form-select-lg fw-bold"
-              name="country"
+              name="proyecto_tipo_id"
+              formControlName="proyecto_tipo_id"
             >
-              <option value="">Uber Clon</option>
-              <option value="AF">E-commerce</option>
-              <option value="AF">E-learning</option>
+              <option value="1">Uber Clon</option>
+              <option value="2">E-commerce</option>
+              <option value="3">E-learning</option>
             </select>
             <!-- <div class="fv-plugins-message-container">
               <div class="fv-help-block">Country is required</div>
@@ -143,10 +117,10 @@
         <button
           type="button"
           class="btn btn-primary"
-
+          (click)="updateData()"
 
         >
-          <ng-container >Save Changes</ng-container>
+          <ng-container>Save Changes</ng-container>
           <!-- <ng-container >
             <span clas="indicator-progress" [style.display]="'block'">
               Please wait...{{ " " }}

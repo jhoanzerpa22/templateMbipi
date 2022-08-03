@@ -226,7 +226,7 @@
     <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
       <!--begin::Nav item-->
       <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6 active" routerLink="overview">Overview</a>
+        <a class="nav-link text-active-primary py-5 me-6" [ngClass]="{'active': activeClass  == 'overview'}" (click)="setActive('overview')" routerLink="overview">Información General</a>
       </li>
       <!--end::Nav item-->
       <!--begin::Nav item-->
@@ -256,7 +256,7 @@
       <!--end::Nav item-->
       <!--begin::Nav item-->
       <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6" routerLink="settings">Settings</a>
+        <a class="nav-link text-active-primary py-5 me-6" (click)="setActive('settings')" [ngClass]="{'active': activeClass  == 'settings'}" routerLink="settings">Ajustes</a>
       </li>
       <!--end::Nav item-->
     </ul>
@@ -264,7 +264,8 @@
   </div>
 </div>
 <!--end::Navbar-->
-<router-outlet></router-outlet>
+<router-outlet ></router-outlet>
+
 
 <!--begin::Modals-->
 								<!--begin::Modal - View Users-->

@@ -21,8 +21,14 @@ export class DashboardProjectComponent implements OnInit {
   public usuarios: any = [];
   public members: any = [];
 
+  public activeClass: any = 'overview';
+
+  public location: any = location.pathname.split("/")[3];
+
+  parentMessage = "message from parent"
+
   form: FormGroup;
-  
+
   constructor(private ref: ChangeDetectorRef, private _proyectsService: ProyectsService,
     private _router: Router,
     private route: ActivatedRoute, private fb: FormBuilder) { }
@@ -33,21 +39,28 @@ export class DashboardProjectComponent implements OnInit {
       search_members: ['']
     });
 
+
     const usuario: any = localStorage.getItem('usuario');
-      let user: any = JSON.parse(usuario);
+    let user: any = JSON.parse(usuario);
     this.usuario = user;
     this.route.params.subscribe(params => {
-      //console.log('params',params);
+      console.log('params',params);
       this.proyecto_id = params['id'];
       this.getProyect();
     });
+
+
+  }
+
+  setActive(pestana:any){
+    this.activeClass = pestana;
   }
 
   getProyect(){
-    
+
     this._proyectsService.get(this.proyecto_id)
       .subscribe(
-          (response) => {            
+          (response) => {
             this.proyecto = response;
             this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
             this.ref.detectChanges();
@@ -71,7 +84,7 @@ export class DashboardProjectComponent implements OnInit {
   }
 
   invitar(){
-    
+
     const usuario: any = localStorage.getItem('usuario');
       let user: any = JSON.parse(usuario);
 
@@ -80,7 +93,7 @@ export class DashboardProjectComponent implements OnInit {
     .subscribe(
         data => {
           const datos = { nombre_usuario: user.nombre, nombre: this.proyecto.nombre, code: this.proyecto.code, emails: this.members};
-          
+
           this.members = [];
             this._proyectsService.invitations(datos)
             .subscribe(

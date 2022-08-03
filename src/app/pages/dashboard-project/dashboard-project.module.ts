@@ -16,6 +16,11 @@ import { OverviewComponent } from './overview/overview.component';
       {
         path: '',
         component: DashboardProjectComponent,
+
+      },
+      {
+        path: ':id',
+        component: DashboardProjectComponent,
         children: [
           {
             path: 'overview',
@@ -28,10 +33,6 @@ import { OverviewComponent } from './overview/overview.component';
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: '**', redirectTo: 'overview', pathMatch: 'full' },
         ]
-      },
-      {
-        path: ':id',
-        component: DashboardProjectComponent
       },
 
     ]),
