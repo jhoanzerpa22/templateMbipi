@@ -113,7 +113,7 @@ exports.findOne = (req, res) => {
 
   Proyectos.findByPk(id, {include: [{
     model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], include: [{
-      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'], 
+      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'],
       include: [{
       model: Usuario, as: "eq_usu_plat"
       }]}]}]})
@@ -145,13 +145,13 @@ exports.dashboard = (req, res) => {
       ]
     },
     include: [{
-              model: Equipos, as: "equipos_equipo", attributes:['nombre'], 
+              model: Equipos, as: "equipos_equipo", attributes:['nombre'],
                   include: [{
                       model: Proyectos, as: "equipo_proyecto", attributes:['id','nombre','descripcion', 'estado']
                       },{
-                      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'], 
+                      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'],
                           include: [{
-                          model: Usuario, as: "eq_usu_plat"/*, attributes: ['id']*/ 
+                          model: Usuario, as: "eq_usu_plat"/*, attributes: ['id']*/
                             /*,include: [{
                               model: Usuario, as: "usuario_usuario"/*, attributes: ['nombre']
                             }]*/
@@ -202,7 +202,10 @@ exports.dashboard = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
   let proyectos = {
-      nombre: req.body.nombre
+      nombre: req.body.nombre,
+      descripcion: req.body.descripcion,
+      aplicacion_tipo: req.body.aplicacion_tipo,
+      proyecto_tipo_id: req.body.proyecto_tipo_id
     };
 
   Proyectos.update(proyectos, {
@@ -211,7 +214,7 @@ exports.update = (req, res) => {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Proyectos was updated successfully."
+          message: `Proyecto with id=${id} was updated successfully.`
         });
       } else {
         res.send({
