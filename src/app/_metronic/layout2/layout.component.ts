@@ -7,6 +7,7 @@ import {
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-layout',
@@ -39,18 +40,24 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   extrasQuickPanelDisplay = false;
   extrasScrollTopDisplay = false;
   asideDisplay: boolean;
+  showVideoFlag = true;
+  videoOn = "videoOn";
+  videoOff = "videoOff";
+
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
 
+
   constructor(/*
-    private initService: LayoutInitService,
-    private layout: LayoutService*/
+  private initService: LayoutInitService,
+  private layout: LayoutService*/
   ) {
     /*this.initService.init();*/
   }
 
   ngOnInit(): void {
+
     // build view by layout config settings
     /*
     this.asideDisplay = this.layout.getProp('aside.display') as boolean;
@@ -71,4 +78,27 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
+  onPlay(){
+    console.log("PLAY")
+    $('#myVideo').trigger('play')
+  }
+  onPause(){
+    console.log("PAUSE")
+    $('#myVideo').trigger('pause')
+  }
+  videoCurrentTime(){
+    const ct = $('#myVideo').prop('currentTime')
+    console.log("Current Time:", ct)
+  }
+
+  displayVideo(){
+    this.showVideoFlag = true;
+  }
+
+  hideVideo(){
+    this.showVideoFlag = false;
+  }
+
+
 }
