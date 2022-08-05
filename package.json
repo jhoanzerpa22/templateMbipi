@@ -6,7 +6,7 @@
     "npm": "6.14.3"
   },
   "scripts": {
-    "heroku-postbuild": "ng build --prod",
+    "heroku-postbuild": "ng build",
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
@@ -17,7 +17,7 @@
     "build-prod": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration production",
     "serve": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng serve",
     "ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng",
-    "postinstall": "ng build --prod"
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {

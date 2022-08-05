@@ -45,7 +45,7 @@ app.post("/api/invitacions", (req, res) => {
 });
 
 const server = require('http').Server(app);
-const io = require('socket.io')(server, options);
+//const io = require('socket.io')(server, options);
 
 /*
 app.get('/', function (req, res) {
@@ -57,7 +57,7 @@ app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/mbipi/index.html'));
 });
 
-io.on('connection', function (socket) {
+/*io.on('connection', function (socket) {
 
   const handshake = socket.id;
   let nombreCurso = 'Mbipi';
@@ -79,7 +79,7 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('user disconnected');
   });
-});
+});*/
 /*
 app.use('/', express.static(path.join(__dirname,'static/home/')));*/
 
