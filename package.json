@@ -1,6 +1,9 @@
 {
   "name": "demo1",
   "version": "8.0.38",
+  "engines": {
+    "node": "12.22.3"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
