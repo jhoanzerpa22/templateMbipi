@@ -21,6 +21,9 @@ app.use(bodyParser.json({limit: '50mb'}));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({limit: '50mb' ,extended: true }));
 
+// Serve static files
+app.use(express.static(__dirname + '/dist/mbipi'));
+
 app.post("/api/sendmail", (req, res) => {
   console.log("request came");
   let user = req.body;
@@ -51,7 +54,7 @@ app.get('/', function (req, res) {
 
 // Send all requests to index.html
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
+  res.sendFile(path.join(__dirname + '/dist/mbipi/index.html'));
 });
 
 io.on('connection', function (socket) {
@@ -79,8 +82,6 @@ io.on('connection', function (socket) {
 });
 /*
 app.use('/', express.static(path.join(__dirname,'static/home/')));*/
-// Serve static files
-app.use(express.static(__dirname + '/dist/demo1'));
 
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
@@ -102,11 +103,11 @@ app.all('*', (req, res) => {
   //res.render('landing/index');
 });
 
-// default Heroku port
-app.listen(process.env.PORT || 5000);
-
 // set port, listen for requests
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
+
+// default Heroku port
+app.listen(PORT);
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
