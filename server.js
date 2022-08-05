@@ -77,8 +77,8 @@ io.on('connection', function (socket) {
     console.log('user disconnected');
   });
 });
-
-app.use('/', express.static(path.join(__dirname,'static/home/')));
+/*
+app.use('/', express.static(path.join(__dirname,'static/home/')));*/
 // Serve static files
 app.use(express.static(__dirname + '/dist/demo1'));
 
@@ -94,7 +94,8 @@ app.all('/api/*', (req, res) => {
   res.status(404).json({code:404, msg: 'Ruta API no reconocida.'});
 });
 
-app.use('/*', express.static(path.join(__dirname,'static/home/')));
+/*
+app.use('/*', express.static(path.join(__dirname,'static/home/')));*/
 
 app.all('*', (req, res) => {
   res.status(404).json({msg: 'Recurso no encontrado.'});
