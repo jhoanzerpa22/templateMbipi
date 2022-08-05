@@ -44,8 +44,14 @@ app.post("/api/invitacions", (req, res) => {
 const server = require('http').Server(app);
 const io = require('socket.io')(server, options);
 
+/*
 app.get('/', function (req, res) {
   res.send('Hello World!');
+});*/
+
+// Send all requests to index.html
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
 });
 
 io.on('connection', function (socket) {
@@ -73,6 +79,9 @@ io.on('connection', function (socket) {
 });
 
 app.use('/', express.static(path.join(__dirname,'static/home/')));
+// Serve static files
+app.use(express.static(__dirname + '/dist/demo1'));
+
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/usuario.routes')(app);
@@ -91,6 +100,9 @@ app.all('*', (req, res) => {
   res.status(404).json({msg: 'Recurso no encontrado.'});
   //res.render('landing/index');
 });
+
+// default Heroku port
+app.listen(process.env.PORT || 5000);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 4000;

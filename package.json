@@ -17,13 +17,16 @@
     "build-prod": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration production",
     "serve": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng serve",
     "ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng",
-    "postinstall": "ngcc"
+    "postinstall": "ng build --prod"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "13.2.5",
     "@angular/cdk": "13.2.5",
     "@angular/common": "13.2.5",
+    "@angular/cli": "13.2.5",
+    "@angular/compiler-cli": "13.2.5",
+    "@angular-devkit/build-angular": "13.2.5",
     "@angular/compiler": "13.2.5",
     "@angular/core": "13.2.5",
     "@angular/forms": "13.2.5",
@@ -74,17 +77,15 @@
     "socket.io": "^3.1.2",
     "tslib": "2.3.0",
     "webp-converter": "^2.3.3",
-    "zone.js": "0.11.4"
+    "zone.js": "0.11.4",
+    "typescript": "4.5.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "13.2.5",
     "@angular-eslint/builder": "13.1.0",
     "@angular-eslint/eslint-plugin": "13.1.0",
     "@angular-eslint/eslint-plugin-template": "13.1.0",
     "@angular-eslint/schematics": "13.1.0",
     "@angular-eslint/template-parser": "13.1.0",
-    "@angular/cli": "13.2.5",
-    "@angular/compiler-cli": "13.2.5",
     "@types/bootstrap": "5.1.9",
     "@types/drawflow": "0.0.4",
     "@types/jasmine": "3.10.0",
@@ -99,7 +100,6 @@
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage": "2.1.0",
     "karma-jasmine": "4.0.0",
-    "karma-jasmine-html-reporter": "1.7.0",
-    "typescript": "4.5.2"
+    "karma-jasmine-html-reporter": "1.7.0"
   }
 }
