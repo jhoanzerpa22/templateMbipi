@@ -2,7 +2,8 @@
   "name": "demo1",
   "version": "8.0.38",
   "engines": {
-    "node": "12.22.3"
+    "node": "12.*",
+    "npm": "6.x"
   },
   "scripts": {
     "ng": "ng",
