@@ -1,0 +1,24 @@
+<div class="d-flex flex-column flex-column-fluid">
+  <div class="d-flex flex-column flex-column-fluid text-center p-10 py-lg-15">
+    <div class="pt-lg-10 mb-10">
+      <h1 class="fw-bolder fs-2qx text-gray-800 mb-7">Verifica tu Correo Electrónico</h1>
+      <div class="fs-3 fw-bold text-muted mb-10">Te hemos enviado un correo a  
+      <a href="#" class="link-primary fw-bolder">{{_user.correo_login}}</a>
+      <br>siga un enlace para verificar su correo electrónico.</div>
+      <div class="text-center mb-10">
+        <button (click)="iniciar_sesion()" class="btn btn-lg btn-primary fw-bolder">Iniciar Sesión</button>
+      </div>
+      <div class="fs-5">
+        <span class="fw-bold text-gray-700">No recibi un correo electrónico?</span>
+        <label (click)="reenviar()" style="cursor: pointer;" class="link-primary fw-bolder"> Reenviar</label>
+      </div>
+    </div>
+  </div>
+  <!--<div class="d-flex flex-center flex-column-auto p-10">
+    <div class="d-flex align-items-center fw-bold fs-6">
+      <a href="https://keenthemes.com" class="text-muted text-hover-primary px-2">About</a>
+      <a href="mailto:support@keenthemes.com" class="text-muted text-hover-primary px-2">Contact</a>
+      <a href="https://1.envato.market/EA4JP" class="text-muted text-hover-primary px-2">Contact Us</a>
+    </div>
+  </div>-->
+</div>

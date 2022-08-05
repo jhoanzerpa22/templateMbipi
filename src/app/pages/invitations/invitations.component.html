@@ -1,0 +1,48 @@
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+  <!--begin::Container-->
+  <div id="kt_content_container" class="container-xxl">
+    <!--begin::Card-->
+    <div class="card">
+      <!--begin::Card body-->
+      <div class="card-body">
+        <!--begin::Heading-->
+        <div class="card-px text-center pt-15 pb-15">
+          <!--begin::Title-->
+          <h2 class="fs-2x fw-bolder mb-0">Invitaciones</h2>
+          <!--end::Title-->
+          <!--begin::Description-->
+          <p class="text-gray-400 fs-4 fw-bold py-7" *ngIf="invitaciones.length > 0">¡Tienes invitaciones pendientes!<br> Por favor acepta si quieres participar en el proyecto o rechaza la invitación</p>
+          <p class="text-gray-400 fs-4 fw-bold py-7" *ngIf="invitaciones.length < 1">No posee ninguna invitación pendiente</p>
+          <!--end::Description-->
+
+          <div style="margin-bottom: 10px;" *ngIf="invitaciones.length < 1">
+            <a class="btn btn-lg btn-primary" data-bs-toggle="tooltip" title="Dashboard" routerLink="/dashboard">Dashboard</a>
+          </div>
+          
+          <ng-container *ngFor="let inv of filteredInvitaciones | async; let i = index;">
+          <!--begin::Action-->
+          
+        <div style="margin-bottom: 10px;">
+          <label class="fs-3 fw-bolder mb-0">{{inv.equipos_equipo.nombre}}</label><br>
+          <a class="btn btn-primary er fs-6 px-8 py-4" style="margin-right: 10px;" (click)="aceptar(i,inv.id)">Aceptar</a>
+          <a class="btn btn-danger er fs-6 px-8 py-4"
+          (click)="rechazar(i,inv.id)">Rechazar</a>
+        </div>
+          <!--end::Action-->
+          </ng-container>  
+        </div>
+        <!--end::Heading-->
+        <!--begin::Illustration-->
+        <div class="text-center pb-15 px-5">
+          <img src="assets/media/illustrations/sketchy-1/6.png" alt="" class="mw-100 h-200px h-sm-325px" />
+        </div>
+        <!--end::Illustration-->
+      </div>
+      <!--end::Card body-->
+    </div>
+    <!--end::Card-->
+  </div>
+  <!--end::Container-->
+</div>
+<!--end::Post-->

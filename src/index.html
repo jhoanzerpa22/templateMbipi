@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Angular - Demo1</title>
+  <title>Mbipi</title>
   <base href="/"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="shortcut icon" href="./assets/media/logos/favicon.ico"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+  
+  <link href="assets/sass/vendors/plugins/_select2.scss" rel="stylesheet" type="text/css" />
+  <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/style.bundle.css">
   <!-- SPLASH SCREEN-->
   <link
     rel="stylesheet"
@@ -16,9 +20,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 <body root id="kt_body" class="mat-typography">
+  <script>
+    if (document.documentElement) {
+      var defaultThemeMode = "system";
+
+      var hasKTName = document.body.hasAttribute("data-kt-name");
+      var lsKey = "kt_" + (hasKTName ? name + "_" : "") + "theme_mode_value"
+      var themeMode = localStorage.getItem(lsKey);
+      if (!themeMode) {
+        if (defaultThemeMode === "system") {
+          themeMode =
+            window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        } else {
+          themeMode = defaultThemeMode;
+        }
+      }
+
+      document.documentElement.setAttribute("data-theme", themeMode);
+    }
+  </script>
 <div id="splash-screen" class="splash-screen">
   <img src="./assets/media/logos/logo-1.svg" alt="Metronic logo"/>
   <span>Loading ...</span>
 </div>
 </body>
+
+<script src="assets/plugins/global/plugins.bundle.js"></script>
+<script src="assets/js/scripts.bundle.js"></script>
+<script src="assets/js/vendors/plugins/select2.init.js"></script>
+<script src="assets/js/layout/app.js"></script>
+<!--<script src="assets/js/custom/authentication/free-trial.js"></script>-->
+
+		<!--begin::Page Vendors Javascript(used by this page)-->
+		<script src="assets/plugins/custom/fslightbox/fslightbox.bundle.js"></script>
+		<script src="assets/plugins/custom/typedjs/typedjs.bundle.js"></script>
+		<!--end::Page Vendors Javascript-->
+		<!--begin::Page Custom Javascript(used by this page)-->
+		<script src="assets/js/custom/landing.js"></script>
+		<script src="assets/js/custom/pages/pricing/general.js"></script>
+		<!--end::Page Custom Javascript-->
 </html>

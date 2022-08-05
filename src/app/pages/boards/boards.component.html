@@ -1,0 +1,41 @@
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable #tableroRef>
+
+    <!-- Main -->
+    <div class="flex flex-auto p-6 sm:p-10">
+
+            <div cdkDropListGroup>
+                
+                <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
+                <div class="example-container">
+                    <h2>{{t.title}}</h2>
+                
+                    <div
+                      cdkDropList
+                      [cdkDropListData]="t.data"
+                      class="example-list"
+                      (cdkDropListDropped)="drop($event)">
+                      <div class="example-box" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.label}}
+                        <label class="votos">{{item.voto}}</label>
+                        <mat-icon
+                                                class="voto-maximo"
+                                                [matTooltip]="'Voto máximo'" *ngIf="verifyVotoMaximo(i, j)">check_circle</mat-icon>
+                        <button class="quitar" (click)="quitar(i, j)" *ngIf="verifyVoto(i, j)">Quitar</button>
+                        <button class="votar" (click)="votar(i, j)" *ngIf="!verifyVoto(i, j) && !verifyVotoTablero(i)">Votar</button>
+                        
+                        <button class="votar-maximo" (click)="votarMaximo(i, j)" *ngIf="!verifyVotoMaximo(i, j) && !verifyVotoTablero(i)">Voto +</button>
+                        <button class="quitar-maximo" (click)="quitarMaximo(i, j)" *ngIf="verifyVotoMaximo(i, j)">Quitar</button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+</div>
+
+</div>
+<ng-container *ngFor="let eq of equipo; let i = index;">
+<img id="puntero-{{eq}}" src="assets/images/puntero.png" style="position: absolute;width: 30px;height: 30px;display: none;"/>
+<label id="equipo-{{eq}}" style="position: absolute;width: 100px;height: 100px;display: none;">{{eq}}</label>
+</ng-container>
+<canvas id="canvasId" #canvasRef width="100" height="100"></canvas>

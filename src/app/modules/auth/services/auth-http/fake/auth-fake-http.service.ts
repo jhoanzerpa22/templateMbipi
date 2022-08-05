@@ -48,6 +48,47 @@ export class AuthHTTPService {
     );
   }
 
+  signIn(email: string, password: string): Observable<any> {
+    const notFoundError = new Error('Not Found');
+    if (!email || !password) {
+      return of(notFoundError);
+    }
+
+    return this.http.post(environment.API_G + 'auth/signin', { email: email, password: password }).pipe(
+      map((result: any) => {
+        if (result.length <= 0) {
+          return notFoundError;
+        }
+        const user = result;
+        /*const user = result.find((u: any) => {
+          return (
+            u.email.toLowerCase() === email.toLowerCase() &&
+            u.password === password
+          );
+        });
+        if (!user) {
+          return notFoundError;
+        }*/
+        
+        if(user.verify != true){
+          localStorage.setItem('usuario_verify', JSON.stringify(user));
+        }
+
+          localStorage.setItem('usuario', JSON.stringify(user));
+
+        const auth = new AuthModel();
+        auth.authToken = user.accessToken;
+        auth.refreshToken = user.accessToken;
+        auth.verify = user.verify;
+        auth.completada = user.completada;
+        auth.proyectos = user.proyectos;
+        auth.invitaciones = user.invitaciones;
+        auth.expiresIn = new Date(Date.now() + 100 * 24 * 60 * 60 * 1000);
+        return auth;
+      })
+    );
+  }
+
   createUser(user: UserModel): Observable<any> {
     user.roles = [2]; // Manager
     user.authToken = 'auth-token-' + Math.random();
@@ -73,6 +114,16 @@ export class AuthHTTPService {
     const user = UsersTable.users.find((u: UserModel) => {
       return u.authToken === token;
     });
+
+    if (!user) {
+      return of(undefined);
+    }
+
+    return of(user);
+  }
+
+  getUserByStorage(): Observable<UserModel | undefined> {
+    const user: any = localStorage.getItem('usuario');
 
     if (!user) {
       return of(undefined);

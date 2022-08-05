@@ -1,0 +1,118 @@
+<div class="pb-10 pb-lg-12">
+  <h2 class="fw-bolder text-dark">Información</h2>
+  <div class="text-gray-400 fw-bold fs-6">
+    Completa los siguientes datos para la creación de tu cuenta
+    <!-- <a href="#" class="link-primary fw-bolder">Help Page</a>. -->
+  </div>
+</div>
+<div [formGroup]="form">
+  <div class="fv-row mb-10">
+    <label class="form-label required">Nombre de empresa / Emprendimiento</label
+    ><input
+      name="businessName"
+      class="form-control form-control-lg form-control-solid"
+      formControlName="businessName"
+    />
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('businessName')?.hasError('required') &&
+        form.get('businessName')?.touched
+      "
+    >
+      Nombre de empresa / Emprendimiento requerido
+    </div>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="d-flex align-items-center form-label"
+      ><span class="required">¿Ya cuentas con financiemiento para tu proyecto?</span>
+    </label>
+    <select
+    name="businessType"
+    class="form-select form-select-lg form-select-solid"
+    formControlName="business" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+    <option value="si">Sí</option>
+    <option value="no">No</option>
+    <!-- <option value="2">Sole Proprietorship</option>
+    <option value="3">Non-profit</option>
+    <option value="4">Limited Liability</option>
+    <option value="5">General Partnership</option> -->
+    </select>
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('business')?.hasError('required') &&
+        form.get('business')?.touched
+      "
+    >
+      Selecciona una de las opciones disponibles para continuar
+    </div>
+    <!-- <div class="form-text">
+      Customers will see this shortened version of your statement descriptor
+    </div> -->
+  </div>
+  <div class="fv-row mb-10" [ngClass]="{
+        invisible: form.get('business')?.value === 'no',
+        visible: form.get('business')?.value === 'si'
+      }">
+    <label class="form-label required">Origen del financiamiento</label>
+    <select
+      name="businessType"
+      class="form-select form-select-lg form-select-solid"  data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true"
+      formControlName="businessType">
+      <option value="publico">Público</option>
+      <option value="privado">Privado</option>
+      <!-- <option value="2">Sole Proprietorship</option>
+      <option value="3">Non-profit</option>
+      <option value="4">Limited Liability</option>
+      <option value="5">General Partnership</option> -->
+    </select>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label">¿Cómo te enteraste de Mbipi?</label
+    >
+    <select
+      name="businessDescription"
+      class="form-select form-select-lg form-select-solid"
+      formControlName="businessDescription" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+      <option *ngFor="let r of referencias; let i = index;"  [value]="r.id">{{r.nombre}}</option>
+      <!--<option value="">Seleccione...</option>
+      <option value="2">Sole Proprietorship</option>
+      <option value="3">Non-profit</option>
+      <option value="4">Limited Liability</option>
+      <option value="5">General Partnership</option>-->
+    </select>
+    <!--<textarea
+      name="businessDescription"
+      class="form-control form-control-lg form-control-solid"
+      rows="3"
+      formControlName="businessDescription"
+    ></textarea>-->
+  </div>
+  <!-- <div class="fv-row mb-0">
+    <label class="fs-6 fw-bold form-label required">Contact Email</label
+    ><input
+      name="businessEmail"
+      class="form-control form-control-lg form-control-solid"
+      formControlName="businessEmail"
+    />
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('businessEmail')?.hasError('required') &&
+        form.get('businessEmail')?.touched
+      "
+    >
+      Contact Email is required
+    </div>
+    <div
+      class="fv-plugins-message-container invalid-feedback"
+      *ngIf="
+        form.get('businessEmail')?.hasError('email') &&
+        form.get('businessEmail')?.touched
+      "
+    >
+      Wrong email format
+    </div>
+  </div> -->
+</div>

@@ -22,7 +22,7 @@ import { Step5Component } from './steps/step5/step5.component';
     Step2Component,
     Step3Component,
     Step4Component,
-    Step5Component,
+    Step5Component
   ],
   imports: [
     CommonModule,

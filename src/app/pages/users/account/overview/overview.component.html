@@ -1,0 +1,90 @@
+<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+  <div class="card-header cursor-pointer">
+    <div class="card-title m-0">
+      <h3 class="fw-bolder m-0">Detalles</h3>
+    </div>
+
+    <a
+      routerLink="/users/edit/{{user.id}}/settings"
+      class="btn btn-primary align-self-center"
+    >
+      Editar
+    </a>
+  </div>
+
+  <div class="card-body p-9">
+    <div class="row mb-7">
+      <label class="col-lg-4 fw-bold text-muted">Nombre</label>
+
+      <div class="col-lg-8">
+        <span class="fw-bolder fs-6 text-dark">{{user.nombre}}</span>
+      </div>
+    </div>
+
+    <div class="row mb-7">
+      <label class="col-lg-4 fw-bold text-muted">RUT</label>
+
+      <div class="col-lg-8 fv-row">
+        <span class="fw-bold fs-6">{{user.rut}}</span>
+      </div>
+    </div>
+
+    <div class="row mb-7">
+      <label class="col-lg-4 fw-bold text-muted">
+        Teléfono
+        <i
+          class="fas fa-exclamation-circle ms-1 fs-7"
+          data-bs-toggle="tooltip"
+          title="Phone number must be active"
+        ></i>
+      </label>
+
+      <div class="col-lg-8 d-flex align-items-center">
+        <span class="fw-bolder fs-6 me-2">{{user.fono}}</span>
+
+        <span class="badge badge-success">Verificado</span>
+      </div>
+    </div>
+
+    <div class="row mb-7">
+      <label class="col-lg-4 fw-bold text-muted">Correo</label>
+
+      <div class="col-lg-8">
+        <a href="#" class="fw-bold fs-6 text-dark text-hover-primary">
+          {{user.user.correo_login}}
+        </a>
+      </div>
+    </div>
+
+    <!--<div class="row mb-7">
+      <label class="col-lg-4 fw-bold text-muted">
+        Country
+        <i
+          class="fas fa-exclamation-circle ms-1 fs-7"
+          data-bs-toggle="tooltip"
+          title="Country of origination"
+        ></i>
+      </label>
+
+      <div class="col-lg-8">
+        <span class="fw-bolder fs-6 text-dark">Germany</span>
+      </div>
+    </div>-->
+
+    <!--<div class="row mb-7">
+      <label class="col-lg-4 fw-bold text-muted">Communication</label>
+
+      <div class="col-lg-8">
+        <span class="fw-bolder fs-6 text-dark">Email, Phone</span>
+      </div>
+    </div>-->
+
+    <!--<div class="row mb-10">
+      <label class="col-lg-4 fw-bold text-muted">Allow Changes</label>
+
+      <div class="col-lg-8">
+        <span class="fw-bold fs-6">Yes</span>
+      </div>
+    </div>-->
+  </div>
+</div>

@@ -39,7 +39,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery-3.6.0.min.js",
+              "node_modules/jquery/dist/jquery.min.js"]
           },
           "configurations": {
             "production": {
@@ -107,7 +109,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery-3.6.0.min.js",
+              "node_modules/jquery/dist/jquery.min.js"]
           }
         },
         "lint": {

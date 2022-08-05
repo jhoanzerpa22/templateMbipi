@@ -172,7 +172,7 @@ export const DefaultLayoutConfig: ILayout = {
     componentName: 'header',
     display: true, // Set true|false to show or hide Header
     width: 'fluid', // Set fixed|fluid to change width type
-    left: 'menu',
+    left: 'page-title',
     fixed: {
       desktop: true, // Set true|false to set fixed Header for desktop mode
       tabletAndMobile: true, // Set true|false to set fixed Header for tablet and mobile modes
@@ -201,7 +201,7 @@ export const DefaultLayoutConfig: ILayout = {
   },
   toolbar: {
     componentName: 'toolbar',
-    display: true, // Display toolbar
+    display: false, // Display toolbar
     width: 'fluid', // Set fixed|fluid to change width type,
     fixed: {
       desktop: true,

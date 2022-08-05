@@ -10,7 +10,8 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
 import { LayoutComponent } from './layout.component';
-import { ExtrasModule } from '../partials/layout/extras/extras.module';
+/*import { Layout2Component } from './layout2.component';
+*/import { ExtrasModule } from '../partials/layout/extras/extras.module';
 import { Routing } from '../../pages/routing';
 import { AsideComponent } from './components/aside/aside.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -24,18 +25,24 @@ import { PageTitleComponent } from './components/header/page-title/page-title.co
 import { HeaderMenuComponent } from './components/header/header-menu/header-menu.component';
 import { DrawersModule, DropdownMenusModule, ModalsModule, EngagesModule} from '../partials';
 import {EngagesComponent} from "../partials/layout/engages/engages.component";
+/*import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';*/
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: Routing,
-  },
+  }/*,
+  {
+    path: 'proyect-init',
+    component: Layout2Component
+  }*/
 ];
 
 @NgModule({
   declarations: [
-    LayoutComponent,
+    LayoutComponent,/*
+    Layout2Component,*/
     AsideComponent,
     HeaderComponent,
     ContentComponent,
@@ -61,7 +68,8 @@ const routes: Routes = [
     EngagesModule,
     DropdownMenusModule,
     NgbTooltipModule,
-    TranslateModule,
+    TranslateModule/*,
+    ThemeModeModule*/
   ],
   exports: [RouterModule],
 })

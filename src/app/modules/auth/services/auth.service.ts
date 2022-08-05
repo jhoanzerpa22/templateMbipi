@@ -46,7 +46,7 @@ export class AuthService implements OnDestroy {
   // public methods
   login(email: string, password: string): Observable<UserType> {
     this.isLoadingSubject.next(true);
-    return this.authHttpService.login(email, password).pipe(
+    return this.authHttpService.signIn(email, password).pipe(
       map((auth: AuthModel) => {
         const result = this.setAuthFromLocalStorage(auth);
         return result;
@@ -74,7 +74,7 @@ export class AuthService implements OnDestroy {
     }
 
     this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByToken(auth.authToken).pipe(
+    return this.authHttpService.getUserByStorage()/*getUserByToken(auth.authToken)*/.pipe(
       map((user: UserType) => {
         if (user) {
           this.currentUserSubject.next(user);
@@ -117,6 +117,7 @@ export class AuthService implements OnDestroy {
       localStorage.setItem(this.authLocalStorageToken, JSON.stringify(auth));
       return true;
     }
+
     return false;
   }
 

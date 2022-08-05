@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { ConfigProjectWizardModule } from './config-project-wizzard/config-project-wizard.module';
+import { DashboardProjectModule } from './dashboard-project/dashboard-project.module';
+
 
 const Routing: Routes = [
   {
@@ -7,9 +10,19 @@ const Routing: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
+    path: 'dashboard-project',
+    loadChildren: () =>
+      import('./dashboard-project/dashboard-project.module').then((m) => m.DashboardProjectModule),
+  },
+  {
     path: 'builder',
     loadChildren: () =>
       import('./builder/builder.module').then((m) => m.BuilderModule),
+  },
+  {
+    path: 'crafted/pages/wizards',
+    loadChildren: () =>
+      import('../pages/config-project-wizzard/config-project-wizard.module').then((m) => m.ConfigProjectWizardModule),
   },
   {
     path: 'crafted/pages/profile',
@@ -24,7 +37,7 @@ const Routing: Routes = [
   {
     path: 'crafted/pages/wizards',
     loadChildren: () =>
-      import('../modules/wizards/wizards.module').then((m) => m.WizardsModule),
+      import('../pages/config-wizzard/config-cta-wizard.module').then((m) => m.ConfigCtaWizardModule),
   },
   {
     path: 'crafted/widgets',
@@ -38,6 +51,26 @@ const Routing: Routes = [
     loadChildren: () =>
       import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
   },
+  {
+    path: 'users',
+    loadChildren: () =>
+      import('./users/users.module').then((m) => m.UsersModule),
+  },
+  {
+    path: 'boards',
+    loadChildren: () =>
+      import('./boards/boards.module').then((m) => m.BoardsModule),
+  },
+  {
+    path: 'invitations',
+    loadChildren: () =>
+      import('./invitations/invitations.module').then((m) => m.InvitationsModule),
+  },
+  // {
+  //   path: 'dflow',
+  //   loadChildren: () =>
+  //     import('./builder/builder.module').then((m) => m.),
+  // },
   {
     path: '',
     redirectTo: '/dashboard',

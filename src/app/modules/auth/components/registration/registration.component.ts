@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../../../pages/users/users.service';
+import { InvitationsService } from '../../../../pages/invitations/invitations.service';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserModel } from '../../models/user.model';
 import { first } from 'rxjs/operators';
@@ -23,6 +25,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private _usersService: UsersService,
+    private _invitationsService: InvitationsService,
     private router: Router
   ) {
     this.isLoading$ = this.authService.isLoading$;
@@ -44,7 +48,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   initForm() {
     this.registrationForm = this.fb.group(
       {
-        fullname: [
+        nombre: [
           '',
           Validators.compose([
             Validators.required,
@@ -53,7 +57,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           ]),
         ],
         email: [
-          'qwe@qwe.qwe',
+          '',
           Validators.compose([
             Validators.required,
             Validators.email,
@@ -86,26 +90,105 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.hasError = false;
-    const result: {
-      [key: string]: string;
-    } = {};
-    Object.keys(this.f).forEach((key) => {
-      result[key] = this.f[key].value;
-    });
-    const newUser = new UserModel();
-    newUser.setUser(result);
-    const registrationSubscr = this.authService
-      .registration(newUser)
-      .pipe(first())
-      .subscribe((user: UserModel) => {
-        if (user) {
-          this.router.navigate(['/']);
-        } else {
-          this.hasError = true;
+
+    const val = this.registrationForm.value;
+
+    this._invitationsService.getByEmail(val.email)
+    .subscribe(
+        data => {
+          if(data.length > 0){
+
+            const data_general:any = {
+              'nombre'          : val.nombre,
+              'correo_login' : val.email.toLowerCase(),
+              'password' : val.password,
+              'roles'   : 3,
+              'verify': true,
+              'completada': true
+            }
+        
+          this._usersService.create(data_general)
+          .subscribe(
+              (response) => {
+                  // Navigate to the confirmation required page
+                this.hasError = false;
+                const result: {
+                  [key: string]: string;
+                } = {};
+                Object.keys(this.f).forEach((key) => {
+                  result[key] = this.f[key].value;
+                });
+                const newUser = new UserModel();
+                newUser.setUser(result);
+                const registrationSubscr = this.authService
+                  .registration(newUser)
+                  .pipe(first())
+                  .subscribe((user: UserModel) => {
+                    if (user) {
+                      this.router.navigate(['/invitations']);
+                    } else {
+                      this.hasError = true;
+                    }
+                  });
+                this.unsubscribe.push(registrationSubscr);
+                
+                //this.router.navigate(['/invitations']);
+              },
+              (response) => {
+                  // Re-enable the form
+              }
+            );
+
+          }else{
+            const data_general:any = {
+              'nombre'          : val.nombre,
+              'correo_login' : val.email.toLowerCase(),
+              'password' : val.password,
+              'roles'   : 2,
+              'verify': false,
+              'completada': false
+            }
+        
+          this._usersService.create(data_general)
+          .subscribe(
+              (response) => {
+                  // Navigate to the confirmation required page
+                /*this.hasError = false;
+                const result: {
+                  [key: string]: string;
+                } = {};
+                Object.keys(this.f).forEach((key) => {
+                  result[key] = this.f[key].value;
+                });
+                const newUser = new UserModel();
+                newUser.setUser(result);
+                const registrationSubscr = this.authService
+                  .registration(newUser)
+                  .pipe(first())
+                  .subscribe((user: UserModel) => {
+                    if (user) {
+                      this.router.navigate(['/']);
+                    } else {
+                      this.hasError = true;
+                    }
+                  });
+                this.unsubscribe.push(registrationSubscr);*/
+                
+                localStorage.setItem('usuario_verify', JSON.stringify(response.data));
+                this.router.navigate(['/auth/verify']);
+              },
+              (response) => {
+                  // Re-enable the form
+              }
+            );
+          }
+        },
+        (response) => {
+            // Reset the form
+            //this.signUpNgForm.resetForm();
         }
-      });
-    this.unsubscribe.push(registrationSubscr);
+    );
+
   }
 
   ngOnDestroy() {

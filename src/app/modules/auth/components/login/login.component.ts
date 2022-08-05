@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { UserModel } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthModel } from '../../models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   initForm() {
     this.loginForm = this.fb.group({
       email: [
-        this.defaultAuth.email,
+        '',//this.defaultAuth.email,
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -62,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         ]),
       ],
       password: [
-        this.defaultAuth.password,
+        '',//this.defaultAuth.password,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -77,9 +78,24 @@ export class LoginComponent implements OnInit, OnDestroy {
     const loginSubscr = this.authService
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
-      .subscribe((user: UserModel | undefined) => {
+      .subscribe((user: any | undefined) => {
         if (user) {
-          this.router.navigate([this.returnUrl]);
+          const usuario: any = JSON.parse(user);
+          //console.log('usuario',usuario);
+          if(usuario.verify != true){
+            
+            localStorage.removeItem('usuario');
+            this.router.navigate(['auth/verify']);
+          }else if(usuario.completada != true){
+            this.router.navigate(['configuration/config-cta']);
+          }else if(usuario.invitaciones && usuario.invitaciones.id){
+            this.router.navigate(['/invitations']);
+          }else if(usuario.proyectos < 1){
+            this.router.navigate(['/crafted/pages/wizards/project']);
+          }else{
+            this.router.navigate([this.returnUrl]);
+          }
+          
         } else {
           this.hasError = true;
         }

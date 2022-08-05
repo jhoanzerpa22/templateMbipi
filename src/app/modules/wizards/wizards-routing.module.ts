@@ -16,7 +16,11 @@ const routes: Routes = [
       {
         path: 'vertical',
         component: VerticalComponent,
-      },
+      },/*
+      {
+        path: 'config-cta',
+        component: ConfigCtaWizardComponent,
+      },*/
       { path: '', redirectTo: 'horizontal', pathMatch: 'full' },
       { path: '**', redirectTo: 'horizontal', pathMatch: 'full' },
     ],
