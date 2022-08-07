@@ -22,7 +22,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb' ,extended: true }));
 
 // Serve static files
-app.use(express.static(__dirname + '/dist/mbipi'));
+app.use(express.static(__dirname + '/dist/demo1'));
 
 app.post("/api/sendmail", (req, res) => {
   console.log("request came");
@@ -54,7 +54,7 @@ app.get('/', function (req, res) {
 
 // Send all requests to index.html
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/dist/mbipi/index.html'));
+  res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
 });
 
 /*io.on('connection', function (socket) {
