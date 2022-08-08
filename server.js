@@ -52,11 +52,6 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });*/
 
-// Send all requests to index.html
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
-});
-
 /*io.on('connection', function (socket) {
 
   const handshake = socket.id;
@@ -95,6 +90,10 @@ app.all('/api/*', (req, res) => {
   res.status(404).json({code:404, msg: 'Ruta API no reconocida.'});
 });
 
+// Send all requests to index.html
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
+});
 /*
 app.use('/*', express.static(path.join(__dirname,'static/home/')));*/
 
