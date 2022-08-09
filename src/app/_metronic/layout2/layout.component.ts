@@ -114,15 +114,15 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   onPlay(){
     console.log("PLAY")
-    $('#myVideo').trigger('play')
+    //$('#myVideo').trigger('play')
   }
   onPause(){
     console.log("PAUSE")
-    $('#myVideo').trigger('pause')
+    //$('#myVideo').trigger('pause')
   }
   videoCurrentTime(){
-    const ct = $('#myVideo').prop('currentTime')
-    console.log("Current Time:", ct)
+    //const ct = $('#myVideo').prop('currentTime')
+    //console.log("Current Time:", ct)
   }
 
   displayVideo(){
