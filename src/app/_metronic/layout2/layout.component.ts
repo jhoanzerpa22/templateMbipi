@@ -7,7 +7,7 @@ import {
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
-//import * as $ from 'jquery';
+import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
 
 @Component({
@@ -114,15 +114,15 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   onPlay(){
     console.log("PLAY")
-    //$('#myVideo').trigger('play')
+    $('#myVideo').trigger('play')
   }
   onPause(){
     console.log("PAUSE")
-    //$('#myVideo').trigger('pause')
+    $('#myVideo').trigger('pause')
   }
   videoCurrentTime(){
-    //const ct = $('#myVideo').prop('currentTime')
-    //console.log("Current Time:", ct)
+    const ct = $('#myVideo').prop('currentTime')
+    console.log("Current Time:", ct)
   }
 
   displayVideo(){
