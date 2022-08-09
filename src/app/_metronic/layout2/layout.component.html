@@ -23,12 +23,17 @@
                 </span>
                 <!--end::Svg Icon-->
               </button>
+              <div class="symbol-group symbol-hover mb-3">
+                <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Prueba">
+                    <span class="symbol-label bg-primary text-inverse-primary fw-bold">P</span>
+                  </div>
+              </div>
               <!--end::Mobile menu toggle-->
               <!--begin::Logo image-->
-              <a href="../../demo1/dist/landing.html">
+              <!-- <a href="../../demo1/dist/landing.html">
                 <img alt="Logo" src="assets/media/logos/logo-landing.svg" class="logo-default h-25px h-lg-30px" />
                 <img alt="Logo" src="assets/media/logos/logo-landing-dark.svg" class="logo-sticky h-20px h-lg-25px" />
-              </a>
+              </a> -->
               <!--end::Logo image-->
             </div>
             <!--end::Logo-->
@@ -38,46 +43,34 @@
                 <!--begin::Menu-->
                 <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-500 menu-state-title-primary nav nav-flush fs-5 fw-bold" id="kt_landing_menu">
                   <!--begin::Menu item-->
-                  <div class="menu-item">
-                    <!--begin::Menu link-->
+                  <!-- <div class="menu-item">
                     <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Home</a>
-                    <!--end::Menu link-->
-                  </div>
+                  </div> -->
                   <!--end::Menu item-->
                   <!--begin::Menu item-->
-                  <div class="menu-item">
-                    <!--begin::Menu link-->
+                  <!-- <div class="menu-item">
                     <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#how-it-works" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">How it Works</a>
-                    <!--end::Menu link-->
-                  </div>
+                  </div> -->
                   <!--end::Menu item-->
                   <!--begin::Menu item-->
-                  <div class="menu-item">
-                    <!--begin::Menu link-->
+                  <!-- <div class="menu-item">
                     <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Achievements</a>
-                    <!--end::Menu link-->
-                  </div>
+                  </div> -->
                   <!--end::Menu item-->
                   <!--begin::Menu item-->
-                  <div class="menu-item">
-                    <!--begin::Menu link-->
+                  <!-- <div class="menu-item">
                     <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#team" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Team</a>
-                    <!--end::Menu link-->
-                  </div>
+                  </div> -->
                   <!--end::Menu item-->
                   <!--begin::Menu item-->
-                  <div class="menu-item">
-                    <!--begin::Menu link-->
+                  <!-- <div class="menu-item">
                     <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#portfolio" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Portfolio</a>
-                    <!--end::Menu link-->
-                  </div>
+                  </div> -->
                   <!--end::Menu item-->
                   <!--begin::Menu item-->
-                  <div class="menu-item">
-                    <!--begin::Menu link-->
+                  <!-- <div class="menu-item">
                     <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Pricing</a>
-                    <!--end::Menu link-->
-                  </div>
+                  </div> -->
                   <!--end::Menu item-->
                 </div>
                 <!--end::Menu-->
@@ -104,16 +97,33 @@
       </svg>
     </div>
     <!--end::Curve bottom-->
+    <div class="container" style="text-align: center;">
+      <video id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="640" height="480"></video>
+    </div>
   </div>
   <!--end::Header Section-->
   	<!--begin::Highlight-->
     <div class="d-flex flex-stack flex-wrap flex-md-nowrap card-rounded shadow p-8 p-lg-1 mb-n5 mb-lg-n3" style="background: linear-gradient(90deg, #20AA3E 0%, #03A588 100%);position: fixed; bottom: 0px;width: 100%;">
       <!--begin::Link-->
-      <a href="https://1.envato.market/EA4JP" class="btn btn-lg btn-outline-white flex-shrink-0 my-2" style="text-align: center;margin: auto;background: transparent !important;">
+      <a (click)="onPlay()" class="btn btn-lg btn-outline-white flex-shrink-0 my-2" style="text-align: center;margin: auto;background: transparent !important;">
         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
         </svg>
       </a>
+      <a (click)="onPause()" class="btn btn-lg btn-outline-white flex-shrink-0 my-2" style="text-align: center;margin: auto;background: transparent !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
+        </svg>
+      </a>
+      <button (click)="displayVideo()" type="button" class="btn btn-primary">
+        Muestra Video
+      </button>
+      <button (click)="hideVideo()" type="button" class="btn btn-secondary">
+        Esconde Video
+      </button>
+      <button (click)=" videoCurrentTime()" type="button" class="btn btn-success">
+        Current Time
+      </button>
       <!--end::Link-->
     </div>
     <!--end::Highlight-->
