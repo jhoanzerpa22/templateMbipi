@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import * as objectPath from 'object-path';
+//import * as objectPath from 'object-path';
 import {
   ILayout,
   DefaultLayoutConfig,
@@ -150,7 +150,9 @@ export class LayoutService {
       return;
     }
 
-    return objectPath.get(layoutConfig, path);
+    return;
+
+    //return objectPath.get(layoutConfig, path);
   }
 
   setCSSClass(path: string, classesInStr: string) {

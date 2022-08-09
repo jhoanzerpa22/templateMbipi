@@ -7,7 +7,7 @@ import {
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
 
 @Component({
