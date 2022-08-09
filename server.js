@@ -21,6 +21,9 @@ app.use(bodyParser.json({limit: '50mb'}));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({limit: '50mb' ,extended: true }));
 
+// Serve static files
+app.use(express.static(__dirname + '/dist/demo1'));
+
 app.post("/api/sendmail", (req, res) => {
   console.log("request came");
   let user = req.body;
@@ -49,9 +52,10 @@ app.post("/api/invitacions", (req, res) => {
 const server = require('http').Server(app);
 const io = require('socket.io')(server, options);
 
+/*
 app.get('/', function (req, res) {
   res.send('Hello World!');
-});
+});*/
 
 io.on('connection', function (socket) {
 
@@ -82,12 +86,15 @@ io.on('connection', function (socket) {
     console.log('user disconnected');
   });
 });
+/*
+app.use('/', express.static(path.join(__dirname,'static/home/')));*/
 
 //Cloudinary routes
 app.use('/api/cloudinary', require('./app/routes/cloudinary.routes'));
 app.use('/cloud_user', require('./app/routes/cloud_user.routes'))
 
 app.use('/', express.static(path.join(__dirname,'static/home/')));
+
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/usuario.routes')(app);
@@ -101,7 +108,12 @@ app.all('/api/*', (req, res) => {
   res.status(404).json({code:404, msg: 'Ruta API no reconocida.'});
 });
 
-app.use('/*', express.static(path.join(__dirname,'static/home/')));
+// Send all requests to index.html
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
+});
+/*
+app.use('/*', express.static(path.join(__dirname,'static/home/')));*/
 
 app.all('*', (req, res) => {
   res.status(404).json({msg: 'Recurso no encontrado.'});
@@ -109,10 +121,13 @@ app.all('*', (req, res) => {
 });
 
 // set port, listen for requests
-const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
+const PORT = process.env.PORT || 5000;
+
+// default Heroku port
+app.listen(PORT);
+/*server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
-});
+});*/
 
 const db = require("./app/models");
 // const path = require("path/posix");
@@ -168,7 +183,8 @@ function initial() {
 		    pass_hash: bcrypt.hashSync("demo", 8),
 		    pass_recovery_hash: "",
 		    pass_recovery_time: null,
-		    tipo_rol: "Administrador"
+		    tipo_rol: "Administrador",
+        verify: true
 		  }).then(user => {
 					user.setRoles([1]);
 		  });
@@ -180,7 +196,8 @@ function initial() {
 		    fono: "+573213354666",
 		    correo: "admin@demo.com",
 		    //direccion: "Santiago de Chile",
-		    login_id: 1
+		    login_id: 1,
+        completada: true
 		  });
 
 		}
@@ -249,17 +266,17 @@ async function sendMail(user, callback) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "innovago.tresidea.cl",//"smtp.gmail.com",
+    host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-      pass: 'Innovago123'
+      user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
+      pass: /*'Innovago123'*/'20588459jz'
     }
   });
 
   let mailOptions = {
-    from: 'innovago@innovago.tresidea.cl', //'jhoan.zerpa@tresidea.cl', // sender address
+    from: /*'innovago@innovago.tresidea.cl', */'jhoan.zerpa@tresidea.cl', // sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Registro Mbipi", // Subject line
     html:
@@ -274,7 +291,7 @@ async function sendMail(user, callback) {
     </div>
     <div class="container">
       <h4 style="text-align: center; padding-top: 20px;">Por favor ingresa en el siguiente link para verificar tu cuenta.</h4>
-      <a style="text-align: center; padding-top: 20px;" href="http://localhost:57567/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
+      <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
     </div>
   </div>
     `
@@ -292,12 +309,12 @@ async function sendMail(user, callback) {
 
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: "innovago.tresidea.cl",//"smtp.gmail.com",
+        host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-          pass: 'Innovago123'
+          user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
+          pass: /*'Innovago123'*/'20588459jz'
         }
       });
 
@@ -311,7 +328,7 @@ async function sendMail(user, callback) {
       }
 
       let mailOptions = {
-        from: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
+        from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
         to: emails, // list of receivers user.email
         subject: "Invitación Mbipi", // Subject line
         html:
@@ -326,7 +343,7 @@ async function sendMail(user, callback) {
         </div>
         <div class="container">
           <h4 style="text-align: center; padding-top: 20px;">El Usuario `+user.nombre_usuario+` lo ha invitado ha unirse al proyecto `+user.nombre+`. Por favor ingresa en el siguiente link para ingresar al sistema y aceptar la invitación.</h4>
-          <a style="text-align: center; padding-top: 20px;" href="http://localhost:52065/invitations?code=`+user.code+`">Ingresar</a>
+          <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/invitations?code=`+user.code+`">Ingresar</a>
         </div>
       </div>
         `
