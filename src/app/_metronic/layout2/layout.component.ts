@@ -7,6 +7,8 @@ import {
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
+import * as $ from 'jquery';
+import { SocketWebService } from '../../pages/boards/boards.service';
 
 @Component({
   selector: 'app-layout',
@@ -39,18 +41,35 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   extrasQuickPanelDisplay = false;
   extrasScrollTopDisplay = false;
   asideDisplay: boolean;
+  showVideoFlag = true;
+
+  //Clases para esconder o mostrar video.
+  videoOn = "videoOn";
+  videoOff = "videoOff";
+
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
 
+  usuarios: any = [];
+  usuario: any = {};
+
   constructor(/*
-    private initService: LayoutInitService,
-    private layout: LayoutService*/
+  private initService: LayoutInitService,
+  private layout: LayoutService*/
+  private socketWebService: SocketWebService
   ) {
     /*this.initService.init();*/
+    this.socketWebService.outEvenUsers.subscribe((res: any) => {
+      //console.log('escucha_tablero',res);
+      const { usuarios } = res;
+      console.log('escuchando',res);
+      this.readUsers(usuarios, false);
+    });
   }
 
   ngOnInit(): void {
+
     // build view by layout config settings
     /*
     this.asideDisplay = this.layout.getProp('aside.display') as boolean;
@@ -70,5 +89,49 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         }
       }
     }
+    const usuario: any = localStorage.getItem('usuario');
+    let user: any = JSON.parse(usuario);
+    this.usuario = user;
+
+    this.usuarios = [];
+    this.usuarios.push(user);
+
+    console.log('enviando_usuarios',this.usuarios);
+    
+    this.socketWebService.emitEventUsers(this.usuarios);
+
   }
+
+  private readUsers(usuarios: any, emit: boolean){
+    const data = JSON.parse(usuarios);
+    //console.log('data',data);
+    //this.usuarios = [];
+    for(let c in data){
+      this.usuarios.push({'title': data[c].nombre, 'data': data[c]});
+    }
+    console.log('usuarios',this.usuarios);
+  }
+
+  onPlay(){
+    console.log("PLAY")
+    $('#myVideo').trigger('play')
+  }
+  onPause(){
+    console.log("PAUSE")
+    $('#myVideo').trigger('pause')
+  }
+  videoCurrentTime(){
+    const ct = $('#myVideo').prop('currentTime')
+    console.log("Current Time:", ct)
+  }
+
+  displayVideo(){
+    this.showVideoFlag = true;
+  }
+
+  hideVideo(){
+    this.showVideoFlag = false;
+  }
+
+
 }
