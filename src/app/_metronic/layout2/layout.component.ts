@@ -46,6 +46,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   videoOn = "videoOn";
   videoOff = "videoOff";
 
+  //Eventos sobre video
+  primerEventoFlag = true;
+  segundoEventoFlag = false;
+
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
@@ -81,18 +85,60 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onPlay(){
-    console.log("PLAY")
-    $('#myVideo').trigger('play')
+  onPlayPause(){
+    let currentTime = 0
+
+    //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
+    if($('#myVideo').prop('paused')){
+      console.log('Play');
+      $('#myVideo').trigger('play');
+
+      //Cuenta los segundos desde que se hace play en el video
+      var id = setInterval(()=>{
+
+        //Asigna el valor de la propiedad 'currentTime' a la variable cada 1 segundo
+        currentTime = $('#myVideo').prop('currentTime');
+        console.log(currentTime);
+
+        //Gatilla eventos cada cierto valor de currentTime
+        if(currentTime >= 3 && this.primerEventoFlag){
+          this.primerEventoFlag = false;
+          $('#myVideo').trigger('pause');
+          clearInterval(id); //Detiene intervalo
+        }
+
+        if(currentTime >= 6 && this.primerEventoFlag==false){
+          this.showVideoFlag = false;
+          $('#myVideo').trigger('pause');
+          clearInterval(id) //Detiene intervalo
+        }
+
+
+      }, 500)
+
+
+    }else{
+      console.log('Pause')
+      $('#myVideo').trigger('pause')
+    }
+
   }
-  onPause(){
-    console.log("PAUSE")
-    $('#myVideo').trigger('pause')
-  }
-  videoCurrentTime(){
-    const ct = $('#myVideo').prop('currentTime')
-    console.log("Current Time:", ct)
-  }
+  // onPause(){
+
+  //   $('#myVideo').trigger('pause')
+  // }
+
+  // videoCurrentTime(){
+  //   let currentTime = 0
+  //   do {
+  //       console.log(currentTime)
+  //       currentTime = $('#myVideo').prop('currentTime')
+  //       currentTime +=1
+  //   } while(currentTime <= 3 )
+  //   $('#myVideo').trigger('pause')
+  // }
+  // const ct = $('#myVideo').prop('currentTime')
+  // console.log("Current Time:", ct)
 
   displayVideo(){
     this.showVideoFlag = true;
