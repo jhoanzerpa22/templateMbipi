@@ -53,9 +53,9 @@ exports.create = (req, res) => {
           img: !empty(req.body.img) ? "assets/img/usuarios/usuario-"+req.body.nombre+".png" : null,
           login_id: user.id
         }).then(() =>{
-      }).catch(err => {
-        res.status(500).send({ message: err.message });
-      });
+        }).catch(err => {
+          res.status(500).send({ message: 'Error Crear Datos de Usuario: '+err.message });
+        });
 
         if (req.body.roles) {
           /*Role.findAll({
@@ -80,17 +80,23 @@ exports.create = (req, res) => {
               };
               
               res.send({ message: "User was registered successfully!", data: usuario_new });
+            }).catch(err => {
+              res.status(500).send({ message: 'Error Guardar rol: '+err.message });
             });
+          }).catch(err => {
+            res.status(500).send({ message: 'Error Busqueda rol: '+err.message });
           });
         } else {
           // user role = 1
           user.setRoles([1]).then(() => {
             res.send({ message: "User was registered successfully!" });
+          }).catch(err => {
+            res.status(500).send({ message: 'Error Guardar rol Usuario: '+err.message });
           });
         }
     })
     .catch(err => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send({ message: 'Error Crear Login: '+err.message });
     });
 };
 
