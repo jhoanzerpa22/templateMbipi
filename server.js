@@ -165,7 +165,8 @@ function initial() {
 		    pass_hash: bcrypt.hashSync("demo", 8),
 		    pass_recovery_hash: "",
 		    pass_recovery_time: null,
-		    tipo_rol: "Administrador"
+		    tipo_rol: "Administrador",
+        verify: true
 		  }).then(user => {
 					user.setRoles([1]);
 		  });
@@ -177,7 +178,8 @@ function initial() {
 		    fono: "+573213354666",
 		    correo: "admin@demo.com",
 		    //direccion: "Santiago de Chile",
-		    login_id: 1
+		    login_id: 1,
+        completada: true
 		  });
 
 		}
@@ -246,17 +248,17 @@ async function sendMail(user, callback) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "innovago.tresidea.cl",//"smtp.gmail.com",
+    host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-      pass: 'Innovago123'
+      user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
+      pass: /*'Innovago123'*/'20588459jz'
     }
   });
 
   let mailOptions = {
-    from: 'innovago@innovago.tresidea.cl', //'jhoan.zerpa@tresidea.cl', // sender address
+    from: /*'innovago@innovago.tresidea.cl', */'jhoan.zerpa@tresidea.cl', // sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Registro Mbipi", // Subject line
     html:
@@ -271,7 +273,7 @@ async function sendMail(user, callback) {
     </div>
     <div class="container">
       <h4 style="text-align: center; padding-top: 20px;">Por favor ingresa en el siguiente link para verificar tu cuenta.</h4>
-      <a style="text-align: center; padding-top: 20px;" href="http://localhost:57567/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
+      <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
     </div>
   </div>
     `
@@ -289,12 +291,12 @@ async function sendMail(user, callback) {
 
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: "innovago.tresidea.cl",//"smtp.gmail.com",
+        host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-          pass: 'Innovago123'
+          user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
+          pass: /*'Innovago123'*/'20588459jz'
         }
       });
 
@@ -308,7 +310,7 @@ async function sendMail(user, callback) {
       }
     
       let mailOptions = {
-        from: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
+        from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
         to: emails, // list of receivers user.email
         subject: "Invitación Mbipi", // Subject line
         html:
@@ -323,7 +325,7 @@ async function sendMail(user, callback) {
         </div>
         <div class="container">
           <h4 style="text-align: center; padding-top: 20px;">El Usuario `+user.nombre_usuario+` lo ha invitado ha unirse al proyecto `+user.nombre+`. Por favor ingresa en el siguiente link para ingresar al sistema y aceptar la invitación.</h4>
-          <a style="text-align: center; padding-top: 20px;" href="http://localhost:52065/invitations?code=`+user.code+`">Ingresar</a>
+          <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/invitations?code=`+user.code+`">Ingresar</a>
         </div>
       </div>
         `
