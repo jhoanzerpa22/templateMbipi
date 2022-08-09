@@ -52,7 +52,7 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });*/
 
-/*io.on('connection', function (socket) {
+io.on('connection', function (socket) {
 
   const handshake = socket.id;
   let nombreCurso = 'Mbipi';
@@ -74,7 +74,7 @@ app.get('/', function (req, res) {
   socket.on('disconnect', function () {
     console.log('user disconnected');
   });
-});*/
+});
 /*
 app.use('/', express.static(path.join(__dirname,'static/home/')));*/
 
