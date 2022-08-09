@@ -28,6 +28,7 @@ db.metodologias = require("./metodologias.model.js")(sequelize, Sequelize);
 db.proyectos_tipos = require("./proyectos_tipos.model.js")(sequelize, Sequelize);
 db.proyectos = require("./proyectos.model.js")(sequelize, Sequelize);
 db.equipos_usuarios = require("./equipos_usuarios.model.js")(sequelize, Sequelize);
+db.cloud_user = require("./cloud_user.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",

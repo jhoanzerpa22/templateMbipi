@@ -41,6 +41,11 @@ app.post("/api/invitacions", (req, res) => {
 
 });
 
+// app.get("/api/cloudinary", (req, res) =>{
+//   cloudinary.v2.api.resources(
+//     function(error, result) {console.log(result, error); });
+// })
+
 const server = require('http').Server(app);
 const io = require('socket.io')(server, options);
 
@@ -54,16 +59,16 @@ io.on('connection', function (socket) {
   let nombreCurso = 'Mbipi';
   console.log(`Nuevo dispositivo: ${handshake} conectado a la ${nombreCurso}`);
   socket.join(nombreCurso)
-  
+
   socket.on('evento', (res) => {
     console.log('evento', res);
-    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje   
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     socket.to(nombreCurso).emit('evento', res);
   })
 
   socket.on('evento2', (res) => {
     console.log('evento2', res);
-    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje   
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     socket.to(nombreCurso).emit('evento2', res);
   })
 
@@ -71,6 +76,10 @@ io.on('connection', function (socket) {
     console.log('user disconnected');
   });
 });
+
+//Cloudinary routes
+app.use('/api/cloudinary', require('./app/routes/cloudinary.routes'));
+app.use('/cloud_user', require('./app/routes/cloud_user.routes'))
 
 app.use('/', express.static(path.join(__dirname,'static/home/')));
 require('./app/routes/auth.routes')(app);
@@ -80,6 +89,7 @@ require('./app/routes/rol.routes')(app);
 require('./app/routes/referencias.routes')(app);
 require('./app/routes/proyectos.routes')(app);
 require('./app/routes/invitaciones.routes')(app);
+// require('./app/routes/cloudinary.routes')(app);
 
 app.all('/api/*', (req, res) => {
   res.status(404).json({code:404, msg: 'Ruta API no reconocida.'});
@@ -176,12 +186,12 @@ function initial() {
       }
     }).then(valid => {
         if (!valid) {
-  
+
         Referencias.create({
           id: 1,
           nombre: "RRSS"
         });
-  
+
       }
       });
 
@@ -191,12 +201,12 @@ function initial() {
         }
       }).then(valid => {
           if (!valid) {
-    
+
           Metodologias.create({
             id: 1,
             nombre: "Design"
           });
-    
+
         }
         });
 
@@ -206,24 +216,24 @@ function initial() {
           }
         }).then(valid => {
             if (!valid) {
-      
+
             ProyectosTipos.create({
               id: 1,
               nombre: "Uber Clon"
             });
 
-            
+
             ProyectosTipos.create({
               id: 2,
               nombre: "E-Commerce"
             });
 
-            
+
             ProyectosTipos.create({
               id: 3,
               nombre: "E-Learning"
             });
-      
+
           }
           });
     }
@@ -293,7 +303,7 @@ async function sendMail(user, callback) {
         }
         emails = lista_emails.join(',');
       }
-    
+
       let mailOptions = {
         from: 'innovago@innovago.tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
         to: emails, // list of receivers user.email
@@ -315,10 +325,10 @@ async function sendMail(user, callback) {
       </div>
         `
       };
-    
+
       // send mail with defined transport object
       let info = await transporter.sendMail(mailOptions);
-    
+
       callback(info);
-    
+
     }

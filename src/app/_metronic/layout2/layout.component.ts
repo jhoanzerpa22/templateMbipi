@@ -41,6 +41,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   extrasScrollTopDisplay = false;
   asideDisplay: boolean;
   showVideoFlag = true;
+
+  //Clases para esconder o mostrar video.
   videoOn = "videoOn";
   videoOff = "videoOff";
 
