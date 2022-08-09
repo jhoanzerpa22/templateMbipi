@@ -8,6 +8,7 @@ import {
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
+import { SocketWebService } from '../../pages/boards/boards.service';
 
 @Component({
   selector: 'app-layout',
@@ -54,12 +55,21 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
 
+  usuarios: any = [];
+  usuario: any = {};
 
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
+  private socketWebService: SocketWebService
   ) {
     /*this.initService.init();*/
+    this.socketWebService.outEvenUsers.subscribe((res: any) => {
+      //console.log('escucha_tablero',res);
+      const { usuarios } = res;
+      console.log('escuchando',res);
+      this.readUsers(usuarios, false);
+    });
   }
 
   ngOnInit(): void {
@@ -83,6 +93,27 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         }
       }
     }
+    const usuario: any = localStorage.getItem('usuario');
+    let user: any = JSON.parse(usuario);
+    this.usuario = user;
+
+    this.usuarios = [];
+    this.usuarios.push(user);
+
+    console.log('enviando_usuarios',this.usuarios);
+    
+    this.socketWebService.emitEventUsers(this.usuarios);
+
+  }
+
+  private readUsers(usuarios: any, emit: boolean){
+    const data = JSON.parse(usuarios);
+    //console.log('data',data);
+    //this.usuarios = [];
+    for(let c in data){
+      this.usuarios.push({'title': data[c].nombre, 'data': data[c]});
+    }
+    console.log('usuarios',this.usuarios);
   }
 
   onPlayPause(){

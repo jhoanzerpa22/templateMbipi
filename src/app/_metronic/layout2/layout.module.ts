@@ -12,6 +12,7 @@ import { TranslationModule } from '../../modules/i18n';
 import { LayoutComponent } from './layout.component';
 import { ExtrasModule } from '../partials/layout/extras/extras.module';
 import { Routing } from '../../pages/routing';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 /*import { AsideComponent } from './components/aside/aside.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ContentComponent } from './components/content/content.component';
@@ -33,6 +34,8 @@ const routes: Routes = [
     /*children: Routing,*/
   },
 ];
+
+const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
 
 @NgModule({
   declarations: [
@@ -57,6 +60,7 @@ const routes: Routes = [
     NgbDropdownModule,
     NgbProgressbarModule,
     ExtrasModule,
+    SocketIoModule.forRoot(config)
     /*ModalsModule,
     DrawersModule,
     EngagesModule,
