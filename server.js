@@ -72,6 +72,12 @@ io.on('connection', function (socket) {
     socket.to(nombreCurso).emit('evento2', res);
   })
 
+  socket.on('evento_usuarios', (res) => {
+    console.log('evento_usuarios', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    socket.to(nombreCurso).emit('evento_usuarios', res);
+  })
+
   socket.on('disconnect', function () {
     console.log('user disconnected');
   });

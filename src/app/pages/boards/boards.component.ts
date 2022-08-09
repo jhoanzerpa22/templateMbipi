@@ -74,7 +74,6 @@ export class BoardsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    
     private socketWebService: SocketWebService
   ) {
     this.socketWebService.outEven.subscribe((res: any) => {

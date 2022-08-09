@@ -8,6 +8,7 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'api',
+  API: 'https://mbipi.tresidea.cl/',
   API_G: 'https://mbipi.tresidea.cl/api/', // General
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
