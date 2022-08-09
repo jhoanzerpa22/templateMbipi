@@ -9,6 +9,7 @@ export const environment = {
   isMockEnabled: true,
   apiUrl: 'api',
   //API_G: 'https://mbipi.tresidea.cl/api/', // General
+  API: 'https://mbipi.herokuapp.com/', // General
   API_G: 'https://mbipi.herokuapp.com/api/', // General
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',

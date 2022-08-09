@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 //import { CookieService } from 'ngx-cookie-service';
 import { Socket } from 'ngx-socket-io';
-
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class SocketWebService extends Socket {
     //public cookieService: CookieService,
   ) {
     super({
-      url: 'https://mbipi.tresidea.cl/',
+      url: environment.API,//'https://mbipi.tresidea.cl/',
       options: {
         query: {
           nameRoom: 'mbipi'//cookieService.get('room')
