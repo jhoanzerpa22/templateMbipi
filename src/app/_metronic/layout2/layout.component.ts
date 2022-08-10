@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  AfterViewInit,
+  AfterViewInit, ChangeDetectorRef
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
@@ -57,7 +57,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
-  private socketWebService: SocketWebService
+  private socketWebService: SocketWebService,
+  private ref:ChangeDetectorRef
   ) {
     /*this.initService.init();*/
     this.socketWebService.outEvenUsers.subscribe((res: any) => {
@@ -94,11 +95,11 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.usuario = user;
 
     this.usuarios = [];
-    this.usuarios.push(user);
-
-    console.log('enviando_usuarios',this.usuarios);
+    this.usuarios.push({'title': user.nombre, 'data': user});
     
-    this.socketWebService.emitEventUsers(this.usuarios);
+    console.log('enviando_usuario',this.usuarios);
+    
+    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
 
   }
 
@@ -106,10 +107,11 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     const data = JSON.parse(usuarios);
     //console.log('data',data);
     //this.usuarios = [];
-    for(let c in data){
-      this.usuarios.push({'title': data[c].nombre, 'data': data[c]});
+    for(let c in data){  
+        this.usuarios.push({'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
     }
     console.log('usuarios',this.usuarios);
+    this.ref.detectChanges();
   }
 
   onPlay(){

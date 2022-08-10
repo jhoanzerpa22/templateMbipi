@@ -21,9 +21,6 @@ app.use(bodyParser.json({limit: '50mb'}));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({limit: '50mb' ,extended: true }));
 
-// Serve static files
-app.use(express.static(__dirname + '/dist/demo1'));
-
 app.post("/api/sendmail", (req, res) => {
   console.log("request came");
   let user = req.body;
@@ -86,15 +83,16 @@ io.on('connection', function (socket) {
     console.log('user disconnected');
   });
 });
-/*
-app.use('/', express.static(path.join(__dirname,'static/home/')));*/
 
 //Cloudinary routes
 app.use('/api/cloudinary', require('./app/routes/cloudinary.routes'));
 app.use('/cloud_user', require('./app/routes/cloud_user.routes'))
 
+// Serve static files
+//app.use('/', express.static(__dirname + '/dist/demo1'));
+/*
 app.use('/', express.static(path.join(__dirname,'static/home/')));
-
+*/
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/usuario.routes')(app);
@@ -109,9 +107,12 @@ app.all('/api/*', (req, res) => {
 });
 
 // Send all requests to index.html
-app.get('/*', function(req, res) {
+/*app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
-});
+});*//*Heroku
+app.use('/*', function(req, res) {
+  res.sendFile(path.join(__dirname + '/dist/demo1/'));
+});*/
 /*
 app.use('/*', express.static(path.join(__dirname,'static/home/')));*/
 
@@ -124,7 +125,7 @@ app.all('*', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 // default Heroku port
-app.listen(PORT);
+server.listen(PORT);
 /*server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });*/
