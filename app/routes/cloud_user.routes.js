@@ -15,7 +15,6 @@ cloudinary.config({
 router.post('/', upload.single('image'),async (req, res)=>{
   try{
     const result = await cloudinary.uploader.upload(req.file.path)
-
     //Crea una instancia de cloud_user
     let cloud_user = {
       name: req.body.name,
