@@ -64,7 +64,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
-  private socketWebService: SocketWebService
+  private socketWebService: SocketWebService,
+  private ref: ChangeDetectorRef
   ) {
     /*this.initService.init();*/
     this.socketWebService.outEvenUsers.subscribe((res: any) => {
