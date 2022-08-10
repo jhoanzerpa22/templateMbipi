@@ -4,7 +4,6 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
-
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
@@ -65,7 +64,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
-  private ref: ChangeDetectorRef,
   private socketWebService: SocketWebService
   ) {
     /*this.initService.init();*/
@@ -116,9 +114,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     //console.log('data',data);
     //this.usuarios = [];
     for(let c in data){
-      this.usuarios.push({'title': data[c].nombre, 'data': data[c]});
+        this.usuarios.push({'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
     }
     console.log('usuarios',this.usuarios);
+    this.ref.detectChanges();
   }
 
   onPlayPause(){
