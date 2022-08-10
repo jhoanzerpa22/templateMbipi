@@ -102,11 +102,11 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.usuario = user;
 
     this.usuarios = [];
-    this.usuarios.push(user);
+    this.usuarios.push({'title': user.nombre, 'data': user});
 
     console.log('enviando_usuarios',this.usuarios);
 
-    this.socketWebService.emitEventUsers(this.usuarios);
+    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
 
   }
 
