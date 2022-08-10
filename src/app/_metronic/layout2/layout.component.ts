@@ -4,11 +4,13 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-layout',
@@ -46,10 +48,12 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   //Clases para esconder o mostrar video.
   videoOn = "videoOn";
   videoOff = "videoOff";
+  currentTime = 0;
 
   //Eventos sobre video
-  primerEventoFlag = true;
+  primerEventoFlag = false;
   segundoEventoFlag = false;
+  playing = false;
 
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
@@ -61,6 +65,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
+  private ref: ChangeDetectorRef,
   private socketWebService: SocketWebService
   ) {
     /*this.initService.init();*/
@@ -101,7 +106,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.usuarios.push(user);
 
     console.log('enviando_usuarios',this.usuarios);
-    
+
     this.socketWebService.emitEventUsers(this.usuarios);
 
   }
@@ -117,40 +122,32 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
   onPlayPause(){
-    let currentTime = 0
-
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
+    this.playing= true;
     if($('#myVideo').prop('paused')){
       console.log('Play');
+      this.displayVideo();
+      this.ref.detectChanges();
       $('#myVideo').trigger('play');
-
-      //Cuenta los segundos desde que se hace play en el video
-      var id = setInterval(()=>{
-
-        //Asigna el valor de la propiedad 'currentTime' a la variable cada 1 segundo
-        currentTime = $('#myVideo').prop('currentTime');
-        console.log(currentTime);
-
-        //Gatilla eventos cada cierto valor de currentTime
-        if(currentTime >= 3 && this.primerEventoFlag){
-          this.primerEventoFlag = false;
-          $('#myVideo').trigger('pause');
-          clearInterval(id); //Detiene intervalo
-        }
-
-        if(currentTime >= 6 && this.primerEventoFlag==false){
-          this.showVideoFlag = false;
-          $('#myVideo').trigger('pause');
-          clearInterval(id) //Detiene intervalo
-        }
-
-
-      }, 500)
-
-
+      if(this.primerEventoFlag){
+        //Cuenta los segundos desde que se hace play en el video
+        var id = setInterval(()=>{
+          //Asigna el valor de la propiedad 'currentTime' a la variable cada 1 segundo
+          this.currentTime = $('#myVideo').prop('this.currentTime');
+          console.log(this.currentTime);
+          //Gatilla eventos cada cierto valor de currentTime
+          if(this.currentTime >= 3){
+            this.hideVideo();
+            $('#myVideo').trigger('pause');
+            this.ref.detectChanges();
+            clearInterval(id); //Detiene intervalo
+          }
+        }, 500)
+      }
     }else{
-      console.log('Pause')
-      $('#myVideo').trigger('pause')
+      this.playing= false;
+      console.log('Pause');
+      $('#myVideo').trigger('pause');
     }
 
   }

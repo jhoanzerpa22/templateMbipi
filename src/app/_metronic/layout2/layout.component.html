@@ -103,24 +103,39 @@
   </div>
   <!--end::Header Section-->
   	<!--begin::Highlight-->
-    <div class="d-flex flex-stack flex-wrap flex-md-nowrap card-rounded shadow p-8 p-lg-1 mb-n5 mb-lg-n3" style="background: linear-gradient(90deg, #20AA3E 0%, #03A588 100%);position: fixed; bottom: 0px;width: 100%;">
+    <div class="" style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
       <!--begin::Link-->
-      <a (click)="onPlayPause()" class="btn btn-lg btn-outline-white flex-shrink-0 my-2" style="text-align: center;margin: auto;background: transparent !important;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
-        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
-        </svg>
-      </a>
+      <div class="container" style="text-align: center;">
+        <ng-container *ngIf="!playing; else elseBlock">
+          <a (click)="onPlayPause()" class="btn btn-lg flex-shrink-0 my-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="margin:-46px;position: absolute;background-color:#03A588; border-radius: 100%; color:white">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+            </svg>
+          </a>
+        </ng-container>
+        <ng-template #elseBlock>
+          <a (click)="onPlayPause()" class="btn btn-lg flex-shrink-0 my-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="margin:-46px;position: absolute;background-color:#03A588; border-radius: 100%; color:white">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
+            </svg>
+          </a>
+        </ng-template>
+      </div>
+
+
+
+
       <!-- <a (click)="onPause()" class="btn btn-lg btn-outline-white flex-shrink-0 my-2" style="text-align: center;margin: auto;background: transparent !important;">
         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
         </svg>
       </a> -->
-      <button (click)="displayVideo()" type="button" class="btn btn-primary">
+      <!-- <button (click)="displayVideo()" type="button" class="btn btn-primary">
         Muestra Video
       </button>
       <button (click)="hideVideo()" type="button" class="btn btn-secondary">
         Esconde Video
-      </button>
+      </button> -->
       <!-- <button (click)=" videoCurrentTime()" type="button" class="btn btn-success">
         Current Time
       </button> -->
