@@ -25,7 +25,6 @@
 // #myVideo{
 //   display: none;
 // }
-
 .app{
   width: 250px;
   float: left;
@@ -35,7 +34,9 @@
 .toolbar {/*
   left: 0;
   bottom: 0;*/
-  right: 0;
+  position: fixed;
+  top: 180px;
+  right: 60px;
   height:55px;/*
   text-align: center;
   position: fixed;*/
@@ -60,4 +61,11 @@
   height: 40px;
   border: 1px solid #fff;
   border-radius: 67px;
+}
+.dark-modal {
+  background-color: #292b2c !important;
+  color: white !important;
+}
+.dark-modal .close {
+  color: white !important;
 }

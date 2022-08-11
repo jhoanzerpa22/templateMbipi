@@ -11,6 +11,8 @@ import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VideoModalComponent } from './components/video-modal/video-modal.component';
 
 @Component({
   selector: 'app-layout',
@@ -71,7 +73,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   private layout: LayoutService*/
   private el:ElementRef,
   private socketWebService: SocketWebService,
-  private ref: ChangeDetectorRef
+  private ref: ChangeDetectorRef,
+  private modalService: NgbModal
   ) {
     /*this.initService.init();*/
     this.socketWebService.outEvenUsers.subscribe((res: any) => {
@@ -164,6 +167,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     }else{
       this.playing= false;
       console.log('Pause');
+      this.hideVideo();
+      this.ref.detectChanges();
       $('#myVideo').trigger('pause');
     }
 
@@ -193,6 +198,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.showVideoFlag = false;
   }
 
+  openModal() {
+    this.modalService.open(VideoModalComponent, {centered: true, size: 'xl', windowClass: 'dark-modal', backdrop: false});
+  }
+
 
 
   updateAllNotes() {
@@ -215,7 +224,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   };
   
   saveNote(event: any){
-    const id = event.srcElement.parentElement.parentElement.getAttribute('id');
+    const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
     const content = event.target.innerText;
     event.target.innerText = content;
     const json = {
@@ -236,8 +245,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
   
   deleteNote(event: any){
-     const id = event.srcElement.parentElement.parentElement.parentElement.getAttribute('id');
+     const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
      this.notes.forEach((note: any, index: any)=>{
+      console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
         localStorage.setItem('notes', JSON.stringify(this.notes));
