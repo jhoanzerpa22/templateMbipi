@@ -10,6 +10,8 @@ import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VideoModalComponent } from './components/video-modal/video-modal.component';
 
 @Component({
   selector: 'app-layout',
@@ -65,7 +67,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   private initService: LayoutInitService,
   private layout: LayoutService*/
   private socketWebService: SocketWebService,
-  private ref: ChangeDetectorRef
+  private ref: ChangeDetectorRef,
+  private modalService: NgbModal
   ) {
     /*this.initService.init();*/
     this.socketWebService.outEvenUsers.subscribe((res: any) => {
@@ -147,6 +150,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     }else{
       this.playing= false;
       console.log('Pause');
+      this.hideVideo();
+      this.ref.detectChanges();
       $('#myVideo').trigger('pause');
     }
 
@@ -174,6 +179,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   hideVideo(){
     this.showVideoFlag = false;
+  }
+
+  openModal() {
+    this.modalService.open(VideoModalComponent, {centered: true, size: 'xl', windowClass: 'dark-modal', backdrop: false});
   }
 
 
