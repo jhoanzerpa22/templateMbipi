@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  AfterViewInit,
+  AfterViewInit, 
+  ChangeDetectionStrategy
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
@@ -15,6 +16,7 @@ import { ChangeDetectorRef } from '@angular/core';
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
   // Public variables
@@ -61,9 +63,13 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   usuarios: any = [];
   usuario: any = {};
 
+  notes: any = [];
+  recognition:any;
+
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
+  private el:ElementRef,
   private socketWebService: SocketWebService,
   private ref: ChangeDetectorRef
   ) {
@@ -74,6 +80,17 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       console.log('escuchando',res);
       this.readUsers(usuarios, false);
     });
+
+    const notes: any = localStorage.getItem('notes');
+    this.notes = JSON.parse(notes) || [{ id: 0,content:'' }];
+
+    const {webkitSpeechRecognition} : IWindow = <any>window;
+    this.recognition = new webkitSpeechRecognition();
+    this.recognition.onresult = (event: any)=> {
+      console.log(this.el.nativeElement.querySelectorAll(".content")[0]);
+      this.el.nativeElement.querySelectorAll(".content")[0].innerText = event.results[0][0].transcript
+      
+    };
   }
 
   ngOnInit(): void {
@@ -177,4 +194,67 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
 
+
+  updateAllNotes() {
+    console.log(document.querySelectorAll('app-note'));
+    let notes = document.querySelectorAll('app-note');
+
+    notes.forEach((note: any, index: any)=>{
+         this.notes[note.id].content = note.querySelector('.content').innerHTML;
+    });
+
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+
+  }
+
+  addNote () {
+    this.notes.push({ id: this.notes.length + 1,content:'' });
+    // sort the array
+    this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+  };
+  
+  saveNote(event: any){
+    const id = event.srcElement.parentElement.parentElement.getAttribute('id');
+    const content = event.target.innerText;
+    event.target.innerText = content;
+    const json = {
+      'id':id,
+      'content':content
+    }
+    this.updateNote(json);
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+    console.log("********* updating note *********")
+  }
+  
+  updateNote(newValue: any){
+    this.notes.forEach((note: any, index: any)=>{
+      if(note.id== newValue.id) {
+        this.notes[index].content = newValue.content;
+      }
+    });
+  }
+  
+  deleteNote(event: any){
+     const id = event.srcElement.parentElement.parentElement.parentElement.getAttribute('id');
+     this.notes.forEach((note: any, index: any)=>{
+      if(note.id== id) {
+        this.notes.splice(index,1);
+        localStorage.setItem('notes', JSON.stringify(this.notes));
+        console.log("********* deleting note *********")
+        return;
+      }
+    });
+  }
+
+   record(event: any) {
+    this.recognition.start();
+    this.addNote();
+  }
+
+
+}
+
+export interface IWindow extends Window {
+  webkitSpeechRecognition: any;
 }
