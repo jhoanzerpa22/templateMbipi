@@ -12,6 +12,7 @@ export class SocketWebService extends Socket {
   @Output() outEven: EventEmitter<any> = new EventEmitter();
   @Output() outEven2: EventEmitter<any> = new EventEmitter();
   @Output() outEvenUsers: EventEmitter<any> = new EventEmitter();
+  @Output() outEvenTablero: EventEmitter<any> = new EventEmitter();
   constructor(
     //public cookieService: CookieService,
   ) {
@@ -30,6 +31,7 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento', (res: any) => this.outEven.emit(res));
     this.ioSocket.on('evento2', (res: any) => this.outEven2.emit(res));
     this.ioSocket.on('evento_usuarios', (res: any) => this.outEvenUsers.emit(res));
+    this.ioSocket.on('evento_tablero', (res: any) => this.outEvenTablero.emit(res));
 
   }
   emitEvent = (payload = {}) => {
@@ -46,6 +48,12 @@ export class SocketWebService extends Socket {
   emitEventUsers = (payload = {}) => {
     //console.log('evento2',payload);
     this.ioSocket.emit('evento_usuarios', payload)
+
+  }
+
+  emitEventTablero = (payload = {}) => {
+    console.log('evento_tablero',payload);
+    this.ioSocket.emit('evento_tablero', payload)
 
   }
 }
