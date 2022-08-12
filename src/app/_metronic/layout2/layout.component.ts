@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  AfterViewInit, 
+  AfterViewInit,
   ChangeDetectionStrategy
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
@@ -12,7 +12,7 @@ import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { VideoModalComponent } from './components/video-modal/video-modal.component';
+
 
 @Component({
   selector: 'app-layout',
@@ -103,7 +103,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.recognition.onresult = (event: any)=> {
       console.log(this.el.nativeElement.querySelectorAll(".content")[0]);
       this.el.nativeElement.querySelectorAll(".content")[0].innerText = event.results[0][0].transcript
-      
+
     };
   }
 
@@ -129,21 +129,26 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       }
     }
 
-    this.usuarios = [];
-    this.usuarios.push({'title': this.usuario.nombre, 'data': this.usuario});
+    //this.usuarios = [];
+    const index = this.usuarios.findIndex((c: any) => c.id == this.usuario.id);
+    
+    if (index != -1) {
+      this.usuarios.splice(index, 1);
+    }
+    this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre, 'data': this.usuario});
 
     console.log('enviando_usuarios',this.usuarios);
 
     this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-
+    this.ref.detectChanges();
   }
 
   private readUsers(usuarios: any, emit: boolean){
     const data = JSON.parse(usuarios);
     //console.log('data',data);
-    //this.usuarios = [];
+    this.usuarios = [];
     for(let c in data){
-        this.usuarios.push({'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
+        this.usuarios.push({'id': typeof data[c].id !== 'undefined' ? data[c].id : data[c].data.id, 'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
     }
     console.log('usuarios',this.usuarios);
     this.ref.detectChanges();
@@ -154,9 +159,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     //console.log('data',data);
     this.notes_all = [];
     for(let c in data){
-      this.notes_all.push({'title': data[c].title, "data": data[c].data});
+      this.notes_all.push({'id': data[c].id, 'title': data[c].title, "data": data[c].data});
     }
-  
+
   }
 
   onPlayPause(){
@@ -216,12 +221,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.showVideoFlag = false;
   }
 
-  openModal() {
-    this.modalService.open(VideoModalComponent, {centered: true, size: 'xl', windowClass: 'dark-modal', backdrop: false});
-  }
-
-
-
   updateAllNotes() {
     console.log(document.querySelectorAll('app-note'));
     let notes = document.querySelectorAll('app-note');
@@ -240,7 +239,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes', JSON.stringify(this.notes));
   };
-  
+
   saveNote(event: any){
     console.log('event',event);
     const id = event.srcElement.parentElement.parentElement/*.parentElement.parentElement*/.getAttribute('id');
@@ -253,12 +252,12 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     console.log('json',json);
     this.updateNote(json);
     this.updateNoteAll(json);
-    
+
     this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
     localStorage.setItem('notes', JSON.stringify(this.notes));
     console.log("********* updating note *********")
   }
-  
+
   updateNote(newValue: any){
     this.notes.forEach((note: any, index: any)=>{
       if(note.id== newValue.id) {
@@ -266,7 +265,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  
+
   updateNoteAll(newValue: any){
     let existe = 0;
     this.notes_all.forEach((note: any, index: any)=>{
@@ -280,7 +279,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.notes_all.push({ id: newValue.id,content:newValue.content });
     }
   }
-  
+
   deleteNote(event: any){
      const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
      this.notes.forEach((note: any, index: any)=>{
