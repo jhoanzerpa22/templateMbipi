@@ -13,6 +13,7 @@ import { SocketWebService } from '../../pages/boards/boards.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -66,6 +67,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   notes: any = [];
   recognition:any;
+  notes_all: any = [];
 
   constructor(/*
   private initService: LayoutInitService,
@@ -83,8 +85,18 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.readUsers(usuarios, false);
     });
 
+    this.socketWebService.outEvenTablero.subscribe((res: any) => {
+      console.log('escucha_tablero',res);
+      const { tablero } = res;
+      this.readBoard(tablero, false);
+    });
+
+    const usuario: any = localStorage.getItem('usuario');
+    let user: any = JSON.parse(usuario);
+    this.usuario = user;
+
     const notes: any = localStorage.getItem('notes');
-    this.notes = JSON.parse(notes) || [{ id: 0,content:'' }];
+    this.notes = JSON.parse(notes) || [{ id: 0+'-'+this.usuario.nombre,content:'' }];
 
     const {webkitSpeechRecognition} : IWindow = <any>window;
     this.recognition = new webkitSpeechRecognition();
@@ -116,12 +128,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         }
       }
     }
-    const usuario: any = localStorage.getItem('usuario');
-    let user: any = JSON.parse(usuario);
-    this.usuario = user;
 
     this.usuarios = [];
-    this.usuarios.push({'title': user.nombre, 'data': user});
+    this.usuarios.push({'title': this.usuario.nombre, 'data': this.usuario});
 
     console.log('enviando_usuarios',this.usuarios);
 
@@ -138,6 +147,16 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     }
     console.log('usuarios',this.usuarios);
     this.ref.detectChanges();
+  }
+
+  private readBoard(tablero: any, emit: boolean){
+    const data = JSON.parse(tablero);
+    //console.log('data',data);
+    this.notes_all = [];
+    for(let c in data){
+      this.notes_all.push({'title': data[c].title, "data": data[c].data});
+    }
+
   }
 
   onPlayPause(){
@@ -210,21 +229,26 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
   addNote () {
-    this.notes.push({ id: this.notes.length + 1,content:'' });
+    this.notes.push({ id: /*this.notes.length + 1*/(this.notes.length + 1)+'-'+this.usuario.nombre,content:'' });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes', JSON.stringify(this.notes));
   };
 
   saveNote(event: any){
-    const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+    console.log('event',event);
+    const id = event.srcElement.parentElement.parentElement/*.parentElement.parentElement*/.getAttribute('id');
     const content = event.target.innerText;
     event.target.innerText = content;
     const json = {
       'id':id,
       'content':content
     }
+    console.log('json',json);
     this.updateNote(json);
+    this.updateNoteAll(json);
+
+    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
     localStorage.setItem('notes', JSON.stringify(this.notes));
     console.log("********* updating note *********")
   }
@@ -235,6 +259,20 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         this.notes[index].content = newValue.content;
       }
     });
+  }
+
+  updateNoteAll(newValue: any){
+    let existe = 0;
+    this.notes_all.forEach((note: any, index: any)=>{
+      if(note.id== newValue.id) {
+        existe = 1;
+        this.notes_all[index].content = newValue.content;
+      }
+    });
+
+    if(existe == 0){
+      this.notes_all.push({ id: newValue.id,content:newValue.content });
+    }
   }
 
   deleteNote(event: any){

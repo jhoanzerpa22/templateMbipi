@@ -20,6 +20,7 @@ export class DashboardProjectComponent implements OnInit {
   public usuario: any = {};
   public usuarios: any = [];
   public members: any = [];
+  public rol: any = '';
 
   public activeClass: any = 'overview';
 
@@ -39,10 +40,11 @@ export class DashboardProjectComponent implements OnInit {
       search_members: ['']
     });
 
-
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
+
+    //this.rol = user.roles[0];
     this.route.params.subscribe(params => {
       console.log('params',params);
       this.proyecto_id = params['id'];
@@ -63,6 +65,11 @@ export class DashboardProjectComponent implements OnInit {
           (response) => {
             this.proyecto = response;
             this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.usuarios.filter(
+              (op: any) => (
+                op.usuario_id == this.usuario.id)
+              );
+            this.rol = usuario_proyecto[0].rol;
             this.ref.detectChanges();
           },
           (response) => {
