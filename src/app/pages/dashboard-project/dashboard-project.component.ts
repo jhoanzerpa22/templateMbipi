@@ -4,9 +4,8 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard-project',
@@ -20,6 +19,7 @@ export class DashboardProjectComponent implements OnInit {
   public usuario: any = {};
   public usuarios: any = [];
   public members: any = [];
+  public rol: any = '';
 
   public activeClass: any = 'overview';
 
@@ -39,10 +39,11 @@ export class DashboardProjectComponent implements OnInit {
       search_members: ['']
     });
 
-
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
+
+    //this.rol = user.roles[0];
     this.route.params.subscribe(params => {
       console.log('params',params);
       this.proyecto_id = params['id'];
@@ -56,6 +57,18 @@ export class DashboardProjectComponent implements OnInit {
     this.activeClass = pestana;
   }
 
+  iniciar(){
+    const data = {estado: 'Iniciado'};
+    this._proyectsService.updateStatus(this.proyecto_id, data)
+    .subscribe(
+        data => {
+            this._router.navigate(['/proyect-init']);
+        },
+        (response) => {
+        }
+    );
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
@@ -63,6 +76,11 @@ export class DashboardProjectComponent implements OnInit {
           (response) => {
             this.proyecto = response;
             this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.usuarios.filter(
+              (op: any) => (
+                op.usuario_id == this.usuario.id)
+              );
+            this.rol = usuario_proyecto[0].rol;
             this.ref.detectChanges();
           },
           (response) => {
@@ -98,6 +116,15 @@ export class DashboardProjectComponent implements OnInit {
             this._proyectsService.invitations(datos)
             .subscribe(
                 (response) => {
+                  Swal.fire({
+                    text: "Se ha enviado la invitación exitosamente!",
+                    icon: "success",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok!",
+                    customClass: {
+                      confirmButton: "btn btn-primary"
+                    }
+                  });
                 });
 
           this.getProyect();

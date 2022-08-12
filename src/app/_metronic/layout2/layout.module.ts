@@ -14,7 +14,6 @@ import { ExtrasModule } from '../partials/layout/extras/extras.module';
 import { Routing } from '../../pages/routing';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { NoteComponent } from './notes/notes.component';
-import { VideoModalComponent } from './components/video-modal/video-modal.component';
 /*import { AsideComponent } from './components/aside/aside.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ContentComponent } from './components/content/content.component';
@@ -42,8 +41,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
 @NgModule({
   declarations: [
     LayoutComponent,
-    NoteComponent,
-    VideoModalComponent,
+    NoteComponent
     /*AsideComponent,
     HeaderComponent,
     ContentComponent,

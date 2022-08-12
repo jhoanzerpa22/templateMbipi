@@ -41,6 +41,10 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateMembers/${id}`, data);
       }
 
+      updateStatus(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateStatus/${id}`, data);
+      }
+
       delete(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/${id}`);
       }

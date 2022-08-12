@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectsService } from '../../config-project-wizzard/proyects.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -62,6 +62,26 @@ export class SettingsComponent implements OnInit {
       .subscribe(
         (response) =>{
           console.log(response);
+          Swal.fire({
+            text: "Datos de proyecto actualizados exitosamente!",
+            icon: "success",
+            buttonsStyling: false,
+            confirmButtonText: "Ok!",
+            customClass: {
+              confirmButton: "btn btn-primary"
+            }
+          });
+        }, (err) =>{
+          console.log(err)
+          Swal.fire({
+            text: "Ups, ha ocurrido un error con la actualización de datos.",
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Ok!",
+            customClass: {
+              confirmButton: "btn btn-primary"
+            }
+          });
         }
       )
   }
