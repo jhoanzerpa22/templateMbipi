@@ -146,11 +146,18 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   private readUsers(usuarios: any, emit: boolean){
     const data = JSON.parse(usuarios);
     //console.log('data',data);
-    this.usuarios = [];
+    //this.usuarios = [];
     for(let c in data){
+      let index = this.usuarios.findIndex((c: any) => c.id == (typeof data[c].id !== 'undefined' ? data[c].id : data[c].data.id));
+    
+      if (index != -1) {
+        this.usuarios.splice(index, 1);
+      }
         this.usuarios.push({'id': typeof data[c].id !== 'undefined' ? data[c].id : data[c].data.id, 'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
     }
     console.log('usuarios',this.usuarios);
+    
+    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     this.ref.detectChanges();
   }
 
