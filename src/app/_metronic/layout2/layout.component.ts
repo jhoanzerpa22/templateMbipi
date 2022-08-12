@@ -148,7 +148,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     //console.log('data',data);
     this.usuarios = [];
     for(let c in data){
-        this.usuarios.push({'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
+        this.usuarios.push({'id': typeof data[c].id !== 'undefined' ? data[c].id : data[c].data.id, 'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
     }
     console.log('usuarios',this.usuarios);
     this.ref.detectChanges();
@@ -159,7 +159,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     //console.log('data',data);
     this.notes_all = [];
     for(let c in data){
-      this.notes_all.push({'title': data[c].title, "data": data[c].data});
+      this.notes_all.push({'id': data[c].id, 'title': data[c].title, "data": data[c].data});
     }
 
   }
