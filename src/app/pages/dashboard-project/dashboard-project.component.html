@@ -27,8 +27,9 @@
           <!--begin::Actions-->
           <div class="d-flex mb-4">
             <a href="#" class="btn btn-sm btn-bg-light btn-active-color-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search" *ngIf="rol == 'Decisor'">Invitar</a>
-            <a routerLink="/proyect-init" class="btn btn-sm btn-primary me-3" *ngIf="rol == 'Decisor'">Iniciar Proyecto</a>
-            <a routerLink="/proyect-init" class="btn btn-sm btn-primary me-3" *ngIf="rol == 'Participante'">Ingresar al Proyecto</a>
+            <a (click)="iniciar()" class="btn btn-sm btn-primary me-3" *ngIf="rol == 'Decisor' && proyecto.estado == 'Sin Iniciar'">Iniciar Proyecto</a>
+            <a routerLink="/proyect-init" class="btn btn-sm btn-primary me-3" *ngIf="rol == 'Decisor' && proyecto.estado == 'Iniciado'">Continuar Proyecto</a>
+            <a routerLink="/proyect-init" class="btn btn-sm btn-primary me-3" *ngIf="rol == 'Participante' && proyecto.estado == 'Iniciado'">Ingresar al Proyecto</a>
             <!--begin::Menu-->
             <div class="me-0">
               <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">

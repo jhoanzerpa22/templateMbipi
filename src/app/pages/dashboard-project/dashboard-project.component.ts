@@ -4,8 +4,6 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 
 @Component({
@@ -56,6 +54,18 @@ export class DashboardProjectComponent implements OnInit {
 
   setActive(pestana:any){
     this.activeClass = pestana;
+  }
+
+  iniciar(){
+    const data = {estado: 'Iniciado'};
+    this._proyectsService.updateStatus(this.proyecto_id, data)
+    .subscribe(
+        data => {
+            this._router.navigate(['/proyect-init']);
+        },
+        (response) => {
+        }
+    );
   }
 
   getProyect(){
