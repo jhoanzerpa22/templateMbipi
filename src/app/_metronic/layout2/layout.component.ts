@@ -135,7 +135,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     if (index != -1) {
       this.usuarios.splice(index, 1);
     }
-    this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre, 'data': this.usuario});
+  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
 
     console.log('enviando_usuarios',this.usuarios);
 
@@ -147,18 +147,24 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     const data = JSON.parse(usuarios);
     //console.log('data',data);
     //this.usuarios = [];
+    let nuevo: number = 0;
     for(let c in data){
-      let index = this.usuarios.findIndex((c: any) => c.id == (typeof data[c].id !== 'undefined' ? data[c].id : data[c].data.id));
+      let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
     
       if (index != -1) {
-        this.usuarios.splice(index, 1);
+        //this.usuarios.splice(index, 1);
+      }else{
+        nuevo = 1;
+        
+        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
       }
-        this.usuarios.push({'id': typeof data[c].id !== 'undefined' ? data[c].id : data[c].data.id, 'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
     }
     console.log('usuarios',this.usuarios);
+    if(nuevo == 1){
+      this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+      this.ref.detectChanges();
+    }
     
-    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-    this.ref.detectChanges();
   }
 
   private readBoard(tablero: any, emit: boolean){
@@ -293,6 +299,15 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
+
+        const index2 = this.notes_all.findIndex((n: any) => n.id == id);
+    
+        if (index2 != -1) {
+          this.notes_all.splice(index2, 1);
+        
+          this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
+        }
+        
         localStorage.setItem('notes', JSON.stringify(this.notes));
         console.log("********* deleting note *********")
         return;
