@@ -299,6 +299,15 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
+
+        const index2 = this.notes_all.findIndex((n: any) => n.id == id);
+    
+        if (index2 != -1) {
+          this.notes_all.splice(index2, 1);
+        
+          this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
+        }
+        
         localStorage.setItem('notes', JSON.stringify(this.notes));
         console.log("********* deleting note *********")
         return;
