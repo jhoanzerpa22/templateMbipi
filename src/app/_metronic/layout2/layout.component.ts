@@ -135,7 +135,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     if (index != -1) {
       this.usuarios.splice(index, 1);
     }
-    this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre, 'data': this.usuario});
+  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
 
     console.log('enviando_usuarios',this.usuarios);
 
@@ -147,18 +147,24 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     const data = JSON.parse(usuarios);
     //console.log('data',data);
     //this.usuarios = [];
+    let nuevo: number = 0;
     for(let c in data){
-      let index = this.usuarios.findIndex((c: any) => c.id == data[c].id);
+      let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
     
       if (index != -1) {
-        this.usuarios.splice(index, 1);
+        //this.usuarios.splice(index, 1);
+      }else{
+        nuevo = 1;
+        
+        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
       }
-        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre*/, 'data': data[c]});
     }
     console.log('usuarios',this.usuarios);
+    if(nuevo == 1){
+      this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+      this.ref.detectChanges();
+    }
     
-    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-    this.ref.detectChanges();
   }
 
   private readBoard(tablero: any, emit: boolean){
