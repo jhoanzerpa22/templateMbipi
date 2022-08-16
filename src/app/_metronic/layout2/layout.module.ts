@@ -30,6 +30,7 @@ import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mo
 */
 import { BoardsComponent } from '../../pages/boards/boards.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
+import { TimerComponent } from './timer/timer.component';
 const routes: Routes = [
   {
     path: '',
@@ -58,6 +59,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
   declarations: [
     LayoutComponent,
     NoteComponent,
+    TimerComponent,
     /*AsideComponent,
     HeaderComponent,
     ContentComponent,

@@ -98,7 +98,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.usuario = user;
 
     const notes: any = localStorage.getItem('notes');
-    this.notes = JSON.parse(notes) || [{ id: 0+'-'+this.usuario.nombre,content:'' }];
+    this.notes = JSON.parse(notes) || [{ id: 0+'-'+this.usuario.nombre, content:'' }];
 
     const {webkitSpeechRecognition} : IWindow = <any>window;
     this.recognition = new webkitSpeechRecognition();
@@ -174,7 +174,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     //console.log('data',data);
     this.notes_all = [];
     for(let c in data){
-      this.notes_all.push({'id': data[c].id, 'title': data[c].title, "data": data[c].data});
+      this.notes_all.push({'id': data[c].id, 'content': data[c].content, "data": data[c].data});
     }
 
   }
