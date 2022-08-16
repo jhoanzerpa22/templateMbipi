@@ -33,6 +33,7 @@ export class BoardsComponent implements OnInit, AfterViewInit {
   equipo: any = [];
 
   public filteredTablero: ReplaySubject<any> = new ReplaySubject<[]>(1);
+  public filteredNotas: ReplaySubject<any> = new ReplaySubject<[]>(1);
 
   private _onDestroy = new Subject<void>();
 
@@ -98,7 +99,9 @@ export class BoardsComponent implements OnInit, AfterViewInit {
     this.socketWebService.outEven.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { tablero } = res;
-      this.readBoard(tablero, false);
+      //const { notas } = res;
+      this.readBoard(tablero, false);/*
+      this.readNotas(notas, false);*/
     });
 
     this.socketWebService.outEven2.subscribe((res: any) => {
@@ -137,13 +140,21 @@ export class BoardsComponent implements OnInit, AfterViewInit {
     
     const notes: any = localStorage.getItem('notes_all');
     this.notas = JSON.parse(notes);
+    let como_podriamos: any = [];
+    for(let n in this.notas){
+      como_podriamos.push({'content': this.notas[n].content});
+    }
+    
+    this.filteredNotas.next(this.notas.slice());
+
+    this.tablero.push({'title': 'Como podriamos', "data": como_podriamos});
 
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
     
     /*this.tablero.push({'title': 'Tablero 1', "data": [{'content': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
-    this.tablero.push({'title': 'Tablero 2', "data": [{'content': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});
+    this.tablero.push({'title': 'Tablero 2', "data": [{'content': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
     this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());*/
+    this.filteredTablero.next(this.tablero.slice());
     
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
@@ -266,15 +277,22 @@ export class BoardsComponent implements OnInit, AfterViewInit {
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
       });
+
+      this.filteredNotas
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+      });
   }
 
   private writeBoard(){
     //console.log('writeBoard');
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+    console.log('notas',this.notas);
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)/*,notas: JSON.stringify(this.notas)*/});
   }
 
   private readBoard(tablero: any, emit: boolean){
     const data = JSON.parse(tablero);
+    console.log('readBoard',data);
     //console.log('data',data);
     this.tablero = [];
     for(let c in data){
@@ -284,6 +302,15 @@ export class BoardsComponent implements OnInit, AfterViewInit {
     this.tablero2 = JSON.stringify(this.tablero);
     
     this.filteredTablero.next(this.tablero.slice());
+  }
+
+  private readNotas(notas: any, emit: boolean){
+    const data = JSON.parse(notas);
+    console.log('readNota',data);
+    //console.log('data',data);
+    this.notas = data;
+
+    this.filteredNotas.next(this.notas.slice());
   }
 
   

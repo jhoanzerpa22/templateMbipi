@@ -81,7 +81,7 @@
               </div>
               <!--end::Menu wrapper-->
               <!--begin::Toolbar-->
-  
+
               <!--end::Toolbar-->
             </div>
             <!--end::Wrapper-->
@@ -101,11 +101,10 @@
   </div>
     <!--end::Header Section-->
     <!-- Titulo -->
-    <div style="width: 100%;margin:0 166px 2rem 166px;">
+    <div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
       <h1 style="width: 1320px;text-align: start;color: white;">
         Entrevista al experto
       </h1>
-    </div>
     <!-- Tablero -->
     <div class="container" style="width: 100%; height: 600px;overflow: auto;margin-bottom: 100px;background-color: #232323; position: relative;padding: 20px;">
 <div
@@ -116,20 +115,20 @@
     <div class="flex flex-auto p-6 sm:p-10">
 
             <div cdkDropListGroup>
-              <div class="notes-container">
+              <!--<div class="notes-container">
                 <h2 style="color: #fff;">Como Podriamos</h2>
-            
+
                 <div
                   cdkDropList
                   [cdkDropListData]="notas"
                   class="notes-list"
                   (cdkDropListDropped)="drop($event)">
-                  <div class="notes-box" *ngFor="let no of notas; let z = index;" cdkDrag>{{no.content}}
+                  <div class="notes-box" *ngFor="let no of filteredNotas | async; let z = index;" cdkDrag>{{no.content}}
                   </div>
                 </div>
-              </div>
+              </div>-->
               <div style="width: 100%; height: 600px;overflow: auto;margin-bottom: 100px;background-color: #fff; position: relative;padding: 20px;">
-                
+
                 <div class="toolbar" id="toolbar" tabindex="0" style="position:static !important">
                   <!--<input name="category" #category type="text"/>-->
                   <a class="add material-icons" (click)="addCategory()" >
