@@ -5,12 +5,14 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { LayoutService } from '../../core/layout.service';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
+  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })
 export class ToolbarComponent implements OnInit, AfterViewInit {
   @ViewChild('ktPageTitle', { static: true }) ktPageTitle: ElementRef;
@@ -19,8 +21,12 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   };
   toolbarContainerCssClasses: string = '';
   pageTitleCssClasses: string = '';
+  location: Location;
 
-  constructor(private layout: LayoutService) {}
+  constructor(private layout: LayoutService,
+    location: Location) {
+      this.location = location;
+    }
 
   ngOnInit(): void {
     this.toolbarContainerCssClasses =

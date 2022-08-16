@@ -1,16 +1,17 @@
 const dbConfig = require("../config/db.config.js");
 var pg = require('pg');
-pg.defaults.ssl = true;
+//pg.defaults.ssl = true;
 
 const Sequelize = require("sequelize");
 
 /*Heroku*/
 const sequelize = new Sequelize('postgres://mtaligncgdmqzd:1ee6689d3e58a91bbb1da37be35d36191b1d3db6ba0bfa07f4e9bebb0b046e1c@ec2-3-225-110-188.compute-1.amazonaws.com:5432/d143lrl2dkme0e?sslmode=no-verify');
 
-/*LOCAL
+//LOCAL
+/*
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
-  dialect: dbConfig.dialect,/*
+  dialect: dbConfig.dialect,*//*
   native: true,
   ssl: true, 
     dialectOptions: {
