@@ -24,7 +24,6 @@ export class DashboardComponent implements OnInit {
   public idEquiposArray:any;
   public correoMiembrosEquipoList:any;
 
-
   constructor(private ref:ChangeDetectorRef, private _proyectsService: ProyectsService) {}
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
 <div
   id="kt_toolbar_container"
   [ngClass]="toolbarContainerCssClasses"
-  class="d-flex flex-stack"
+  class="d-flex flex-stack" *ngIf="location.path() == '/dashboard' || location.path() == '/dashboard-project/1/overview'"
 >
   <app-page-title
     #ktPageTitle
@@ -13,7 +13,7 @@
     <!-- begin::Wrapper  -->
     <div class="me-4">
       <!-- begin::Menu  -->
-      <a
+      <!--<a
         class="
           btn btn-sm btn-flex btn-light btn-active-primary
           fw-bolder
@@ -28,21 +28,31 @@
           class="svg-icon svg-icon-5 svg-icon-gray-500 me-1"
         ></span>
         Filter
-      </a>
+      </a>-->
 
       <!-- end::Menu  -->
     </div>
     <!-- end::Wrapper  -->
 
     <!-- begin::Button  -->
-    <a
+    <!--<a
       class="btn btn-sm btn-primary cursor-pointer"
       data-bs-toggle="modal"
       data-bs-target="#kt_modal_create_app"
       id="kt_toolbar_primary_button"
     >
       Create
+    </a>-->
+
+    <a
+      class="btn btn-sm btn-primary cursor-pointer"
+      id="kt_toolbar_primary_button"
+      routerLink="/crafted/pages/wizards/project"
+      *ngIf="location.path() == '/dashboard' || location.path() == '/dashboard-project/1/overview'"
+    >
+      Create
     </a>
+
     <!-- end::Button  -->
   </div>
   <!-- end::Actions  -->

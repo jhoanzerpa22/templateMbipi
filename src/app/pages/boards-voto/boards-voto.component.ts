@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
-import { SocketWebService } from './boards.service';
+import { SocketWebService } from '../boards/boards.service';
 import { ActivatedRoute } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -9,13 +9,13 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-boards',
-  templateUrl: './boards.component.html',
-  styleUrls: ['./boards.component.scss'],
+  selector: 'app-boards-voto',
+  templateUrl: './boards-voto.component.html',
+  styleUrls: ['./boards-voto.component.scss'],
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardsComponent implements OnInit, AfterViewInit {
+export class BoardsVotoComponent implements OnInit, AfterViewInit {
   
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
@@ -140,10 +140,10 @@ export class BoardsComponent implements OnInit, AfterViewInit {
 
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
     
-    /*this.tablero.push({'title': 'Tablero 1', "data": [{'content': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
-    this.tablero.push({'title': 'Tablero 2', "data": [{'content': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});
+    this.tablero.push({'title': 'Tablero 1', "data": [{'label': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
+    this.tablero.push({'title': 'Tablero 2', "data": [{'label': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});
     this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());*/
+    this.filteredTablero.next(this.tablero.slice());
     
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
@@ -447,13 +447,6 @@ export class BoardsComponent implements OnInit, AfterViewInit {
   hideVideo(){
     this.showVideoFlag = false;
     this.ref.detectChanges();
-  }
-
-  addCategory(){
-    let title = 'Categoria '+ (this.tablero.length + 1);
-    this.tablero.push({"title": title, "data": []});
-    this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());
   }
 
 }

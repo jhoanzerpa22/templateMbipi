@@ -10,6 +10,7 @@ import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -75,7 +76,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   private el:ElementRef,
   private socketWebService: SocketWebService,
   private ref: ChangeDetectorRef,
-  private modalService: NgbModal
+  private modalService: NgbModal,
+  private _router: Router
   ) {
     /*this.initService.init();*/
     this.socketWebService.outEvenUsers.subscribe((res: any) => {
@@ -246,12 +248,17 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   }
 
+  saveNoteAll() {
+    localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
+    this._router.navigate(['/proyect-init/fase2']);
+  }
+
   addNote () {
     this.notes.push({ id: /*this.notes.length + 1*/(this.notes.length + 1)+'-'+this.usuario.nombre,content:'' });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes', JSON.stringify(this.notes));
-  };
+  }
 
   saveNote(event: any){
     console.log('event',event);

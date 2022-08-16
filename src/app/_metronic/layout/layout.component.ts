@@ -11,7 +11,7 @@ import { LayoutInitService } from './core/layout-init.service';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+  styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
   // Public variables
@@ -42,7 +42,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
-
   constructor(
     private initService: LayoutInitService,
     private layout: LayoutService
