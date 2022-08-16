@@ -28,12 +28,28 @@ import { DrawersModule, DropdownMenusModule, ModalsModule, EngagesModule} from '
 import {EngagesComponent} from "../partials/layout/engages/engages.component";
 import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';
 */
+import { BoardsComponent } from '../../pages/boards/boards.component';
+import { BoardsModule } from '../../pages/boards/boards.module';
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent
     /*children: Routing,*/
+    /*children: [
+      {
+        path: 'fase2',
+        component: BoardsComponent,*//*
+          loadChildren: () =>
+            import('../../pages/boards/boards.module').then((m) => m.BoardsModule),*/
+      /*}*//*,
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: '**', redirectTo: 'overview', pathMatch: 'full' },*/
+    /*],*/
   },
+  {
+    path: 'fase2',
+    component: BoardsComponent
+  }
 ];
 
 const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
@@ -41,7 +57,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
 @NgModule({
   declarations: [
     LayoutComponent,
-    NoteComponent
+    NoteComponent,
     /*AsideComponent,
     HeaderComponent,
     ContentComponent,
@@ -61,7 +77,8 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     InlineSVGModule,
     NgbDropdownModule,
     NgbProgressbarModule,
-    ExtrasModule,
+    ExtrasModule,/*
+    BoardsModule,*/
     SocketIoModule.forRoot(config)
     /*ModalsModule,
     DrawersModule,

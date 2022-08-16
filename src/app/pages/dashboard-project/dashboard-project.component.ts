@@ -45,7 +45,7 @@ export class DashboardProjectComponent implements OnInit {
 
     //this.rol = user.roles[0];
     this.route.params.subscribe(params => {
-      console.log('params',params);
+      //console.log('params',params);
       this.proyecto_id = params['id'];
       this.getProyect();
     });

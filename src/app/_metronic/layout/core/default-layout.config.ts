@@ -201,7 +201,7 @@ export const DefaultLayoutConfig: ILayout = {
   },
   toolbar: {
     componentName: 'toolbar',
-    display: false, // Display toolbar
+    display: true, // Display toolbar
     width: 'fluid', // Set fixed|fluid to change width type,
     fixed: {
       desktop: true,
