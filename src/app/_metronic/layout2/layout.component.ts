@@ -249,6 +249,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
   saveNoteAll() {
+    console.log('save_notes_all',this.notes_all);
     localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
     this._router.navigate(['/proyect-init/fase2']);
   }
@@ -273,7 +274,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.updateNote(json);
     this.updateNoteAll(json);
 
-    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
     localStorage.setItem('notes', JSON.stringify(this.notes));
     console.log("********* updating note *********")
   }
@@ -296,8 +296,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     });
 
     if(existe == 0){
-      this.notes_all.push({ id: newValue.id,content:newValue.content });
+      this.notes_all.push({ id: newValue.id, content:newValue.content });
     }
+    
+    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
   }
 
   deleteNote(event: any){

@@ -141,8 +141,7 @@
                 </div>
                 <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
                 <div class="example-container">
-                    <h2 style="color: #000;">{{t.title}}</h2>
-                
+                    <h2 style="color: #000;line-height: 2;" contenteditable="true" (blur)="onFocusOut($event, i)">{{t.title}}</h2>
                     <div
                       cdkDropList
                       [cdkDropListData]="t.data"
