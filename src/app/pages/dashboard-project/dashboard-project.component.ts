@@ -5,6 +5,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard-project',
@@ -44,7 +45,7 @@ export class DashboardProjectComponent implements OnInit {
 
     //this.rol = user.roles[0];
     this.route.params.subscribe(params => {
-      console.log('params',params);
+      //console.log('params',params);
       this.proyecto_id = params['id'];
       this.getProyect();
     });
@@ -115,6 +116,15 @@ export class DashboardProjectComponent implements OnInit {
             this._proyectsService.invitations(datos)
             .subscribe(
                 (response) => {
+                  Swal.fire({
+                    text: "Se ha enviado la invitación exitosamente!",
+                    icon: "success",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok!",
+                    customClass: {
+                      confirmButton: "btn btn-primary"
+                    }
+                  });
                 });
 
           this.getProyect();

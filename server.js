@@ -115,8 +115,9 @@ app.all('/api/*', (req, res) => {
 // Send all requests to index.html
 /*app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
-});*//*Heroku
-app.use('/*', function(req, res) {
+});*/
+/*Heroku*/
+/*app.use('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/demo1/'));
 });*/
 /*

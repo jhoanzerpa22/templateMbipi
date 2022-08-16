@@ -10,6 +10,7 @@ import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -75,7 +76,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   private el:ElementRef,
   private socketWebService: SocketWebService,
   private ref: ChangeDetectorRef,
-  private modalService: NgbModal
+  private modalService: NgbModal,
+  private _router: Router
   ) {
     /*this.initService.init();*/
     this.socketWebService.outEvenUsers.subscribe((res: any) => {
@@ -129,24 +131,42 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       }
     }
 
-    this.usuarios = [];
-    this.usuarios.push({'title': this.usuario.nombre, 'data': this.usuario});
+    //this.usuarios = [];
+    const index = this.usuarios.findIndex((c: any) => c.id == this.usuario.id);
+    
+    if (index != -1) {
+      this.usuarios.splice(index, 1);
+    }
+  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
 
     console.log('enviando_usuarios',this.usuarios);
 
     this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-
+    this.ref.detectChanges();
   }
 
   private readUsers(usuarios: any, emit: boolean){
     const data = JSON.parse(usuarios);
     //console.log('data',data);
     //this.usuarios = [];
+    let nuevo: number = 0;
     for(let c in data){
-        this.usuarios.push({'title': typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]});
+      let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
+    
+      if (index != -1) {
+        //this.usuarios.splice(index, 1);
+      }else{
+        nuevo = 1;
+        
+        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
+      }
     }
     console.log('usuarios',this.usuarios);
-    this.ref.detectChanges();
+    if(nuevo == 1){
+      this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+      this.ref.detectChanges();
+    }
+    
   }
 
   private readBoard(tablero: any, emit: boolean){
@@ -154,7 +174,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     //console.log('data',data);
     this.notes_all = [];
     for(let c in data){
-      this.notes_all.push({'title': data[c].title, "data": data[c].data});
+      this.notes_all.push({'id': data[c].id, 'title': data[c].title, "data": data[c].data});
     }
 
   }
@@ -228,12 +248,17 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   }
 
+  saveNoteAll() {
+    localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
+    this._router.navigate(['/proyect-init/fase2']);
+  }
+
   addNote () {
     this.notes.push({ id: /*this.notes.length + 1*/(this.notes.length + 1)+'-'+this.usuario.nombre,content:'' });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes', JSON.stringify(this.notes));
-  };
+  }
 
   saveNote(event: any){
     console.log('event',event);
@@ -281,6 +306,15 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
+
+        const index2 = this.notes_all.findIndex((n: any) => n.id == id);
+    
+        if (index2 != -1) {
+          this.notes_all.splice(index2, 1);
+        
+          this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
+        }
+        
         localStorage.setItem('notes', JSON.stringify(this.notes));
         console.log("********* deleting note *********")
         return;
