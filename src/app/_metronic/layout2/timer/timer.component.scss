@@ -1,0 +1,30 @@
+.sw-container{
+  background-color: black;
+  padding: 0px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  width: 200px;
+  box-shadow: 0 3px 6px rgba(129, 129, 129, 0.16),
+  0 3px 6px rgba(105, 105,105, 0.23);
+}
+
+.stopwatch{
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.button.container {
+  button {
+    background: white;
+    border: none;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 35px;
+  }
+
+  .btn-play-pause{
+    margin-right: 10px;
+  }
+}
