@@ -286,111 +286,6 @@ export class BoardsComponent implements OnInit, AfterViewInit {
     this.filteredTablero.next(this.tablero.slice());
   }
 
-  votar(i: any, j: any){
-    //console.log('votar', i, j);
-    //console.log(this.tablero[i].data[j].label);
-    this.tablero[i].data[j].voto = this.tablero[i].data[j].voto + 1;
-    this.votos.push(i+':'+j);
-    this.voto_tablero.push(i);
-    //console.log('votos', this.votos);
-    this.writeBoard();
-  }
-
-  votarMaximo(i: any, j: any){
-    //console.log('votar_maximo', i, j);
-    //console.log(this.tablero[i].data[j].label);
-    this.voto_maximo.push(i+':'+j);
-    this.voto_tablero.push(i);
-    this.tablero[i].data[j].voto_maximo = true;
-    //console.log('votos', this.votos);
-    this.writeBoard();
-  }
-
-  quitar(i: any, j: any){
-    //console.log('quitar', i, j);
-    //console.log(this.tablero[i].data[j].label);
-    this.tablero[i].data[j].voto = this.tablero[i].data[j].voto - 1;
-    
-    const index = this.votos.findIndex((c: any) => c == i+':'+j);
-    
-    if (index != -1) {
-      this.votos.splice(index, 1);
-    }
-
-    const index2 = this.voto_tablero.findIndex((c: any) => c == i);
-    
-    if (index2 != -1) {
-      this.voto_tablero.splice(index2, 1);
-    }
-
-    //console.log('votos', this.votos);
-    this.writeBoard();
-  }
-
-  
-  quitarMaximo(i: any, j: any){
-    //console.log('quitar_maximo', i, j);
-    //console.log(this.tablero[i].data[j].label);
-    
-    const index = this.voto_maximo.findIndex((c: any) => c == i+':'+j);
-    
-    if (index != -1) {
-      this.voto_maximo.splice(index, 1);
-    }
-
-    const index2 = this.voto_tablero.findIndex((c: any) => c == i);
-    
-    if (index2 != -1) {
-      this.voto_tablero.splice(index2, 1);
-    }
-
-    this.tablero[i].data[j].voto_maximo = false;
-
-    //console.log('votos', this.votos);
-    this.writeBoard();
-  }
-
-  verifyVoto(i: any, j: any){
-    const index = this.votos.findIndex((c: any) => c == i+':'+j);
-    
-    if (index != -1) {
-      return true;
-    }
-
-    return false;
-  
-  }
-  
-  verifyVotoMaximo(i: any, j: any){
-    /*const index = this.voto_maximo.findIndex((c) => c == i+':'+j);
-    
-    if (index != -1) {
-      return true;
-    }
-
-    return false;*/
-
-    if(this.tablero[i].data[j].voto_maximo == true){
-      return true;
-    }else{
-      return false;
-    }
-  
-  }
-
-  
-  verifyVotoTablero(i: any){
-    //console.log('voto_tablero',this.voto_tablero);
-    const index = this.voto_tablero.findIndex((c: any) => c == i);
-    
-    if (index != -1) {
-      return true;
-    }
-
-    return false;
-  
-  }
-
   
   onPlayPause(){
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
@@ -454,6 +349,15 @@ export class BoardsComponent implements OnInit, AfterViewInit {
     this.tablero.push({"title": title, "data": []});
     this.tablero2 = JSON.stringify(this.tablero);
     this.filteredTablero.next(this.tablero.slice());
+
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  }
+
+  onFocusOut(event: any, i: any){
+    this.tablero[i].title = event.target.innerText;
+    this.tablero2 = JSON.stringify(this.tablero);
+    
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
   }
 
 }
