@@ -54,6 +54,8 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });*/
 
+let usuarios_mbipi = [];
+
 io.on('connection', function (socket) {
 
   const handshake = socket.id;
@@ -73,6 +75,17 @@ io.on('connection', function (socket) {
     socket.to(nombreCurso).emit('evento2', res);
   })
 
+  socket.on('evento_usuarios_activos', (res) => {
+    console.log('usuario', res);
+    let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
+    
+    if (index == -1) {
+      //usuarios_mbipi.splice(index, 1);
+      usuarios_mbipi.push({'id': res.id, 'id_socket': handshake, 'nombre': res.nombre});
+    }
+    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+  })
+
   socket.on('evento_usuarios', (res) => {
     console.log('evento_usuarios', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -86,7 +99,18 @@ io.on('connection', function (socket) {
   })
 
   socket.on('disconnect', function () {
-    console.log('user disconnected');
+    
+    console.log(`Usuario Desconectado: ${handshake}`);
+    
+    let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
+    
+    if (index != -1) {
+      usuarios_mbipi.splice(index, 1);
+    }
+    
+    console.log('usuarios', usuarios_mbipi);
+    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+
   });
 });
 
