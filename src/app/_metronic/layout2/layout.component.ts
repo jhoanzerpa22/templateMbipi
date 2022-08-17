@@ -64,6 +64,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
 
   usuarios: any = [];
+  usuarios_active: any = [];
   usuario: any = {};
 
   notes: any = [];
@@ -85,6 +86,12 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       const { usuarios } = res;
       console.log('escuchando',res);
       this.readUsers(usuarios, false);
+    });
+
+    this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
+      const { usuarios_active } = res;
+      console.log('escuchando',res);
+      this.readUsersActive(usuarios_active, false);
     });
 
     this.socketWebService.outEvenTablero.subscribe((res: any) => {
@@ -139,9 +146,17 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     }
   this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
 
+  const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
+    
+  if (index2 != -1) {
+    this.usuarios_active.splice(index, 1);
+  }
+  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre});
+
     console.log('enviando_usuarios',this.usuarios);
 
     this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    this.socketWebService.emitEventUsersActive(this.usuario);
     this.ref.detectChanges();
   }
 
@@ -166,6 +181,41 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
       this.ref.detectChanges();
     }
+    
+  }
+
+  private readUsersActive(data: any, emit: boolean){
+    const usuarios = JSON.parse(data);
+    let agregar: number = 0;
+    let quitar: number = 0;
+    for(let c in this.usuarios_active){
+      let index = usuarios.findIndex((u: any) => u.id == this.usuarios_active[c].id);
+    
+      if (index != -1) {
+        //this.usuarios.splice(index, 1);
+      }else{
+        this.usuarios_active.splice(index, 1);
+        quitar = 1;
+        //this.usuarios_active.push({'id': usuarios[c].id, 'nombre': usuarios[c].nombre});
+      }
+    }
+
+    for(let d in usuarios){
+      let index2 = this.usuarios_active.findIndex((u2: any) => u2.id == usuarios[d].id);
+    
+      if (index2 != -1) {
+        //this.usuarios.splice(index, 1);
+      }else{
+        agregar = 1;
+        this.usuarios_active.push({'id': usuarios[d].id, 'nombre': usuarios[d].nombre});
+      }
+    }
+
+    if(agregar == 1){
+      this.socketWebService.emitEventUsersActive(this.usuario);
+    }
+    
+    this.ref.detectChanges();
     
   }
 
