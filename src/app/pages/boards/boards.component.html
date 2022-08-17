@@ -144,7 +144,8 @@
                 </div>
                 <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
                 <div [ngClass]="i == 0 ? 'notes-container' : 'example-container'">
-                    <h2 style="color: #000;line-height: 2;" contenteditable="true" (blur)="onFocusOut($event, i)">{{t.title}}</h2>
+                    <h2 style="color: #000;line-height: 2;" contenteditable="true" (blur)="onFocusOut($event, i)" *ngIf="i > 0">{{t.title}}</h2>
+                    <h2 style="color: #000;" *ngIf="i == 0">{{t.title}}</h2>
                     <div
                       cdkDropList
                       [cdkDropListData]="t.data"
@@ -193,7 +194,7 @@
       </ng-template>
     </div>
     <div class="container" style="align-items: flex-end;">
-      <a routerLink="/proyect-init/fase2" class="btn btn-success" style="margin: -15px 10px 0px 10px;
+      <a (click)="saveCategoryAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
       float: right;">Siguiente Etapa</a>
       <a routerLink="/dashboard" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
       float: right;">Salir de MbipiLab</a>

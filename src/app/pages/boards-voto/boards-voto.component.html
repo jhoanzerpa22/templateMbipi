@@ -101,31 +101,31 @@
   </div>
     <!--end::Header Section-->
     <!-- Titulo -->
-    <div style="width: 100%;margin:0 166px 2rem 166px;">
+    <div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
       <h1 style="width: 1320px;text-align: start;color: white;">
         Entrevista al experto
       </h1>
     </div>
     <!-- Tablero -->
     <div class="container" style="width: 100%; height: 600px;overflow: auto;margin-bottom: 100px;background-color: #232323; position: relative;padding: 20px;">
-<div
+    <div
     class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
     cdkScrollable #tableroRef>
 
     <!-- Main -->
     <div class="flex flex-auto p-6 sm:p-10">
 
-            <div cdkDropListGroup>
+      <div cdkDropListGroup>
                 <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
-                <div class="example-container">
+                <div class="clasificacion-container">
                     <h2 style="color: #fff;">{{t.title}}</h2>
                 
                     <div
                       cdkDropList
                       [cdkDropListData]="t.data"
-                      class="example-list"
+                      class="clasificacion-list"
                       (cdkDropListDropped)="drop($event)">
-                      <div class="example-box" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.label}}
+                      <div class="clasificacion-box" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.label}}
                         <label class="votos">{{item.voto}}</label>
                         <mat-icon
                                                 class="voto-maximo"
@@ -176,13 +176,11 @@
       </ng-template>
     </div>
     <div class="container" style="align-items: flex-end;">
-      <a routerLink="/proyect-init/fase2" class="btn btn-success" style="margin: -15px 10px 0px 10px;
+      <a routerLink="/proyect-init/fase3" class="btn btn-success" style="margin: -15px 10px 0px 10px;
       float: right;">Siguiente Etapa</a>
       <a routerLink="/dashboard" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
       float: right;">Salir de MbipiLab</a>
     </div>
-
-
 
     <!-- <a (click)="onPause()" class="btn btn-lg btn-outline-white flex-shrink-0 my-2" style="text-align: center;margin: auto;background: transparent !important;">
       <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">

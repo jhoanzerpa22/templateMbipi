@@ -45,12 +45,13 @@
     </a>-->
 
     <a
+      (click)="createProyect()"
       class="btn btn-sm btn-primary cursor-pointer"
+      [ngClass]="max_proyects ? 'disabled': ''"
       id="kt_toolbar_primary_button"
-      routerLink="/crafted/pages/wizards/project"
       *ngIf="location.path() == '/dashboard' || location.path() == '/dashboard-project/1/overview'"
     >
-      Create
+      Crear Proyecto
     </a>
 
     <!-- end::Button  -->
