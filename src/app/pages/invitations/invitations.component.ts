@@ -48,9 +48,9 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
     this._userService.get(user.id)
       .subscribe(
         (response) =>{
-          console.log(response);
+          // console.log(response);
           this.newUser = response.tipo_plan;
-          console.log(this.newUser);
+          // console.log(this.newUser);
         }
       )
 
