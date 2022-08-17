@@ -17,12 +17,12 @@
           <!--end::Description-->
 
           <div style="margin-bottom: 10px;" *ngIf="invitaciones.length < 1">
-            <a class="btn btn-lg btn-primary" data-bs-toggle="tooltip" title="Dashboard" routerLink="/dashboard">Dashboard</a>
+            <a class="btn btn-lg btn-primary" data-bs-toggle="tooltip" title="Dashboard" (click)="isNewUser()">Dashboard</a>
           </div>
-          
+
           <ng-container *ngFor="let inv of filteredInvitaciones | async; let i = index;">
           <!--begin::Action-->
-          
+
         <div style="margin-bottom: 10px;">
           <label class="fs-3 fw-bolder mb-0">{{inv.equipos_equipo.nombre}}</label><br>
           <a class="btn btn-primary er fs-6 px-8 py-4" style="margin-right: 10px;" (click)="aceptar(i,inv.id)">Aceptar</a>
@@ -30,7 +30,7 @@
           (click)="rechazar(i,inv.id)">Rechazar</a>
         </div>
           <!--end::Action-->
-          </ng-container>  
+          </ng-container>
         </div>
         <!--end::Heading-->
         <!--begin::Illustration-->

@@ -5,8 +5,10 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { InvitationsService } from './invitations.service';
 import { Location } from '@angular/common';
+import { UsersService } from '../users/users.service';
+import Swal from 'sweetalert2';
 
-declare var $: any; 
+declare var $: any;
 declare var jQuery: any;
 
 @Component({
@@ -17,10 +19,12 @@ declare var jQuery: any;
   changeDetection: ChangeDetectionStrategy.OnPush*/
 })
 export class InvitationsComponent implements OnInit, AfterViewInit {
-  
+
   invitation: any;
   invitaciones: any = [];
-  
+
+  newUser: any;
+
   public filteredInvitaciones: ReplaySubject<any> = new ReplaySubject<[]>(1);
 
   private _onDestroy = new Subject<void>();
@@ -30,13 +34,26 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
     private router:Router,
     private ref:ChangeDetectorRef,
     private _invitationsService: InvitationsService,
-     public _location: Location
+    private _userService: UsersService,
+    public _location: Location
+
   ) {
    }
 
   ngOnInit(): void {
     this.getInvitations();
-    
+    const usuario: any = localStorage.getItem('usuario');
+    let user: any = JSON.parse(usuario);
+    console.log(user.id)
+    this._userService.get(user.id)
+      .subscribe(
+        (response) =>{
+          console.log(response);
+          this.newUser = response.tipo_plan;
+          console.log(this.newUser);
+        }
+      )
+
   }
 
   ngAfterViewInit() {
@@ -61,7 +78,7 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
 
     this._invitationsService.getByEmail(user.correo_login)
     .subscribe(
-        data => {      
+        data => {
           this.invitaciones = data;
           this.filteredInvitaciones.next(this.invitaciones.slice());
           this.ref.detectChanges();
@@ -74,9 +91,9 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
   }
 
   aceptar(i: any, id: any){
-    
+
     const usuario: any = localStorage.getItem('usuario');
-      let user: any = JSON.parse(usuario);
+    let user: any = JSON.parse(usuario);
 
     const data = {participante: true, usuario_id: user.id};
     this._invitationsService.update(id, data)
@@ -115,5 +132,24 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
             //this.signUpNgForm.resetForm();
         }
     );
+  }
+
+  isNewUser(){
+    if(!this.newUser){
+      Swal.fire({
+        text: "Debes configurar tu cuenta antes de continuar a tu dashboard",
+        icon: "warning",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      }).then(()=>{
+        this.router.navigate(['/crafted/pages/wizards/config-cta'])
+      });
+    }
+    else{
+      this.router.navigate(['/dashboard'])
+    }
   }
 }
