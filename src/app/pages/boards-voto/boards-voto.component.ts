@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
 import { SocketWebService } from '../boards/boards.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -94,6 +94,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
     private socketWebService: SocketWebService,
     private el:ElementRef,
     private ref: ChangeDetectorRef,
+    private _router: Router
   ) {
     this.socketWebService.outEven.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
@@ -135,15 +136,28 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     
-    const notes: any = localStorage.getItem('notes_all');
+    const notes: any = localStorage.getItem('category_all');
     this.notas = JSON.parse(notes);
-
+    let primero = 0; 
+    for(let n in this.notas){    
+      let categorias: any = [];
+      for(let m in this.notas[n].data){
+        categorias.push({'label': this.notas[n].data[m].content, 'voto': 0, 'voto_maximo': false});
+      }
+      if(primero > 0){
+        this.tablero.push({'title': this.notas[n].title, "data": categorias});
+      }
+      primero = primero + 1;
+    }
+    
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
     
-    this.tablero.push({'title': 'Tablero 1', "data": [{'label': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
-    this.tablero.push({'title': 'Tablero 2', "data": [{'label': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});
+    /*this.tablero.push({'title': 'Tablero 1', "data": [{'label': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
+    this.tablero.push({'title': 'Tablero 2', "data": [{'label': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
     this.tablero2 = JSON.stringify(this.tablero);
     this.filteredTablero.next(this.tablero.slice());
+
+    console.log('tablero_clasificacion',this.tablero);
     
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);

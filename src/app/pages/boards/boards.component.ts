@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
 import { SocketWebService } from './boards.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -95,6 +95,7 @@ export class BoardsComponent implements OnInit, AfterViewInit {
     private socketWebService: SocketWebService,
     private el:ElementRef,
     private ref: ChangeDetectorRef,
+    private _router: Router
   ) {
     this.socketWebService.outEven.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
@@ -385,6 +386,12 @@ export class BoardsComponent implements OnInit, AfterViewInit {
     this.tablero2 = JSON.stringify(this.tablero);
     
     this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  }
+
+  saveCategoryAll() {
+    console.log('save_category_all',this.tablero);
+    localStorage.setItem('category_all', this.tablero2);
+    this._router.navigate(['/proyect-init/fase3']);
   }
 
 }
