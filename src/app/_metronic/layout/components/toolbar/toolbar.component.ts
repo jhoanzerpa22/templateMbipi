@@ -8,6 +8,7 @@ import {
 import {Location, LocationStrategy, PathLocationStrategy, CommonModule} from '@angular/common';
 import { LayoutService } from '../../core/layout.service';
 import { ProyectsService } from '../../../../pages/config-project-wizzard/proyects.service';
+import { UsersService } from '../../../../pages/users/users.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -28,8 +29,11 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   num_proyectos: number;
   max_proyects: boolean = false;
 
+  newUser: any;
+
   constructor(private layout: LayoutService,
               private _proyectsService: ProyectsService,
+              private _userService: UsersService,
               private router: Router,
               location: Location) {
               this.location = location;
@@ -48,6 +52,14 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
           // console.log(this.num_proyectos);
         }
       );
+    this._userService.get(user.id)
+    .subscribe(
+      (response) =>{
+        // console.log(response);
+        this.newUser = response.tipo_plan;
+        // console.log(this.newUser);
+      }
+    )
 
   }
 
@@ -68,7 +80,6 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   createProyect(){
 
     if(this.num_proyectos >= 2){
-      // ALERT NO SE PUEDE CREAR PROYECTO, UPGRADEAR CUENTA
       this.max_proyects = true;
       Swal.fire({
         text: "Ups, debes suscribirte a Plan-Pro para crear más de 2 proyectos.",
@@ -78,6 +89,19 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
         customClass: {
           confirmButton: "btn btn-primary"
         }
+      });
+    }
+    else if(!this.newUser){
+      Swal.fire({
+        text: "Debes configurar tu cuenta antes de continuar a la creación de un nuevo proyecto",
+        icon: "warning",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      }).then(()=>{
+        this.router.navigate(['/crafted/pages/wizards/config-cta'])
       });
     }
     else{

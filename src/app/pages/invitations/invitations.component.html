@@ -17,7 +17,7 @@
           <!--end::Description-->
 
           <div style="margin-bottom: 10px;" *ngIf="invitaciones.length < 1">
-            <a class="btn btn-lg btn-primary" data-bs-toggle="tooltip" title="Dashboard" (click)="isNewUser()">Dashboard</a>
+            <a class="btn btn-lg btn-primary" data-bs-toggle="tooltip" title="Dashboard" routerLink="/dashboard">Dashboard</a>
           </div>
 
           <ng-container *ngFor="let inv of filteredInvitaciones | async; let i = index;">
