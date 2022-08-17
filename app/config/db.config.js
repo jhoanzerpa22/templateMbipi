@@ -2,8 +2,8 @@ module.exports = {
 
   //Local
   USER: "postgres",
-  PASSWORD: "20588459jz",
-  DB: "mbipi_test",
+  PASSWORD: "test01",
+  DB: "mbipi",
 
   //Heroku
   /*
