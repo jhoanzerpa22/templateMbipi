@@ -6,7 +6,8 @@ import { take, takeUntil } from 'rxjs/operators';
 import { InvitationsService } from './invitations.service';
 import { Location } from '@angular/common';
 
-declare var $: any; 
+
+declare var $: any;
 declare var jQuery: any;
 
 @Component({
@@ -17,10 +18,12 @@ declare var jQuery: any;
   changeDetection: ChangeDetectionStrategy.OnPush*/
 })
 export class InvitationsComponent implements OnInit, AfterViewInit {
-  
+
   invitation: any;
   invitaciones: any = [];
-  
+
+  newUser: any;
+
   public filteredInvitaciones: ReplaySubject<any> = new ReplaySubject<[]>(1);
 
   private _onDestroy = new Subject<void>();
@@ -30,13 +33,14 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
     private router:Router,
     private ref:ChangeDetectorRef,
     private _invitationsService: InvitationsService,
-     public _location: Location
+    /*private _userService: UsersService,*/
+    public _location: Location
+
   ) {
    }
 
   ngOnInit(): void {
     this.getInvitations();
-    
   }
 
   ngAfterViewInit() {
@@ -61,7 +65,7 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
 
     this._invitationsService.getByEmail(user.correo_login)
     .subscribe(
-        data => {      
+        data => {
           this.invitaciones = data;
           this.filteredInvitaciones.next(this.invitaciones.slice());
           this.ref.detectChanges();
@@ -74,9 +78,9 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
   }
 
   aceptar(i: any, id: any){
-    
+
     const usuario: any = localStorage.getItem('usuario');
-      let user: any = JSON.parse(usuario);
+    let user: any = JSON.parse(usuario);
 
     const data = {participante: true, usuario_id: user.id};
     this._invitationsService.update(id, data)

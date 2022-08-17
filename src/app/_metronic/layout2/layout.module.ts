@@ -29,7 +29,9 @@ import {EngagesComponent} from "../partials/layout/engages/engages.component";
 import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';
 */
 import { BoardsComponent } from '../../pages/boards/boards.component';
+import { BoardsVotoComponent } from '../../pages/boards-voto/boards-voto.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
+import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { TimerComponent } from './timer/timer.component';
 const routes: Routes = [
   {
@@ -50,6 +52,10 @@ const routes: Routes = [
   {
     path: 'fase2',
     component: BoardsComponent
+  },
+  {
+    path: 'fase3',
+    component: BoardsVotoComponent
   }
 ];
 
@@ -59,7 +65,9 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
   declarations: [
     LayoutComponent,
     NoteComponent,
-    TimerComponent,
+    TimerComponent/*,
+    BoardsComponent,
+    BoardsVotoComponent*/
     /*AsideComponent,
     HeaderComponent,
     ContentComponent,
