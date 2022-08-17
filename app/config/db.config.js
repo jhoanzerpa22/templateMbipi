@@ -4,7 +4,7 @@ module.exports = {
   /*
   USER: "postgres",
   PASSWORD: "test01",
-  DB: "mbipi",
+  DB: "mbipi",*/
 
   //Heroku
   USER: "mtaligncgdmqzd",
