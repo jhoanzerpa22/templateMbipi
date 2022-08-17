@@ -101,13 +101,17 @@
   </div>
     <!--end::Header Section-->
     <!-- Titulo -->
+    <!--<div class="container" style="width: 100%; padding: 0;">
+      <app-timer></app-timer>
+    </div>-->
     <div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
       <h1 style="width: 1320px;text-align: start;color: white;">
         Entrevista al experto
       </h1>
+    </div>
     <!-- Tablero -->
     <div class="container" style="width: 100%; height: 600px;overflow: auto;margin-bottom: 100px;background-color: #232323; position: relative;padding: 20px;">
-<div
+    <div
     class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
     cdkScrollable #tableroRef>
 
@@ -131,7 +135,7 @@
 
                 <div class="toolbar" id="toolbar" tabindex="0" style="position:static !important">
                   <!--<input name="category" #category type="text"/>-->
-                  <a class="add material-icons" (click)="addCategory()" >
+                  <a class="add-category material-icons" (click)="addCategory()" >
                     Agregar Categoria
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-plus" style="margin-top: -40px;margin-left: 120px;" viewBox="0 0 16 16">
                       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -139,14 +143,14 @@
                   </a>
                 </div>
                 <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
-                <div class="example-container">
+                <div [ngClass]="i == 0 ? 'notes-container' : 'example-container'">
                     <h2 style="color: #000;line-height: 2;" contenteditable="true" (blur)="onFocusOut($event, i)">{{t.title}}</h2>
                     <div
                       cdkDropList
                       [cdkDropListData]="t.data"
-                      class="example-list"
+                      [ngClass]="i == 0 ? 'notes-list' : 'example-list'"
                       (cdkDropListDropped)="drop($event)">
-                      <div class="example-box" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.content}}
+                      <div [ngClass]="i == 0 ? 'notes-box' : 'example-box'" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.content}}
                       </div>
                     </div>
                   </div>
