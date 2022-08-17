@@ -45,7 +45,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
       .subscribe(
         (response)=>{
           this.num_proyectos = response.length;
-          console.log(this.num_proyectos);
+          // console.log(this.num_proyectos);
         }
       );
 
