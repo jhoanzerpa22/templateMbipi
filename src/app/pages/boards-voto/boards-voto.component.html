@@ -81,7 +81,7 @@
               </div>
               <!--end::Menu wrapper-->
               <!--begin::Toolbar-->
-  
+
               <!--end::Toolbar-->
             </div>
             <!--end::Wrapper-->
@@ -103,11 +103,11 @@
     <!-- Titulo -->
     <div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
       <h1 style="width: 1320px;text-align: start;color: white;">
-        Entrevista al experto
+        Votación
       </h1>
     </div>
     <!-- Tablero -->
-    <div class="container" style="width: 100%; height: 600px;overflow: auto;margin-bottom: 100px;background-color: #232323; position: relative;padding: 20px;">
+    <div class="container" style="min-width: 100%; min-height: 600px;overflow: auto;background-color: #232323; position: relative;padding: 20px; margin: 0;">
     <div
     class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
     cdkScrollable #tableroRef>
@@ -119,7 +119,7 @@
                 <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
                 <div class="clasificacion-container">
                     <h2 style="color: #fff;">{{t.title}}</h2>
-                
+
                     <div
                       cdkDropList
                       [cdkDropListData]="t.data"
@@ -132,7 +132,7 @@
                                                 [matTooltip]="'Voto máximo'" *ngIf="verifyVotoMaximo(i, j)">check_circle</mat-icon>
                         <button class="quitar" (click)="quitar(i, j)" *ngIf="verifyVoto(i, j)">Quitar</button>
                         <button class="votar" (click)="votar(i, j)" *ngIf="!verifyVoto(i, j) && !verifyVotoTablero(i)">Votar</button>
-                        
+
                         <button class="votar-maximo" (click)="votarMaximo(i, j)" *ngIf="!verifyVotoMaximo(i, j) && !verifyVotoTablero(i)">Voto +</button>
                         <button class="quitar-maximo" (click)="quitarMaximo(i, j)" *ngIf="verifyVotoMaximo(i, j)">Quitar</button>
                       </div>
@@ -150,11 +150,14 @@
 <canvas id="canvasId" #canvasRef width="100" height="100"></canvas>
 </div>
 <!-- Video -->
-<div style="text-align: center; position: absolute; width: 100%;margin: -860px 0px 0px 0;">
-  <video id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="auto" style="border-radius: 10px;-webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-  -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-  box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);"></video>
-</div>
+    <!-- Fondo Opaco   -->
+    <div [ngClass]="showVideoFlag ? videoOn : videoOff" class="fondo-video" style="background-color: black; height: 1125px; width: 100%;position: absolute; margin: -1125px 0 0 0;opacity: 0.9;">
+    </div>
+    <div style="text-align: center; position: absolute; width: 100%;margin: -860px 0px 0px 0;">
+      <video id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="auto" style="border-radius: 10px;-webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+      -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+      box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);"></video>
+    </div>
   <!--begin::Highlight-->
   <div style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
     <!--begin::Link-->
