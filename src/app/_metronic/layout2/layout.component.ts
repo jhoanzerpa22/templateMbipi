@@ -221,15 +221,15 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         //this.usuarios.splice(index, 1);
         if(this.usuarios_active[index2].active != usuarios[d].active){
           actualizar = 1;
+          this.usuarios_active[index2].active = usuarios[d].active;
         }
-        this.usuarios_active[index2].active = usuarios[d].active;
       }else{
         agregar = 1;
         this.usuarios_active.push({'id': usuarios[d].id, 'nombre': usuarios[d].nombre, 'active': usuarios[d].active});
       }
     }
 
-    if(agregar == 1){
+    if(agregar == 1 || actualizar == 1){
       this.socketWebService.emitEventUsersActive(this.usuario);
     }
     
