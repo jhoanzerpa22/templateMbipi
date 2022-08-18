@@ -56,6 +56,11 @@ export class SocketWebService extends Socket {
     this.ioSocket.emit('evento_usuarios_activos', payload)
   }
 
+  emitEventUsersInactive = (payload = {}) => {
+    //console.log('evento2',payload);
+    this.ioSocket.emit('evento_usuarios_inactivos', payload)
+  }
+
   emitEventTablero = (payload = {}) => {
     console.log('evento_tablero',payload);
     this.ioSocket.emit('evento_tablero', payload)

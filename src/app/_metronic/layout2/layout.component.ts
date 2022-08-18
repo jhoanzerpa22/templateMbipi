@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ViewChild,
   ElementRef,
   AfterViewInit,
@@ -21,7 +22,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutComponent implements OnInit, AfterViewInit {
+export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   // Public variables
   selfLayout = 'default';
   asideSelfDisplay: true;
@@ -144,20 +145,26 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     if (index != -1) {
       this.usuarios.splice(index, 1);
     }
-  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
+
+  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre, 'active': true/*, 'data': this.usuario*/});
 
   const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
     
   if (index2 != -1) {
     this.usuarios_active.splice(index, 1);
   }
-  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre});
+  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
     console.log('enviando_usuarios',this.usuarios);
 
     this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     this.socketWebService.emitEventUsersActive(this.usuario);
     this.ref.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngdestroy');
+    this.socketWebService.emitEventUsersInactive(this.usuario);
   }
 
   private readUsers(usuarios: any, emit: boolean){
@@ -173,7 +180,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       }else{
         nuevo = 1;
         
-        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
+        this.usuarios.push({'id': data[c].id, 'title': data[c].title, 'active': data[c].active/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
       }
     }
     console.log('usuarios',this.usuarios);
@@ -205,9 +212,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     
       if (index2 != -1) {
         //this.usuarios.splice(index, 1);
+        this.usuarios_active[index2].active = usuarios[d].active;
       }else{
         agregar = 1;
-        this.usuarios_active.push({'id': usuarios[d].id, 'nombre': usuarios[d].nombre});
+        this.usuarios_active.push({'id': usuarios[d].id, 'nombre': usuarios[d].nombre, 'active': usuarios[d].active});
       }
     }
 
