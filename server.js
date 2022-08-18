@@ -81,8 +81,20 @@ io.on('connection', function (socket) {
     
     if (index == -1) {
       //usuarios_mbipi.splice(index, 1);
-      usuarios_mbipi.push({'id': res.id, 'id_socket': handshake, 'nombre': res.nombre});
+      usuarios_mbipi.push({'id': res.id, 'id_socket': handshake, 'nombre': res.nombre, 'active': true});
     }
+    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+  })
+
+  socket.on('evento_usuarios_inactivos', (res) => {
+    let index = usuarios_mbipi.findIndex((c) => c.id == res.id);
+    
+    if (index != -1) {/*
+      usuarios_mbipi.splice(index, 1);*/
+      usuarios_mbipi[index].active = false;
+    }
+    
+    console.log('usuarios', usuarios_mbipi);
     socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
   })
 
