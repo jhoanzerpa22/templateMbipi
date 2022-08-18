@@ -1,6 +1,6 @@
 const dbConfig = require("../config/db.config.js");
 var pg = require('pg');
-//pg.defaults.ssl = true;
+pg.defaults.ssl = true;
 
 const Sequelize = require("sequelize");
 
