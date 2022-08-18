@@ -82,12 +82,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   private _router: Router
   ) {
     /*this.initService.init();*/
-    this.socketWebService.outEvenUsers.subscribe((res: any) => {
+    /*this.socketWebService.outEvenUsers.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { usuarios } = res;
       console.log('escuchando',res);
       this.readUsers(usuarios, false);
-    });
+    });*/
 
     this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
       const { usuarios_active } = res;
@@ -104,6 +104,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
+    this.usuario.active = true;
 
     const notes: any = localStorage.getItem('notes');
     this.notes = JSON.parse(notes) || [{ id: 0+'-'+this.usuario.nombre, content:'' }];
@@ -157,7 +158,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     console.log('enviando_usuarios',this.usuarios);
 
-    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     this.socketWebService.emitEventUsersActive(this.usuario);
     this.ref.detectChanges();
   }
@@ -172,11 +173,16 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     //console.log('data',data);
     //this.usuarios = [];
     let nuevo: number = 0;
+    let actualizar: number = 0;
     for(let c in data){
       let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
     
       if (index != -1) {
         //this.usuarios.splice(index, 1);
+        if(this.usuarios[index].active != data[c].active){
+          actualizar = 1;
+          this.usuarios[index].active = data[c].active;
+        }
       }else{
         nuevo = 1;
         
@@ -195,6 +201,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     const usuarios = JSON.parse(data);
     let agregar: number = 0;
     let quitar: number = 0;
+    let actualizar: number = 0;
     for(let c in this.usuarios_active){
       let index = usuarios.findIndex((u: any) => u.id == this.usuarios_active[c].id);
     
@@ -212,6 +219,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     
       if (index2 != -1) {
         //this.usuarios.splice(index, 1);
+        if(this.usuarios_active[index2].active != usuarios[d].active){
+          actualizar = 1;
+        }
         this.usuarios_active[index2].active = usuarios[d].active;
       }else{
         agregar = 1;
@@ -224,7 +234,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     
     this.ref.detectChanges();
-    
   }
 
   private readBoard(tablero: any, emit: boolean){
