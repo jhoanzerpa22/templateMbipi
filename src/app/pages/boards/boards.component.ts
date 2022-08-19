@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
 import { SocketWebService } from './boards.service';
+import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -62,6 +63,10 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   usuarios_active: any = [];
   usuario: any = {};
   
+  public proyecto: any = {};
+  public proyecto_id: number;
+  public rol: any = '';
+  
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
       //if (e.target.id === 'canvasId' && (this.isAvailabe)) {
@@ -94,6 +99,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private socketWebService: SocketWebService,
+    private _proyectsService: ProyectsService,
     private el:ElementRef,
     private ref: ChangeDetectorRef,
     private _router: Router
@@ -104,6 +110,11 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       //const { notas } = res;
       this.readBoard(tablero, false);/*
       this.readNotas(notas, false);*/
+    });
+
+    //escuchamos el evento para continuar
+    this.socketWebService.outEvenContinueVoto.subscribe((res: any) => {
+      this.continue();
     });
 
     this.socketWebService.outEven2.subscribe((res: any) => {
@@ -145,8 +156,15 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
-    
-    const notes: any = localStorage.getItem('notes_all');
+    this.route.params.subscribe(params => {
+      //console.log('params',params);
+      this.proyecto_id = params['id'];
+      this.getProyect();
+    });
+
+    this.socketWebService.emitEventGet();
+
+    /*const notes: any = localStorage.getItem('notes_all');
     this.notas = JSON.parse(notes);
     let como_podriamos: any = [];
     for(let n in this.notas){
@@ -155,14 +173,14 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     
     this.filteredNotas.next(this.notas.slice());
 
-    this.tablero.push({'title': 'Como podriamos', "data": como_podriamos});
+    this.tablero.push({'title': 'Como podriamos', "data": como_podriamos});*/
 
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
     
     /*this.tablero.push({'title': 'Tablero 1', "data": [{'content': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
     this.tablero.push({'title': 'Tablero 2', "data": [{'content': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
-    this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());
+    //this.tablero2 = JSON.stringify(this.tablero);
+    //this.filteredTablero.next(this.tablero.slice());
     
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
@@ -173,18 +191,11 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.setInitialValue();
     this.render();
-    //this.usuarios = [];
-    const index = this.usuarios.findIndex((c: any) => c.id == this.usuario.id);
-    
-    if (index != -1) {
-      this.usuarios.splice(index, 1);
-    }
-  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
 
   const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
     
   if (index2 != -1) {
-    this.usuarios_active.splice(index, 1);
+    this.usuarios_active.splice(index2, 1);
   }
   this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
@@ -202,28 +213,25 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this._onDestroy.complete();
   }
 
-  private readUsers(usuarios: any, emit: boolean){
-    const data = JSON.parse(usuarios);
-    //console.log('data',data);
-    //this.usuarios = [];
-    let nuevo: number = 0;
-    for(let c in data){
-      let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
-    
-      if (index != -1) {
-        //this.usuarios.splice(index, 1);
-      }else{
-        nuevo = 1;
-        
-        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
-      }
-    }
-    console.log('usuarios',this.usuarios);
-    if(nuevo == 1){
-      this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-      this.ref.detectChanges();
-    }
-    
+  getProyect(){
+
+    this._proyectsService.get(this.proyecto_id)
+      .subscribe(
+          (response) => {
+            this.proyecto = response;
+            this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.usuarios.filter(
+              (op: any) => (
+                op.usuario_id == this.usuario.id)
+              );
+            this.rol = usuario_proyecto[0].rol;
+            this.ref.detectChanges();
+          },
+          (response) => {
+              // Reset the form
+              //this.signUpNgForm.resetForm();
+          }
+      );
   }
 
   private readUsersActive(data: any, emit: boolean){
@@ -292,7 +300,6 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-
   public clearZone = () => {
     this.points = [];
     this.cx.clearRect(0, 0, this.width, this.height);
@@ -339,6 +346,49 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredNotas.next(this.notas.slice());
   }
 
+  addCategory(){
+    let title = 'Categoria '+ /*(*/this.tablero.length/* + 1)*/;
+    this.tablero.push({"title": title, "data": []});
+    this.tablero2 = JSON.stringify(this.tablero);
+    this.filteredTablero.next(this.tablero.slice());
+
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  }
+
+  onFocusOut(event: any, i: any){
+    this.tablero[i].title = event.target.innerText;
+    this.tablero2 = JSON.stringify(this.tablero);
+    
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  }
+
+  saveCategoryAll() {
+    console.log('save_category_all',this.tablero);
+    localStorage.setItem('category_all', this.tablero2);
+
+    let primero = 0;     
+    let tablero: any = [];
+
+    for(let n in this.tablero){
+      let categorias: any = [];
+      
+      for(let m in this.tablero[n].data){
+        categorias.push({'label': this.tablero[n].data[m].content, 'voto': 0, 'voto_maximo': false});
+      }
+      if(primero > 0){
+        tablero.push({'title': this.tablero[n].title, "data": categorias});
+      }
+      primero = primero + 1;
+    }
+
+    console.log('guardar_clasificacion',tablero);
+
+    this.socketWebService.emitEventTableroSaveClasi({tablero: JSON.stringify(tablero)});
+  }
+
+  continue() {
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase3']);
+  }
   
   onPlayPause(){
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
@@ -395,28 +445,6 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   hideVideo(){
     this.showVideoFlag = false;
     this.ref.detectChanges();
-  }
-
-  addCategory(){
-    let title = 'Categoria '+ (this.tablero.length + 1);
-    this.tablero.push({"title": title, "data": []});
-    this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());
-
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
-  }
-
-  onFocusOut(event: any, i: any){
-    this.tablero[i].title = event.target.innerText;
-    this.tablero2 = JSON.stringify(this.tablero);
-    
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
-  }
-
-  saveCategoryAll() {
-    console.log('save_category_all',this.tablero);
-    localStorage.setItem('category_all', this.tablero2);
-    this._router.navigate(['/proyect-init/fase3']);
   }
 
 }

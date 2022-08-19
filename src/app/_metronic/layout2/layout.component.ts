@@ -11,6 +11,7 @@ import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
 import { SocketWebService } from '../../pages/boards/boards.service';
+import { ProyectsService } from '../../pages/config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -72,23 +73,22 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   notes: any = []; // lista de notas del tablero
   recognition:any;
   notes_all: any = []; // lista de notas de todos los participantes
+  public proyecto: any = {};
+  public proyecto_id: number;
+  public rol: any = '';
 
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
   private el:ElementRef,
-  private socketWebService: SocketWebService,
+  private socketWebService: SocketWebService, 
+  private _proyectsService: ProyectsService,
   private ref: ChangeDetectorRef,
   private modalService: NgbModal,
-  private _router: Router
+  private _router: Router,
+  private route: ActivatedRoute
   ) {
     /*this.initService.init();*/
-    /*this.socketWebService.outEvenUsers.subscribe((res: any) => {
-      //console.log('escucha_tablero',res);
-      const { usuarios } = res;
-      console.log('escuchando',res);
-      this.readUsers(usuarios, false);
-    });*/
 
     //escuchamos el evento de usuarios activos
     this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
@@ -100,6 +100,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.outEvenTablero.subscribe((res: any) => {
       const { tablero } = res;
       this.readBoard(tablero, false);
+    });
+    
+    //escuchamos el evento para continuar
+    this.socketWebService.outEvenContinue.subscribe((res: any) => {
+      this.continue();
     });
 
     //leemos usuario logueado
@@ -130,6 +135,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.route.params.subscribe(params => {
+      //console.log('params',params);
+      this.proyecto_id = params['id'];
+      this.getProyect();
+    });
+
     // build view by layout config settings
     /*
     this.asideDisplay = this.layout.getProp('aside.display') as boolean;
@@ -150,21 +161,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-    //this.usuarios = [];
-    const index = this.usuarios.findIndex((c: any) => c.id == this.usuario.id);
-    
-    if (index != -1) {
-      this.usuarios.splice(index, 1);
-    }
-
-  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre, 'active': true/*, 'data': this.usuario*/});
-
   //verificamos si el usuario logueado ya existe en el listado
   const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
 
   //si existe lo eliminamos y volvemos a agregarlo para evitar datos obsoletos
   if (index2 != -1) {
-    this.usuarios_active.splice(index, 1);
+    this.usuarios_active.splice(index2, 1);
   }
   this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
@@ -182,33 +184,25 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.emitEventUsersInactive(this.usuario);
   }
 
-  private readUsers(usuarios: any, emit: boolean){
-    const data = JSON.parse(usuarios);
-    //console.log('data',data);
-    //this.usuarios = [];
-    let nuevo: number = 0;
-    let actualizar: number = 0;
-    for(let c in data){
-      let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
-    
-      if (index != -1) {
-        //this.usuarios.splice(index, 1);
-        if(this.usuarios[index].active != data[c].active){
-          actualizar = 1;
-          this.usuarios[index].active = data[c].active;
-        }
-      }else{
-        nuevo = 1;
-        
-        this.usuarios.push({'id': data[c].id, 'title': data[c].title, 'active': data[c].active/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
-      }
-    }
-    console.log('usuarios',this.usuarios);
-    if(nuevo == 1){
-      this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-      this.ref.detectChanges();
-    }
-    
+  getProyect(){
+
+    this._proyectsService.get(this.proyecto_id)
+      .subscribe(
+          (response) => {
+            this.proyecto = response;
+            this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.usuarios.filter(
+              (op: any) => (
+                op.usuario_id == this.usuario.id)
+              );
+            this.rol = usuario_proyecto[0].rol;
+            this.ref.detectChanges();
+          },
+          (response) => {
+              // Reset the form
+              //this.signUpNgForm.resetForm();
+          }
+      );
   }
 
   //actualizamos lista de usuarios activos
@@ -284,7 +278,22 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   saveNoteAll() {
     console.log('save_notes_all',this.notes_all);
     localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
-    this._router.navigate(['/proyect-init/fase2']);
+    
+    let como_podriamos: any = [];
+    let tablero: any = [];
+    for(let n in this.notes_all){
+      como_podriamos.push({'content': this.notes_all[n].content});
+    }
+
+    tablero.push({'title': 'Como podriamos', "data": como_podriamos});
+    
+    this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
+
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase2']);
+  }
+
+  continue() {
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase2']);
   }
 
   addNote() {
