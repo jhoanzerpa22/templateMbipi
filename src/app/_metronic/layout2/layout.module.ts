@@ -33,6 +33,9 @@ import { BoardsVotoComponent } from '../../pages/boards-voto/boards-voto.compone
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { TimerComponent } from './timer/timer.component';
+import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 const routes: Routes = [
   {
     path: '',
@@ -65,7 +68,9 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
   declarations: [
     LayoutComponent,
     NoteComponent,
-    TimerComponent/*,
+    TimerComponent,
+    EntenderAccordionComponent,
+    /*,
     BoardsComponent,
     BoardsVotoComponent*/
     /*AsideComponent,
@@ -87,7 +92,9 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     InlineSVGModule,
     NgbDropdownModule,
     NgbProgressbarModule,
-    ExtrasModule,/*
+    ExtrasModule,
+    NgbModule,
+    /*
     BoardsModule,*/
     SocketIoModule.forRoot(config)
     /*ModalsModule,

@@ -116,6 +116,9 @@
         Categorización de notas
       </h1>
     </div>
+    <div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
+      <app-categorizacion-notas-accordion></app-categorizacion-notas-accordion>
+    </div>
     <!-- Tablero -->
     <div class="container" style="min-width: 100%; min-height: 600px;overflow: auto;background-color: #232323; position: relative;padding: 20px; margin: 0;">
     <div
@@ -205,7 +208,7 @@
     </div>
     <div class="container" style="align-items: flex-end;">
       <a (click)="saveCategoryAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
-      float: right;">Siguiente Etapa</a>
+      float: right;" *ngIf="rol == 'Decisor'">Siguiente Etapa</a>
       <a routerLink="/dashboard" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
       float: right;">Salir de MbipiLab</a>
     </div>
