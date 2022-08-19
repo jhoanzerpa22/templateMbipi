@@ -86,7 +86,8 @@ io.on('connection', function (socket) {
     }else{
       usuarios_mbipi[index].active = res.active;
     }
-    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+    //socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+    io.in(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
   })
 
   socket.on('evento_usuarios_inactivos', (res) => {
