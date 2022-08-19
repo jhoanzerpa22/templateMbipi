@@ -35,7 +35,7 @@
               <div class="symbol-group symbol-hover mb-3">
                 <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
                 <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
-                    <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
+                    <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
                 </div>
                 </ng-container>
               </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="container" style="align-items: flex-end;">
         <a (click)="saveNoteAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
-        float: right;">Siguiente Etapa</a>
+        float: right;" *ngIf="rol == 'Decisor'">Siguiente Etapa</a>
         <a routerLink="/dashboard" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
         float: right;">Salir de MbipiLab</a>
       </div>

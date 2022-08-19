@@ -55,6 +55,9 @@ app.get('/', function (req, res) {
 });*/
 
 let usuarios_mbipi = [];
+let notas_tablero = [];
+let notas_tablero_all = {};
+let notas_tablero_all_clasi = {};
 
 io.on('connection', function (socket) {
 
@@ -65,8 +68,28 @@ io.on('connection', function (socket) {
 
   socket.on('evento', (res) => {
     console.log('evento', res);
+    notas_tablero_all = res;
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     socket.to(nombreCurso).emit('evento', res);
+  })
+
+  socket.on('evento_get', (res) => {
+    console.log('evento_get', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    io.in(nombreCurso).emit('evento', notas_tablero_all);
+  })
+
+  socket.on('evento_get_clasi', (res) => {
+    console.log('evento_get_clasi', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    io.in(nombreCurso).emit('evento_tablero_voto', notas_tablero_all_clasi);
+  })
+
+  socket.on('evento_tablero_voto', (res) => {
+    console.log('evento_tablero_voto', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    notas_tablero_all_clasi = res;
+    socket.to(nombreCurso).emit('evento_tablero_voto', res);
   })
 
   socket.on('evento2', (res) => {
@@ -77,12 +100,28 @@ io.on('connection', function (socket) {
 
   socket.on('evento_usuarios_activos', (res) => {
     console.log('usuario', res);
-    let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
+    //let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
+    let index = usuarios_mbipi.findIndex((c) => c.id == res.id);
     
     if (index == -1) {
       //usuarios_mbipi.splice(index, 1);
-      usuarios_mbipi.push({'id': res.id, 'id_socket': handshake, 'nombre': res.nombre});
+      usuarios_mbipi.push({'id': res.id, 'id_socket': handshake, 'nombre': res.nombre, 'active': true});
+    }else{
+      usuarios_mbipi[index].active = res.active;
     }
+    //socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+    io.in(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+  })
+
+  socket.on('evento_usuarios_inactivos', (res) => {
+    let index = usuarios_mbipi.findIndex((c) => c.id == res.id);
+    
+    if (index != -1) {/*
+      usuarios_mbipi.splice(index, 1);*/
+      usuarios_mbipi[index].active = false;
+    }
+    
+    console.log('usuarios', usuarios_mbipi);
     socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
   })
 
@@ -93,9 +132,59 @@ io.on('connection', function (socket) {
   })
 
   socket.on('evento_tablero', (res) => {
-    console.log('evento_tablero', res);
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+
+    for(let c in tablero){
+      let index3 = notas_tablero.findIndex((n) => n.id == tablero[c].id);
+    
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero.push({'id': tablero[c].id, 'content': tablero[c].content});
+        }
+    }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    socket.to(nombreCurso).emit('evento_tablero', res);
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
+  })
+
+  socket.on('evento_tablero_save', (res) => {
+    if(Object.keys(notas_tablero_all).length === 0){
+      notas_tablero_all = res;
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_continue');
+  })
+
+  socket.on('evento_tablero_save_clasi', (res) => {
+    if(Object.keys(notas_tablero_all_clasi).length === 0){
+      notas_tablero_all_clasi = res;
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_continue_voto');
+  })
+
+  socket.on('evento_tablero_update', (res) => {
+      let index = notas_tablero.findIndex((n) => n.id == res.id);
+    
+        if (index != -1) {
+          notas_tablero[index].content = res.content;
+        }else{
+          notas_tablero.push({'id': res.id, 'content': res.content});
+        }
+    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
+  })
+  
+  socket.on('evento_tablero_delete', (res) => {
+    let index = notas_tablero.findIndex((n) => n.id == res.id);
+  
+      if (index != -1) {
+        notas_tablero.splice(index, 1);
+      }
+    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
   })
 
   socket.on('disconnect', function () {

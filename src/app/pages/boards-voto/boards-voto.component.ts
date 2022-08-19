@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
 import { SocketWebService } from '../boards/boards.service';
+import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -15,7 +16,7 @@ declare var jQuery: any;
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardsVotoComponent implements OnInit, AfterViewInit {
+export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
@@ -58,7 +59,12 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   playing = false;
 
   usuarios: any = [];
+  usuarios_active: any = [];
   usuario: any = {};
+  
+  public proyecto: any = {};
+  public proyecto_id: number;
+  public rol: any = '';
   
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
@@ -92,11 +98,12 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private socketWebService: SocketWebService,
+    private _proyectsService: ProyectsService,
     private el:ElementRef,
     private ref: ChangeDetectorRef,
     private _router: Router
   ) {
-    this.socketWebService.outEven.subscribe((res: any) => {
+    this.socketWebService.outEvenTableroVoto.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { tablero } = res;
       this.readBoard(tablero, false);
@@ -120,23 +127,36 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
     })
 
      /*this.initService.init();*/
-     this.socketWebService.outEvenUsers.subscribe((res: any) => {
+    /* this.socketWebService.outEvenUsers.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { usuarios } = res;
       console.log('escuchando',res);
       this.readUsers(usuarios, false);
+    });*/
+
+    this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
+      const { usuarios_active } = res;
+      this.readUsersActive(usuarios_active, false);
     });
 
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
+    this.usuario.active = true;
 
    }
 
   ngOnInit(): void {
 
-    
-    const notes: any = localStorage.getItem('category_all');
+    this.route.params.subscribe(params => {
+      //console.log('params',params);
+      this.proyecto_id = params['id'];
+      this.getProyect();
+    });
+
+    this.socketWebService.emitEventGetClasi();
+
+    /*const notes: any = localStorage.getItem('category_all');
     this.notas = JSON.parse(notes);
     let primero = 0; 
     for(let n in this.notas){    
@@ -148,16 +168,16 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
         this.tablero.push({'title': this.notas[n].title, "data": categorias});
       }
       primero = primero + 1;
-    }
+    }*/
     
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
     
     /*this.tablero.push({'title': 'Tablero 1', "data": [{'label': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
     this.tablero.push({'title': 'Tablero 2', "data": [{'label': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
-    this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());
+    //this.tablero2 = JSON.stringify(this.tablero);
+    //this.filteredTablero.next(this.tablero.slice());
 
-    console.log('tablero_clasificacion',this.tablero);
+    //console.log('tablero_clasificacion',this.tablero);
     
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
@@ -168,47 +188,55 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.setInitialValue();
     this.render();
-    //this.usuarios = [];
-    const index = this.usuarios.findIndex((c: any) => c.id == this.usuario.id);
+  
+  const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
     
-    if (index != -1) {
-      this.usuarios.splice(index, 1);
-    }
-  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
+  if (index2 != -1) {
+    this.usuarios_active.splice(index2, 1);
+  }
+  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
-    console.log('enviando_usuarios',this.usuarios);
+    console.log('enviando_usuario',this.usuario);
 
-    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    this.socketWebService.emitEventUsersActive(this.usuario);
     this.ref.detectChanges();
   }
 
   ngOnDestroy() {
+    console.log('ngdestroy');
+    this.socketWebService.emitEventUsersInactive(this.usuario);
     this._onDestroy.next();
     this._onDestroy.complete();
   }
 
-  private readUsers(usuarios: any, emit: boolean){
-    const data = JSON.parse(usuarios);
-    //console.log('data',data);
-    //this.usuarios = [];
-    let nuevo: number = 0;
-    for(let c in data){
-      let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
+  getProyect(){
+
+    this._proyectsService.get(this.proyecto_id)
+      .subscribe(
+          (response) => {
+            this.proyecto = response;
+            this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.usuarios.filter(
+              (op: any) => (
+                op.usuario_id == this.usuario.id)
+              );
+            this.rol = usuario_proyecto[0].rol;
+            this.ref.detectChanges();
+          },
+          (response) => {
+              // Reset the form
+              //this.signUpNgForm.resetForm();
+          }
+      );
+  }
+
+  private readUsersActive(data: any, emit: boolean){
+    const usuarios = JSON.parse(data);
+    console.log('recibe_usuarios', usuarios);
+    this.usuarios_active = usuarios;
     
-      if (index != -1) {
-        //this.usuarios.splice(index, 1);
-      }else{
-        nuevo = 1;
-        
-        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
-      }
-    }
-    console.log('usuarios',this.usuarios);
-    if(nuevo == 1){
-      this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-      this.ref.detectChanges();
-    }
-    
+    this.ref.detectChanges();
   }
 
   private render() {
@@ -284,7 +312,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
 
   private writeBoard(){
     //console.log('writeBoard');
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+    this.socketWebService.emitEventTableroVoto({tablero: JSON.stringify(this.tablero)});
   }
 
   private readBoard(tablero: any, emit: boolean){
