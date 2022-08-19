@@ -15,7 +15,6 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -63,14 +62,16 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
+  
+  //Lista de Usuarios
+  usuarios: any = []; //usuarios
+  usuarios_active: any = []; //usuarios activos
+  usuario: any = {}; //usuario logueado
 
-  usuarios: any = [];
-  usuarios_active: any = [];
-  usuario: any = {};
-
-  notes: any = [];
+  //Lista de notas
+  notes: any = []; // lista de notas del tablero
   recognition:any;
-  notes_all: any = [];
+  notes_all: any = []; // lista de notas de todos los participantes
 
   constructor(/*
   private initService: LayoutInitService,
@@ -89,23 +90,34 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.readUsers(usuarios, false);
     });*/
 
+    //escuchamos el evento de usuarios activos
     this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
       const { usuarios_active } = res;
       this.readUsersActive(usuarios_active, false);
     });
 
+    //escuchamos el evento de las notas de los usuarios
     this.socketWebService.outEvenTablero.subscribe((res: any) => {
       const { tablero } = res;
       this.readBoard(tablero, false);
     });
 
+    //leemos usuario logueado
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
+    //lo asignamos a variable
     this.usuario = user;
-    this.usuario.active = true;
+    this.usuario.active = true; // indicamos que esta activo
 
+    //leemos nota en cache
     const notes: any = localStorage.getItem('notes');
-    this.notes = JSON.parse(notes) || [{ id: 0+'-'+this.usuario.nombre, content:'' }];
+    this.notes = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
+
+    //si existen notas en cache las enviamos al socket
+    if(this.notes.length > 0){
+      //this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes)});
+      this.sendNotes(this.notes);
+    }
 
     const {webkitSpeechRecognition} : IWindow = <any>window;
     this.recognition = new webkitSpeechRecognition();
@@ -147,8 +159,10 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre, 'active': true/*, 'data': this.usuario*/});
 
+  //verificamos si el usuario logueado ya existe en el listado
   const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
-    
+
+  //si existe lo eliminamos y volvemos a agregarlo para evitar datos obsoletos
   if (index2 != -1) {
     this.usuarios_active.splice(index, 1);
   }
@@ -157,11 +171,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    //enviamos al socket el usuario logueado
     this.socketWebService.emitEventUsersActive(this.usuario);
     this.ref.detectChanges();
   }
 
   ngOnDestroy(): void {
+    //si salimos de la pantalla indicamos que usuario salio
     console.log('ngdestroy');
     this.socketWebService.emitEventUsersInactive(this.usuario);
   }
@@ -195,6 +211,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     
   }
 
+  //actualizamos lista de usuarios activos
   private readUsersActive(data: any, emit: boolean){
     const usuarios = JSON.parse(data);
     console.log('recibe_usuarios', usuarios);
@@ -240,14 +257,115 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ref.detectChanges();
   }
 
+  //actualizamos listado de notas de usuarios
   private readBoard(tablero: any, emit: boolean){
     const data = JSON.parse(tablero);
-    //console.log('data',data);
-    this.notes_all = [];
+    console.log('notas_all',data);
+    this.notes_all = data;
+    /*this.notes_all = [];
     for(let c in data){
       this.notes_all.push({'id': data[c].id, 'content': data[c].content, "data": data[c].data});
-    }
+    }*/
 
+  }
+
+  updateAllNotes() {
+    console.log(document.querySelectorAll('app-note'));
+    let notes = document.querySelectorAll('app-note');
+
+    notes.forEach((note: any, index: any)=>{
+         this.notes[note.id].content = note.querySelector('.content').innerHTML;
+    });
+
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+
+  }
+
+  saveNoteAll() {
+    console.log('save_notes_all',this.notes_all);
+    localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
+    this._router.navigate(['/proyect-init/fase2']);
+  }
+
+  addNote() {
+    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre,content:'' });
+    // sort the array
+    this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+  }
+
+  saveNote(event: any){
+    console.log('event',event);
+    const id = event.srcElement.parentElement.parentElement/*.parentElement.parentElement*/.getAttribute('id');
+    const content = event.target.innerText;
+    event.target.innerText = content;
+    const json = {
+      'id':id,
+      'content':content
+    }
+    console.log('json',json);
+    this.updateNote(json);
+    //this.updateNoteAll(json);
+
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+    //this.sendNotes(this.notes);
+    console.log("********* updating note *********")
+  }
+
+  updateNote(newValue: any){
+    this.notes.forEach((note: any, index: any)=>{
+      if(note.id== newValue.id) {
+        this.notes[index].content = newValue.content;
+        this.socketWebService.emitEventTableroUpdate(newValue);
+      }
+    });
+  }
+
+  updateNoteAll(newValue: any){
+    let existe = 0;
+    this.notes_all.forEach((note: any, index: any)=>{
+      if(note.id== newValue.id) {
+        existe = 1;
+        this.notes_all[index].content = newValue.content;
+      }
+    });
+
+    if(existe == 0){
+      this.notes_all.push({ id: newValue.id, content:newValue.content });
+    }
+    
+    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
+  }
+
+  sendNotes(notes: any){
+    this.socketWebService.emitEventTablero({tablero: JSON.stringify(notes)});
+  }
+
+  deleteNote(event: any){
+     const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+     this.notes.forEach((note: any, index: any)=>{
+      console.log('nota',note);
+      if(note.id== id) {
+        this.notes.splice(index,1);
+        this.socketWebService.emitEventTableroDelete(note);
+        /*const index2 = this.notes_all.findIndex((n: any) => n.id == id);
+    
+        if (index2 != -1) {
+          this.notes_all.splice(index2, 1);
+        
+          this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
+        }*/
+        
+        localStorage.setItem('notes', JSON.stringify(this.notes));
+        console.log("********* deleting note *********")
+        return;
+      }
+    });
+  }
+
+   record(event: any) {
+    this.recognition.start();
+    this.addNote();
   }
 
   onPlayPause(){
@@ -306,101 +424,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   hideVideo(){
     this.showVideoFlag = false;
   }
-
-  updateAllNotes() {
-    console.log(document.querySelectorAll('app-note'));
-    let notes = document.querySelectorAll('app-note');
-
-    notes.forEach((note: any, index: any)=>{
-         this.notes[note.id].content = note.querySelector('.content').innerHTML;
-    });
-
-    localStorage.setItem('notes', JSON.stringify(this.notes));
-
-  }
-
-  saveNoteAll() {
-    console.log('save_notes_all',this.notes_all);
-    localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
-    this._router.navigate(['/proyect-init/fase2']);
-  }
-
-  addNote () {
-    this.notes.push({ id: /*this.notes.length + 1*/(this.notes.length + 1)+'-'+this.usuario.nombre,content:'' });
-    // sort the array
-    this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
-    localStorage.setItem('notes', JSON.stringify(this.notes));
-  }
-
-  saveNote(event: any){
-    console.log('event',event);
-    const id = event.srcElement.parentElement.parentElement/*.parentElement.parentElement*/.getAttribute('id');
-    const content = event.target.innerText;
-    event.target.innerText = content;
-    const json = {
-      'id':id,
-      'content':content
-    }
-    console.log('json',json);
-    this.updateNote(json);
-    this.updateNoteAll(json);
-
-    localStorage.setItem('notes', JSON.stringify(this.notes));
-    console.log("********* updating note *********")
-  }
-
-  updateNote(newValue: any){
-    this.notes.forEach((note: any, index: any)=>{
-      if(note.id== newValue.id) {
-        this.notes[index].content = newValue.content;
-      }
-    });
-  }
-
-  updateNoteAll(newValue: any){
-    let existe = 0;
-    this.notes_all.forEach((note: any, index: any)=>{
-      if(note.id== newValue.id) {
-        existe = 1;
-        this.notes_all[index].content = newValue.content;
-      }
-    });
-
-    if(existe == 0){
-      this.notes_all.push({ id: newValue.id, content:newValue.content });
-    }
-    
-    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
-  }
-
-  deleteNote(event: any){
-     const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
-     this.notes.forEach((note: any, index: any)=>{
-      console.log('nota',note);
-      if(note.id== id) {
-        this.notes.splice(index,1);
-
-        const index2 = this.notes_all.findIndex((n: any) => n.id == id);
-    
-        if (index2 != -1) {
-          this.notes_all.splice(index2, 1);
-        
-          this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
-        }
-        
-        localStorage.setItem('notes', JSON.stringify(this.notes));
-        console.log("********* deleting note *********")
-        return;
-      }
-    });
-  }
-
-   record(event: any) {
-    this.recognition.start();
-    this.addNote();
-  }
-
-
 }
 
 export interface IWindow extends Window {
