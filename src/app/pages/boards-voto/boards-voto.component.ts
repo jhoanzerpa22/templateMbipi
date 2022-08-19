@@ -15,7 +15,7 @@ declare var jQuery: any;
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardsVotoComponent implements OnInit, AfterViewInit {
+export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
@@ -58,6 +58,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   playing = false;
 
   usuarios: any = [];
+  usuarios_active: any = [];
   usuario: any = {};
   
     @HostListener('document:mousemove', ['$event'])
@@ -120,22 +121,27 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
     })
 
      /*this.initService.init();*/
-     this.socketWebService.outEvenUsers.subscribe((res: any) => {
+    /* this.socketWebService.outEvenUsers.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { usuarios } = res;
       console.log('escuchando',res);
       this.readUsers(usuarios, false);
+    });*/
+
+    this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
+      const { usuarios_active } = res;
+      this.readUsersActive(usuarios_active, false);
     });
 
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
+    this.usuario.active = true;
 
    }
 
   ngOnInit(): void {
 
-    
     const notes: any = localStorage.getItem('category_all');
     this.notas = JSON.parse(notes);
     let primero = 0; 
@@ -175,14 +181,24 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
       this.usuarios.splice(index, 1);
     }
   this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
+  
+  const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
+    
+  if (index2 != -1) {
+    this.usuarios_active.splice(index, 1);
+  }
+  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
-    console.log('enviando_usuarios',this.usuarios);
+    console.log('enviando_usuario',this.usuario);
 
-    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    this.socketWebService.emitEventUsersActive(this.usuario);
     this.ref.detectChanges();
   }
 
   ngOnDestroy() {
+    console.log('ngdestroy');
+    this.socketWebService.emitEventUsersInactive(this.usuario);
     this._onDestroy.next();
     this._onDestroy.complete();
   }
@@ -209,6 +225,14 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
       this.ref.detectChanges();
     }
     
+  }
+
+  private readUsersActive(data: any, emit: boolean){
+    const usuarios = JSON.parse(data);
+    console.log('recibe_usuarios', usuarios);
+    this.usuarios_active = usuarios;
+    
+    this.ref.detectChanges();
   }
 
   private render() {

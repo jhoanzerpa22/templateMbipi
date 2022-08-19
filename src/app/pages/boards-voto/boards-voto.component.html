@@ -24,13 +24,21 @@
                   </span>
                   <!--end::Svg Icon-->
                 </button>
-                <div class="symbol-group symbol-hover mb-3">
+                <!--<div class="symbol-group symbol-hover mb-3">
                   <ng-container *ngFor="let usu of usuarios; let i = index;">
                   <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.title}}">
                       <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{usu.title.substring(0, 1).toUpperCase()}}</span>
                   </div>
                   </ng-container>
+                </div>-->
+                <div class="symbol-group symbol-hover mb-3">
+                  <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
+                  <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
+                      <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
+                  </div>
+                  </ng-container>
                 </div>
+                
                 <!--end::Mobile menu toggle-->
                 <!--begin::Logo image-->
                 <!-- <a href="../../demo1/dist/landing.html">
