@@ -91,12 +91,10 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
       const { usuarios_active } = res;
-      console.log('escuchando',res);
       this.readUsersActive(usuarios_active, false);
     });
 
     this.socketWebService.outEvenTablero.subscribe((res: any) => {
-      console.log('escucha_tablero',res);
       const { tablero } = res;
       this.readBoard(tablero, false);
     });
@@ -156,7 +154,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
-    console.log('enviando_usuarios',this.usuarios);
+    console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     this.socketWebService.emitEventUsersActive(this.usuario);
@@ -199,10 +197,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readUsersActive(data: any, emit: boolean){
     const usuarios = JSON.parse(data);
-    let agregar: number = 0;
+    console.log('recibe_usuarios', usuarios);
+    /*let agregar: number = 0;
     let quitar: number = 0;
     let actualizar: number = 0;
-    for(let c in this.usuarios_active){
+    */
+    /*for(let c in this.usuarios_active){
       let index = usuarios.findIndex((u: any) => u.id == this.usuarios_active[c].id);
     
       if (index != -1) {
@@ -212,8 +212,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         quitar = 1;
         //this.usuarios_active.push({'id': usuarios[c].id, 'nombre': usuarios[c].nombre});
       }
-    }
-
+    }*/
+    /*
     for(let d in usuarios){
       let index2 = this.usuarios_active.findIndex((u2: any) => u2.id == usuarios[d].id);
     
@@ -227,11 +227,15 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         agregar = 1;
         this.usuarios_active.push({'id': usuarios[d].id, 'nombre': usuarios[d].nombre, 'active': usuarios[d].active});
       }
-    }
+    }*/
 
-    if(agregar == 1 || actualizar == 1){
+    /*if(agregar == 1 || actualizar == 1){
+      console.log('agregado',agregar);
+      console.log('actualizar', actualizar);
+      console.log('envio_usuario', this.usuario);
       this.socketWebService.emitEventUsersActive(this.usuario);
-    }
+    }*/
+    this.usuarios_active = usuarios;
     
     this.ref.detectChanges();
   }
