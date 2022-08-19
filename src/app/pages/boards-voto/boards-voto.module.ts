@@ -20,10 +20,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { VotoAccordionComponent } from './instructions/voto-accordion/voto-accordion.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
 
 @NgModule({
-  declarations: [BoardsVotoComponent],
+  declarations: [BoardsVotoComponent, VotoAccordionComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -47,6 +49,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     MatMenuModule,
     MatRadioModule,
     DragDropModule,
+    NgbModule,
     // SocketIoModule
     SocketIoModule.forRoot(config)
   ],

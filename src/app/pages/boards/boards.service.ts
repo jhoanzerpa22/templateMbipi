@@ -13,6 +13,9 @@ export class SocketWebService extends Socket {
   @Output() outEvenUsers: EventEmitter<any> = new EventEmitter();
   @Output() outEvenUsersActive: EventEmitter<any> = new EventEmitter();
   @Output() outEvenTablero: EventEmitter<any> = new EventEmitter();
+  @Output() outEvenTableroVoto: EventEmitter<any> = new EventEmitter();
+  @Output() outEvenContinue: EventEmitter<any> = new EventEmitter();
+  @Output() outEvenContinueVoto: EventEmitter<any> = new EventEmitter();
 
   constructor(
     //public cookieService: CookieService,
@@ -34,11 +37,24 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_usuarios', (res: any) => this.outEvenUsers.emit(res));
     this.ioSocket.on('evento_usuarios_activos', (res: any) => this.outEvenUsersActive.emit(res));
     this.ioSocket.on('evento_tablero', (res: any) => this.outEvenTablero.emit(res));
+    this.ioSocket.on('evento_tablero_voto', (res: any) => this.outEvenTableroVoto.emit(res));
+    this.ioSocket.on('evento_continue', (res: any) => this.outEvenContinue.emit(res));
+    this.ioSocket.on('evento_continue_voto', (res: any) => this.outEvenContinueVoto.emit(res));
 
   }
   emitEvent = (payload = {}) => {
     //console.log('evento',payload);
     this.ioSocket.emit('evento', payload)
+  }
+
+  emitEventGet = (payload = {}) => {
+    //console.log('evento',payload);
+    this.ioSocket.emit('evento_get', payload)
+  }
+
+  emitEventGetClasi = (payload = {}) => {
+    //console.log('evento',payload);
+    this.ioSocket.emit('evento_get_clasi', payload)
   }
 
   emitEvent2 = (payload = {}) => {
@@ -64,6 +80,21 @@ export class SocketWebService extends Socket {
   emitEventTablero = (payload = {}) => {
     console.log('evento_tablero',payload);
     this.ioSocket.emit('evento_tablero', payload)
+  }
+
+  emitEventTableroVoto = (payload = {}) => {
+    console.log('evento_tablero_voto',payload);
+    this.ioSocket.emit('evento_tablero_voto', payload)
+  }
+
+  emitEventTableroSave = (payload = {}) => {
+    console.log('evento_tablero_save',payload);
+    this.ioSocket.emit('evento_tablero_save', payload)
+  }
+
+  emitEventTableroSaveClasi = (payload = {}) => {
+    console.log('evento_tablero_save_clasi',payload);
+    this.ioSocket.emit('evento_tablero_save_clasi', payload)
   }
 
   emitEventTableroDelete = (payload = {}) => {

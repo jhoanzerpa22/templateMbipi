@@ -56,6 +56,8 @@ app.get('/', function (req, res) {
 
 let usuarios_mbipi = [];
 let notas_tablero = [];
+let notas_tablero_all = {};
+let notas_tablero_all_clasi = {};
 
 io.on('connection', function (socket) {
 
@@ -66,8 +68,28 @@ io.on('connection', function (socket) {
 
   socket.on('evento', (res) => {
     console.log('evento', res);
+    notas_tablero_all = res;
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     socket.to(nombreCurso).emit('evento', res);
+  })
+
+  socket.on('evento_get', (res) => {
+    console.log('evento_get', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    io.in(nombreCurso).emit('evento', notas_tablero_all);
+  })
+
+  socket.on('evento_get_clasi', (res) => {
+    console.log('evento_get_clasi', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    io.in(nombreCurso).emit('evento_tablero_voto', notas_tablero_all_clasi);
+  })
+
+  socket.on('evento_tablero_voto', (res) => {
+    console.log('evento_tablero_voto', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    notas_tablero_all_clasi = res;
+    socket.to(nombreCurso).emit('evento_tablero_voto', res);
   })
 
   socket.on('evento2', (res) => {
@@ -125,6 +147,24 @@ io.on('connection', function (socket) {
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreCurso).emit('evento_tablero', res);
     io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
+  })
+
+  socket.on('evento_tablero_save', (res) => {
+    if(Object.keys(notas_tablero_all).length === 0){
+      notas_tablero_all = res;
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_continue');
+  })
+
+  socket.on('evento_tablero_save_clasi', (res) => {
+    if(Object.keys(notas_tablero_all_clasi).length === 0){
+      notas_tablero_all_clasi = res;
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_continue_voto');
   })
 
   socket.on('evento_tablero_update', (res) => {
