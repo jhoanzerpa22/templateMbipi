@@ -58,6 +58,7 @@ let usuarios_mbipi = [];
 let notas_tablero = [];
 let notas_tablero_all = {};
 let notas_tablero_all_clasi = {};
+let etapa_active = '';
 
 io.on('connection', function (socket) {
 
@@ -71,6 +72,17 @@ io.on('connection', function (socket) {
     notas_tablero_all = res;
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     socket.to(nombreCurso).emit('evento', res);
+  })
+
+  socket.on('evento_get_etapa', (res) => {
+    console.log('evento_get_etapa', etapa_active);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    io.in(nombreCurso).emit('evento_etapa_active', etapa_active);
+  })
+
+  socket.on('evento_set_etapa', (res) => {
+    console.log('evento_set_etapa', res);
+    etapa_active = res;
   })
 
   socket.on('evento_get', (res) => {

@@ -139,6 +139,11 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       this.readUsersActive(usuarios_active, false);
     });
 
+    //escuchamos el evento activo
+    this.socketWebService.outEvenEtapaActive.subscribe((res: any) => {
+      this.etapa_active(res);
+    });
+
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
@@ -147,6 +152,8 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
    }
 
   ngOnInit(): void {
+    
+    this.socketWebService.emitEventGetEtapa();
 
     this.route.params.subscribe(params => {
       //console.log('params',params);
@@ -229,6 +236,16 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
               //this.signUpNgForm.resetForm();
           }
       );
+  }
+
+  saveVotoAll(){
+
+  }
+
+  etapa_active(etapa_active: any) {
+    if(etapa_active != ''){
+      this._router.navigate([etapa_active]);
+    }
   }
 
   private readUsersActive(data: any, emit: boolean){

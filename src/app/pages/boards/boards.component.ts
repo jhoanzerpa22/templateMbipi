@@ -147,6 +147,11 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.readUsersActive(usuarios_active, false);
     });
 
+    //escuchamos el evento activo
+    this.socketWebService.outEvenEtapaActive.subscribe((res: any) => {
+      this.etapa_active(res);
+    });
+
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
@@ -155,6 +160,8 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
    }
 
   ngOnInit(): void {
+
+    this.socketWebService.emitEventGetEtapa();
 
     this.route.params.subscribe(params => {
       //console.log('params',params);
@@ -383,11 +390,19 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     console.log('guardar_clasificacion',tablero);
 
+    this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase3');
+
     this.socketWebService.emitEventTableroSaveClasi({tablero: JSON.stringify(tablero)});
   }
 
   continue() {
     this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase3']);
+  }
+
+  etapa_active(etapa_active: any) {
+    if(etapa_active != ''){
+      this._router.navigate([etapa_active]);
+    }
   }
   
   onPlayPause(){
