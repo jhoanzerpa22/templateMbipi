@@ -16,6 +16,7 @@ export class SocketWebService extends Socket {
   @Output() outEvenTableroVoto: EventEmitter<any> = new EventEmitter();
   @Output() outEvenContinue: EventEmitter<any> = new EventEmitter();
   @Output() outEvenContinueVoto: EventEmitter<any> = new EventEmitter();
+  @Output() outEvenEtapaActive: EventEmitter<any> = new EventEmitter();
 
   constructor(
     //public cookieService: CookieService,
@@ -40,11 +41,22 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_voto', (res: any) => this.outEvenTableroVoto.emit(res));
     this.ioSocket.on('evento_continue', (res: any) => this.outEvenContinue.emit(res));
     this.ioSocket.on('evento_continue_voto', (res: any) => this.outEvenContinueVoto.emit(res));
+    this.ioSocket.on('evento_etapa_active', (res: any) => this.outEvenEtapaActive.emit(res));
 
   }
   emitEvent = (payload = {}) => {
     //console.log('evento',payload);
     this.ioSocket.emit('evento', payload)
+  }
+
+  emitEventGetEtapa = (payload = {}) => {
+    //console.log('evento',payload);
+    this.ioSocket.emit('evento_get_etapa', payload)
+  }
+
+  emitEventSetEtapa = (payload = '') => {
+    //console.log('evento',payload);
+    this.ioSocket.emit('evento_set_etapa', payload)
   }
 
   emitEventGet = (payload = {}) => {

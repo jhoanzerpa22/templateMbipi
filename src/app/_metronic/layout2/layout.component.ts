@@ -107,6 +107,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.continue();
     });
 
+    //escuchamos el evento activo
+    this.socketWebService.outEvenEtapaActive.subscribe((res: any) => {
+      this.etapa_active(res);
+    });
+
     //leemos usuario logueado
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
@@ -134,6 +139,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.socketWebService.emitEventGetEtapa();
 
     this.route.params.subscribe(params => {
       //console.log('params',params);
@@ -286,6 +293,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     tablero.push({'title': 'Como podriamos', "data": como_podriamos});
+
+    this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
     
     this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
 
@@ -294,6 +303,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   continue() {
     this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase2']);
+  }
+
+  etapa_active(etapa_active: any) {
+    if(etapa_active != ''){
+      this._router.navigate([etapa_active]);
+    }
   }
 
   addNote() {
