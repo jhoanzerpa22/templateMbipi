@@ -121,15 +121,17 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       //console.log('escucha_puntero',res);
 
       const { prevPost } = res;
-      const index = this.equipo.findIndex((c: any) => c == prevPost.usuario);
-      console.log('usuario',prevPost.usuario);
+      let usuario_label = prevPost.usuario.split(' ');
+      const index = this.equipo.findIndex((c: any) => c == usuario_label[0]);
+      //console.log('usuario_equipo',usuario_label[0]);
         if (index == -1) {
-          this.equipo.push(prevPost.usuario);
+          this.equipo.push(usuario_label[0]);
         }
+        this.ref.detectChanges();
       //jQuery("#canvasId").css({"left" : prevPost.x, "top" : prevPost.y});
-      jQuery("#puntero-"+prevPost.usuario).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
-      jQuery("#equipo-"+prevPost.usuario).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
-      console.log('equipo',this.equipo);
+      jQuery("#puntero-"+usuario_label[0]).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
+      jQuery("#equipo-"+usuario_label[0]).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
+      //console.log('equipo',this.equipo);
 
       this.writeSingle(prevPost, false);
     })
@@ -268,10 +270,11 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     //const canvasEl = this.canvasRef.nativeElement;
     const canvasEl = this.tableroRef.nativeElement;
     const rect = canvasEl.getBoundingClientRect();
+    let usuario_label = this._user.nombre.split(' ');
     const prevPos = {
       x: res.clientX - rect.left,
       y: res.clientY - rect.top,
-      usuario: this._user.nombre
+      usuario: usuario_label[0]
     }
     /*const prevPos = {
       x: res.clientX,
