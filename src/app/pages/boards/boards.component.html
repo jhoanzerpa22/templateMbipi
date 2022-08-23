@@ -108,19 +108,26 @@
   </div>
     <!--end::Header Section-->
     <!-- Titulo -->
-    <div class="container" style="width: 100%; padding: 0;">
+    <!--<div class="container" style="width: 100%; padding: 0;">-->
       <!-- <app-timer></app-timer> -->
-    </div>
-    <div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
-      <h1 style="width: 1320px;text-align: start;color: white;">
+    <!--</div>-->
+    <div class="container title-container">
+      <h1>
         Categorización de notas
       </h1>
     </div>
-    <div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
+    <!--<div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">
+      <h1 style="width: 1320px;text-align: start;color: white;">
+        Categorización de notas
+      </h1>
+    </div>-->
+    <!--<div class="container" style="width: 100%; text-align: start;padding: 0; margin-bottom: 20px;">-->
+    <div class="container title-container">
       <app-categorizacion-notas-accordion></app-categorizacion-notas-accordion>
     </div>
     <!-- Tablero -->
-    <div class="container" style="min-width: 100%; min-height: 600px;overflow: auto;background-color: #232323; position: relative;padding: 20px; margin: 0;">
+    <!--<div class="container" style="min-width: 100%; min-height: 600px;overflow: auto;background-color: #232323; position: relative;padding: 20px 20px 40px 20px; margin: 0;">-->
+    <div class="container tablero-container">
     <div
     class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
     cdkScrollable #tableroRef>
@@ -141,7 +148,7 @@
             </div>
           </div>
         </div>-->
-        <div style="width: 100%; height: 600px;overflow: auto;background-color: #fff; position: relative;padding: 20px;">
+        <!--<div style="width: 100%; height: 600px;overflow: auto;background-color: #fff; position: relative;padding: 20px;">-->
 
           <div class="toolbar" id="toolbar" tabindex="0" style="position:static !important">
             <!--<input name="category" #category type="text"/>-->
@@ -154,8 +161,8 @@
           </div>
           <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
           <div [ngClass]="i == 0 ? 'notes-container' : 'example-container'">
-              <h2 style="color: #000;line-height: 2;" contenteditable="true" (blur)="onFocusOut($event, i)" *ngIf="i > 0">{{t.title}}</h2>
-              <h2 style="color: #000;" *ngIf="i == 0">{{t.title}}</h2>
+              <h2 style="color: #fff;line-height: 2;" contenteditable="true" (blur)="onFocusOut($event, i)" *ngIf="i > 0">{{t.title}}</h2>
+              <h2 style="color: #fff;" *ngIf="i == 0">{{t.title}}</h2>
               <div
                 cdkDropList
                 [cdkDropListData]="t.data"
@@ -166,7 +173,7 @@
               </div>
             </div>
           </ng-container>
-        </div>
+        <!--</div>-->
       </div>
     </div>
 
