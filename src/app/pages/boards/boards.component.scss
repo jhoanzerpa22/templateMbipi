@@ -35,7 +35,7 @@
     left: 0;
     bottom: 0;*/
     position: fixed;
-    top: 180px;
+    /*top: 180px;*/
     right: 60px;
     height:55px;/*
     text-align: center;
@@ -70,6 +70,36 @@
   }
   .dark-modal .close {
     color: white !important;
+  }
+
+  .title-container{
+    width: 100%;
+    text-align: start;
+    padding: 0;
+    margin-bottom: 20px;
+  
+    h1{
+      width: 1320px;
+      text-align: start;
+      color: white;
+    }
+  }
+  
+  .instructions-container{
+    width: 100%;
+    text-align: start;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .tablero-container{
+    min-width: 100%;
+    height: 600px;
+    overflow: auto;
+    background-color: #232323;
+    position: relative;
+    padding: 20px;
+    margin: 0;
   }
   
   /*Ajustes Layout*/
