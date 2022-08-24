@@ -27,6 +27,8 @@ export class SocketWebService extends Socket {
         query: {
           nameRoom: 'mbipi'//cookieService.get('room')
         },
+        transports: ['websocket'],
+        jsonp: false
       }
     })
     this.listen();
