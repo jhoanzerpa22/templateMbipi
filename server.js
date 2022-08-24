@@ -47,7 +47,7 @@ app.post("/api/invitacions", (req, res) => {
 // })
 
 const server = require('http').Server(app);
-const io = require('socket.io')(server, options);
+const io = require('socket.io')(server, { transports: ['websocket'], jsonp:false, forceNew: true }/*, options*/);
 
 /*
 app.get('/', function (req, res) {
