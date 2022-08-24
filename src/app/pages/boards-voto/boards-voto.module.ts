@@ -22,7 +22,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { VotoAccordionComponent } from './instructions/voto-accordion/voto-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
+import { environment } from "../../../environments/environment";
+
+const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: {} };
 
 @NgModule({
   declarations: [BoardsVotoComponent, VotoAccordionComponent],
