@@ -54,8 +54,6 @@
   margin: 0;
 }
 
-
-
 :host {
     height: 100%;
     margin: 0;
@@ -93,7 +91,7 @@
     left: 0;
     bottom: 0;*/
     position: fixed;
-    top: 180px;
+    /*top: 180px;*/
     right: 60px;
     height:55px;/*
     text-align: center;
@@ -129,6 +127,7 @@
   .dark-modal .close {
     color: white !important;
   }
+
 
   /*Ajustes Layout*/
   .notes-container{
