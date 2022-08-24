@@ -12,7 +12,10 @@ const options = {
     origin: true,
     methods: 'GET,POST,PUT,DELETE,OPTIONS'
   },
-  allowEIO3: true
+  allowEIO3: true,
+  transports: ['websocket'],
+  jsonp:false, 
+  forceNew: true
 };
 
 // parse requests of content-type - application/json
@@ -47,7 +50,7 @@ app.post("/api/invitacions", (req, res) => {
 // })
 
 const server = require('http').Server(app);
-const io = require('socket.io')(server, { transports: ['websocket'], jsonp:false, forceNew: true }/*, options*/);
+const io = require('socket.io')(server, /*{ transports: ['websocket'], jsonp:false, forceNew: true }*/options);
 
 /*
 app.get('/', function (req, res) {
