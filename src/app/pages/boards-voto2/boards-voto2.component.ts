@@ -30,8 +30,6 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   votos: any = [];
   voto_tablero: any = [];
   voto_maximo: any = [];
-  maximo_votos: number = 0;
-  num_votos: number = 0;
   _user: any = {};
   equipo: any = [];
 
@@ -233,7 +231,6 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
                 op.usuario_id == this.usuario.id)
               );
             this.rol = usuario_proyecto[0].rol;
-            this.maximo_votos = this.rol == 'Decisor' ? 4 : 2; 
             this.ref.detectChanges();
           },
           (response) => {
@@ -320,6 +317,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+
   public clearZone = () => {
     this.points = [];
     this.cx.clearRect(0, 0, this.width, this.height);
@@ -354,22 +352,8 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     //console.log('votar', i, j);
     //console.log(this.tablero[i].data[j].label);
     this.tablero[i].data[j].voto = this.tablero[i].data[j].voto + 1;
-
-    const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
-    
-      if (index == -1) {
-        this.votos.push({id: i+':'+j, voto: 1});
-      }else{
-        this.votos[index].voto = this.votos[index].voto + 1;
-      }
-
-      const index2 = this.voto_tablero.findIndex((c: any) => c == i);
-      
-      if (index2 == -1) {
-        this.voto_tablero.push(i);
-      }
-
-    this.num_votos = this.num_votos + 1;
+    this.votos.push(i+':'+j);
+    this.voto_tablero.push(i);
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -389,23 +373,18 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     //console.log(this.tablero[i].data[j].label);
     this.tablero[i].data[j].voto = this.tablero[i].data[j].voto - 1;
     
-    this.num_votos = this.num_votos - 1;
+    const index = this.votos.findIndex((c: any) => c == i+':'+j);
+    
+    if (index != -1) {
+      this.votos.splice(index, 1);
+    }
 
-    const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
+    const index2 = this.voto_tablero.findIndex((c: any) => c == i);
+    
+    if (index2 != -1) {
+      this.voto_tablero.splice(index2, 1);
+    }
 
-      if (index != -1) {
-        this.votos[index].voto = this.votos[index].voto - 1;
-        
-        if(this.votos[index].voto == 0){
-          this.votos.splice(index, 1);
-            
-          const index2 = this.voto_tablero.findIndex((c: any) => c == i);
-          
-          if (index2 != -1) {
-            this.voto_tablero.splice(index2, 1);
-          }
-        }
-      }
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -434,7 +413,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   verifyVoto(i: any, j: any){
-    const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
+    const index = this.votos.findIndex((c: any) => c == i+':'+j);
     
     if (index != -1) {
       return true;
