@@ -1,3 +1,69 @@
+// VIDEO
+.fondo-video{
+  background-color: black;
+  height: 1125px;
+  width: 100%;
+  position: absolute;
+  margin: -1125px 0 0 0;
+  opacity: 0.9;
+}
+
+.video-container{
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  margin: -860px 0px 0px 0;
+
+  video{
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+    box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+  }
+}
+// VIDEO END
+
+.tablero-container{
+  min-width: 100%;
+  height: 520px;
+  overflow: auto;
+  background-color: #232323;
+  position: relative;
+  padding: 20px 20px 40px 20px;
+  margin: 0;
+
+  .toolbar{
+    position:static !important;
+  }
+  a{
+    svg{
+      margin-top: -40px;
+    }
+  }
+}
+
+.instructions-container{
+  width: 100%;
+  text-align: start;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.title-container{
+  width: 100%;
+  text-align: start;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  h1{
+    width: 1320px;
+    text-align: start;
+    color: white;
+  }
+
+}
+
+
 :host {
   height: 100%;
   margin: 0;
@@ -22,9 +88,7 @@
   display: none;
 }
 
-// #myVideo{
-//   display: none;
-// }
+
 .app{
   width: 250px;
   float: left;
@@ -68,4 +132,40 @@
 }
 .dark-modal .close {
   color: white !important;
+}
+
+@media (max-width: 1200px) {
+  .video-container{
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    margin: -870px 0px 0px 0;
+    padding: 10px;
+
+    video{
+      width: 100%;
+      border-radius: 10px;
+      -webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+      -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+      box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+    }
+  }
+}
+
+@media (max-width: 993px) {
+  .video-container{
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    margin: -760px 0px 0px 0;
+    padding: 10px;
+
+    video{
+      width: 100%;
+      border-radius: 10px;
+      -webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+      -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+      box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
+    }
+  }
 }

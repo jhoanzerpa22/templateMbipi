@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
-import { SocketWebService } from './boards.service';
+import { SocketWebService } from '../boards/boards.service';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
@@ -10,13 +10,13 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-boards',
-  templateUrl: './boards.component.html',
-  styleUrls: ['./boards.component.scss'],
+  selector: 'app-boards-voto',
+  templateUrl: './boards-voto.component.html',
+  styleUrls: ['./boards-voto.component.scss'],
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
@@ -34,7 +34,6 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   equipo: any = [];
 
   public filteredTablero: ReplaySubject<any> = new ReplaySubject<[]>(1);
-  public filteredNotas: ReplaySubject<any> = new ReplaySubject<[]>(1);
 
   private _onDestroy = new Subject<void>();
 
@@ -104,17 +103,10 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     private ref: ChangeDetectorRef,
     private _router: Router
   ) {
-    this.socketWebService.outEven.subscribe((res: any) => {
+    this.socketWebService.outEvenTableroVoto.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { tablero } = res;
-      //const { notas } = res;
-      this.readBoard(tablero, false);/*
-      this.readNotas(notas, false);*/
-    });
-
-    //escuchamos el evento para continuar
-    this.socketWebService.outEvenContinueVoto.subscribe((res: any) => {
-      this.continue();
+      this.readBoard(tablero, false);
     });
 
     this.socketWebService.outEven2.subscribe((res: any) => {
@@ -123,7 +115,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       const { prevPost } = res;
       let usuario_label = prevPost.usuario.split(' ');
       const index = this.equipo.findIndex((c: any) => c == usuario_label[0]);
-      //console.log('usuario_equipo',usuario_label[0]);
+      //console.log('usuario',prevPost.usuario);
         if (index == -1) {
           this.equipo.push(usuario_label[0]);
         }
@@ -131,13 +123,13 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       //jQuery("#canvasId").css({"left" : prevPost.x, "top" : prevPost.y});
       jQuery("#puntero-"+usuario_label[0]).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
       jQuery("#equipo-"+usuario_label[0]).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
-      //console.log('equipo',this.equipo);
+      console.log('equipo',this.equipo);
 
       this.writeSingle(prevPost, false);
     })
 
      /*this.initService.init();*/
-     /*this.socketWebService.outEvenUsers.subscribe((res: any) => {
+    /* this.socketWebService.outEvenUsers.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { usuarios } = res;
       console.log('escuchando',res);
@@ -162,7 +154,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
    }
 
   ngOnInit(): void {
-
+    
     this.socketWebService.emitEventGetEtapa();
 
     this.route.params.subscribe(params => {
@@ -171,25 +163,30 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getProyect();
     });
 
-    this.socketWebService.emitEventGet();
+    this.socketWebService.emitEventGetClasi();
 
-    /*const notes: any = localStorage.getItem('notes_all');
+    /*const notes: any = localStorage.getItem('category_all');
     this.notas = JSON.parse(notes);
-    let como_podriamos: any = [];
-    for(let n in this.notas){
-      como_podriamos.push({'content': this.notas[n].content});
-    }
+    let primero = 0; 
+    for(let n in this.notas){    
+      let categorias: any = [];
+      for(let m in this.notas[n].data){
+        categorias.push({'label': this.notas[n].data[m].content, 'voto': 0, 'voto_maximo': false});
+      }
+      if(primero > 0){
+        this.tablero.push({'title': this.notas[n].title, "data": categorias});
+      }
+      primero = primero + 1;
+    }*/
     
-    this.filteredNotas.next(this.notas.slice());
-
-    this.tablero.push({'title': 'Como podriamos', "data": como_podriamos});*/
-
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
     
-    /*this.tablero.push({'title': 'Tablero 1', "data": [{'content': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
-    this.tablero.push({'title': 'Tablero 2', "data": [{'content': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
+    /*this.tablero.push({'title': 'Tablero 1', "data": [{'label': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
+    this.tablero.push({'title': 'Tablero 2', "data": [{'label': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
     //this.tablero2 = JSON.stringify(this.tablero);
     //this.filteredTablero.next(this.tablero.slice());
+
+    //console.log('tablero_clasificacion',this.tablero);
     
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
@@ -200,7 +197,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.setInitialValue();
     this.render();
-
+  
   const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
     
   if (index2 != -1) {
@@ -241,6 +238,16 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
               //this.signUpNgForm.resetForm();
           }
       );
+  }
+
+  saveVotoAll(){
+
+  }
+
+  etapa_active(etapa_active: any) {
+    if(etapa_active != ''){
+      this._router.navigate([etapa_active]);
+    }
   }
 
   private readUsersActive(data: any, emit: boolean){
@@ -310,6 +317,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+
   public clearZone = () => {
     this.points = [];
     this.cx.clearRect(0, 0, this.width, this.height);
@@ -320,22 +328,15 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
       });
-
-      this.filteredNotas
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-      });
   }
 
   private writeBoard(){
     //console.log('writeBoard');
-    console.log('notas',this.notas);
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)/*,notas: JSON.stringify(this.notas)*/});
+    this.socketWebService.emitEventTableroVoto({tablero: JSON.stringify(this.tablero)});
   }
 
   private readBoard(tablero: any, emit: boolean){
     const data = JSON.parse(tablero);
-    console.log('readBoard',data);
     //console.log('data',data);
     this.tablero = [];
     for(let c in data){
@@ -347,66 +348,111 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredTablero.next(this.tablero.slice());
   }
 
-  private readNotas(notas: any, emit: boolean){
-    const data = JSON.parse(notas);
-    console.log('readNota',data);
-    //console.log('data',data);
-    this.notas = data;
-
-    this.filteredNotas.next(this.notas.slice());
+  votar(i: any, j: any){
+    //console.log('votar', i, j);
+    //console.log(this.tablero[i].data[j].label);
+    this.tablero[i].data[j].voto = this.tablero[i].data[j].voto + 1;
+    this.votos.push(i+':'+j);
+    this.voto_tablero.push(i);
+    //console.log('votos', this.votos);
+    this.writeBoard();
   }
 
-  addCategory(){
-    let title = 'Categoria '+ /*(*/this.tablero.length/* + 1)*/;
-    this.tablero.push({"title": title, "data": []});
-    this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());
-
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  votarMaximo(i: any, j: any){
+    //console.log('votar_maximo', i, j);
+    //console.log(this.tablero[i].data[j].label);
+    this.voto_maximo.push(i+':'+j);
+    this.voto_tablero.push(i);
+    this.tablero[i].data[j].voto_maximo = true;
+    //console.log('votos', this.votos);
+    this.writeBoard();
   }
 
-  onFocusOut(event: any, i: any){
-    this.tablero[i].title = event.target.innerText;
-    this.tablero2 = JSON.stringify(this.tablero);
+  quitar(i: any, j: any){
+    //console.log('quitar', i, j);
+    //console.log(this.tablero[i].data[j].label);
+    this.tablero[i].data[j].voto = this.tablero[i].data[j].voto - 1;
     
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
-  }
-
-  saveCategoryAll() {
-    console.log('save_category_all',this.tablero);
-    localStorage.setItem('category_all', this.tablero2);
-
-    let primero = 0;     
-    let tablero: any = [];
-
-    for(let n in this.tablero){
-      let categorias: any = [];
-      
-      for(let m in this.tablero[n].data){
-        categorias.push({'label': this.tablero[n].data[m].content, 'voto': 0, 'voto_maximo': false});
-      }
-      if(primero > 0){
-        tablero.push({'title': this.tablero[n].title, "data": categorias});
-      }
-      primero = primero + 1;
+    const index = this.votos.findIndex((c: any) => c == i+':'+j);
+    
+    if (index != -1) {
+      this.votos.splice(index, 1);
     }
 
-    console.log('guardar_clasificacion',tablero);
-
-    this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase3');
-
-    this.socketWebService.emitEventTableroSaveClasi({tablero: JSON.stringify(tablero)});
-  }
-
-  continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase3']);
-  }
-
-  etapa_active(etapa_active: any) {
-    if(etapa_active != ''){
-      this._router.navigate([etapa_active]);
+    const index2 = this.voto_tablero.findIndex((c: any) => c == i);
+    
+    if (index2 != -1) {
+      this.voto_tablero.splice(index2, 1);
     }
+
+    //console.log('votos', this.votos);
+    this.writeBoard();
   }
+
+  
+  quitarMaximo(i: any, j: any){
+    //console.log('quitar_maximo', i, j);
+    //console.log(this.tablero[i].data[j].label);
+    
+    const index = this.voto_maximo.findIndex((c: any) => c == i+':'+j);
+    
+    if (index != -1) {
+      this.voto_maximo.splice(index, 1);
+    }
+
+    const index2 = this.voto_tablero.findIndex((c: any) => c == i);
+    
+    if (index2 != -1) {
+      this.voto_tablero.splice(index2, 1);
+    }
+
+    this.tablero[i].data[j].voto_maximo = false;
+
+    //console.log('votos', this.votos);
+    this.writeBoard();
+  }
+
+  verifyVoto(i: any, j: any){
+    const index = this.votos.findIndex((c: any) => c == i+':'+j);
+    
+    if (index != -1) {
+      return true;
+    }
+
+    return false;
+  
+  }
+  
+  verifyVotoMaximo(i: any, j: any){
+    /*const index = this.voto_maximo.findIndex((c) => c == i+':'+j);
+    
+    if (index != -1) {
+      return true;
+    }
+
+    return false;*/
+
+    if(this.tablero[i].data[j].voto_maximo == true){
+      return true;
+    }else{
+      return false;
+    }
+  
+  }
+
+  
+  verifyVotoTablero(i: any){
+    //console.log('voto_tablero',this.voto_tablero);
+    const index = this.voto_tablero.findIndex((c: any) => c == i);
+    
+    if (index != -1) {
+      return true;
+    }
+
+    return false;
+  
+  }
+
   
   onPlayPause(){
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)

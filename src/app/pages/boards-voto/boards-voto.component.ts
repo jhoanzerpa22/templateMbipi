@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
 import { SocketWebService } from '../boards/boards.service';
+import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -15,7 +16,7 @@ declare var jQuery: any;
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardsVotoComponent implements OnInit, AfterViewInit {
+export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
@@ -29,6 +30,8 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   votos: any = [];
   voto_tablero: any = [];
   voto_maximo: any = [];
+  maximo_votos: number = 0;
+  num_votos: number = 0;
   _user: any = {};
   equipo: any = [];
 
@@ -58,7 +61,12 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   playing = false;
 
   usuarios: any = [];
+  usuarios_active: any = [];
   usuario: any = {};
+  
+  public proyecto: any = {};
+  public proyecto_id: number;
+  public rol: any = '';
   
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
@@ -92,11 +100,12 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private socketWebService: SocketWebService,
+    private _proyectsService: ProyectsService,
     private el:ElementRef,
     private ref: ChangeDetectorRef,
     private _router: Router
   ) {
-    this.socketWebService.outEven.subscribe((res: any) => {
+    this.socketWebService.outEvenTableroVoto.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { tablero } = res;
       this.readBoard(tablero, false);
@@ -106,37 +115,59 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
       //console.log('escucha_puntero',res);
 
       const { prevPost } = res;
-      const index = this.equipo.findIndex((c: any) => c == prevPost.usuario);
-      console.log('usuario',prevPost.usuario);
+      let usuario_label = prevPost.usuario.split(' ');
+      const index = this.equipo.findIndex((c: any) => c == usuario_label[0]);
+      //console.log('usuario',prevPost.usuario);
         if (index == -1) {
-          this.equipo.push(prevPost.usuario);
+          this.equipo.push(usuario_label[0]);
         }
+        this.ref.detectChanges();
       //jQuery("#canvasId").css({"left" : prevPost.x, "top" : prevPost.y});
-      jQuery("#puntero-"+prevPost.usuario).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
-      jQuery("#equipo-"+prevPost.usuario).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
+      jQuery("#puntero-"+usuario_label[0]).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
+      jQuery("#equipo-"+usuario_label[0]).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
       console.log('equipo',this.equipo);
 
       this.writeSingle(prevPost, false);
     })
 
      /*this.initService.init();*/
-     this.socketWebService.outEvenUsers.subscribe((res: any) => {
+    /* this.socketWebService.outEvenUsers.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
       const { usuarios } = res;
       console.log('escuchando',res);
       this.readUsers(usuarios, false);
+    });*/
+
+    this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
+      const { usuarios_active } = res;
+      this.readUsersActive(usuarios_active, false);
+    });
+
+    //escuchamos el evento activo
+    this.socketWebService.outEvenEtapaActive.subscribe((res: any) => {
+      this.etapa_active(res);
     });
 
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
+    this.usuario.active = true;
 
    }
 
   ngOnInit(): void {
-
     
-    const notes: any = localStorage.getItem('category_all');
+    this.socketWebService.emitEventGetEtapa();
+
+    this.route.params.subscribe(params => {
+      //console.log('params',params);
+      this.proyecto_id = params['id'];
+      this.getProyect();
+    });
+
+    this.socketWebService.emitEventGetClasi();
+
+    /*const notes: any = localStorage.getItem('category_all');
     this.notas = JSON.parse(notes);
     let primero = 0; 
     for(let n in this.notas){    
@@ -148,16 +179,16 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
         this.tablero.push({'title': this.notas[n].title, "data": categorias});
       }
       primero = primero + 1;
-    }
+    }*/
     
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
     
     /*this.tablero.push({'title': 'Tablero 1', "data": [{'label': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
     this.tablero.push({'title': 'Tablero 2', "data": [{'label': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
-    this.tablero2 = JSON.stringify(this.tablero);
-    this.filteredTablero.next(this.tablero.slice());
+    //this.tablero2 = JSON.stringify(this.tablero);
+    //this.filteredTablero.next(this.tablero.slice());
 
-    console.log('tablero_clasificacion',this.tablero);
+    //console.log('tablero_clasificacion',this.tablero);
     
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
@@ -168,47 +199,66 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.setInitialValue();
     this.render();
-    //this.usuarios = [];
-    const index = this.usuarios.findIndex((c: any) => c.id == this.usuario.id);
+  
+  const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
     
-    if (index != -1) {
-      this.usuarios.splice(index, 1);
-    }
-  this.usuarios.push({'id': this.usuario.id, 'title': this.usuario.nombre/*, 'data': this.usuario*/});
+  if (index2 != -1) {
+    this.usuarios_active.splice(index2, 1);
+  }
+  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
-    console.log('enviando_usuarios',this.usuarios);
+    console.log('enviando_usuario',this.usuario);
 
-    this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
+    this.socketWebService.emitEventUsersActive(this.usuario);
     this.ref.detectChanges();
   }
 
   ngOnDestroy() {
+    console.log('ngdestroy');
+    this.socketWebService.emitEventUsersInactive(this.usuario);
     this._onDestroy.next();
     this._onDestroy.complete();
   }
 
-  private readUsers(usuarios: any, emit: boolean){
-    const data = JSON.parse(usuarios);
-    //console.log('data',data);
-    //this.usuarios = [];
-    let nuevo: number = 0;
-    for(let c in data){
-      let index = this.usuarios.findIndex((u: any) => u.id == data[c].id);
-    
-      if (index != -1) {
-        //this.usuarios.splice(index, 1);
-      }else{
-        nuevo = 1;
-        
-        this.usuarios.push({'id': data[c].id, 'title': data[c].title/*typeof data[c].nombre !== 'undefined' ? data[c].nombre : data[c].data.nombre, 'data': data[c]*/});
-      }
+  getProyect(){
+
+    this._proyectsService.get(this.proyecto_id)
+      .subscribe(
+          (response) => {
+            this.proyecto = response;
+            this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.usuarios.filter(
+              (op: any) => (
+                op.usuario_id == this.usuario.id)
+              );
+            this.rol = usuario_proyecto[0].rol;
+            this.maximo_votos = this.rol == 'Decisor' ? 4 : 2; 
+            this.ref.detectChanges();
+          },
+          (response) => {
+              // Reset the form
+              //this.signUpNgForm.resetForm();
+          }
+      );
+  }
+
+  saveVotoAll(){
+
+  }
+
+  etapa_active(etapa_active: any) {
+    if(etapa_active != ''){
+      this._router.navigate([etapa_active]);
     }
-    console.log('usuarios',this.usuarios);
-    if(nuevo == 1){
-      this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-      this.ref.detectChanges();
-    }
+  }
+
+  private readUsersActive(data: any, emit: boolean){
+    const usuarios = JSON.parse(data);
+    console.log('recibe_usuarios', usuarios);
+    this.usuarios_active = usuarios;
     
+    this.ref.detectChanges();
   }
 
   private render() {
@@ -230,10 +280,11 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
     //const canvasEl = this.canvasRef.nativeElement;
     const canvasEl = this.tableroRef.nativeElement;
     const rect = canvasEl.getBoundingClientRect();
+    let usuario_label = this._user.nombre.split(' ');
     const prevPos = {
       x: res.clientX - rect.left,
       y: res.clientY - rect.top,
-      usuario: this._user.nombre
+      usuario: usuario_label[0]
     }
     /*const prevPos = {
       x: res.clientX,
@@ -269,7 +320,6 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   public clearZone = () => {
     this.points = [];
     this.cx.clearRect(0, 0, this.width, this.height);
@@ -284,7 +334,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
 
   private writeBoard(){
     //console.log('writeBoard');
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+    this.socketWebService.emitEventTableroVoto({tablero: JSON.stringify(this.tablero)});
   }
 
   private readBoard(tablero: any, emit: boolean){
@@ -304,8 +354,22 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
     //console.log('votar', i, j);
     //console.log(this.tablero[i].data[j].label);
     this.tablero[i].data[j].voto = this.tablero[i].data[j].voto + 1;
-    this.votos.push(i+':'+j);
-    this.voto_tablero.push(i);
+
+    const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
+    
+      if (index == -1) {
+        this.votos.push({id: i+':'+j, voto: 1});
+      }else{
+        this.votos[index].voto = this.votos[index].voto + 1;
+      }
+
+      const index2 = this.voto_tablero.findIndex((c: any) => c == i);
+      
+      if (index2 == -1) {
+        this.voto_tablero.push(i);
+      }
+
+    this.num_votos = this.num_votos + 1;
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -325,18 +389,23 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
     //console.log(this.tablero[i].data[j].label);
     this.tablero[i].data[j].voto = this.tablero[i].data[j].voto - 1;
     
-    const index = this.votos.findIndex((c: any) => c == i+':'+j);
-    
-    if (index != -1) {
-      this.votos.splice(index, 1);
-    }
+    this.num_votos = this.num_votos - 1;
 
-    const index2 = this.voto_tablero.findIndex((c: any) => c == i);
-    
-    if (index2 != -1) {
-      this.voto_tablero.splice(index2, 1);
-    }
+    const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
 
+      if (index != -1) {
+        this.votos[index].voto = this.votos[index].voto - 1;
+        
+        if(this.votos[index].voto == 0){
+          this.votos.splice(index, 1);
+            
+          const index2 = this.voto_tablero.findIndex((c: any) => c == i);
+          
+          if (index2 != -1) {
+            this.voto_tablero.splice(index2, 1);
+          }
+        }
+      }
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -365,7 +434,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit {
   }
 
   verifyVoto(i: any, j: any){
-    const index = this.votos.findIndex((c: any) => c == i+':'+j);
+    const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
     
     if (index != -1) {
       return true;

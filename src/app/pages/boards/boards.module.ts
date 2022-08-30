@@ -20,10 +20,14 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
+import { CategorizacionNotasAccordionComponent } from './instructions/categorizacion-notas-accordion/categorizacion-notas-accordion.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from "../../../environments/environment";
+
+const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
 @NgModule({
-  declarations: [BoardsComponent],
+  declarations: [BoardsComponent, CategorizacionNotasAccordionComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -47,6 +51,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     MatMenuModule,
     MatRadioModule,
     DragDropModule,
+    NgbModule,
     // SocketIoModule
     SocketIoModule.forRoot(config)
   ],

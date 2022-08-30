@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BoardsVotoComponent } from './boards-voto.component';
+import { BoardsVotoComponent } from './boards-voto2.component';
 import { WidgetsModule } from '../../_metronic/partials';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -23,6 +23,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { VotoAccordionComponent } from './instructions/voto-accordion/voto-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
+
 
 const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
