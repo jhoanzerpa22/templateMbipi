@@ -59,7 +59,7 @@ export class DashboardProjectComponent implements OnInit {
 
   iniciar(){
     let fecha = new Date();
-    const data = {estado: 'Iniciado', fecha_inicio: fecha};
+    const data = {estado: 'Iniciado', fecha_inicio: fecha, etapa_activa: '/proyect-init/'+this.proyecto_id};
     this._proyectsService.updateStatus(this.proyecto_id, data)
     .subscribe(
         data => {
