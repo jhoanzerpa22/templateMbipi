@@ -307,9 +307,20 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     tablero.push({'title': 'Como podriamos', "data": como_podriamos});
 
-    this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase2'};
     
-    this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
+    this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
+
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
+    
+          this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
+
+        },
+        (response) => {
+        }
+    );
 
     //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase2']);
   }
