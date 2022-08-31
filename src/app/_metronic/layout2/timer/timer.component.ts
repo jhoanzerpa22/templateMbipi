@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { ProyectsService } from '../../../pages/config-project-wizzard/proyects.service';
 
 @Component({
   selector: 'app-timer',
@@ -8,17 +9,18 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 export class TimerComponent implements OnInit {
 
   title= 'cronometro'
-
-  ms:any = '0' + 0;
-  sec: any = '0' + 0;
-  min: any = '0' + 0;
-  hr: any = '0' + 0;
+  @Input() ms:any = '0' + 0;
+  @Input() sec: any = '0' + 0;
+  @Input() min: any = '0' + 0;
+  @Input() hr: any = '0' + 0;
+  @Input() proyecto_id: any = '';
+  @Input() rol: any = 'Decisor';
 
   startTimer: any;
   running = false;
 
-
-  constructor(private ref:ChangeDetectorRef) { }
+  constructor(private ref:ChangeDetectorRef,
+    private _proyectsService: ProyectsService) { }
 
   ngOnInit(): void {
     this.start();
@@ -42,6 +44,18 @@ export class TimerComponent implements OnInit {
           this.min++;
           this.min = this.min < 10 ? '0' + this.min : this.min;
           this.sec = '0' + 0;
+          
+          if(this.rol == 'Decisor'){
+          let data_time = {tiempo: this.hr+':'+this.min};
+            this._proyectsService.updateTime(this.proyecto_id, data_time)
+            .subscribe(
+                data => {
+                  console.log('tiempo_guardado',data_time);
+                },
+                (response) => {
+                }
+            );
+          }
         }
         this.ref.detectChanges();
         if(this.min === 60){

@@ -265,7 +265,7 @@ server.listen(PORT);
   console.log(`Server is running on port ${PORT}.`);
 });*/
 
-/*const db = require("./app/models");
+const db = require("./app/models");
 // const path = require("path/posix");
 const Role = db.role;
 const User = db.user;
@@ -273,11 +273,11 @@ const Usuario = db.usuario;
 const Referencias = db.referencias;
 const ProyectosTipos = db.proyectos_tipos;
 const Metodologias = db.metodologias;
-*/
-/*db.sequelize.sync().then(() => {
+
+db.sequelize.sync().then(() => {
   console.log("Seeder db.");
   initial();
-});*/
+});
 /*db.sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
   initial();

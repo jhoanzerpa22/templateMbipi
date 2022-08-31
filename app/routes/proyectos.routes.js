@@ -26,6 +26,9 @@ module.exports = app => {
 
     // Update the status of Proyectos with id
     router.put("/updateStatus/:id", proyectos.updateStatus);
+
+    // Update the time of Proyectos with id
+    router.put("/updateTime/:id", proyectos.updateTime);
   
     // Delete a Proyectos with id
     router.delete("/:id", proyectos.delete);
