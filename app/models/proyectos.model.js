@@ -34,7 +34,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       etapa_activa:{
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       tiempo: {
         type: Sequelize.STRING

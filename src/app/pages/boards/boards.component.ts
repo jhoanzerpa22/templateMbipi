@@ -393,9 +393,21 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     console.log('guardar_clasificacion',tablero);
 
-    this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase3');
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase3'};
+    
+    this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
 
-    this.socketWebService.emitEventTableroSaveClasi({tablero: JSON.stringify(tablero)});
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase3');
+
+          this.socketWebService.emitEventTableroSaveClasi({tablero: JSON.stringify(tablero)});
+
+        },
+        (response) => {
+        }
+    );
+
   }
 
   continue() {
