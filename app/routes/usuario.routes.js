@@ -15,6 +15,12 @@ module.exports = app => {
   // Retrieve all active usuarios
   router.get("/active", usuarios.findAllActive);
 
+  // Retrieve payment usuarios
+  router.get("/payment", usuarios.getPayment);
+
+  // Retrieve payment usuarios
+  router.post("/payment", usuarios.savePayment);
+
   // Verify usuarios
   router.post("/verify", usuarios.verifyLogin);
 
