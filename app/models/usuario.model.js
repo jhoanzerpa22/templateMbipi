@@ -47,6 +47,21 @@ module.exports = (sequelize, Sequelize) => {
     },
     informacion: {
       type: Sequelize.TEXT
+    },
+    nameOnCard:{
+      type: Sequelize.STRING
+    },
+    cardCvv:{
+      type: Sequelize.STRING
+    },
+    cardNumber:{
+      type: Sequelize.STRING
+    },
+    cardExpiryMonth:{
+      type: Sequelize.STRING
+    },
+    cardExpiryYear:{
+      type: Sequelize.STRING
     }
   }, {
     tableName: 'usuario_plataforma',
