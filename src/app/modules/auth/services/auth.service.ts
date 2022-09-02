@@ -76,7 +76,7 @@ export class AuthService implements OnDestroy {
     }
 
     this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByToken(auth.authToken).pipe(
+    return this.authHttpService.getUserByStorage()/*getUserByToken(auth.authToken)*/.pipe(
       map((user: UserType) => {
         if (user) {
           this.currentUserSubject.next(user);
