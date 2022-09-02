@@ -10,6 +10,8 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
 import { NgxPasswordStrengthMeterModule } from 'ngx-password-strength-meter';
+import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { NgxPasswordStrengthMeterModule } from 'ngx-password-strength-meter';
     ForgotPasswordComponent,
     LogoutComponent,
     AuthComponent,
+    VerifyCodeComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     CommonModule,

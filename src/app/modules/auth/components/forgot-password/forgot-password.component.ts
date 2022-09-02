@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { first } from 'rxjs/operators';
+import { AuthHTTPService } from '../../services/auth-http';
+import Swal from 'sweetalert2';
+
 
 enum ErrorStates {
   NotSubmitted,
@@ -20,10 +23,14 @@ export class ForgotPasswordComponent implements OnInit {
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
   isLoading$: Observable<boolean>;
+  userData: any;
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private authHttpService: AuthHTTPService) {
     this.isLoading$ = this.authService.isLoading$;
   }
 
@@ -39,7 +46,7 @@ export class ForgotPasswordComponent implements OnInit {
   initForm() {
     this.forgotPasswordForm = this.fb.group({
       email: [
-        'admin@demo.com',
+        '',
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -55,9 +62,48 @@ export class ForgotPasswordComponent implements OnInit {
     const forgotPasswordSubscr = this.authService
       .forgotPassword(this.f.email.value)
       .pipe(first())
-      .subscribe((result: boolean) => {
+      .subscribe((result: any | undefined) => {
         this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
+        this.userData = result
+        console.log(result.data)
+        if(result.data.isEmailOnDb === false){
+          Swal.fire({
+            text: "Sorry, looks like there are some errors detected, please try again.",
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Ok, got it!",
+            customClass: {
+                confirmButton: "btn btn-light-primary"
+            }
+          });
+        }else {
+          this.sendValidatonCode(this.userData);
+        }
+
       });
     this.unsubscribe.push(forgotPasswordSubscr);
+
+
+
   }
+
+  sendValidatonCode(userData: any){
+    this.authHttpService.sendMailConfirmPass(userData)
+        .subscribe(
+          (response) => {
+            Swal.fire({
+              text: "Correo enviado correctamente a "+userData.data.correo_login +".",
+              icon: "success",
+              buttonsStyling: false,
+              confirmButtonText: "Ok!",
+              customClass: {
+                confirmButton: "btn btn-light-primary"
+              }
+            });
+          },
+          (err) => {
+            console.log(err)
+          });
+  }
+
 }

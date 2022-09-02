@@ -1,0 +1,116 @@
+<!--begin::Form-->
+<form
+  class="form w-100"
+  [formGroup]="verifyCodeForm"
+  novalidate="novalidate"
+  id="kt_verify_code_form"
+  (ngSubmit)="submit()"
+>
+  <!--begin::Heading-->
+  <div class="text-center mb-10">
+    <h1 class="text-dark mb-3">Ingresa código de verificación</h1>
+  </div>
+  <!--end::Heading-->
+
+  <!-- begin::Alert info-->
+  <!-- <ng-container *ngIf="!hasError">
+    <div class="mb-10 bg-light-info p-8 rounded">
+      <div class="text-info">
+        Usar cuenta demo <strong>{{ defaultAuth.email }}</strong> y clave
+        <strong>{{ defaultAuth.password }}</strong> para continuar.
+      </div>
+    </div>
+  </ng-container> -->
+  <!-- end::Alert info-->
+
+  <!-- begin::Alert error-->
+  <ng-container *ngIf="hasError">
+    <div class="mb-lg-15 alert alert-danger">
+      <div class="alert-text font-weight-bold">
+        Código de verificación incorrecto
+      </div>
+    </div>
+  </ng-container>
+  <!-- end::Alert error-->
+
+  <!--begin::Form group-->
+  <div class="fv-row mb-10">
+    <!-- <div class="d-flex justify-content-between mt-n5">
+      <div class="d-flex flex-stack mb-2">
+        <label class="form-label fw-bolder text-dark fs-6 mb-0">Codigo</label>
+      </div>
+    </div> -->
+
+    <input
+      class="form-control form-control-lg form-control-solid"
+      type="text"
+      name="verify_code"
+      placeholder="Código de verificación"
+      autocomplete="off"
+      formControlName="verify_code"
+      maxlength="5"
+      [ngClass]="{
+        'is-invalid': verifyCodeForm.controls['verify_code'].invalid,
+        'is-valid': verifyCodeForm.controls['verify_code'].valid
+      }"
+    />
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'Código requerido',
+        control: verifyCodeForm.controls['verify_code']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'minlength',
+        message: 'Código debe tener al menos 3 símbolos',
+        control: verifyCodeForm.controls['verify_code']
+      }"
+    ></ng-container>
+  </div>
+  <!--end::Form group-->
+
+  <!--begin::Action-->
+  <div class="text-center">
+    <button
+      type="submit"
+      id="kt_verify_code_submit"
+      class="btn btn-lg btn-primary w-100 mb-5"
+      [disabled]="verifyCodeForm.invalid"
+    >
+      <ng-container *ngIf="isLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Por favor espere...
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(isLoading$ | async)">
+        <span class="indicator-label">Continuar</span>
+      </ng-container>
+    </button>
+  </div>
+  <!--end::Action-->
+</form>
+<!--end::Form-->
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <span role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>

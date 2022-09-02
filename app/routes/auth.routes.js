@@ -22,4 +22,18 @@ module.exports = function(app) {
   app.post("/api/auth/signin", controller.signin);
 
   app.put("/api/auth/update-password/:id", controller.updatePassword);
+
+  let router = require("express").Router();
+
+  //Forgot Password
+  router.put('/forgot-password', controller.forgotPassword);
+
+  //Verify Code
+  router.put("/verify-code", controller.verifyCode);
+
+  //Change Password
+  router.put('/change-password', controller.changePassword);
+
+  app.use('/api/auth', router);
+
 };
