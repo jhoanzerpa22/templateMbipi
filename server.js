@@ -34,6 +34,21 @@ app.post("/api/sendmail", (req, res) => {
 
 });
 
+app.put("/api/sendresume/:id/:correo", (req, res) => {
+  console.log("sendresume");
+  const user = {
+    user_id: req.params.id,
+    correo_login: req.params.correo,
+    data: req.body
+  };
+
+  sendMailResume(user, info => {
+    console.log(`The mail has beed send and the id is ${info.messageId}`);
+    res.send(info);
+  });
+
+});
+
 app.post("/api/invitacions", (req, res) => {
   console.log("request came");
   let user = req.body;
@@ -431,6 +446,56 @@ async function sendMail(user, callback) {
     </div>
   </div>
     `
+  };
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail(mailOptions);
+
+  callback(info);
+
+}
+
+//configuración envío de email
+async function sendMailResume(user, callback) {
+  let usuario = user.data;
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
+      pass: /*'Innovago123'*/'20588459jz'
+    }
+  });
+
+  let contenido = `<div class="border" style="width: 600px; height: 900px; border-top-color: rgb(0,188,212); border-color: black;">
+  <div class="border" style="width: 600px; height: 10px; background-color: rgb(0,188,212);border-color: rgb(0,188,212);">
+  </div>
+  <div class="border" style="width: 600px; height: 70px; background-color: #F6F6F6; border-color: #F6F6F6; font-family: 'Raleway', sans-serif;" >
+      <h1 style="text-align: center; padding-top: 12px;">Mbipi<span style="font-weight: bold; color: #23909F;">.</span></h1>
+  </div>
+  <div class="container">
+    <h3 style="text-align: center; padding-top: 20px;">¡Gracias por completar el registro en nuestro portal Mbipi!</h3>
+  </div>
+  <div class="container">
+  <p><h4 style="text-align: center; padding-top: 10px;">Tipo Cuenta: `+usuario.tipo_cuenta+`</h4>
+  </p>
+  <p>
+    <h4 style="text-align: center; padding-top: 5px;">Tipo Plan: `+usuario.tipo_plan+`</h4>
+  </p>
+  <p><h4 style="text-align: center; padding-top: 5px;">Nombre Tarjeta: `+usuario.nameOnCard+`</h4></p>
+  <p><h4 style="text-align: center; padding-top: 5px;">Número Tarjeta: `+usuario.cardNumber+`</h4></p>
+  <p><h4 style="text-align: center; padding-top: 5px;">Nombre Empresa: `+usuario.nombre_empresa+`</h4></p>
+  </div>
+</div>
+  `;
+
+  let mailOptions = {
+    from: /*'innovago@innovago.tresidea.cl', */'jhoan.zerpa@tresidea.cl', // sender address
+    to: user.correo_login, // list of receivers user.email
+    subject: "Bienvenido a Mbipi", // Subject line
+    html: contenido
   };
 
   // send mail with defined transport object
