@@ -307,12 +307,12 @@ exports.updateAccount = (req, res) => {
       nombre_empresa: req.body.businessName,
       tipo_financiamiento: req.body.business == 'si' ? req.body.businessType : null,
       financiamiento: req.body.business,
-      completada: true
-      /*cardCvv: "123"
-      cardExpiryMonth: "1"
-      cardExpiryYear: "2"
-      cardNumber: "4111 1111 1111 1111"
-      nameOnCard: "Max Doe"
+      completada: true,
+      cardCvv: req.body.accountPlan != 'gratuito' ? req.body.cardCvv : '',
+      cardExpiryMonth: req.body.accountPlan != 'gratuito' ? req.body.cardExpiryMonth : '',
+      cardExpiryYear: req.body.accountPlan != 'gratuito' ? req.body.cardExpiryYear : '',
+      cardNumber: req.body.accountPlan != 'gratuito' ? req.body.cardNumber : '',
+      nameOnCard: req.body.accountPlan != 'gratuito' ? req.body.nameOnCard : ''/*
       saveCard: "1"*/
     };
 
@@ -322,7 +322,8 @@ exports.updateAccount = (req, res) => {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Usuario was updated successfully."
+          message: "Usuario was updated successfully.",
+          user: usuario
         });
       } else {
         res.send({

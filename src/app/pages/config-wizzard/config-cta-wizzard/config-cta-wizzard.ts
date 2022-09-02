@@ -42,6 +42,13 @@ export class ConfigCtaWizardComponent implements OnInit {
       this._usersService.updateAccount(user.id, this.account$.value)
       .subscribe(
           (response) => {
+            this._usersService.sendResume(user.id,user.correo_login,response.user)
+            .subscribe(
+            (response) => {
+            },
+            (response) => {
+                // Re-enable the form
+            });
           },
           (response) => {
               // Reset the form
