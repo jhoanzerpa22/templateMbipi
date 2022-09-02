@@ -5,6 +5,7 @@ const cors = require('cors');
 var bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const path = require("path");
+require('dotenv').config();
 
 app.use(cors({ origin: true, credentials: true, methods: 'GET,POST,PUT,DELETE,OPTIONS' }));
 const options = {
@@ -35,6 +36,15 @@ app.post("/api/invitacions", (req, res) => {
   console.log("request came");
   let user = req.body;
   sendMailInvitacions(user, info => {
+    console.log(`The mail has beed send and the id is ${info.messageId}`);
+    res.send(info);
+  });
+});
+
+app.post("/api/sendmail-confirm-pass", (req, res) => {
+  console.log("request came");
+  let user = req.body.data;
+  sendMailConfirmPass(user, info => {
     console.log(`The mail has beed send and the id is ${info.messageId}`);
     res.send(info);
   });
@@ -114,7 +124,7 @@ io.on('connection', function (socket) {
     console.log('usuario', res);
     //let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
     let index = usuarios_mbipi.findIndex((c) => c.id == res.id);
-    
+
     if (index == -1) {
       //usuarios_mbipi.splice(index, 1);
       usuarios_mbipi.push({'id': res.id, 'id_socket': handshake, 'nombre': res.nombre, 'active': true});
@@ -127,12 +137,12 @@ io.on('connection', function (socket) {
 
   socket.on('evento_usuarios_inactivos', (res) => {
     let index = usuarios_mbipi.findIndex((c) => c.id == res.id);
-    
+
     if (index != -1) {/*
       usuarios_mbipi.splice(index, 1);*/
       usuarios_mbipi[index].active = false;
     }
-    
+
     console.log('usuarios', usuarios_mbipi);
     socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
   })
@@ -149,7 +159,7 @@ io.on('connection', function (socket) {
 
     for(let c in tablero){
       let index3 = notas_tablero.findIndex((n) => n.id == tablero[c].id);
-    
+
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
@@ -181,7 +191,7 @@ io.on('connection', function (socket) {
 
   socket.on('evento_tablero_update', (res) => {
       let index = notas_tablero.findIndex((n) => n.id == res.id);
-    
+
         if (index != -1) {
           notas_tablero[index].content = res.content;
         }else{
@@ -189,10 +199,10 @@ io.on('connection', function (socket) {
         }
     io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
   })
-  
+
   socket.on('evento_tablero_delete', (res) => {
     let index = notas_tablero.findIndex((n) => n.id == res.id);
-  
+
       if (index != -1) {
         notas_tablero.splice(index, 1);
       }
@@ -200,15 +210,15 @@ io.on('connection', function (socket) {
   })
 
   socket.on('disconnect', function () {
-    
+
     console.log(`Usuario Desconectado: ${handshake}`);
-    
+
     let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
-    
+
     if (index != -1) {
       usuarios_mbipi.splice(index, 1);
     }
-    
+
     console.log('usuarios', usuarios_mbipi);
     socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
 
@@ -475,11 +485,63 @@ async function sendMail(user, callback) {
           <h3 style="text-align: center; padding-top: 20px;">¡Ha recibido una invitación!</h3>
         </div>
         <div class="container">
-          <h4 style="text-align: center; padding-top: 20px;">El Usuario `+user.nombre_usuario+` lo ha invitado ha unirse al proyecto `+user.nombre+`. Por favor ingresa en el siguiente link para ingresar al sistema y aceptar la invitación.</h4>
+          <h4 style="text-align: center; padding-top: 20px;">El Usuario `+user.nombre_usuario+` lo ha invitado a unirse al proyecto `+user.nombre+`. Por favor ingresa en el siguiente link para ingresar al sistema y aceptar la invitación.</h4>
           <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/invitations?code=`+user.code+`">Ingresar</a>
         </div>
       </div>
         `
+      };
+
+      // send mail with defined transport object
+      let info = await transporter.sendMail(mailOptions);
+
+      callback(info);
+
+    }
+
+    async function sendMailConfirmPass(user, callback) {
+
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
+          pass: /*'Innovago123'*/'20588459jz'
+        }
+      });
+
+      // let emails = '';
+      // let lista_emails = [];
+      // if(user.emails.length > 0){
+      //   for (let i = 0; i < user.emails.length; i++) {
+      //     lista_emails.push(user.emails[i].nombre);
+      //   }
+      //   emails = lista_emails.join(',');
+      // }
+
+      let mailOptions = {
+        from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
+        to: user.correo_login, // list of receivers user.email
+        subject: "Invitación Mbipi", // Subject line
+        html:
+        `<div class="border" style="width: 600px; height: 300px; border-top-color: rgb(0,188,212); border-color: black;">
+        <div class="border" style="width: 600px; height: 10px; background-color: rgb(0,188,212);border-color: rgb(0,188,212);">
+        </div>
+        <div class="border" style="width: 600px; height: 70px; background-color: #F6F6F6; border-color: #F6F6F6; font-family: 'Raleway', sans-serif;" >
+            <h1 style="text-align: center; padding-top: 12px;">Mbipi<span style="font-weight: bold; color: #23909F;">.</span></h1>
+        </div>
+        <div class="container">
+          <h3 style="text-align: center; padding-top: 20px;">Recuperar contraseña Mbipi</h3>
+        </div>
+        <div class="container">
+          <h4 style="text-align: center; padding-top: 10px;">Ingresa al siguiente link e ingresa el código de verificación</h4>
+          <a style="text-align: center; padding-top: 10px;" href="http://localhost:4200/auth/verify-code/`+user.id+`">https://mbipi.herokuapp.com/auth/verify-code/`+user.id+`</a>
+          <h3 style="text-align: center;padding-top: 10px;">Código: `+user.pass_recovery+` <h3>
+        </div>
+      </div>
+      `
       };
 
       // send mail with defined transport object
