@@ -6,6 +6,7 @@ import { AuthModel } from '../models/auth.model';
 import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 export type UserType = UserModel | undefined;
 
@@ -33,7 +34,8 @@ export class AuthService implements OnDestroy {
 
   constructor(
     private authHttpService: AuthHTTPService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
@@ -74,7 +76,7 @@ export class AuthService implements OnDestroy {
     }
 
     this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByStorage()/*getUserByToken(auth.authToken)*/.pipe(
+    return this.authHttpService.getUserByToken(auth.authToken).pipe(
       map((user: UserType) => {
         if (user) {
           this.currentUserSubject.next(user);
@@ -86,6 +88,7 @@ export class AuthService implements OnDestroy {
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
+
 
   // need create new user then login
   registration(user: UserModel): Observable<any> {
@@ -109,6 +112,16 @@ export class AuthService implements OnDestroy {
       .forgotPassword(email)
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
+
+  // forgotPassword(email: string): Observable<boolean> {
+  //   return this.http.put<boolean>(`${environment.API_G}auth/forgot-password`, {
+  //     email,
+  //   });
+  // }
+
+  // forgotPassword(id: any, data: any): Observable<any> {
+  //   return this.http.put(environment.API_G +'auth/forgot-password/', data);
+  // }
 
   // private methods
   private setAuthFromLocalStorage(auth: AuthModel): boolean {

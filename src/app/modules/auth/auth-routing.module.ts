@@ -7,6 +7,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LogoutComponent } from './components/logout/logout.component';
 import { VerifyComponent } from './components/verify/verify.component';
 import { VerifyLoginComponent } from './components/verify-login/verify-login.component';
+import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -38,6 +40,14 @@ const routes: Routes = [
       {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
+      },
+      {
+        path: 'change-password/:id',
+        component: ChangePasswordComponent,
+      },
+      {
+        path: 'verify-code/:id',
+        component: VerifyCodeComponent,
       },
       {
         path: 'logout',

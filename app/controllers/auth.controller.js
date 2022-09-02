@@ -12,6 +12,8 @@ const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+
+
 exports.signup = (req, res) => {
   // Save User to Database
   User.create({
@@ -51,7 +53,7 @@ exports.signup = (req, res) => {
     .catch(err => {
       res.status(500).send({ message: err.message });
     });
-          
+
 };
 
 exports.signin = (req, res) => {
@@ -147,7 +149,7 @@ exports.signin = (req, res) => {
                 invitaciones: []
               });
             });
-        
+
 		    }).catch(err => {
           res.status(500).send({ message: err.message });
         });
@@ -180,7 +182,7 @@ exports.updatePassword = (req, res) => {
           req.body.old_password,
           user.pass_hash
         );
-  
+
         if (!passwordIsValid) {
           return res.status(401).send({
             message: "Invalid Password!"
@@ -189,22 +191,168 @@ exports.updatePassword = (req, res) => {
 
   User.update(usuario, {
     where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Usuario was updated successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update Usuario with id=${id}. Maybe Usuario was not found or req.body is empty!`
-        });
-      }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating Usuario with id=" + id
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Usuario was updated successfully."
+          });
+        } else {
+          res.send({
+            message: `Cannot update Usuario with id=${id}. Maybe Usuario was not found or req.body is empty!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error updating Usuario with id=" + id
+        });
       });
     });
-  });
 };
+
+exports.forgotPassword = (req, res) => {
+  User.findOne({
+    where: {correo_login: req.body.email},
+    /*include: ['proyectos']*/
+  })
+    .then(user => {
+      if (!user) {
+        return res.send({
+          message: "User Not found(Recuperar pass).",
+          data: { isEmailOnDb: false }
+        });
+      }
+
+      const id = user.id;
+      const email = user.correo_login;
+      //Crea nueva clave provisoria
+      let pass_recovery = Math.random().toString(36).split("").slice(2,7).join("");
+      let pass_recovery_hash = bcrypt.hashSync(pass_recovery, 8);
+      let provisoryPass = {
+        pass_recovery_hash : pass_recovery_hash
+      }
+
+
+      //token = jwt.sign({userId: id, userEmail: email}, process.env.SECRET_JWT_SEED, {expiresIn: '10m'})
+
+      // console.log(token);
+
+      User.update(provisoryPass, {
+        where: { id: id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Usuario was updated successfully.",
+                data: {
+                        id : user.id,
+                        correo_login : user.correo_login,
+                        pass_recovery : pass_recovery,
+                        pass_recovery_hash: pass_recovery_hash
+                      }
+              });
+            } else {
+              res.send({
+                message: `Cannot update Usuario with id=${id}. Maybe Usuario was not found or req.body is empty!`
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            // res.write(err)
+            // res.status(500).send({
+            //   message: "Error updating Usuario with id=" + id
+            // });
+          });
+    });
+
+}
+
+exports.verifyCode = (req, res) => {
+  // console.log(req.body.data)
+  const id = req.body.data.userId
+  User.findOne({
+    where: {id: id},
+  }).then(
+    (user)=>{
+      if (!user) {
+        return res.send({
+          message: "User Not found.",
+        });
+      }
+      var codeIsValid = bcrypt.compareSync(
+        req.body.data.verifyCode,
+        user.pass_recovery_hash
+      );
+
+      if (!codeIsValid) {
+        return res.send({
+          message: "Invalid Password!",
+          data: {
+            isCodeValid : false
+          }
+        });
+      }else {
+        return res.send({
+          message: "OK!",
+          data: {
+            userId : user.id,
+            isCodeValid : true
+          }
+        })
+      }
+
+    }
+  )
+}
+
+exports.changePassword=(req, res) =>{
+  const id = req.body.data.userId
+  const newPass = req.body.data.newPass
+  const newPassHash = bcrypt.hashSync(newPass, 8);
+
+  User.findOne({
+    where: {id: id},
+  }).then(
+    (user)=>{
+      if (!user) {
+        return res.send({
+          message: "User Not found.",
+        });
+      }
+
+
+      //Paquete de datos a actualizar
+      const newPassword = {
+        pass_hash : newPassHash
+      }
+
+      User.update(newPassword, {
+        where: { id: id }
+        })
+          .then(num => {
+            if (num == 1) {
+              res.send({
+                message: "Usuario was updated successfully.",
+                data: {
+                  updateSuccess : true
+                }
+              });
+            } else {
+              res.send({
+                message: `Cannot update Usuario with id=${id}. Maybe Usuario was not found or req.body is empty!`,
+                data: {
+                  updateSuccess : false
+                }
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
+
+    }
+  )
+}
