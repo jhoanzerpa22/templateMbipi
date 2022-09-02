@@ -42,12 +42,15 @@ db.proyectos_tipos = require("./proyectos_tipos.model.js")(sequelize, Sequelize)
 db.proyectos = require("./proyectos.model.js")(sequelize, Sequelize);
 db.equipos_usuarios = require("./equipos_usuarios.model.js")(sequelize, Sequelize);
 db.cloud_user = require("./cloud_user.js")(sequelize, Sequelize);
+db.notascp = require("./notascp.model.js")(sequelize, Sequelize);
+db.proyecto_recurso = require("./proyecto_recurso.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
   otherKey: "userId"
 });
+
 db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
@@ -106,6 +109,18 @@ db.proyectos.belongsTo(db.equipos, { as: "proyecto_equipo",
 
 db.proyectos.belongsTo(db.metodologias, {as: "proyecto_metodologia",
   foreignKey: 'metodologia_id'
+});
+
+db.proyecto_recurso.belongsTo(db.user, {
+  foreignKey: 'usuario_id'
+});
+
+db.proyecto_recurso.belongsTo(db.notascp, {
+  foreignKey: 'notascp_id'
+});
+
+db.proyecto_recurso.belongsTo(db.proyectos, {
+  foreignKey: 'proyecto_id'
 });
 
 db.ROLES = ["Administrador", "Usuario", "Invitado"];

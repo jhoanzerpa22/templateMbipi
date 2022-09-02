@@ -58,7 +58,8 @@ export class DashboardProjectComponent implements OnInit {
   }
 
   iniciar(){
-    const data = {estado: 'Iniciado'};
+    let fecha = new Date();
+    const data = {estado: 'Iniciado', fecha_inicio: fecha, etapa_activa: '/proyect-init/'+this.proyecto_id};
     this._proyectsService.updateStatus(this.proyecto_id, data)
     .subscribe(
         data => {
@@ -68,6 +69,22 @@ export class DashboardProjectComponent implements OnInit {
         }
     );
   }
+
+  /*getFecha(fecha: any) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    
+      let fecha_format = new Date(fecha).toLocaleDateString("en-US", options);      
+      return fecha_format;
+  }*/
+
+  getFecha(fecha: any) {
+    var strArray=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    let fecha_format = new Date(fecha);
+    var d = fecha_format.getDate() + 1;
+    var m = strArray[fecha_format.getMonth()];
+    var y = fecha_format.getFullYear();
+    return '' + (d <= 9 ? '0' + d : d) + ' ' + m + ', ' + y;
+}
 
   getProyect(){
 

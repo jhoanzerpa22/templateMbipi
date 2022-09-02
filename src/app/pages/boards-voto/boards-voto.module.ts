@@ -16,7 +16,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule} from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
-
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -24,7 +23,7 @@ import { VotoAccordionComponent } from './instructions/voto-accordion/voto-accor
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
 
-const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: {} };
+const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
 @NgModule({
   declarations: [BoardsVotoComponent, VotoAccordionComponent],

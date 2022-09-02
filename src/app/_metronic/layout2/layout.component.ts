@@ -49,6 +49,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   extrasScrollTopDisplay = false;
   asideDisplay: boolean;
   showVideoFlag = true;
+  showTimer: boolean = false;
 
   //Clases para esconder o mostrar video.
   videoOn = "videoOn";
@@ -76,6 +77,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public proyecto: any = {};
   public proyecto_id: number;
   public rol: any = '';
+
+  ms:any = '0' + 0;
+  sec: any = '0' + 0;
+  min: any = '0' + 0;
+  hr: any = '0' + 0;
 
   constructor(/*
   private initService: LayoutInitService,
@@ -203,6 +209,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                 op.usuario_id == this.usuario.id)
               );
             this.rol = usuario_proyecto[0].rol;
+            
+            if(this.proyecto.tiempo != '' && this.proyecto.tiempo != undefined){
+              let tiempo = this.proyecto.tiempo.split(':');
+              this.hr = tiempo[0];
+              this.min = tiempo[1];
+            }
+            this.showTimer = true;
             this.ref.detectChanges();
           },
           (response) => {
@@ -294,9 +307,20 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     tablero.push({'title': 'Como podriamos', "data": como_podriamos});
 
-    this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase2'};
     
-    this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
+    this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
+
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
+    
+          this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
+
+        },
+        (response) => {
+        }
+    );
 
     //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase2']);
   }

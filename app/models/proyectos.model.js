@@ -32,6 +32,18 @@ module.exports = (sequelize, Sequelize) => {
       },
       equipo_id: {
         type: Sequelize.INTEGER
+      },
+      etapa_activa:{
+        type: Sequelize.STRING
+      },
+      tiempo: {
+        type: Sequelize.STRING
+      },
+      fecha_inicio: {
+        type: Sequelize.DATE
+      },
+      fecha_termino: {
+        type: Sequelize.DATE
       }
     }, {
       tableName: 'proyectos',
