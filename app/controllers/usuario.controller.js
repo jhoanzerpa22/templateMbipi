@@ -184,6 +184,66 @@ exports.findMenu = (req, res) => {
       });
 };
 
+exports.getPayment = async (req, res) => {
+
+  //const payment = async function(a, b) {
+    const WebpayPlus = require("transbank-sdk").WebpayPlus; // CommonJS
+    const { Options, IntegrationApiKeys, Environment, IntegrationCommerceCodes } = require("transbank-sdk"); // CommonJS
+
+    // Versión 3.x del SDK
+    const tx = new WebpayPlus.Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, Environment.Integration));
+    const buyOrder = '123456';
+    const sessionId = '123';
+    const amount = 20;
+    const returnUrl = 'http://localhost:5000/usuarios/payment-sucess';
+    const response = await tx.create(buyOrder, sessionId, amount, returnUrl);
+    console.log('response',response);
+  /*  return response;
+  }*/
+  // Versión 2.x del SDK
+  /*const response = await WebpayPlus.Transaction.create(buyOrder, sessionId, amount, returnUrl);*/
+
+  // Versión 2.x del SDK
+  /*
+  WebpayPlus.commerceCode = 597055555532;
+  WebpayPlus.apiKey = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
+  WebpayPlus.environment = Environment.Integration;*/
+  //const response = await payment();
+  res.send({
+    message: "Respuesta:"+JSON.stringify(response)
+  });
+}
+
+exports.savePayment = async (req, res) => {
+
+    const TransaccionCompleta = require('transbank-sdk').TransaccionCompleta; // ES5
+
+    const buyOrder = '123456';
+    const sessionId = '123';
+    const amount = 20;
+    const cvv = req.body.cardCvv;
+    const cardNumber = req.body.cardNumber;
+    const cardExpirationDate = req.body.cardExpiryYear.substr(2)+'/'+(req.body.cardExpiryMonth > 9 ? req.body.cardExpiryMonth : '0'+req.body.cardExpiryMonth);
+    
+    // Es necesario ejecutar dentro de una función async para utilizar await
+    const createResponse = await (new TransaccionCompleta.Transaction()).create(
+      buyOrder, 
+      sessionId, 
+      amount, 
+      cvv,
+      cardNumber,
+      cardExpirationDate
+    );
+
+    console.log('response',createResponse);
+
+    const commitResponse = await (new TransaccionCompleta.Transaction()).commit(
+      createResponse.token
+    );
+  
+    res.send(commitResponse);
+}
+
 // Update a Usuario by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
@@ -247,12 +307,12 @@ exports.updateAccount = (req, res) => {
       nombre_empresa: req.body.businessName,
       tipo_financiamiento: req.body.business == 'si' ? req.body.businessType : null,
       financiamiento: req.body.business,
-      completada: true
-      /*cardCvv: "123"
-      cardExpiryMonth: "1"
-      cardExpiryYear: "2"
-      cardNumber: "4111 1111 1111 1111"
-      nameOnCard: "Max Doe"
+      completada: true,
+      cardCvv: req.body.accountPlan != 'gratuito' ? req.body.cardCvv : '',
+      cardExpiryMonth: req.body.accountPlan != 'gratuito' ? req.body.cardExpiryMonth : '',
+      cardExpiryYear: req.body.accountPlan != 'gratuito' ? req.body.cardExpiryYear : '',
+      cardNumber: req.body.accountPlan != 'gratuito' ? req.body.cardNumber : '',
+      nameOnCard: req.body.accountPlan != 'gratuito' ? req.body.nameOnCard : ''/*
       saveCard: "1"*/
     };
 
@@ -262,7 +322,8 @@ exports.updateAccount = (req, res) => {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Usuario was updated successfully."
+          message: "Usuario was updated successfully.",
+          user: usuario
         });
       } else {
         res.send({

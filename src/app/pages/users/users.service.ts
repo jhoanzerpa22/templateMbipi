@@ -18,7 +18,7 @@ export class UsersService
     {
     }
 
-    getAll(): Observable<[]> {
+      getAll(): Observable<[]> {
         return this.http.get<[]>(environment.API_G + baseUrl);
       }
     
@@ -58,11 +58,19 @@ export class UsersService
         return this.http.post(environment.API_G + 'sendmail', data);
       }
 
+      sendResume(user_id: any, correo: any, data:any): Observable<any> {
+        return this.http.put(environment.API_G + 'sendresume/'+user_id+'/'+correo, data);
+      }
+
       verifyLogin(data: any): Observable<any> {
         return this.http.post(environment.API_G + 'usuarios/verify', data);
       }
 
       updateAccount(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/account/${id}`, data);
+      }
+
+      savePayment(data: any): Observable<any> {
+        return this.http.post(environment.API_G + 'usuarios/payment', data);
       }
 }

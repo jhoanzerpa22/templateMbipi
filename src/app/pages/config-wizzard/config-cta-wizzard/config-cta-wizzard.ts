@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ICreateAccount, inits } from '../create-account.helper';
 import { UsersService } from '../../users/users.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-config-cta-wizzard',
@@ -41,6 +42,13 @@ export class ConfigCtaWizardComponent implements OnInit {
       this._usersService.updateAccount(user.id, this.account$.value)
       .subscribe(
           (response) => {
+            this._usersService.sendResume(user.id,user.correo_login,response.user)
+            .subscribe(
+            (response) => {
+            },
+            (response) => {
+                // Re-enable the form
+            });
           },
           (response) => {
               // Reset the form
@@ -54,7 +62,33 @@ export class ConfigCtaWizardComponent implements OnInit {
     }else if(this.account$.value.accountPlan && this.account$.value.accountPlan == 'gratuito' && this.currentStep$.value == 2){
       nextStep = nextStep + 1;
     }
-    this.currentStep$.next(nextStep);
+    
+    if(this.account$.value.accountPlan && this.account$.value.accountPlan == 'pago' && this.currentStep$.value == 3){
+      this._usersService.savePayment(this.account$.value)
+      .subscribe(
+          (response) => {
+            console.log('respuesta_pago',response);
+            if(response.status != "AUTHORIZED"){
+              Swal.fire({
+                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                  confirmButton: "btn btn-primary"
+                }
+              });
+            }
+          },
+          (response) => {
+              // Reset the form
+              //this.signUpNgForm.resetForm();
+          }
+      );
+    }
+
+      this.currentStep$.next(nextStep);
+    
   }
 
   prevStep() {
