@@ -105,7 +105,8 @@ exports.findAll = (req, res) => {
   const nombre = req.query.nombre;
   var condition = nombre ? { nombre: { [Op.iLike]: `%${nombre}%` } } : null;
 
-  Usuario.findAll({ where: condition, include: [{model: User, attributes:['correo_login'], include: [{model: Role, attributes:['id','nombre']}]}] })
+  Usuario.findAll({ where: condition, include: [{model: User, attributes:['correo_login'], include: [{model: Role, attributes:['id','nombre']}, {
+    model: EquiposUsuarios, as: "usuario_equipos", attributes:['id','correo','rol','usuario_id']}] }]})
     .then(data => {
       for (let i = 0; i < data.length; i++) {
         if(data[i].img != null){
