@@ -7,6 +7,7 @@
       <div class="stepper-nav mb-5">
         <div
           class="stepper-item"
+          style="margin:0rem 2.5rem;"
           [ngClass]="{
             current: currentStep$.value === 1,
             completed: currentStep$.value > 1
@@ -17,6 +18,7 @@
 
         <div
           class="stepper-item"
+          style="margin:0rem 2.5rem;"
           [ngClass]="{
             current: currentStep$.value === 2,
             completed: currentStep$.value > 2
@@ -27,6 +29,7 @@
 
         <div
           class="stepper-item"
+          style="margin:0rem 2.5rem;"
           [ngClass]="{
             current: currentStep$.value === 3,
             completed: currentStep$.value > 3
@@ -37,6 +40,7 @@
 
         <div
           class="stepper-item"
+          style="margin:0rem 2.5rem;"
           [ngClass]="{
             current: currentStep$.value === 4,
             completed: currentStep$.value > 4
@@ -47,6 +51,7 @@
 
         <div
           class="stepper-item"
+          style="margin:0rem 2.5rem;"
           [ngClass]="{ current: currentStep$.value === 5 }"
         >
           <h3 class="stepper-title">Completado</h3>
@@ -54,7 +59,7 @@
       </div>
 
       <form
-        class="mx-auto mw-600px w-100 pt-15 pb-10"
+        class="mx-auto mw-900px w-100 pt-15 pb-10"
         noValidate
         id="kt_create_account_form"
       >

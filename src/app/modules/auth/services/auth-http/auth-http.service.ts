@@ -84,6 +84,16 @@ export class AuthHTTPService {
     });
   }
 
+  getUserByStorage(): Observable<UserModel | undefined> {
+    const user: any = localStorage.getItem('usuario');
+
+    if (!user) {
+      return of(undefined);
+    }
+
+    return of(user);
+  }
+
   //Envia correo con clave de recuperacion de contraseña
   sendMailConfirmPass(data: any,): Observable<any> {
     return this.http.post(environment.API_G + 'sendmail-confirm-pass', data);
