@@ -346,9 +346,22 @@
 															<!--begin::Stats-->
 															<div class="d-flex">
 																<!--begin::Sales-->
-																<div class="text-end">
+																<!--<div class="text-end">
 																	<div class="fs-5 fw-bolder text-dark">$23,000</div>
 																	<div class="fs-7 text-muted">Sales</div>
+																</div>-->
+																<div class="text-end">
+																<button (click)="quitar(usu.id)"
+																	class="
+																	btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+																	me-1
+																	"
+																>
+																<span
+																[inlineSVG]="'./assets/media/icons/duotune/general/gen027.svg'"
+																class="svg-icon svg-icon-3"
+															  ></span>
+																</button>
 																</div>
 																<!--end::Sales-->
 															</div>

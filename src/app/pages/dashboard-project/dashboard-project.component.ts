@@ -57,6 +57,30 @@ export class DashboardProjectComponent implements OnInit {
     this.activeClass = pestana;
   }
 
+  quitar(id: any){
+
+  this._proyectsService.deleteMember(id)
+  .subscribe(
+      data => {
+        this.getProyect();
+        this.ref.detectChanges();
+        Swal.fire({
+          text: "Se ha quitado el usuario del proyecto exitosamente!",
+          icon: "success",
+          buttonsStyling: false,
+          confirmButtonText: "Ok!",
+          customClass: {
+            confirmButton: "btn btn-primary"
+          }
+        });
+      },
+      (response) => {
+          // Reset the form
+          //this.signUpNgForm.resetForm();
+      }
+  );
+  }
+
   iniciar(){
     let fecha = new Date();
     const data = {estado: 'Iniciado', fecha_inicio: fecha, etapa_activa: '/proyect-init/'+this.proyecto_id};
