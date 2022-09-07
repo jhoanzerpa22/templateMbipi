@@ -57,6 +57,10 @@ export class ProyectsService
         return this.http.delete(environment.API_G +`${baseUrl}/${id}`);
       }
 
+      deleteMember(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteMember/${id}`);
+      }
+
       deleteAll(): Observable<any> {
         return this.http.delete(environment.API_G + baseUrl);
       }

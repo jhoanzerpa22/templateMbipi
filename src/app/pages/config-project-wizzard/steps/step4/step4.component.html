@@ -60,16 +60,16 @@
 <!-- begin::Body-->
 <div class="card-body py-3">
   <div class="tab-content">
-    <div [formGroup]="form">
+    <!--<div [formGroup]="form">
       <div class="fv-row mb-10">
         <label class="form-label">Invita a los miembros</label
-        ><!--<input
+        >--><!--<input
           name="search_members"
           formControlName="search_members"
           class="form-control form-control-lg form-control-solid"
         /><a (click)="add()" class="btn btn-lg btn-primary me-3" style="cursor: pointer;">Agregar</a>
         -->
-        <input
+        <!--<input
           name="members"
           formControlName="members"
           type="hidden"
@@ -82,7 +82,7 @@
           value=""/>
   
           <a (click)="add()" class="btn btn-primary fw-bold flex-shrink-0">Agregar</a>
-      </div>
+      </div>-->
         <!-- <div
           class="fv-plugins-message-container invalid-feedback"
           *ngIf="
@@ -92,276 +92,740 @@
         >
           Nombre de proyecto es requerido
         </div> -->
-      </div>
-    </div>
-    <!-- begin::Tap pane-->
+      <!--</div>
+    </div>-->
+
+<div class="d-flex flex-column flex-lg-row">
+
     <div
-      class="tab-pane fade"
-      [ngClass]="activeClass('kt_table_widget_4_tab_1')"
-      id="kt_table_widget_4_tab_1"
-    >
-      <!-- begin::Table container-->
-      <div class="table-responsive">
-        <!-- begin::Table-->
-        <table class="table align-middle gs-0 gy-3">
-          <!-- begin::Table head-->
-          <thead>
-            <tr>
-              <th class="p-0 w-50px"></th>
-              <!-- <th class="p-0 min-w-150px"></th>
-              <th class="p-0 min-w-140px"></th> -->
-              <th class="p-0 min-w-200px"></th>
-            </tr>
-          </thead>
-          <!-- end::Table head-->
-          <!-- begin::Table body-->
-          <tbody>
-            <tr *ngFor="let m of members; let i = index;">
-              <td>
-                <div class="symbol symbol-50px">
-                  <!--<img src="./assets/media/avatars/300-14.jpg" alt="" />-->
-                  <span class="symbol-label bg-light-danger text-danger fw-bold">{{m.nombre.substring(0, 1).toUpperCase()}}</span>
-                </div>
-              </td>
-              <td>
-                <a
-                  href="#"
-                  class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
-                >
-                  {{m.nombre}}
-                </a>
-                <!--<span class="text-muted fw-bold d-block fs-7"
-                  >{{m.correo}}</span
-                >-->
-              </td>
-              <!-- <td>
-                <span class="text-muted fw-bold d-block fs-7">Rating</span>
-                <div class="rating">
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                </div>
-              </td> -->
-              <td class="text-end">
-                <div class="ms-2 w-120px">
-                  <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true" (change)="changeRol($event, i)">
-                    <option value="Decisor">Decisor</option>
-                    <option value="Participante" selected="selected">Participante</option>
-                  </select>
-                </div>
-                <!-- <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
-                  <i class="bi bi-facebook fs-4"></i>
-                </a> -->
-              </td>
-              <td>
-              <a (click)="quitar(i)" class="btn btn-light btn-active-light-primary btn-sm">
-                Quitar
-              </a>
-              </td>
-            </tr>
-            <!-- <tr>
-              <td>
-                <div class="symbol symbol-50px">
-                  <img src="./assets/media/avatars/300-5.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <a
-                  href="#"
-                  class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
-                >
-                  Jessie Clarcson
-                </a>
-                <span class="text-muted fw-bold d-block fs-7"
-                  >HTML, CSS Coding</span
-                >
-              </td>
-              <td>
-                <span class="text-muted fw-bold d-block fs-7">Rating</span>
-                <div class="rating">
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                </div>
-              </td>
-              <td class="text-end">
-                <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
-                  <i class="bi bi-twitter fs-4"></i>
-                </a>
-                <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
-                  <i class="bi bi-facebook fs-4"></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="symbol symbol-50px">
-                  <img src="./assets/media/avatars/300-20.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <a
-                  href="#"
-                  class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
-                >
-                  Lebron Wayde
-                </a>
-                <span class="text-muted fw-bold d-block fs-7"
-                  >ReactJS Developer</span
-                >
-              </td>
-              <td>
-                <span class="text-muted fw-bold d-block fs-7">Rating</span>
-                <div class="rating">
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                </div>
-              </td>
-              <td class="text-end">
-                <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
-                  <i class="bi bi-twitter fs-4"></i>
-                </a>
-                <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
-                  <i class="bi bi-facebook fs-4"></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="symbol symbol-50px">
-                  <img src="./assets/media/avatars/300-23.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <a
-                  href="#"
-                  class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
-                >
-                  Natali Trump
-                </a>
-                <span class="text-muted fw-bold d-block fs-7"
-                  >UI/UX Designer</span
-                >
-              </td>
-              <td>
-                <span class="text-muted fw-bold d-block fs-7">Rating</span>
-                <div class="rating">
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                </div>
-              </td>
-              <td class="text-end">
-                <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
-                  <i class="bi bi-twitter fs-4"></i>
-                </a>
-                <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
-                  <i class="bi bi-facebook fs-4"></i>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="symbol symbol-50px">
-                  <img src="./assets/media/avatars/300-10.jpg" alt="" />
-                </div>
-              </td>
-              <td>
-                <a
-                  href="#"
-                  class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
-                >
-                  Kevin Leonard
-                </a>
-                <span class="text-muted fw-bold d-block fs-7"
-                  >Art Director</span
-                >
-              </td>
-              <td>
-                <span class="text-muted fw-bold d-block fs-7">Rating</span>
-                <div class="rating">
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2 checked">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                  <div class="rating-label me-2">
-                    <i class="bi bi-star-fill fs-5"></i>
-                  </div>
-                </div>
-              </td>
-              <td class="text-end">
-                <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
-                  <i class="bi bi-twitter fs-4"></i>
-                </a>
-                <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
-                  <i class="bi bi-facebook fs-4"></i>
-                </a>
-              </td>
-            </tr> -->
-          </tbody>
-          <!-- end::Table body-->
-        </table>
-      </div>
-      <!-- end::Table-->
+  class="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0"
+>
+  <div class="card card-flush">
+    <div class="card-header pt-7" id="kt_chat_contacts_header">
+      <form [formGroup]="form" class="w-100 position-relative" autoComplete="off">
+        <input
+          name="members"
+          formControlName="members"
+          type="hidden"
+          class="form-control form-control-lg form-control-solid"
+        />
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
+          class="
+            svg-icon svg-icon-2 svg-icon-lg-1 svg-icon-gray-500
+            position-absolute
+            top-50
+            ms-5
+            translate-middle-y
+          "
+        ></span>
+        <input
+          type="text"
+          class="form-control form-control-solid px-15"
+          name="search_members"
+          formControlName="search_members"
+          [formControl]="myControl"
+          (keyup)="onKey($event)"
+          placeholder="Buscar por nombre o correo"
+        />
+      </form>
     </div>
-    <!-- end::Tap pane-->
+
+    <div class="card-body pt-5" id="kt_chat_contacts_body">
+      <div
+        class="scroll-y me-n5 pe-5 h-200px h-lg-auto"
+        data-kt-scroll="true"
+        data-kt-scroll-activate="{default: false, lg: true}"
+        data-kt-scroll-max-height="auto"
+        data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_chat_contacts_header"
+        data-kt-scroll-wrappers="#kt_content, #kt_chat_contacts_body"
+        data-kt-scroll-offset="0px"
+      >
+        <div class="d-flex flex-stack py-4" *ngIf="busqueda && busqueda != ''">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <span
+                class="symbol-label bg-light-danger text-danger fs-6 fw-bolder"
+              >
+                {{busqueda.substring(0, 1).toUpperCase()}}
+              </span>
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                {{busqueda}}
+              </a>
+              <!--<div class="fw-bold text-gray-400">melody@altbox.com</div>-->
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <a (click)="addItem({existe: 2, nombre: '', correo: busqueda})" class="btn btn-light btn-active-light-primary btn-sm">
+              Agregar
+            </a>
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"  *ngIf="busqueda && busqueda != ''"></div>
+
+        <ng-container *ngFor="let user of filteredUsuarios | async; let i = index;">
+          <div class="d-flex flex-stack py-4">
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px symbol-circle">
+                <span
+                  class="symbol-label bg-light-danger text-danger fs-6 fw-bolder"
+                >
+                {{user.nombre.substring(0, 1).toUpperCase()}}
+                </span>
+              </div>
+  
+              <div class="ms-5">
+                <a
+                  class="
+                    fs-5
+                    fw-bolder
+                    text-gray-900 text-hover-primary
+                    mb-2
+                    cursor-pointer
+                  "
+                >
+                  {{user.nombre}}
+                </a>
+                <div class="fw-bold text-gray-400">{{user.correo}}</div>
+              </div>
+            </div>
+  
+            <div class="d-flex flex-column align-items-end ms-2">
+              <a (click)="addItem(user)" class="btn btn-light btn-active-light-primary btn-sm" *ngIf="!user.negado">
+                Agregar
+              </a>
+              <!--<span class="text-muted fs-7 mb-1">5 hrs</span>-->
+            </div>
+          </div>
+  
+          <div class="separator separator-dashed d-none"></div>
+        </ng-container>
+        <!--
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <img alt="Pic" src="./assets/media/avatars/300-1.jpg" />
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Max Smith
+              </a>
+              <div class="fw-bold text-gray-400">max@kt.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">20 hrs</span>
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <img alt="Pic" src="./assets/media/avatars/300-5.jpg" />
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Sean Bean
+              </a>
+              <div class="fw-bold text-gray-400">sean@dellito.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">20 hrs</span>
+            <span class="badge badge-sm badge-circle badge-light-success"
+              >6</span
+            >
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <img alt="Pic" src="./assets/media/avatars/300-25.jpg" />
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Brian Cox
+              </a>
+              <div class="fw-bold text-gray-400">brian@exchange.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">20 hrs</span>
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <span
+                class="
+                  symbol-label
+                  bg-light-warning
+                  text-warning
+                  fs-6
+                  fw-bolder
+                "
+              >
+                M
+              </span>
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Mikaela Collins
+              </a>
+              <div class="fw-bold text-gray-400">mikaela@pexcom.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">1 day</span>
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <img alt="Pic" src="./assets/media/avatars/300-9.jpg" />
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Francis Mitcham
+              </a>
+              <div class="fw-bold text-gray-400">f.mitcham@kpmg.com.au</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">5 hrs</span>
+            <span class="badge badge-sm badge-circle badge-light-success"
+              >6</span
+            >
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <span
+                class="symbol-label bg-light-danger text-danger fs-6 fw-bolder"
+              >
+                O
+              </span>
+              <div
+                class="
+                  symbol-badge
+                  bg-success
+                  start-100
+                  top-100
+                  border-4
+                  h-15px
+                  w-15px
+                  ms-n2
+                  mt-n2
+                "
+              ></div>
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Olivia Wild
+              </a>
+              <div class="fw-bold text-gray-400">olivia@corpmail.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">1 week</span>
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <span
+                class="
+                  symbol-label
+                  bg-light-primary
+                  text-primary
+                  fs-6
+                  fw-bolder
+                "
+              >
+                N
+              </span>
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Neil Owen
+              </a>
+              <div class="fw-bold text-gray-400">owen.neil@gmail.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">20 hrs</span>
+            <span class="badge badge-sm badge-circle badge-light-success"
+              >6</span
+            >
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <img alt="Pic" src="./assets/media/avatars/300-23.jpg" />
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Dan Wilson
+              </a>
+              <div class="fw-bold text-gray-400">dam@consilting.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">2 weeks</span>
+            <span class="badge badge-sm badge-circle badge-light-warning"
+              >9</span
+            >
+          </div>
+        </div>
+
+        <div class="separator separator-dashed d-none"></div>
+
+        <div class="d-flex flex-stack py-4">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-45px symbol-circle">
+              <span
+                class="symbol-label bg-light-danger text-danger fs-6 fw-bolder"
+              >
+                E
+              </span>
+              <div
+                class="
+                  symbol-badge
+                  bg-success
+                  start-100
+                  top-100
+                  border-4
+                  h-15px
+                  w-15px
+                  ms-n2
+                  mt-n2
+                "
+              ></div>
+            </div>
+
+            <div class="ms-5">
+              <a
+                class="
+                  fs-5
+                  fw-bolder
+                  text-gray-900 text-hover-primary
+                  mb-2
+                  cursor-pointer
+                "
+              >
+                Emma Bold
+              </a>
+              <div class="fw-bold text-gray-400">emma@intenso.com</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end ms-2">
+            <span class="text-muted fs-7 mb-1">1 day</span>
+          </div>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex-lg-row-fluid ms-lg-7 ms-xl-10">
+  <div class="card" id="kt_chat_messenger">
+    <div class="card-header" id="kt_chat_messenger_header">
+      <div class="card-title">
+        <div class="symbol-group symbol-hover"></div>
+        <div class="d-flex justify-content-center flex-column me-3">
+          <!-- begin::Tap pane-->
+    <div
+    class="tab-pane fade"
+    [ngClass]="activeClass('kt_table_widget_4_tab_1')"
+    id="kt_table_widget_4_tab_1"
+  >
+    <!-- begin::Table container-->
+    <div class="table-responsive">
+      <!-- begin::Table-->
+      <table class="table align-middle gs-0 gy-3">
+        <!-- begin::Table head-->
+        <thead>
+          <tr>
+            <th class="p-0 w-50px"></th>
+            <!-- <th class="p-0 min-w-150px"></th>
+            <th class="p-0 min-w-140px"></th> -->
+            <th class="p-0 min-w-200px"></th>
+          </tr>
+        </thead>
+        <!-- end::Table head-->
+        <!-- begin::Table body-->
+        <tbody>
+          <tr *ngFor="let m of members; let i = index;">
+            <td>
+              <div class="symbol symbol-50px">
+                <!--<img src="./assets/media/avatars/300-14.jpg" alt="" />-->
+                <span class="symbol-label bg-light-danger text-danger fw-bold">{{m.existe == 1 ? m.nombre.substring(0, 1).toUpperCase() : m.correo.substring(0, 1).toUpperCase()}}</span>
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
+              >
+                {{m.existe == 1 ? m.nombre : m.correo}}
+              </a>
+              <span class="text-muted fw-bold d-block fs-7"
+                >{{m.existe == 1 ? m.correo : ''}}</span
+              >
+            </td>
+            <!-- <td>
+              <span class="text-muted fw-bold d-block fs-7">Rating</span>
+              <div class="rating">
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+              </div>
+            </td> -->
+            <td class="text-end">
+              <div class="ms-2 w-100px">
+                <select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true" (change)="changeRol($event, i)">
+                  <option value="Decisor">Decisor</option>
+                  <option value="Participante" selected="selected">Participante</option>
+                </select>
+              </div>
+              <!-- <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
+                <i class="bi bi-facebook fs-4"></i>
+              </a> -->
+            </td>
+            <td>
+            <a (click)="quitar(i)" class="btn btn-light btn-active-light-primary btn-sm">
+              Quitar
+            </a>
+            </td>
+          </tr>
+          <!-- <tr>
+            <td>
+              <div class="symbol symbol-50px">
+                <img src="./assets/media/avatars/300-5.jpg" alt="" />
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
+              >
+                Jessie Clarcson
+              </a>
+              <span class="text-muted fw-bold d-block fs-7"
+                >HTML, CSS Coding</span
+              >
+            </td>
+            <td>
+              <span class="text-muted fw-bold d-block fs-7">Rating</span>
+              <div class="rating">
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+              </div>
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
+                <i class="bi bi-twitter fs-4"></i>
+              </a>
+              <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
+                <i class="bi bi-facebook fs-4"></i>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="symbol symbol-50px">
+                <img src="./assets/media/avatars/300-20.jpg" alt="" />
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
+              >
+                Lebron Wayde
+              </a>
+              <span class="text-muted fw-bold d-block fs-7"
+                >ReactJS Developer</span
+              >
+            </td>
+            <td>
+              <span class="text-muted fw-bold d-block fs-7">Rating</span>
+              <div class="rating">
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+              </div>
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
+                <i class="bi bi-twitter fs-4"></i>
+              </a>
+              <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
+                <i class="bi bi-facebook fs-4"></i>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="symbol symbol-50px">
+                <img src="./assets/media/avatars/300-23.jpg" alt="" />
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
+              >
+                Natali Trump
+              </a>
+              <span class="text-muted fw-bold d-block fs-7"
+                >UI/UX Designer</span
+              >
+            </td>
+            <td>
+              <span class="text-muted fw-bold d-block fs-7">Rating</span>
+              <div class="rating">
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+              </div>
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
+                <i class="bi bi-twitter fs-4"></i>
+              </a>
+              <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
+                <i class="bi bi-facebook fs-4"></i>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="symbol symbol-50px">
+                <img src="./assets/media/avatars/300-10.jpg" alt="" />
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-dark fw-bolder text-hover-primary mb-1 fs-6"
+              >
+                Kevin Leonard
+              </a>
+              <span class="text-muted fw-bold d-block fs-7"
+                >Art Director</span
+              >
+            </td>
+            <td>
+              <span class="text-muted fw-bold d-block fs-7">Rating</span>
+              <div class="rating">
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2 checked">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+                <div class="rating-label me-2">
+                  <i class="bi bi-star-fill fs-5"></i>
+                </div>
+              </div>
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-icon btn-light-twitter btn-sm me-3">
+                <i class="bi bi-twitter fs-4"></i>
+              </a>
+              <a href="#" class="btn btn-icon btn-light-facebook btn-sm">
+                <i class="bi bi-facebook fs-4"></i>
+              </a>
+            </td>
+          </tr> -->
+        </tbody>
+        <!-- end::Table body-->
+      </table>
+    </div>
+    <!-- end::Table-->
+  </div>
+  <!-- end::Tap pane-->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
     <!-- begin::Tap pane-->
     <div
       class="tab-pane fade"

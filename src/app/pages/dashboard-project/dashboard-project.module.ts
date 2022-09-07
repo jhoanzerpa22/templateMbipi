@@ -7,6 +7,7 @@ import { WidgetsModule } from '../../_metronic/partials/content/widgets/widgets.
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
 import { OverviewComponent } from './overview/overview.component';
+import { InlineSVGModule } from 'ng-inline-svg-2';
 
 @NgModule({
   declarations: [DashboardProjectComponent, SettingsComponent, OverviewComponent],
@@ -37,6 +38,7 @@ import { OverviewComponent } from './overview/overview.component';
 
     ]),
     WidgetsModule,
+    InlineSVGModule,
     ReactiveFormsModule
   ]
 })

@@ -53,7 +53,7 @@ exports.create = (req, res) => {
 
                                 EquiposUsuarios.create({
                                     usuario_id: null,
-                                    correo: req.body.data.members[i].nombre,
+                                    correo: req.body.data.members[i].correo,
                                     rol: req.body.data.members[i].rol,
                                     participante: false,
                                     equipo_id: equipo.id,
@@ -341,6 +341,30 @@ exports.updateMembers = (req, res) => {
 
 };
 
+// Delete the member of Proyectos by the id in the request
+exports.deleteMember = (req, res) => {
+  const id = req.params.id;
+
+  EquiposUsuarios.destroy({
+    where: { id: id }
+  })
+    .then(num2 => {
+      if (num2 == 1) {
+          res.send({
+              message: "Equipo Usuario was deleted successfully!"
+            });
+      } else {
+        res.send({
+          message: `Cannot delete Equipo Usuario Login with id=${id}. Maybe Proyectos was not found!`
+        });
+      }
+    }).catch(err => {
+      res.status(500).send({
+        message: "Could not delete Equipo Usuario Login with id=" + id + ' | error:' + err.message
+      });
+    });
+
+};
 
 // Delete a Proyectos with the specified id in the request
 exports.delete = (req, res) => {
@@ -365,7 +389,6 @@ exports.delete = (req, res) => {
                     });
                   });
 };
-
 
 // Delete all Proyectoss from the database.
 exports.deleteAll = (req, res) => {

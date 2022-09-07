@@ -533,7 +533,7 @@ async function sendMailResume(user, callback) {
       let lista_emails = [];
       if(user.emails.length > 0){
         for (let i = 0; i < user.emails.length; i++) {
-          lista_emails.push(user.emails[i].nombre);
+          lista_emails.push(user.emails[i].correo);
         }
         emails = lista_emails.join(',');
       }
