@@ -6,6 +6,16 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import Swal from 'sweetalert2';
+import { Observable} from 'rxjs';
+import { map, startWith} from 'rxjs/operators';
+import { UsersService } from '../users/users.service';
+
+export interface Usuario {
+  id: number;
+  nombre: string;
+  correo: string;
+  foto:string;
+}
 
 @Component({
   selector: 'app-dashboard-project',
@@ -18,8 +28,17 @@ export class DashboardProjectComponent implements OnInit {
   public proyecto_id: number;
   public usuario: any = {};
   public usuarios: any = [];
+  public miembros: any = [];
   public members: any = [];
   public rol: any = '';
+
+  filteredOptionsUsuario: Observable<Usuario[]>;
+  searchUsuarios: any[] = [];
+  busqueda: any = '';
+
+  public filteredUsuarios: ReplaySubject<any> = new ReplaySubject<[]>(1);
+
+  private _onDestroy = new Subject<void>();
 
   public activeClass: any = 'overview';
 
@@ -31,7 +50,7 @@ export class DashboardProjectComponent implements OnInit {
 
   constructor(private ref: ChangeDetectorRef, private _proyectsService: ProyectsService,
     private _router: Router,
-    private route: ActivatedRoute, private fb: FormBuilder) { }
+    private route: ActivatedRoute, private fb: FormBuilder, private _usersService: UsersService) { }
 
   ngOnInit(): void {
 
@@ -50,7 +69,68 @@ export class DashboardProjectComponent implements OnInit {
       this.getProyect();
     });
 
+  }
 
+  ngAfterViewInit() {
+    this.setInitialValue();
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  private setInitialValue() {
+    this.filteredUsuarios
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+      });
+  }
+
+  onKey(event: any){
+    this.busqueda = event.target.value;
+    let filter: any = this._filterUsuario(event.target.value);
+    this.filteredUsuarios.next(filter.slice());
+  }
+
+  private _filterUsuario(nombre: string): Usuario[] {
+    const filterValue = nombre.toLowerCase();
+    return this.searchUsuarios.filter(
+      option => (
+        (option.nombre != '' && option.nombre.toLowerCase().search(filterValue) >= 0) ||
+        (option.correo != '' && option.correo.toLowerCase().search(filterValue) >= 0)
+      )
+    );
+  }
+
+ retrieveUsuarios(): void {
+    this._usersService.getAll()
+      .subscribe(
+        (data: any) => {
+            //console.log('usuarios',data);
+          //this.usuarios = data;  
+          //this.filteredUsuarios.next(this.usuarios.slice());
+
+          console.log('miembros',this.miembros);
+
+          for (let index = 0; index < data.length; index++) {
+            let index3 = this.miembros.findIndex((n: any) => n.usuario_id == data[index].id);
+
+            if (index3 == -1) {
+            
+              this.searchUsuarios.push({'id': data[index].id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1});
+            }
+            
+          }
+
+          this.usuarios = this.searchUsuarios;
+          console.log('searchUsuarios',this.searchUsuarios);
+          this.filteredUsuarios.next(this.usuarios.slice());
+          
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   setActive(pestana:any){
@@ -116,12 +196,13 @@ export class DashboardProjectComponent implements OnInit {
       .subscribe(
           (response) => {
             this.proyecto = response;
-            this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
-            let usuario_proyecto = this.usuarios.filter(
+            this.miembros = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.miembros.filter(
               (op: any) => (
                 op.usuario_id == this.usuario.id)
               );
-            this.rol = usuario_proyecto[0].rol;
+            this.rol = usuario_proyecto[0].rol;            
+            this.retrieveUsuarios();
             this.ref.detectChanges();
           },
           (response) => {
@@ -136,6 +217,16 @@ export class DashboardProjectComponent implements OnInit {
     this.members.push({nombre: search_members, rol: 'Participante'});
 
     this.form.get('search_members')?.setValue('');
+  }
+
+  addItem(item: any){
+    this.members.push({id: item.existe == 1 ? item.id : '', nombre: item.nombre, correo: item.correo, existe: item.existe, rol: 'Participante'});
+
+    this.form.get('search_members')?.setValue('');
+    this.form.get('members')?.setValue(this.members);
+    this.busqueda = '';
+    let filter: any = this._filterUsuario('');
+    this.filteredUsuarios.next(filter.slice());
   }
 
   changeRol($event: any, i: any){
