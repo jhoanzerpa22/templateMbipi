@@ -556,7 +556,7 @@
 														  </div>
 												
 														  <div class="d-flex flex-column align-items-end ms-2">
-															<a (click)="addItem(user)" class="btn btn-light btn-active-light-primary btn-sm">
+															<a (click)="addItem(user)" class="btn btn-light btn-active-light-primary btn-sm" *ngIf="!user.negado">
 															  Agregar
 															</a>
 															<!--<span class="text-muted fs-7 mb-1">5 hrs</span>-->

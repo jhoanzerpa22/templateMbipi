@@ -111,20 +111,16 @@ export class DashboardProjectComponent implements OnInit {
           //this.usuarios = data;  
           //this.filteredUsuarios.next(this.usuarios.slice());
 
-          console.log('miembros',this.miembros);
-
           for (let index = 0; index < data.length; index++) {
             let index3 = this.miembros.findIndex((n: any) => n.usuario_id == data[index].id);
 
             if (index3 == -1) {
             
-              this.searchUsuarios.push({'id': data[index].id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1});
+              this.searchUsuarios.push({'id': data[index].id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: (data[index].tipo_plan == 'gratuito' && data[index].user.usuario_equipos.length > 0) });
             }
             
           }
-
           this.usuarios = this.searchUsuarios;
-          console.log('searchUsuarios',this.searchUsuarios);
           this.filteredUsuarios.next(this.usuarios.slice());
           
         },
