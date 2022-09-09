@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  NgbDropdownModule,
+  NgbProgressbarModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { BoardsVotoComponent } from './boards-voto.component';
 import { WidgetsModule } from '../../_metronic/partials';
 
@@ -22,6 +28,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { VotoAccordionComponent } from './instructions/voto-accordion/voto-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
+import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
 
 const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
@@ -35,6 +42,10 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
         component: BoardsVotoComponent,
       },
     ]),
+    InlineSVGModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
+    NgbModule,
     WidgetsModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -50,8 +61,7 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
     MatMenuModule,
     MatRadioModule,
     DragDropModule,
-    NgbModule,
-    // SocketIoModule
+    TimerModule,
     SocketIoModule.forRoot(config)
   ],
 })

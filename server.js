@@ -248,7 +248,7 @@ app.use('/api/cloudinary', require('./app/routes/cloudinary.routes'));
 app.use('/cloud_user', require('./app/routes/cloud_user.routes'))
 
 // Serve static files
-app.use('/', express.static(__dirname + '/dist/demo1'));
+//app.use('/', express.static(__dirname + '/dist/demo1'));
 /*
 app.use('/', express.static(path.join(__dirname,'static/home/')));
 */
@@ -270,9 +270,9 @@ app.all('/api/*', (req, res) => {
   res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
 });*/
 /*Heroku*/
-app.use('/*', function(req, res) {
+/*app.use('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/demo1/'));
-});
+});*/
 /*
 app.use('/*', express.static(path.join(__dirname,'static/home/')));*/
 

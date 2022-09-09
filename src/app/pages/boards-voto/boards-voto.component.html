@@ -108,6 +108,9 @@
       <!--end::Curve bottom-->
   </div>
     <!--end::Header Section-->
+    <div class="container" style="width: 100%; padding: 0;">
+      <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
+    </div>
     <!-- Titulo -->
     <div class="container title-container">
       <h1>
