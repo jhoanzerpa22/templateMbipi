@@ -241,8 +241,8 @@
         <div class="d-flex flex-wrap mb-5">
           <!--begin::Due-->
           <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3">
-            <div class="fs-6 text-gray-800 fw-bold">Nov 10, 2022</div>
-            <div class="fw-semibold text-gray-400">Due Date</div>
+            <div class="fs-6 text-gray-800 fw-bold">{{proyecto.equipos_equipo.equipo_proyecto[0].fecha_inicio != '' && proyecto.equipos_equipo.equipo_proyecto[0].fecha_inicio != undefined ? getFecha(proyecto.equipos_equipo.equipo_proyecto[0].fecha_inicio) : '-'}}</div>
+            <div class="fw-semibold text-gray-400">Fecha Inicio</div>
           </div>
           <!--end::Due-->
           <!--begin::Budget-->

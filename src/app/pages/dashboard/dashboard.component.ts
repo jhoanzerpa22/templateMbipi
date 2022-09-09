@@ -99,4 +99,13 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  getFecha(fecha: any) {
+    var strArray=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    let fecha_format = new Date(fecha);
+    var d = fecha_format.getDate() + 1;
+    var m = strArray[fecha_format.getMonth()];
+    var y = fecha_format.getFullYear();
+    return '' + (d <= 9 ? '0' + d : d) + ' ' + m + ', ' + y;
+}
+
 }

@@ -48,6 +48,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     public isAvailabe: boolean = false;
 
     showVideoFlag = true;
+    showTimer: boolean = false;
 
   //Clases para esconder o mostrar video.
   videoOn = "videoOn";
@@ -66,6 +67,11 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   public proyecto: any = {};
   public proyecto_id: number;
   public rol: any = '';
+
+  ms:any = '0' + 0;
+  sec: any = '0' + 0;
+  min: any = '0' + 0;
+  hr: any = '0' + 0;
   
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
@@ -234,6 +240,14 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
                 op.usuario_id == this.usuario.id)
               );
             this.rol = usuario_proyecto[0].rol;
+
+            if(this.proyecto.tiempo != '' && this.proyecto.tiempo != undefined){
+              let tiempo = this.proyecto.tiempo.split(':');
+              this.hr = tiempo[0];
+              this.min = tiempo[1];
+            }
+            this.showTimer = true;
+            
             this.ref.detectChanges();
           },
           (response) => {

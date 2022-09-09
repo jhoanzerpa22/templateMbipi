@@ -108,9 +108,9 @@
   </div>
     <!--end::Header Section-->
     <!-- Titulo -->
-    <!--<div class="container" style="width: 100%; padding: 0;">-->
-      <!-- <app-timer></app-timer> -->
-    <!--</div>-->
+    <div class="container" style="width: 100%; padding: 0;">
+      <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
+    </div>
     <div class="container title-container">
       <h1>
         Categorización de notas
