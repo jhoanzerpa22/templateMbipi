@@ -1,11 +1,10 @@
 module.exports = {
 
   //Local
-  /*
-  USER: "postgres",
+  /*USER: "postgres",
   PASSWORD: "test01",
-  DB: "mbipi",*/
-
+  DB: "mbipi",
+*/
   //Heroku
   
   USER: "mtaligncgdmqzd",

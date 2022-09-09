@@ -32,7 +32,7 @@ import { BoardsComponent } from '../../pages/boards/boards.component';
 import { BoardsVotoComponent } from '../../pages/boards-voto/boards-voto.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
-import { TimerComponent } from './timer/timer.component';
+import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
@@ -69,7 +69,7 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
   declarations: [
     LayoutComponent,
     NoteComponent,
-    TimerComponent,
+    //TimerComponent,
     EntenderAccordionComponent,
     /*,
     BoardsComponent,
@@ -95,6 +95,7 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
     NgbProgressbarModule,
     ExtrasModule,
     NgbModule,
+    TimerModule,
     /*
     BoardsModule,*/
     SocketIoModule.forRoot(config)

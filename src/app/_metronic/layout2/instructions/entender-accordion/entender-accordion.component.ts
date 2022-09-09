@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgbPanelChangeEvent, NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-entender-accordion',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./entender-accordion.component.scss']
 })
 export class EntenderAccordionComponent implements OnInit {
+
+  @ViewChild('acc') accordion: NgbAccordion;
 
   constructor() { }
 
