@@ -130,9 +130,14 @@
         <!--begin::Users group-->
         <div class="symbol-group symbol-hover mb-9">
         <ng-container *ngFor="let usu of correoMiembrosEquipoList; let u = index;">
-          <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
-            <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : (usu.correo.substring(0, 1).toUpperCase())))}}</span>
+          <div *ngIf="avatar_img; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+            <img src="{{avatar_img}}" alt="a_img">
           </div>
+          <ng-template #elseBlock>
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+              <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : (usu.correo.substring(0, 1).toUpperCase())))}}</span>
+            </div>
+          </ng-template>
         </ng-container>
         </div>
         <!-- <div class="symbol-group symbol-hover mb-9">
@@ -257,9 +262,14 @@
         <div class="symbol-group symbol-hover">
 
           <ng-container *ngFor="let usu of proyecto.equipos_equipo.equipo_usuarios; let u = index;">
-          <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo != null ? usu.correo : usuario.correo_login)}}">
-            <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : usu.correo.substring(0, 1).toUpperCase()))}}</span>
-          </div>
+            <div *ngIf="avatar_img; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+              <img src="{{avatar_img}}" alt="a_img">
+            </div>
+            <ng-template #elseBlock>
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+                <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : (usu.correo.substring(0, 1).toUpperCase())))}}</span>
+              </div>
+            </ng-template>
           </ng-container>
 
           <!--begin::User
@@ -327,14 +337,14 @@
 													<!--begin::List-->
 													<div class="mh-375px scroll-y me-n7 pe-7">
 														<!--begin::User-->
-														
+
                               <ng-container *ngFor="let usu of correoMiembrosEquipoList; let u = index;">
                                 <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                   <div class="d-flex align-items-center">
                                   <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.correo != null ? usu.correo : usuario.correo_login}}">
                                     <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.correo != null ? usu.correo.substring(0, 1).toUpperCase() : 'Yo')}}</span>
                                   </div>
-                                  
+
                                   <!--begin::Details-->
                                   <div class="ms-6">
                                     <!--begin::Name-->
@@ -349,7 +359,7 @@
                                   </div>
                                   <!--end::Details-->
                                 </div>
-                                
+
 															<!--begin::Stats-->
 															<div class="d-flex">
 																<!--begin::Sales-->
@@ -362,7 +372,7 @@
 															<!--end::Stats-->
                             </div>
                               </ng-container>
-                                 
+
 													</div>
 													<!--end::List-->
 												</div>

@@ -226,19 +226,21 @@ exports.forgotPassword = (req, res) => {
 
       const id = user.id;
       const email = user.correo_login;
+      const pass_recovery_token = jwt.sign({userId: id}, process.env.SECRET_JWT_SEED, {expiresIn: '10m'})
+      //pass_recovery_token
       //Crea nueva clave provisoria
-      let pass_recovery = Math.random().toString(36).split("").slice(2,7).join("");
-      let pass_recovery_hash = bcrypt.hashSync(pass_recovery, 8);
-      let provisoryPass = {
-        pass_recovery_hash : pass_recovery_hash
+      const pass_recovery = Math.random().toString(36).split("").slice(2,7).join("");
+      const pass_recovery_hash = bcrypt.hashSync(pass_recovery, 8);
+      const provisory_passandtoken = {
+        pass_recovery_hash : pass_recovery_hash,
+        pass_recovery_token: pass_recovery_token
       }
 
 
-      //token = jwt.sign({userId: id, userEmail: email}, process.env.SECRET_JWT_SEED, {expiresIn: '10m'})
 
       // console.log(token);
 
-      User.update(provisoryPass, {
+      User.update(provisory_passandtoken, {
         where: { id: id }
         })
           .then(num => {
@@ -249,7 +251,8 @@ exports.forgotPassword = (req, res) => {
                         id : user.id,
                         correo_login : user.correo_login,
                         pass_recovery : pass_recovery,
-                        pass_recovery_hash: pass_recovery_hash
+                        pass_recovery_hash: pass_recovery_hash,
+                        pass_recovery_token :  pass_recovery_token
                       }
               });
             } else {
@@ -272,6 +275,19 @@ exports.forgotPassword = (req, res) => {
 exports.verifyCode = (req, res) => {
   // console.log(req.body.data)
   const id = req.body.data.userId
+  const pass_recovery_token = req.body.data.pass_recovery_token
+
+  try{
+    userId = jwt.verify(pass_recovery_token, process.env.SECRET_JWT_SEED)
+  }catch{
+    return res.send({
+      message: "TOKEN INVALIDO",
+      data: {
+        invalidToken : true
+      }
+    })
+  }
+
   User.findOne({
     where: {id: id},
   }).then(
@@ -302,9 +318,10 @@ exports.verifyCode = (req, res) => {
           }
         })
       }
-
     }
   )
+
+
 }
 
 exports.changePassword=(req, res) =>{
