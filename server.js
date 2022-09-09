@@ -592,7 +592,7 @@ async function sendMailResume(user, callback) {
       let mailOptions = {
         from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
         to: user.correo_login, // list of receivers user.email
-        subject: "Invitación Mbipi", // Subject line
+        subject: "Recuperar Password Mbipi", // Subject line
         html:
         `<div class="border" style="width: 600px; height: 300px; border-top-color: rgb(0,188,212); border-color: black;">
         <div class="border" style="width: 600px; height: 10px; background-color: rgb(0,188,212);border-color: rgb(0,188,212);">
