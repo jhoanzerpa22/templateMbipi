@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize) => {
     pass_token_verify: {
       type: Sequelize.STRING
     },
+    pass_recovery_token: {
+      type: Sequelize.STRING
+    },
     tipo_rol: {
       type: Sequelize.STRING
     },

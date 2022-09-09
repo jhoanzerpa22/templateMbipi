@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { elementAt, filter } from 'rxjs/operators';
 import { map } from 'rxjs';
+import { UsersService } from '../users/users.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,13 @@ export class DashboardComponent implements OnInit {
   public idEquiposArray:any;
   public correoMiembrosEquipoList:any;
 
-  constructor(private ref:ChangeDetectorRef, private _proyectsService: ProyectsService) {}
+  public avatar_img = '/assets/media/avatars/300-1.jpg'
+
+  constructor(
+    private ref:ChangeDetectorRef,
+    private _proyectsService: ProyectsService,
+    private _userService: UsersService
+  ) {}
 
   ngOnInit(): void {
     const usuario: any = localStorage.getItem('usuario');
@@ -37,7 +44,7 @@ export class DashboardComponent implements OnInit {
           this.proyectos = response;
           this.num_proyectos = response.length;
           this.equipos = response;
-
+          console.log(response);
           //Arreglo de arreglo de proyectos
           this.arrayProyectos=this.proyectos.map((element:any)=>element.equipos_equipo).map((element:any)=>element.equipo_proyecto);
           this.estadoProyectCount(this.arrayProyectos);

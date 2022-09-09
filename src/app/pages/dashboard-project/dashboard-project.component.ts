@@ -31,6 +31,7 @@ export class DashboardProjectComponent implements OnInit {
   public miembros: any = [];
   public members: any = [];
   public rol: any = '';
+  public avatar_img = '/assets/media/avatars/300-1.jpg';
 
   filteredOptionsUsuario: Observable<Usuario[]>;
   searchUsuarios: any[] = [];
@@ -108,21 +109,21 @@ export class DashboardProjectComponent implements OnInit {
       .subscribe(
         (data: any) => {
             //console.log('usuarios',data);
-          //this.usuarios = data;  
+          //this.usuarios = data;
           //this.filteredUsuarios.next(this.usuarios.slice());
 
           for (let index = 0; index < data.length; index++) {
             let index3 = this.miembros.findIndex((n: any) => n.usuario_id == data[index].id);
 
             if (index3 == -1) {
-            
+
               this.searchUsuarios.push({'id': data[index].id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: (data[index].tipo_plan == 'gratuito' && data[index].user.usuario_equipos.length > 0) });
             }
-            
+
           }
           this.usuarios = this.searchUsuarios;
           this.filteredUsuarios.next(this.usuarios.slice());
-          
+
         },
         error => {
           console.log(error);
@@ -172,8 +173,8 @@ export class DashboardProjectComponent implements OnInit {
 
   /*getFecha(fecha: any) {
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    
-      let fecha_format = new Date(fecha).toLocaleDateString("en-US", options);      
+
+      let fecha_format = new Date(fecha).toLocaleDateString("en-US", options);
       return fecha_format;
   }*/
 
@@ -197,7 +198,7 @@ export class DashboardProjectComponent implements OnInit {
               (op: any) => (
                 op.usuario_id == this.usuario.id)
               );
-            this.rol = usuario_proyecto[0].rol;            
+            this.rol = usuario_proyecto[0].rol;
             this.retrieveUsuarios();
             this.ref.detectChanges();
           },

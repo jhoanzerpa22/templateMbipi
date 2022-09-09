@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -17,6 +17,7 @@ enum ErrorStates {
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;
@@ -28,9 +29,10 @@ export class ForgotPasswordComponent implements OnInit {
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private authHttpService: AuthHTTPService) {
+    private fb              : FormBuilder,
+    private authService     : AuthService,
+    private authHttpService : AuthHTTPService,
+    private ref             : ChangeDetectorRef) {
     this.isLoading$ = this.authService.isLoading$;
   }
 
@@ -63,43 +65,46 @@ export class ForgotPasswordComponent implements OnInit {
       .forgotPassword(this.f.email.value)
       .pipe(first())
       .subscribe((result: any | undefined) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
+        //this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
         this.userData = result
-        console.log(result.data)
         if(result.data.isEmailOnDb === false){
-          Swal.fire({
-            text: "Sorry, looks like there are some errors detected, please try again.",
-            icon: "error",
-            buttonsStyling: false,
-            confirmButtonText: "Ok, got it!",
-            customClass: {
-                confirmButton: "btn btn-light-primary"
-            }
-          });
+          this.errorState = ErrorStates.HasError
+          // Swal.fire({
+          //   text: "Sorry, looks like there are some errors detected, please try again.",
+          //   icon: "error",
+          //   buttonsStyling: false,
+          //   confirmButtonText: "Ok, got it!",
+          //   customClass: {
+          //       confirmButton: "btn btn-light-primary"
+          //   }
+          // });
+
         }else {
           this.sendValidatonCode(this.userData);
         }
 
       });
-    this.unsubscribe.push(forgotPasswordSubscr);
+      this.unsubscribe.push(forgotPasswordSubscr);
 
 
 
-  }
+    }
 
-  sendValidatonCode(userData: any){
-    this.authHttpService.sendMailConfirmPass(userData)
-        .subscribe(
-          (response) => {
-            Swal.fire({
-              text: "Correo enviado correctamente a "+userData.data.correo_login +".",
-              icon: "success",
-              buttonsStyling: false,
-              confirmButtonText: "Ok!",
-              customClass: {
-                confirmButton: "btn btn-light-primary"
-              }
-            });
+    sendValidatonCode(userData: any){
+      this.authHttpService.sendMailConfirmPass(userData)
+      .subscribe(
+        (response) => {
+            this.errorState = ErrorStates.NoError
+            this.ref.detectChanges();
+            // Swal.fire({
+            //   text: "Correo enviado correctamente a "+userData.data.correo_login +".",
+            //   icon: "success",
+            //   buttonsStyling: false,
+            //   confirmButtonText: "Ok!",
+            //   customClass: {
+            //     confirmButton: "btn btn-light-primary"
+            //   }
+            // });
           },
           (err) => {
             console.log(err)
