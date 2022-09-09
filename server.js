@@ -15,7 +15,7 @@ const options = {
   },
   allowEIO3: true,
   transports: ['websocket'],
-  jsonp:false, 
+  jsonp:false,
   forceNew: true
 };
 
@@ -604,9 +604,9 @@ async function sendMailResume(user, callback) {
           <h3 style="text-align: center; padding-top: 20px;">Recuperar contraseña Mbipi</h3>
         </div>
         <div class="container">
-          <h4 style="text-align: center; padding-top: 10px;">Ingresa al siguiente link e ingresa el código de verificación</h4>
-          <a style="text-align: center; padding-top: 10px;" href="http://localhost:4200/auth/verify-code/`+user.id+`">https://mbipi.herokuapp.com/auth/verify-code/`+user.id+`</a>
-          <h3 style="text-align: center;padding-top: 10px;">Código: `+user.pass_recovery+` <h3>
+          <h4 style="text-align: center; padding-top: 5px;">Ingresa al siguiente link e ingresa el código de verificación</h4><span></span>
+          <a style="text-align: center; padding-top: 5px;" href="https://mbipi.herokuapp.com/auth/verify-code/`+user.id+`/`+user.pass_recovery_token+`">LINK</a>
+          <h2 style="text-align: center;padding-top: 5px;">Código: `+user.pass_recovery+` <h2>
         </div>
       </div>
       `

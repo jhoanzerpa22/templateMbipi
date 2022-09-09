@@ -46,7 +46,7 @@ const routes: Routes = [
         component: ChangePasswordComponent,
       },
       {
-        path: 'verify-code/:id',
+        path: 'verify-code/:id/:token',
         component: VerifyCodeComponent,
       },
       {

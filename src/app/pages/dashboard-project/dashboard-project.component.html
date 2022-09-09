@@ -188,9 +188,14 @@
           <!--begin::Users-->
           <div class="symbol-group symbol-hover mb-3">
             <ng-container *ngFor="let usu of miembros; let u = index;">
-              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
-                <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : (usu.correo.substring(0, 1).toUpperCase())))}}</span>
+              <div *ngIf="avatar_img; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+                <img src="{{avatar_img}}" alt="a_img">
               </div>
+              <ng-template #elseBlock>
+                <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+                  <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{(usu.usuario_id == usuario.id ? 'Yo' : (usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : (usu.correo.substring(0, 1).toUpperCase())))}}</span>
+                </div>
+              </ng-template>
             </ng-container>
             <!--begin::User
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="Alan Warden">
@@ -432,7 +437,7 @@
 													>
 													  <div class="card card-flush">
 														<div class="card-header pt-7" id="kt_chat_contacts_header">
-													 
+
 													<!--begin::Form-->
 													<form data-kt-search-element="form" class="w-100 position-relative mb-5" autocomplete="off" [formGroup]="form">
 														<!--begin::Hidden input(Added to disable form autocomplete)-->
@@ -502,7 +507,7 @@
 															  {{busqueda.substring(0, 1).toUpperCase()}}
 															</span>
 														  </div>
-											  
+
 														  <div class="ms-5">
 															<a
 															  class="
@@ -518,16 +523,16 @@
 															<!--<div class="fw-bold text-gray-400">melody@altbox.com</div>-->
 														  </div>
 														</div>
-											  
+
 														<div class="d-flex flex-column align-items-end ms-2">
 														  <a (click)="addItem({existe: 2, nombre: '', correo: busqueda})" class="btn btn-light btn-active-light-primary btn-sm">
 															Agregar
 														  </a>
 														</div>
 													  </div>
-											  
+
 													  <div class="separator separator-dashed d-none"  *ngIf="busqueda && busqueda != ''"></div>
-											  
+
 													  <ng-container *ngFor="let user of filteredUsuarios | async; let i = index;">
 														<div class="d-flex flex-stack py-4">
 														  <div class="d-flex align-items-center">
@@ -538,7 +543,7 @@
 															  {{user.nombre.substring(0, 1).toUpperCase()}}
 															  </span>
 															</div>
-												
+
 															<div class="ms-5">
 															  <a
 																class="
@@ -554,7 +559,7 @@
 															  <div class="fw-bold text-gray-400">{{user.correo}}</div>
 															</div>
 														  </div>
-												
+
 														  <div class="d-flex flex-column align-items-end ms-2">
 															<a (click)="addItem(user)" class="btn btn-light btn-active-light-primary btn-sm" *ngIf="!user.negado">
 															  Agregar
@@ -562,14 +567,14 @@
 															<!--<span class="text-muted fs-7 mb-1">5 hrs</span>-->
 														  </div>
 														</div>
-												
+
 														<div class="separator separator-dashed d-none"></div>
 													  </ng-container>
 													</div>
 												  </div></div></div>
 													<!--end::Form-->
 													<!--begin::Wrapper-->
-													
+
 													<div class="flex-lg-row-fluid ms-lg-7 ms-xl-10">
 														<div class="card" id="kt_chat_messenger">
 														<div class="card-header" id="kt_chat_messenger_header">
