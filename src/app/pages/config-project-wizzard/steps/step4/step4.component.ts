@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
@@ -8,6 +8,7 @@ import { MatAutocomplete } from '@angular/material/autocomplete';
 import { UsersService } from '../../../users/users.service';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 import { BehaviorSubject } from 'rxjs';/*
 import { TagData, TagifySettings } from 'ngx-tagify';*/
@@ -53,6 +54,7 @@ export class Step4Component implements OnInit, OnDestroy {
   @ViewChild("mySearch") mySearch: ElementRef;
 
   private usuarios: any = [];
+  public usuario: any = {};
 
   public filteredUsuarios: ReplaySubject<any> = new ReplaySubject<[]>(1);
 
@@ -88,7 +90,7 @@ export class Step4Component implements OnInit, OnDestroy {
     return tab === this.activeTab ? 'show active' : '';
   }
 
-  constructor(private fb: FormBuilder, private _usersService: UsersService) {}
+  constructor(private fb: FormBuilder, private _usersService: UsersService, private ref: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.initForm();
@@ -112,7 +114,10 @@ export class Step4Component implements OnInit, OnDestroy {
         (data: any) => {
             //console.log('usuarios',data);
           for (let index = 0; index < data.length; index++) {
+            
+            if (this.usuario.id != data[index].id) {
             this.searchUsuarios.push({'id': data[index].id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: (data[index].tipo_plan == 'gratuito' && data[index].user.usuario_equipos.length > 0)});
+            }
             
           }
           
@@ -125,6 +130,10 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   initForm() {
+
+    const usuario: any = localStorage.getItem('usuario');
+    let user: any = JSON.parse(usuario);
+    this.usuario = user;
     
     this.retrieveUsuarios();
 
@@ -184,21 +193,59 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   addItem(item: any){
-    this.members.push({id: item.existe == 1 ? item.id : '', nombre: item.nombre, correo: item.correo, existe: item.existe, rol: 'Participante'});
 
-    this.form.get('search_members')?.setValue('');
-    this.form.get('members')?.setValue(this.members);
-    this.busqueda = '';
-    let filter: any = this._filterUsuario('');
-    this.filteredUsuarios.next(filter.slice());
+    let index = this.members.findIndex((n: any) => n.correo == item.correo);
+
+    if(index != -1 || item.correo == this.usuario.correo_login){
+      Swal.fire({
+        text: "Este Correo ya esta agregado.¡Por favor agregue otro!",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
+
+      this.members.push({id: item.existe == 1 ? item.id : '', nombre: item.nombre, correo: item.correo, existe: item.existe, rol: 'Participante'});
+
+      this.form.get('search_members')?.setValue('');
+      this.form.get('members')?.setValue(this.members);
+      this.busqueda = '';
+      let filter: any = this._filterUsuario('');
+      this.filteredUsuarios.next(filter.slice());
+    }
   }
 
   changeRol($event: any, i: any){
-    this.members[i].rol = $event.target.value;
+    let index = this.members.findIndex((n: any) => n.rol == 'Decisor');
+
+    if(index != -1 && $event.target.value == 'Decisor'){
+      
+      $event.target.value == 'Participante';
+      this.members[index].rol = 'Participante';
+      this.members[i].rol = 'Participante';
+      Swal.fire({
+        text: "El equipo ya cuenta con un Decisor.¡Por favor agregue otro!",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
+      this.members[i].rol = $event.target.value;
+    }
+    
+    this.form.get('members')?.setValue(this.members);
+    this.ref.detectChanges();
   }
 
   quitar(i: any){
     this.members.splice(i, 1);
+    this.form.get('members')?.setValue(this.members);
   }
 
   checkForm() {
