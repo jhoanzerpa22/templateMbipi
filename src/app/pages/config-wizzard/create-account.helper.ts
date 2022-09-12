@@ -31,7 +31,7 @@ const inits: ICreateAccount = {
   nameOnCard: 'Max Doe',
   cardNumber: '4051 8856 0044 6623',//'4111 1111 1111 1111',
   cardExpiryMonth: '1',
-  cardExpiryYear: '2',
+  cardExpiryYear: '2024',
   cardCvv: '123',
   saveCard: '1',
 };
