@@ -307,7 +307,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     tablero.push({'title': 'Como podriamos', "data": como_podriamos});
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase2'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase2', tablero: this.notes_all, type: 'notas'};
     
     this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
     .subscribe(

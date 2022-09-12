@@ -115,7 +115,7 @@ export class DashboardProjectComponent implements OnInit {
           for (let index = 0; index < data.length; index++) {
             let index3 = this.miembros.findIndex((n: any) => n.usuario_id == data[index].id);
 
-            if (index3 == -1) {
+            if (index3 == -1 && this.usuario.id != data[index].id) {
 
               this.searchUsuarios.push({'id': data[index].id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: (data[index].tipo_plan == 'gratuito' && data[index].user.usuario_equipos.length > 0) });
             }
@@ -134,7 +134,11 @@ export class DashboardProjectComponent implements OnInit {
     this.activeClass = pestana;
   }
 
-  quitar(id: any){
+  quitar(i: any){
+    this.members.splice(i, 1);
+  }
+
+  eliminar(id: any){
 
   this._proyectsService.deleteMember(id)
   .subscribe(
@@ -217,13 +221,27 @@ export class DashboardProjectComponent implements OnInit {
   }
 
   addItem(item: any){
-    this.members.push({id: item.existe == 1 ? item.id : '', nombre: item.nombre, correo: item.correo, existe: item.existe, rol: 'Participante'});
+    let index = this.members.findIndex((n: any) => n.correo == item.correo);
 
-    this.form.get('search_members')?.setValue('');
-    this.form.get('members')?.setValue(this.members);
-    this.busqueda = '';
-    let filter: any = this._filterUsuario('');
-    this.filteredUsuarios.next(filter.slice());
+    if(index != -1){
+      Swal.fire({
+        text: "Este Correo ya esta agregado.¡Por favor agregue otro!",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
+      this.members.push({id: item.existe == 1 ? item.id : '', nombre: item.nombre, correo: item.correo, existe: item.existe, rol: 'Participante'});
+
+      this.form.get('search_members')?.setValue('');
+      this.form.get('members')?.setValue(this.members);
+      this.busqueda = '';
+      let filter: any = this._filterUsuario('');
+      this.filteredUsuarios.next(filter.slice());
+    }
   }
 
   changeRol($event: any, i: any){
