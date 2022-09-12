@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
+import { UsersService } from '../../../users/users.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-step4',
@@ -17,7 +19,7 @@ export class Step4Component implements OnInit {
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private _usersService: UsersService, private ref: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.initForm();
@@ -38,6 +40,7 @@ export class Step4Component implements OnInit {
       ],
       cardCvv: [this.defaultValues.cardCvv, [Validators.required]],
       saveCard: ['1'],
+      successCard: [''/*, [Validators.required]*/]
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
@@ -52,8 +55,44 @@ export class Step4Component implements OnInit {
       this.form.get('cardNumber')?.hasError('required') ||
       this.form.get('cardExpiryMonth')?.hasError('required') ||
       this.form.get('cardExpiryYear')?.hasError('required') ||
-      this.form.get('cardCvv')?.hasError('required')
+      this.form.get('cardCvv')?.hasError('required') || this.form.get('successCard')?.hasError('required')
     );
+  }
+
+  validar(){
+    this._usersService.savePayment(this.form.value)
+      .subscribe(
+          (response) => {
+            console.log('respuesta_pago',response);
+            if(response.status != "AUTHORIZED"){
+              Swal.fire({
+                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                  confirmButton: "btn btn-primary"
+                }
+              });
+            }else{
+              this.form.get('successCard')?.setValue(1);
+              this.updateParentModel({}, this.checkForm());
+              this.ref.detectChanges();
+            }
+          },
+          (err) => {
+            console.log(err)
+            Swal.fire({
+                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                  confirmButton: "btn btn-primary"
+                }
+              });
+          }
+      );
   }
 
   ngOnDestroy() {
