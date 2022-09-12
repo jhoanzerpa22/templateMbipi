@@ -80,9 +80,17 @@ export class ConfigCtaWizardComponent implements OnInit {
               });
             }
           },
-          (response) => {
-              // Reset the form
-              //this.signUpNgForm.resetForm();
+          (err) => {
+            console.log(err)
+            Swal.fire({
+                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                  confirmButton: "btn btn-primary"
+                }
+              });
           }
       );
     }

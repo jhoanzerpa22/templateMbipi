@@ -407,7 +407,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     console.log('guardar_clasificacion',tablero);
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase3'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase3', tablero: tablero, type: 'clasificacion'};
     
     this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
     .subscribe(

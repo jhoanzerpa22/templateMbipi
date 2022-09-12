@@ -11,13 +11,13 @@
       ><span class="required">Nombre en la tarjeta</span
       ><i
         class="fas fa-exclamation-circle ms-2 fs-7"
-        ngbTooltip="Specify a card holder's name"
+        ngbTooltip="Especifica un nombre de la tarjeta"
       ></i></label
     ><input
       formControlName="nameOnCard"
       type="text"
       class="form-control form-control-solid"
-      placeholder="Name on card"
+      placeholder="Nombre en la tarjeta"
     />
     <div
       class="fv-plugins-message-container invalid-feedback"
@@ -36,7 +36,7 @@
         formControlName="cardNumber"
         type="text"
         class="form-control form-control-solid"
-        placeholder="Enter card number"
+        placeholder="Ingrese número de tarjeta"
       />
       <div
         class="fv-plugins-message-container invalid-feedback"
@@ -73,7 +73,7 @@
         <div class="col-6">
           <select
             formControlName="cardExpiryMonth"
-            class="form-select form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true"
+            class="form-select form-select-solid" data-control="select2" data-placeholder="Seleccione..." data-allow-clear="true" data-hide-search="true"
           >
             <option></option>
             <option value="1">1</option>
@@ -102,12 +102,12 @@
         <div class="col-6">
           <select
             formControlName="cardExpiryYear"
-            class="form-select form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true"
+            class="form-select form-select-solid" data-control="select2" data-placeholder="Seleccione..." data-allow-clear="true" data-hide-search="true"
           >
             <option></option>
-            <option value="2021">2021</option>
+            <!--<option value="2021">2021</option>
             <option value="2022">2022</option>
-            <option value="2023">2023</option>
+            <option value="2023">2023</option>-->
             <option value="2024">2024</option>
             <option value="2025">2025</option>
             <option value="2026">2026</option>
@@ -116,6 +116,7 @@
             <option value="2029">2029</option>
             <option value="2030">2030</option>
             <option value="2031">2031</option>
+            <option value="2032">2032</option>
           </select>
           <div
             class="fv-plugins-message-container invalid-feedback"
@@ -134,7 +135,7 @@
         ><span class="required">CVV</span
         ><i
           class="fas fa-exclamation-circle ms-2 fs-7"
-          ngbTooltip="Enter a card CVV code"
+          ngbTooltip="Ingrese código CVV de tarjeta"
         ></i
       ></label>
       <div class="position-relative">

@@ -355,8 +355,8 @@
 																	<div class="fs-5 fw-bolder text-dark">$23,000</div>
 																	<div class="fs-7 text-muted">Sales</div>
 																</div>-->
-																<div class="text-end">
-																<button (click)="quitar(usu.id)"
+																<div class="text-end" *ngIf="rol == 'Decisor'">
+																<button (click)="eliminar(usu.id)"
 																	class="
 																	btn btn-icon btn-bg-light btn-active-color-primary btn-sm
 																	me-1
@@ -602,17 +602,28 @@
                                   </div>
 																	<!--end::Avatar-->
 																	<!--begin::Info-->
-																	<div class="fw-bold">
-																		<span class="fs-6 text-gray-800 me-2">{{usu.correo}}</span>
-																		<span class="badge badge-light">Participante
-                                      <!--<select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true" (change)="changeRol($event, u)">
-                                        <option value="Decisor">Decisor</option>
-                                        <option value="Participante" selected="selected">Participante</option>
-                                      </select>-->
-                                    </span>
-																	</div>
+									<div class="fw-bold">
+										<span class="fs-6 text-gray-800 me-2">{{usu.correo}}</span>
+										<span class="badge badge-light">Participante
+												<!--<select class="form-select form-select-solid form-select-sm" data-control="select2" data-hide-search="true" (change)="changeRol($event, u)">
+													<option value="Decisor">Decisor</option>
+													<option value="Participante" selected="selected">Participante</option>
+												</select>-->
+                                    	</span>
+									</div>
+									<div class="text-end">
+										<button (click)="quitar(u)"
+											class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+											me-1"
+										>
+											<span
+												[inlineSVG]="'./assets/media/icons/duotune/general/gen027.svg'"
+												class="svg-icon svg-icon-3"
+											></span>
+										</button>
+									</div>
 																	<!--end::Info-->
-																</div>
+								</div>
 																<!--end::User-->
                               </ng-container>
 

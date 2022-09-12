@@ -6,6 +6,8 @@ const Equipos = db.equipos;
 const EquiposUsuarios = db.equipos_usuarios;
 const User = db.user;
 const Usuario = db.usuario;
+const ProyectoRecurso = db.proyecto_recurso;
+const NotasCp = db.notascp;
 
 const Op = db.Sequelize.Op;
 
@@ -39,11 +41,13 @@ exports.create = (req, res) => {
             equipo_id: equipo.id,
             metodologia_id: 1
             }).then(proyect =>{
-
+              
+                let decisor = req.body.data.members.findIndex(n => n.rol == 'Decisor');
+                
                 EquiposUsuarios.create({
                     usuario_id: req.body.usuario_id,
                     correo: req.body.correo,
-                    rol: 'Decisor',
+                    rol: decisor != -1 ? 'Participante' : 'Decisor',
                     participante: true,
                     equipo_id: equipo.id,
                     }).then(ep =>{
@@ -52,7 +56,7 @@ exports.create = (req, res) => {
                             for (let i = 0; i < req.body.data.members.length; i++) {
 
                                 EquiposUsuarios.create({
-                                    usuario_id: null,
+                                    usuario_id: req.body.data.members[i].id,
                                     correo: req.body.data.members[i].correo,
                                     rol: req.body.data.members[i].rol,
                                     participante: false,
@@ -66,7 +70,7 @@ exports.create = (req, res) => {
                                         res.status(500).send({
                                         message: "Error creating EquiposProyectos"
                                         });
-                                    });;
+                                    });
                             }
                         }else{
                             res.send({ message: "Proyecto was registered successfully!", data: proyect });
@@ -293,15 +297,69 @@ exports.updateEtapa = (req, res) => {
   let proyectos = {
       etapa_activa: req.body.etapa_activa
     };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let como_podriamos = [];
 
   Proyectos.update(proyectos, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
-        res.send({
-          message: `Proyecto with id=${id} was updated successfully.`
-        });
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            como_podriamos.push({'contenido': tablero[n].content, 'categoria': 'como podriamos', 'votos': 0});
+          }
+
+          let proyecto_recurso = [];
+
+          
+          NotasCp.bulkCreate(como_podriamos).then(cp =>{
+                //if((i + 1) == req.body.tablero.length){
+                  console.log('cp',cp);
+                  for(let c in cp){
+                  //for (let i = 0; i < req.body.tablero.length; i++) {
+                    proyecto_recurso.push({'proyecto_id': id, 'notascp_id': cp[c].dataValues.id});
+                  }
+                  /*
+                  cp [
+                    notascp {
+                      dataValues: {
+                        id: 4,*/
+                  //console.log('proyecto_recurso', proyecto_recurso);
+
+                  /*res.send({
+                    message: `Proyecto with id=${id} was updated successfully.`
+                  });*/
+                //}
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating NotasCp"
+                });
+            });
+        }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
       } else {
         res.send({
           message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
@@ -322,8 +380,8 @@ exports.updateMembers = (req, res) => {
     for (let i = 0; i < req.body.invitados.length; i++) {
 
       EquiposUsuarios.create({
-          usuario_id: null,
-          correo: req.body.invitados[i].nombre,
+          usuario_id: req.body.invitados[i].id,
+          correo: req.body.invitados[i].correo,
           rol: req.body.invitados[i].rol,
           participante: false,
           equipo_id: req.body.equipo_id,
@@ -336,7 +394,7 @@ exports.updateMembers = (req, res) => {
               res.status(500).send({
               message: "Error creating Members"
               });
-          });;
+          });
     }
 
 };
