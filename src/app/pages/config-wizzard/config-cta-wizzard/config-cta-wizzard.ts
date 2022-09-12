@@ -62,38 +62,6 @@ export class ConfigCtaWizardComponent implements OnInit {
     }else if(this.account$.value.accountPlan && this.account$.value.accountPlan == 'gratuito' && this.currentStep$.value == 2){
       nextStep = nextStep + 1;
     }
-    
-    if(this.account$.value.accountPlan && this.account$.value.accountPlan == 'pago' && this.currentStep$.value == 3){
-      this._usersService.savePayment(this.account$.value)
-      .subscribe(
-          (response) => {
-            console.log('respuesta_pago',response);
-            if(response.status != "AUTHORIZED"){
-              Swal.fire({
-                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "Ok!",
-                customClass: {
-                  confirmButton: "btn btn-primary"
-                }
-              });
-            }
-          },
-          (err) => {
-            console.log(err)
-            Swal.fire({
-                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "Ok!",
-                customClass: {
-                  confirmButton: "btn btn-primary"
-                }
-              });
-          }
-      );
-    }
 
       this.currentStep$.next(nextStep);
     
