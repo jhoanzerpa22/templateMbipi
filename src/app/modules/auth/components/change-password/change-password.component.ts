@@ -86,7 +86,7 @@ export class ChangePasswordComponent implements OnInit {
         });
       }else{
         Swal.fire({
-          text: "Password modificado exitosamente! Serás redirigido a login",
+          text: "Password modificado exitosamente! Ahora podrás ingresar a la plataforma",
           icon: "success",
           buttonsStyling: false,
           confirmButtonText: "Ok!",

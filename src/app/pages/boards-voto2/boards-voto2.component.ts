@@ -6,25 +6,25 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-declare var $: any; 
+declare var $: any;
 declare var jQuery: any;
 
 @Component({
   selector: 'app-boards-voto',
-  templateUrl: './boards-voto.component.html',
-  styleUrls: ['./boards-voto.component.scss'],
+  templateUrl: './boards-voto2.component.html',
+  styleUrls: ['./boards-voto2.component.scss'],
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
-  
+
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
 
   board: string;
 
   notas: any = [];
-  
+
   tablero: any = [];
   tablero2: any = [];
   votos: any = [];
@@ -39,11 +39,11 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public width: number = 50;
     public height: number = 50;
-  
+
     private cx: CanvasRenderingContext2D;
-  
+
     private points: Array<any> = [];
-  
+
     public isAvailabe: boolean = false;
 
     showVideoFlag = true;
@@ -61,18 +61,18 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   usuarios: any = [];
   usuarios_active: any = [];
   usuario: any = {};
-  
+
   public proyecto: any = {};
   public proyecto_id: number;
   public rol: any = '';
-  
+
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
       //if (e.target.id === 'canvasId' && (this.isAvailabe)) {
         this.write(e);
       //}
     }
-  
+
     @HostListener('click', ['$event'])
     onClick = (e: any) => {
       if (e.target.id === 'canvasId') {
@@ -154,7 +154,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
    }
 
   ngOnInit(): void {
-    
+
     this.socketWebService.emitEventGetEtapa();
 
     this.route.params.subscribe(params => {
@@ -167,8 +167,8 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     /*const notes: any = localStorage.getItem('category_all');
     this.notas = JSON.parse(notes);
-    let primero = 0; 
-    for(let n in this.notas){    
+    let primero = 0;
+    for(let n in this.notas){
       let categorias: any = [];
       for(let m in this.notas[n].data){
         categorias.push({'label': this.notas[n].data[m].content, 'voto': 0, 'voto_maximo': false});
@@ -178,16 +178,16 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       primero = primero + 1;
     }*/
-    
+
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
-    
+
     /*this.tablero.push({'title': 'Tablero 1', "data": [{'label': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
     this.tablero.push({'title': 'Tablero 2', "data": [{'label': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'label': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'label': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'label': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
     //this.tablero2 = JSON.stringify(this.tablero);
     //this.filteredTablero.next(this.tablero.slice());
 
     //console.log('tablero_clasificacion',this.tablero);
-    
+
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
     //this.board = this.route.snapshot.paramMap.get('board');
@@ -197,18 +197,19 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.setInitialValue();
     this.render();
-  
+
   const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
-    
-  if (index2 != -1) {
-    this.usuarios_active.splice(index2, 1);
-  }
-  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
+
+    if (index2 != -1) {
+      this.usuarios_active.splice(index2, 1);
+    }
+    this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
     console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     this.socketWebService.emitEventUsersActive(this.usuario);
+    $('#myVideo').trigger('play');
     this.ref.detectChanges();
   }
 
@@ -254,7 +255,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     const usuarios = JSON.parse(data);
     console.log('recibe_usuarios', usuarios);
     this.usuarios_active = usuarios;
-    
+
     this.ref.detectChanges();
   }
 
@@ -344,7 +345,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     //console.log('tablero_all', this.tablero);
     this.tablero2 = JSON.stringify(this.tablero);
-    
+
     this.filteredTablero.next(this.tablero.slice());
   }
 
@@ -372,15 +373,15 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     //console.log('quitar', i, j);
     //console.log(this.tablero[i].data[j].label);
     this.tablero[i].data[j].voto = this.tablero[i].data[j].voto - 1;
-    
+
     const index = this.votos.findIndex((c: any) => c == i+':'+j);
-    
+
     if (index != -1) {
       this.votos.splice(index, 1);
     }
 
     const index2 = this.voto_tablero.findIndex((c: any) => c == i);
-    
+
     if (index2 != -1) {
       this.voto_tablero.splice(index2, 1);
     }
@@ -389,19 +390,19 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.writeBoard();
   }
 
-  
+
   quitarMaximo(i: any, j: any){
     //console.log('quitar_maximo', i, j);
     //console.log(this.tablero[i].data[j].label);
-    
+
     const index = this.voto_maximo.findIndex((c: any) => c == i+':'+j);
-    
+
     if (index != -1) {
       this.voto_maximo.splice(index, 1);
     }
 
     const index2 = this.voto_tablero.findIndex((c: any) => c == i);
-    
+
     if (index2 != -1) {
       this.voto_tablero.splice(index2, 1);
     }
@@ -414,18 +415,18 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   verifyVoto(i: any, j: any){
     const index = this.votos.findIndex((c: any) => c == i+':'+j);
-    
+
     if (index != -1) {
       return true;
     }
 
     return false;
-  
+
   }
-  
+
   verifyVotoMaximo(i: any, j: any){
     /*const index = this.voto_maximo.findIndex((c) => c == i+':'+j);
-    
+
     if (index != -1) {
       return true;
     }
@@ -437,23 +438,23 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     }else{
       return false;
     }
-  
+
   }
 
-  
+
   verifyVotoTablero(i: any){
     //console.log('voto_tablero',this.voto_tablero);
     const index = this.voto_tablero.findIndex((c: any) => c == i);
-    
+
     if (index != -1) {
       return true;
     }
 
     return false;
-  
+
   }
 
-  
+
   onPlayPause(){
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
     this.playing= true;
