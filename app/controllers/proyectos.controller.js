@@ -44,7 +44,7 @@ exports.create = (req, res) => {
               
                 let decisor = req.body.data.members.findIndex(n => n.rol == 'Decisor');
                 
-                EquiposUsuarios.create({
+                /*EquiposUsuarios.create({
                     usuario_id: req.body.usuario_id,
                     correo: req.body.correo,
                     rol: decisor != -1 ? 'Participante' : 'Decisor',
@@ -52,14 +52,14 @@ exports.create = (req, res) => {
                     equipo_id: equipo.id,
                     }).then(ep =>{
 
-                        if(req.body.data.members.length > 0){
+                        */if(req.body.data.members.length > 0){
                             for (let i = 0; i < req.body.data.members.length; i++) {
 
                                 EquiposUsuarios.create({
                                     usuario_id: req.body.data.members[i].existe == 1 ? req.body.data.members[i].id : null,
                                     correo: req.body.data.members[i].correo,
                                     rol: req.body.data.members[i].rol,
-                                    participante: false,
+                                    participante: req.body.data.members[i].existe == 1 && req.body.usuario_id == req.body.data.members[i].id ? true : false,
                                     equipo_id: equipo.id,
                                     }).then(ep2 =>{
                                         if((i + 1) == req.body.data.members.length){
@@ -75,11 +75,11 @@ exports.create = (req, res) => {
                         }else{
                             res.send({ message: "Proyecto was registered successfully!", data: proyect });
                         }
-                    }).catch(err => {
+                    /*}).catch(err => {
                         res.status(500).send({
                         message: "Error creating EquipoProyecto"
                         });
-                    });
+                    });*/
 
         }).catch(err => {
             res.status(500).send({
