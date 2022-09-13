@@ -56,7 +56,7 @@ exports.create = (req, res) => {
                             for (let i = 0; i < req.body.data.members.length; i++) {
 
                                 EquiposUsuarios.create({
-                                    usuario_id: req.body.data.members[i].id,
+                                    usuario_id: req.body.data.members[i].existe == 1 ? req.body.data.members[i].id : null,
                                     correo: req.body.data.members[i].correo,
                                     rol: req.body.data.members[i].rol,
                                     participante: false,
@@ -380,7 +380,7 @@ exports.updateMembers = (req, res) => {
     for (let i = 0; i < req.body.invitados.length; i++) {
 
       EquiposUsuarios.create({
-          usuario_id: req.body.invitados[i].id,
+          usuario_id: req.body.invitados[i].existe == 1 ? req.body.invitados[i].id : null,
           correo: req.body.invitados[i].correo,
           rol: req.body.invitados[i].rol,
           participante: false,
