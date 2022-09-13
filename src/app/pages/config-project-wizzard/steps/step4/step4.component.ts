@@ -135,6 +135,8 @@ export class Step4Component implements OnInit, OnDestroy {
     let user: any = JSON.parse(usuario);
     this.usuario = user;
     
+    this.members.push({id: this.usuario.id, nombre: this.usuario.nombre, correo: this.usuario.correo_login, existe: 1, rol: 'Decisor'});
+    
     this.retrieveUsuarios();
 
     this.form = this.fb.group({
