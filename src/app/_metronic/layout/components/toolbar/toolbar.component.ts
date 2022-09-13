@@ -30,6 +30,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   max_proyects: boolean = false;
 
   newUser: any;
+  usuario: any;
 
   constructor(private layout: LayoutService,
               private _proyectsService: ProyectsService,
@@ -45,22 +46,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
     this.pageTitleAttributes = this.layout.getHTMLAttributes('pageTitle');
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
-    this._proyectsService.dashboard(user.id, user.correo_login)
-      .subscribe(
-        (response)=>{
-          this.num_proyectos = response.length;
-          // console.log(this.num_proyectos);
-        }
-      );
-    this._userService.get(user.id)
-    .subscribe(
-      (response) =>{
-        // console.log(response);
-        this.newUser = response.tipo_plan;
-        // console.log(this.newUser);
-      }
-    )
-
+    this.usuario = user;
   }
 
   ngAfterViewInit() {
@@ -79,34 +65,53 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 
   createProyect(){
 
-    if(this.num_proyectos >= 2){
-      this.max_proyects = true;
-      Swal.fire({
-        text: "Ups, debes suscribirte a Plan-Pro para crear más de 2 proyectos.",
-        icon: "error",
-        buttonsStyling: false,
-        confirmButtonText: "Ok!",
-        customClass: {
-          confirmButton: "btn btn-primary"
+    this._userService.getInfo(this.usuario.id)
+    .subscribe(
+      (response) =>{
+        this.newUser = response.tipo_plan;
+        if(!this.newUser){
+          Swal.fire({
+            text: "Debes configurar tu cuenta antes de continuar a la creación de un nuevo proyecto",
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "Ok!",
+            customClass: {
+              confirmButton: "btn btn-primary"
+            }
+          }).then(()=>{
+            this.router.navigate(['/crafted/pages/wizards/config-cta'])
+          });
         }
-      });
-    }
-    else if(!this.newUser){
-      Swal.fire({
-        text: "Debes configurar tu cuenta antes de continuar a la creación de un nuevo proyecto",
-        icon: "warning",
-        buttonsStyling: false,
-        confirmButtonText: "Ok!",
-        customClass: {
-          confirmButton: "btn btn-primary"
+        else{
+        
+          this._proyectsService.dashboard(this.usuario.id, this.usuario.correo_login)
+          .subscribe(
+            (response)=>{
+              this.num_proyectos = response.length;
+
+              if(this.num_proyectos >= 2){
+                this.max_proyects = true;
+                Swal.fire({
+                  text: "Ups, debes suscribirte a Plan-Pro para crear más de 2 proyectos.",
+                  icon: "error",
+                  buttonsStyling: false,
+                  confirmButtonText: "Ok!",
+                  customClass: {
+                    confirmButton: "btn btn-primary"
+                  }
+                });
+              }else{
+
+                this.router.navigate(['/crafted/pages/wizards/project']);
+              }
+
+            }
+          );
+        
         }
-      }).then(()=>{
-        this.router.navigate(['/crafted/pages/wizards/config-cta'])
-      });
-    }
-    else{
-      this.router.navigate(['/crafted/pages/wizards/project'])
-    }
+      
+      }
+    );
 
   }
 }
