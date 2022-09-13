@@ -6,7 +6,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-declare var $: any; 
+declare var $: any;
 declare var jQuery: any;
 
 @Component({
@@ -17,14 +17,14 @@ declare var jQuery: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
-  
+
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
 
   board: string;
 
   notas: any = [];
-  
+
   tablero: any = [];
   tablero2: any = [];
   votos: any = [];
@@ -40,11 +40,11 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public width: number = 50;
     public height: number = 50;
-  
+
     private cx: CanvasRenderingContext2D;
-  
+
     private points: Array<any> = [];
-  
+
     public isAvailabe: boolean = false;
 
     showVideoFlag = true;
@@ -63,7 +63,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   usuarios: any = [];
   usuarios_active: any = [];
   usuario: any = {};
-  
+
   public proyecto: any = {};
   public proyecto_id: number;
   public rol: any = '';
@@ -72,14 +72,14 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   sec: any = '0' + 0;
   min: any = '0' + 0;
   hr: any = '0' + 0;
-  
+
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
       //if (e.target.id === 'canvasId' && (this.isAvailabe)) {
         this.write(e);
       //}
     }
-  
+
     @HostListener('click', ['$event'])
     onClick = (e: any) => {
       if (e.target.id === 'canvasId') {
@@ -165,7 +165,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.usuario = user;
     this.usuario.active = true;
 
-   }
+  }
 
   ngOnInit(): void {
 
@@ -179,24 +179,25 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.socketWebService.emitEventGet();
 
+
     /*const notes: any = localStorage.getItem('notes_all');
     this.notas = JSON.parse(notes);
     let como_podriamos: any = [];
     for(let n in this.notas){
       como_podriamos.push({'content': this.notas[n].content});
     }
-    
+
     this.filteredNotas.next(this.notas.slice());
 
     this.tablero.push({'title': 'Como podriamos', "data": como_podriamos});*/
 
     /*this.notas.push({'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'},{'label': 'Get to work'}, {'label': 'Pick up groceries'}, {'label': 'Go home'});*/
-    
+
     /*this.tablero.push({'title': 'Tablero 1', "data": [{'content': 'Get to work', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep', 'voto': 0, 'voto_maximo': false}]});
     this.tablero.push({'title': 'Tablero 2', "data": [{'content': 'Get to work2', 'voto': 0, 'voto_maximo': false}, {'content': 'Pick up groceries2', 'voto': 0, 'voto_maximo': false}, {'content': 'Go home2', 'voto': 0, 'voto_maximo': false}, {'content': 'Fall asleep2', 'voto': 0, 'voto_maximo': false}]});*/
     //this.tablero2 = JSON.stringify(this.tablero);
     //this.filteredTablero.next(this.tablero.slice());
-    
+
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
     //this.board = this.route.snapshot.paramMap.get('board');
@@ -207,17 +208,18 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setInitialValue();
     this.render();
 
-  const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
-    
-  if (index2 != -1) {
-    this.usuarios_active.splice(index2, 1);
-  }
-  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
+    const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
+
+    if (index2 != -1) {
+      this.usuarios_active.splice(index2, 1);
+    }
+    this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
     console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     this.socketWebService.emitEventUsersActive(this.usuario);
+    $('#myVideo').trigger('play');
     this.ref.detectChanges();
   }
 
@@ -247,7 +249,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
               this.min = tiempo[1];
             }
             this.showTimer = true;
-            
+
             this.ref.detectChanges();
           },
           (response) => {
@@ -261,7 +263,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     const usuarios = JSON.parse(data);
     console.log('recibe_usuarios', usuarios);
     this.usuarios_active = usuarios;
-    
+
     this.ref.detectChanges();
   }
 
@@ -357,7 +359,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     //console.log('tablero_all', this.tablero);
     this.tablero2 = JSON.stringify(this.tablero);
-    
+
     this.filteredTablero.next(this.tablero.slice());
   }
 
@@ -382,7 +384,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   onFocusOut(event: any, i: any){
     this.tablero[i].title = event.target.innerText;
     this.tablero2 = JSON.stringify(this.tablero);
-    
+
     this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
   }
 
@@ -390,12 +392,12 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('save_category_all',this.tablero);
     localStorage.setItem('category_all', this.tablero2);
 
-    let primero = 0;     
+    let primero = 0;
     let tablero: any = [];
 
     for(let n in this.tablero){
       let categorias: any = [];
-      
+
       for(let m in this.tablero[n].data){
         categorias.push({'label': this.tablero[n].data[m].content, 'voto': 0, 'voto_maximo': false});
       }
@@ -408,7 +410,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('guardar_clasificacion',tablero);
 
     const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase3', tablero: tablero, type: 'clasificacion'};
-    
+
     this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
@@ -433,7 +435,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this._router.navigate([etapa_active]);
     }
   }
-  
+
   onPlayPause(){
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
     this.playing= true;

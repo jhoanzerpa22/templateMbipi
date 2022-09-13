@@ -64,7 +64,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
-  
+
   //Lista de Usuarios
   usuarios: any = []; //usuarios
   usuarios_active: any = []; //usuarios activos
@@ -87,7 +87,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   private initService: LayoutInitService,
   private layout: LayoutService*/
   private el:ElementRef,
-  private socketWebService: SocketWebService, 
+  private socketWebService: SocketWebService,
   private _proyectsService: ProyectsService,
   private ref: ChangeDetectorRef,
   private modalService: NgbModal,
@@ -107,7 +107,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       const { tablero } = res;
       this.readBoard(tablero, false);
     });
-    
+
     //escuchamos el evento para continuar
     this.socketWebService.outEvenContinue.subscribe((res: any) => {
       this.continue();
@@ -174,20 +174,21 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-  //verificamos si el usuario logueado ya existe en el listado
-  const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
+    //verificamos si el usuario logueado ya existe en el listado
+    const index2 = this.usuarios_active.findIndex((c: any) => c.id == this.usuario.id);
 
-  //si existe lo eliminamos y volvemos a agregarlo para evitar datos obsoletos
-  if (index2 != -1) {
-    this.usuarios_active.splice(index2, 1);
-  }
-  this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
+    //si existe lo eliminamos y volvemos a agregarlo para evitar datos obsoletos
+    if (index2 != -1) {
+      this.usuarios_active.splice(index2, 1);
+    }
+    this.usuarios_active.push({'id': this.usuario.id, 'nombre': this.usuario.nombre, 'active': true});
 
     console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     //enviamos al socket el usuario logueado
     this.socketWebService.emitEventUsersActive(this.usuario);
+    $('#myVideo').trigger('play');
     this.ref.detectChanges();
   }
 
@@ -209,7 +210,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                 op.usuario_id == this.usuario.id)
               );
             this.rol = usuario_proyecto[0].rol;
-            
+
             if(this.proyecto.tiempo != '' && this.proyecto.tiempo != undefined){
               let tiempo = this.proyecto.tiempo.split(':');
               this.hr = tiempo[0];
@@ -235,7 +236,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     */
     /*for(let c in this.usuarios_active){
       let index = usuarios.findIndex((u: any) => u.id == this.usuarios_active[c].id);
-    
+
       if (index != -1) {
         //this.usuarios.splice(index, 1);
       }else{
@@ -247,7 +248,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     /*
     for(let d in usuarios){
       let index2 = this.usuarios_active.findIndex((u2: any) => u2.id == usuarios[d].id);
-    
+
       if (index2 != -1) {
         //this.usuarios.splice(index, 1);
         if(this.usuarios_active[index2].active != usuarios[d].active){
@@ -267,7 +268,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.socketWebService.emitEventUsersActive(this.usuario);
     }*/
     this.usuarios_active = usuarios;
-    
+
     this.ref.detectChanges();
   }
 
@@ -298,7 +299,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   saveNoteAll() {
     console.log('save_notes_all',this.notes_all);
     localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
-    
+
     let como_podriamos: any = [];
     let tablero: any = [];
     for(let n in this.notes_all){
@@ -308,13 +309,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     tablero.push({'title': 'Como podriamos', "data": como_podriamos});
 
     const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase2', tablero: this.notes_all, type: 'notas'};
-    
+
     this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
           this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
-    
+
           this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
 
         },
@@ -381,7 +382,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     if(existe == 0){
       this.notes_all.push({ id: newValue.id, content:newValue.content });
     }
-    
+
     this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
   }
 
@@ -397,13 +398,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.notes.splice(index,1);
         this.socketWebService.emitEventTableroDelete(note);
         /*const index2 = this.notes_all.findIndex((n: any) => n.id == id);
-    
+
         if (index2 != -1) {
           this.notes_all.splice(index2, 1);
-        
+
           this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
         }*/
-        
+
         localStorage.setItem('notes', JSON.stringify(this.notes));
         console.log("********* deleting note *********")
         return;
