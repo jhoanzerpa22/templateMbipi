@@ -148,6 +148,32 @@ exports.findOne = (req, res) => {
 };
 
 // Find a single Usuario with an id
+exports.getInfo = (req, res) => {
+  const id = req.params.id;
+
+  /*Usuario.findByPk(id,*/Usuario.findOne({
+    where: {login_id: id}
+  , include: [{model: User, attributes:['correo_login'], include: [{model: Role, attributes:['id','nombre']}]}] })
+    .then(data => {
+      if (data) {
+        if(data.img != null){
+          data.img = serverConfig.HOST+'/'+data.img;
+        }
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find Usuario with id=${id}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Usuario with id=" + id
+      });
+    });
+};
+
+// Find a single Usuario with an id
 exports.findMenu = (req, res) => {
   const id = req.params.id;
   const correo = req.params.correo;
