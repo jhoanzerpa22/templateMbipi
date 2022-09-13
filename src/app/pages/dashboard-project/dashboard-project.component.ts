@@ -113,11 +113,11 @@ export class DashboardProjectComponent implements OnInit {
           //this.filteredUsuarios.next(this.usuarios.slice());
 
           for (let index = 0; index < data.length; index++) {
-            let index3 = this.miembros.findIndex((n: any) => n.usuario_id == data[index].id);
+            let index3 = this.miembros.findIndex((n: any) => n.usuario_id == data[index].login_id);
 
             if (index3 == -1 && this.usuario.id != data[index].id) {
 
-              this.searchUsuarios.push({'id': data[index].id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: (data[index].tipo_plan == 'gratuito' && data[index].user.usuario_equipos.length > 0) });
+              this.searchUsuarios.push({'id': data[index].login_id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: (data[index].tipo_plan == 'gratuito' && data[index].user.usuario_equipos.length > 0) });
             }
 
           }
