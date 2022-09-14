@@ -103,7 +103,7 @@
 
         <div class="d-flex flex-stack pt-15">
           <div class="mr-2">
-            <ng-container *ngIf="currentStep$.value !== 1">
+            <ng-container *ngIf="currentStep$.value !== 1 && currentStep$.value <= formsCount - 1">
               <button
                 type="button"
                 class="btn btn-lg btn-light-primary me-3"
