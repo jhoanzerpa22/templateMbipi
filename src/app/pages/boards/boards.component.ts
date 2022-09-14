@@ -219,7 +219,11 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     this.socketWebService.emitEventUsersActive(this.usuario);
+
+    //Inicia video y cancela scroll
     $('#myVideo').trigger('play');
+    window.addEventListener('scroll', this.disableScroll);
+
     this.ref.detectChanges();
   }
 
@@ -228,6 +232,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.emitEventUsersInactive(this.usuario);
     this._onDestroy.next();
     this._onDestroy.complete();
+    window.removeEventListener('scroll', this.disableScroll);
   }
 
   getProyect(){
@@ -440,6 +445,9 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
     this.playing= true;
     if($('#myVideo').prop('paused')){
+      window.scrollTo(0,0);
+      window.addEventListener('scroll', this.disableScroll)
+
       console.log('Play');
       this.displayVideo();
       this.ref.detectChanges();
@@ -462,27 +470,17 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     }else{
       this.playing= false;
       console.log('Pause');
-      $('#myVideo').trigger('pause');
       this.hideVideo();
+      this.ref.detectChanges();
+      $('#myVideo').trigger('pause');
+      window.removeEventListener('scroll', this.disableScroll);
     }
 
   }
-  // onPause(){
 
-  //   $('#myVideo').trigger('pause')
-  // }
-
-  // videoCurrentTime(){
-  //   let currentTime = 0
-  //   do {
-  //       console.log(currentTime)
-  //       currentTime = $('#myVideo').prop('currentTime')
-  //       currentTime +=1
-  //   } while(currentTime <= 3 )
-  //   $('#myVideo').trigger('pause')
-  // }
-  // const ct = $('#myVideo').prop('currentTime')
-  // console.log("Current Time:", ct)
+  disableScroll(){
+    window.scrollTo(0, 0);
+  }
 
   displayVideo(){
     this.showVideoFlag = true;
