@@ -188,7 +188,10 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     //enviamos al socket el usuario logueado
     this.socketWebService.emitEventUsersActive(this.usuario);
-    $('#myVideo').trigger('play');
+
+    //Inicia video y cancela scroll
+    this.onPlayPause();
+
     this.ref.detectChanges();
   }
 
@@ -196,6 +199,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     //si salimos de la pantalla indicamos que usuario salio
     console.log('ngdestroy');
     this.socketWebService.emitEventUsersInactive(this.usuario);
+    window.removeEventListener('scroll', this.disableScroll);
   }
 
   getProyect(){
@@ -391,8 +395,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteNote(event: any){
-     const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
-     this.notes.forEach((note: any, index: any)=>{
+    const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+    this.notes.forEach((note: any, index: any)=>{
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
@@ -421,6 +425,10 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
     this.playing= true;
     if($('#myVideo').prop('paused')){
+
+      window.scrollTo(0, 0);
+      window.addEventListener('scroll', this.disableScroll)
+
       console.log('Play');
       this.displayVideo();
       this.ref.detectChanges();
@@ -446,25 +454,14 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hideVideo();
       this.ref.detectChanges();
       $('#myVideo').trigger('pause');
+      window.removeEventListener('scroll', this.disableScroll);
     }
 
   }
-  // onPause(){
 
-  //   $('#myVideo').trigger('pause')
-  // }
-
-  // videoCurrentTime(){
-  //   let currentTime = 0
-  //   do {
-  //       console.log(currentTime)
-  //       currentTime = $('#myVideo').prop('currentTime')
-  //       currentTime +=1
-  //   } while(currentTime <= 3 )
-  //   $('#myVideo').trigger('pause')
-  // }
-  // const ct = $('#myVideo').prop('currentTime')
-  // console.log("Current Time:", ct)
+  disableScroll(){
+    window.scrollTo(0, 0);
+  }
 
   displayVideo(){
     this.showVideoFlag = true;
