@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+//import {maxlengthContentEditable} from 'maxlength-contenteditable';
 
 declare var $: any;
 declare var jQuery: any;
@@ -384,6 +385,17 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredTablero.next(this.tablero.slice());
 
     this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  }
+
+  deleteCategory(contenido: any, index: any){
+      console.log('contenido', contenido);
+      for (let i = 0; i < contenido.length; i++) {
+        this.tablero[0].data.push(contenido[i]);
+      }
+      this.tablero.splice(index,1);
+      this.tablero2 = JSON.stringify(this.tablero);
+      this.filteredTablero.next(this.tablero.slice());
+      //this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
   }
 
   onFocusOut(event: any, i: any){
