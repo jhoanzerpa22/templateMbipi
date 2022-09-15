@@ -148,7 +148,8 @@
               </div>
               <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
                 <div [ngClass]="i == 0 ? 'notes-container' : 'example-container'">
-                  <h2 style="color: #000;line-height: 2;" contenteditable="true" (blur)="onFocusOut($event, i)" *ngIf="i > 0">{{t.title}}</h2>
+                  <h2 style="color: #000;line-height: 2;" onkeypress="return (this.innerText.length <= 20)" contenteditable="true" data-max-length="20" (blur)="onFocusOut($event, i)" *ngIf="i > 0">{{t.title}}</h2><!-- 
+                    (keyup)="onKey($event); $event.preventDefault(); $event.stopPropagation()"-->
                   <h2 style="color: #000;" *ngIf="i == 0">{{t.title}}</h2>
                   <div cdkDropList [cdkDropListData]="t.data" [ngClass]="i == 0 ? 'notes-list' : 'example-list'" (cdkDropListDropped)="drop($event)">
                     <div [ngClass]="i == 0 ? 'notes-box' : 'example-box'" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.content}}

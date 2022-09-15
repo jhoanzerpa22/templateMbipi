@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+//import {maxlengthContentEditable} from 'maxlength-contenteditable';
 
 declare var $: any;
 declare var jQuery: any;
