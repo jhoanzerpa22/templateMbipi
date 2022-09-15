@@ -23,7 +23,7 @@ import { TopbarComponent } from './components/topbar/topbar.component';
 import { PageTitleComponent } from './components/header/page-title/page-title.component';
 import { HeaderMenuComponent } from './components/header/header-menu/header-menu.component';
 import { DrawersModule, DropdownMenusModule, ModalsModule, EngagesModule} from '../partials';
-import {EngagesComponent} from "../partials/layout/engages/engages.component";
+import { EngagesComponent } from "../partials/layout/engages/engages.component";
 /*import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';*/
 
 const routes: Routes = [
