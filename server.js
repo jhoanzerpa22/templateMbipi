@@ -427,17 +427,17 @@ async function sendMail(user, callback) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+    host: "tresidea.cl",/*"smtp.gmail.com",*/
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
-      pass: /*'Innovago123'*/'20588459jz'
+      user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
+      pass: 'NoReplyTresidea'
     }
   });
 
   let mailOptions = {
-    from: /*'innovago@innovago.tresidea.cl', */'jhoan.zerpa@tresidea.cl', // sender address
+    from: 'no-reply2@tresidea.cl',// sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Registro Mbipi", // Subject line
     html:
@@ -470,12 +470,12 @@ async function sendMailResume(user, callback) {
   let usuario = user.data;
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+    host: "tresidea.cl",/*"smtp.gmail.com",*/
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
-      pass: /*'Innovago123'*/'20588459jz'
+      user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
+      pass: 'NoReplyTresidea'
     }
   });
 
@@ -520,12 +520,12 @@ async function sendMailResume(user, callback) {
 
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+        host: "tresidea.cl",/*"smtp.gmail.com",*/
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
-          pass: /*'Innovago123'*/'20588459jz'
+          user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
+          pass: 'NoReplyTresidea'
         }
       });
 
@@ -571,12 +571,12 @@ async function sendMailResume(user, callback) {
 
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: /*"innovago.tresidea.cl",*/"smtp.gmail.com",
+        host: "tresidea.cl",/*"smtp.gmail.com",*/
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl',
-          pass: /*'Innovago123'*/'20588459jz'
+          user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
+          pass: 'NoReplyTresidea'
         }
       });
 
