@@ -387,6 +387,17 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
   }
 
+  deleteCategory(contenido: any, index: any){
+      console.log('contenido', contenido);
+      for (let i = 0; i < contenido.length; i++) {
+        this.tablero[0].data.push(contenido[i]);
+      }
+      this.tablero.splice(index,1);
+      this.tablero2 = JSON.stringify(this.tablero);
+      this.filteredTablero.next(this.tablero.slice());
+      //this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  }
+
   onFocusOut(event: any, i: any){
     this.tablero[i].title = event.target.innerText;
     this.tablero2 = JSON.stringify(this.tablero);
