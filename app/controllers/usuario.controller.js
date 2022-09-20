@@ -14,6 +14,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { empty } = require("rxjs");
 const { user } = require("../models");
+var CryptoJS = require("crypto-js");
 
 //var fs = require('fs');
 
@@ -327,6 +328,14 @@ exports.update = (req, res) => {
 exports.updateAccount = (req, res) => {
   const id = req.params.id;
   
+  // Encrypt
+  var cardCvv = req.body.accountPlan != 'gratuito' ? CryptoJS.AES.encrypt(req.body.cardCvv, 'mbipi123').toString() : '';
+  var cardNumber = req.body.accountPlan != 'gratuito' ? CryptoJS.AES.encrypt(req.body.cardNumber, 'mbipi123').toString() : '';
+
+  // Decrypt
+  /*var bytes  = CryptoJS.AES.decrypt(ciphertext, 'mbipi123');
+  var originalText = bytes.toString(CryptoJS.enc.Utf8);*/
+
   let usuario = {
       tipo_plan: req.body.accountPlan,
       tipo_cuenta: req.body.accountType,
@@ -335,10 +344,10 @@ exports.updateAccount = (req, res) => {
       tipo_financiamiento: req.body.business == 'si' ? req.body.businessType : null,
       financiamiento: req.body.business,
       completada: true,
-      cardCvv: req.body.accountPlan != 'gratuito' ? req.body.cardCvv : '',
+      cardCvv: req.body.accountPlan != 'gratuito' ? cardCvv : '',
       cardExpiryMonth: req.body.accountPlan != 'gratuito' ? req.body.cardExpiryMonth : '',
       cardExpiryYear: req.body.accountPlan != 'gratuito' ? req.body.cardExpiryYear : '',
-      cardNumber: req.body.accountPlan != 'gratuito' ? req.body.cardNumber : '',
+      cardNumber: req.body.accountPlan != 'gratuito' ? cardNumber : '',
       nameOnCard: req.body.accountPlan != 'gratuito' ? req.body.nameOnCard : ''/*
       saveCard: "1"*/
     };
