@@ -40,7 +40,7 @@ export class Step4Component implements OnInit {
       ],
       cardCvv: [this.defaultValues.cardCvv, [Validators.required]],
       saveCard: ['1'],
-      successCard: [''/*, [Validators.required]*/]
+      //successCard: [''/*, [Validators.required]*/]
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
@@ -55,7 +55,7 @@ export class Step4Component implements OnInit {
       this.form.get('cardNumber')?.hasError('required') ||
       this.form.get('cardExpiryMonth')?.hasError('required') ||
       this.form.get('cardExpiryYear')?.hasError('required') ||
-      this.form.get('cardCvv')?.hasError('required') || this.form.get('successCard')?.hasError('required')
+      this.form.get('cardCvv')?.hasError('required')/* || this.form.get('successCard')?.hasError('required')*/
     );
   }
 
@@ -75,7 +75,7 @@ export class Step4Component implements OnInit {
                 }
               });
             }else{
-              this.form.get('successCard')?.setValue(1);
+              //this.form.get('successCard')?.setValue(1);
               this.updateParentModel({}, this.checkForm());
               this.ref.detectChanges();
             }

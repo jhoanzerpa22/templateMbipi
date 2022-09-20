@@ -182,7 +182,7 @@
           </ng-container>
         </div>
 
-        <ng-container *ngIf="currentStep$.value !== formsCount">
+        <ng-container *ngIf="(currentStep$.value !== formsCount && currentStep$.value != 3) || (currentStep$.value === 3 && isValidCard)">
           <div>
             <button
               type="button"
@@ -204,6 +204,33 @@
                   Guardar
                 </ng-container>
               </span>
+            </button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="currentStep$.value === 3 && !isValidCard">
+          <div>
+            <button
+              type="button"
+              class="btn btn-lg btn-primary me-3"
+              [disabled]="!isCurrentFormValid$.value"
+              (click)="validCard()"
+            >
+            <ng-container *ngIf="isLoading">
+              <span class="indicator-progress" [style.display]="'block'">
+                Por favor espere...
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </ng-container>
+            <ng-container *ngIf="!isLoading">
+              <span class="indicator-label">
+                <ng-container>
+                  Validar
+                </ng-container>
+              </span>
+            </ng-container>
             </button>
           </div>
         </ng-container>
