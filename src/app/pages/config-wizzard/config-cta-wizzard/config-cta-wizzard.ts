@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ICreateAccount, inits } from '../create-account.helper';
 import { UsersService } from '../../users/users.service';
@@ -16,9 +16,11 @@ export class ConfigCtaWizardComponent implements OnInit {
   isCurrentFormValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
+  isValidCard: boolean = false;
+  isLoading: boolean = false;
   private unsubscribe: Subscription[] = [];
 
-  constructor(private _usersService: UsersService) {}
+  constructor(private _usersService: UsersService, private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
 
@@ -75,6 +77,59 @@ export class ConfigCtaWizardComponent implements OnInit {
       prevStep = prevStep - 1;
     }
     this.currentStep$.next(prevStep);
+  }
+
+  validCard(){
+    this.isLoading = true;
+    this.ref.detectChanges();
+    this._usersService.savePayment(this.account$.value)
+      .subscribe(
+          (response) => {
+            console.log('respuesta_pago',response);
+            if(response.status != "AUTHORIZED"){
+              this.isValidCard = false;
+              this.isLoading = false;
+              this.ref.detectChanges();
+              Swal.fire({
+                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                  confirmButton: "btn btn-primary"
+                }
+              });
+            }else{
+              Swal.fire({
+                text: "Tarjeta registrada correctamente! Puede continuar",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                  confirmButton: "btn btn-primary"
+                }
+              });
+              this.isValidCard = true;
+              this.isLoading = false;
+              this.ref.detectChanges();
+            }
+          },
+          (err) => {
+            console.log(err)
+            this.isValidCard = false;
+            this.isLoading = false;
+            this.ref.detectChanges();
+            Swal.fire({
+                text: "Ups, ha ocurrido un error con la tarjeta.¡Por favor regrese e ingrese una nueva!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                  confirmButton: "btn btn-primary"
+                }
+              });
+          }
+      );
   }
 
   ngOnDestroy() {
