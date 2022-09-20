@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require('cors');
 var bcrypt = require("bcryptjs");
+var CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 const path = require("path");
 require('dotenv').config();
@@ -479,6 +480,11 @@ async function sendMailResume(user, callback) {
     }
   });
 
+  // Decrypt
+  var bytescardnumber  = CryptoJS.AES.decrypt(usuario.cardNumber, 'mbipi123');
+  var cardNumberdecrypt = bytescardnumber.toString(CryptoJS.enc.Utf8);
+  var cardNumber = '**** **** **** ' + cardNumberdecrypt.substr(-4);
+
   let contenido = `<div class="border" style="width: 600px; height: 900px; border-top-color: rgb(0,188,212); border-color: black;">
   <div class="border" style="width: 600px; height: 10px; background-color: rgb(0,188,212);border-color: rgb(0,188,212);">
   </div>
@@ -495,14 +501,14 @@ async function sendMailResume(user, callback) {
     <h4 style="text-align: center; padding-top: 5px;">Tipo Plan: `+usuario.tipo_plan+`</h4>
   </p>
   <p><h4 style="text-align: center; padding-top: 5px;">Nombre Tarjeta: `+usuario.nameOnCard+`</h4></p>
-  <p><h4 style="text-align: center; padding-top: 5px;">Número Tarjeta: `+usuario.cardNumber+`</h4></p>
+  <p><h4 style="text-align: center; padding-top: 5px;">Número Tarjeta: `+cardNumber+`</h4></p>
   <p><h4 style="text-align: center; padding-top: 5px;">Nombre Empresa: `+usuario.nombre_empresa+`</h4></p>
   </div>
 </div>
   `;
 
   let mailOptions = {
-    from: /*'innovago@innovago.tresidea.cl', */'jhoan.zerpa@tresidea.cl', // sender address
+    from: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Bienvenido a Mbipi", // Subject line
     html: contenido
@@ -539,7 +545,7 @@ async function sendMailResume(user, callback) {
       }
 
       let mailOptions = {
-        from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
+        from: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
         to: emails, // list of receivers user.email
         subject: "Invitación Mbipi", // Subject line
         html:
@@ -590,7 +596,7 @@ async function sendMailResume(user, callback) {
       // }
 
       let mailOptions = {
-        from: /*'innovago@innovago.tresidea.cl',*/'jhoan.zerpa@tresidea.cl', // sender address
+        from: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
         to: user.correo_login, // list of receivers user.email
         subject: "Recuperar Password Mbipi", // Subject line
         html:
