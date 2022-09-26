@@ -228,7 +228,7 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
                 op.usuario_id == this.usuario.id)
               );
             this.rol = usuario_proyecto[0].rol;
-            this.maximo_votos = this.rol == 'Decisor' ? 4 : 2;
+            this.maximo_votos = this.rol == 'Decisor' ? 2 : 1;
 
             if(this.proyecto.tiempo != '' && this.proyecto.tiempo != undefined){
               let tiempo = this.proyecto.tiempo.split(':');
