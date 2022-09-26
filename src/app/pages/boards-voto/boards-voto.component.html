@@ -38,7 +38,13 @@
                   </div>
                   </ng-container>
                 </div>
-
+                
+                <!-- Timer -->
+                <div class="container align-items-center mb-3">
+                  <div style="width: 300px;padding: 0;margin: auto;">
+                    <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
+                  </div>
+                </div>
                 <!--end::Mobile menu toggle-->
                 <!--begin::Logo image-->
                 <!-- <a href="../../demo1/dist/landing.html">
@@ -100,7 +106,7 @@
       </div>
       <!--end::Wrapper-->
       <!--begin::Curve bottom-->
-      <div class="landing-curve landing-dark-color mb-10 mb-lg-20">
+      <div class="landing-curve landing-dark-color mb-3 mb-lg-3">
         <svg viewBox="15 12 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 11C3.93573 11.3356 7.85984 11.6689 11.7725 12H1488.16C1492.1 11.6689 1496.04 11.3356 1500 11V12H1488.16C913.668 60.3476 586.282 60.6117 11.7725 12H0V11Z" fill="currentColor"></path>
         </svg>
@@ -108,9 +114,7 @@
       <!--end::Curve bottom-->
   </div>
     <!--end::Header Section-->
-    <div class="container" style="width: 100%; padding: 0;">
-      <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
-    </div>
+    <!-- Timer -->
     <!-- Titulo -->
     <div class="container title-container">
       <h1>
@@ -132,7 +136,7 @@
                 <h2 style="color: #fff;">{{t.title}}</h2>
                 <div class="clasificacion-list" cdkDropList [cdkDropListData]="t.data" (cdkDropListDropped)="drop($event)">
                   <div class="clasificacion-box" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.label}}
-                    <label class="votos">{{item.voto}}</label>
+                    <label class="votos">{{item.votos}}</label>
                     <!--<div class="voto-maximo bg-success position-absolute h-8px w-8px rounded-circle" *ngIf="verifyVotoMaximo(i, j)">
                     </div>-->
                     <!--<mat-icon

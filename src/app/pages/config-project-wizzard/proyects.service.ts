@@ -49,6 +49,14 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapa/${id}`, data);
       }
 
+      updateEtapaMeta(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaMeta/${id}`, data);
+      }
+
+      updateEtapaPreguntas(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaPreguntas/${id}`, data);
+      }
+
       updateTime(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
