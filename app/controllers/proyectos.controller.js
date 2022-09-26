@@ -8,6 +8,8 @@ const User = db.user;
 const Usuario = db.usuario;
 const ProyectoRecurso = db.proyecto_recurso;
 const NotasCp = db.notascp;
+const MetasLp = db.metaslp;
+const PreguntaSprint = db.preguntasprint;
 
 const Op = db.Sequelize.Op;
 
@@ -115,12 +117,27 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Proyectos.findByPk(id, {include: [{
-    model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], include: [{
-      model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'],
-      include: [{
-      model: Usuario, as: "eq_usu_plat"
-      }]}]}]})
+  Proyectos.findByPk(id, {
+    include: [{
+      model: Equipos, as: "proyecto_equipo", attributes:['id','nombre'], 
+        include: [{
+          model: EquiposUsuarios, as: "equipo_usuarios", attributes:['id','correo','rol','usuario_id'],
+            include: [{
+              model: Usuario, as: "eq_usu_plat"
+            }]
+        }]
+      },
+      {
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id','usuario_id'], 
+          include: [{
+            model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos']
+          }, {
+            model: MetasLp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos']
+          }, {
+            model: PreguntaSprint/*, as: "equipo_usuarios"*/, attributes:['id','contenido','votos']
+          }]
+      }]
+    })
     .then(data => {
       if (data) {
         res.send(data);
@@ -131,6 +148,7 @@ exports.findOne = (req, res) => {
       }
     })
     .catch(err => {
+      console.log('error:'+err.message);
       res.status(500).send({
         message: "Error retrieving Proyectos with id=" + id
       });
@@ -324,7 +342,7 @@ exports.updateEtapa = (req, res) => {
                   console.log('cp',cp);
                   for(let c in cp){
                   //for (let i = 0; i < req.body.tablero.length; i++) {
-                    proyecto_recurso.push({'proyecto_id': id, 'notascp_id': cp[c].dataValues.id});
+                    proyecto_recurso.push({'proyecto_id': id, 'notascp_id': cp[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
                   }
                   /*
                   cp [
@@ -354,6 +372,284 @@ exports.updateEtapa = (req, res) => {
                 message: "Error creating NotasCp"
                 });
             });
+        }else if(type_fase == 'clasificacion'){
+
+          let icp = 0;
+          for(let nc in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            let icp2 = 0;
+            icp = icp + 1;
+            
+            for(let ncp in tablero[nc].data){
+              icp2 = icp2 + 1;
+    
+              let idcp = tablero[nc].data[ncp].id;
+              let proyectos_notas = {
+                  categoria: tablero[nc].title
+                };
+            
+              NotasCp.update(proyectos_notas, {
+                where: { id: idcp }
+              })
+                .then(num2 => {
+                  if (num2 == 1 && icp == tablero.length && icp2 == tablero[nc].data.length) {
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+                  }
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error creating ProyectoRecurso Clasi"
+                  });
+              });
+
+            }
+          }
+
+        }else if(type_fase == 'voto'){
+          
+          let icp = 0;
+          for(let nc in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            let icp2 = 0;
+            icp = icp + 1;
+            
+            for(let ncp in tablero[nc].data){
+              
+              icp2 = icp2 + 1;
+    
+              let idcp = tablero[nc].data[ncp].id;
+              let proyectos_notas = {
+                  votos: tablero[nc].data[ncp].votos
+                };
+
+              NotasCp.update(proyectos_notas, {
+                where: { id: idcp }
+              })
+                .then(num2 => {
+                  if (num2 == 1 && icp == tablero.length && icp2 == tablero[nc].data.length) {
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+                  }
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error creating ProyectoRecurso Voto"
+                  });
+              });
+
+            }
+          }
+
+        }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+// Update etapa meta the Proyectos by the id in the request
+exports.updateEtapaMeta = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let metas = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            metas.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0});
+          }
+
+          let proyecto_recurso = [];
+
+          
+          MetasLp.bulkCreate(metas).then(mlp =>{
+                  console.log('metas',mlp);
+                  for(let c in mlp){
+                    proyecto_recurso.push({'proyecto_id': id, 'metaslp_id': mlp[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating MetasLp"
+                });
+            });
+        }else if(type_fase == 'voto'){
+          
+          let icp = 0;
+          for(let nc in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            let icp2 = 0;
+            icp = icp + 1;
+            
+            for(let ncp in tablero[nc].data){
+              
+              icp2 = icp2 + 1;
+    
+              let idcp = tablero[nc].data[ncp].id;
+              let proyectos_notas = {
+                  votos: tablero[nc].data[ncp].votos,
+                  seleccionado: tablero[nc].data[ncp].seleccionado
+                };
+
+              MetasLp.update(proyectos_notas, {
+                where: { id: idcp }
+              })
+                .then(num2 => {
+                  if (num2 == 1 && icp == tablero.length && icp2 == tablero[nc].data.length) {
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+                  }
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error creating ProyectoRecurso Meta Voto"
+                  });
+              });
+
+            }
+          }
+
+        }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+// Update etapa preguntas the Proyectos by the id in the request
+exports.updateEtapaPreguntas = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let preguntas = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            preguntas.push({'contenido': tablero[n].content, 'votos': 0});
+          }
+
+          let proyecto_recurso = [];
+
+          
+          PreguntaSprint.bulkCreate(preguntas).then(mlp =>{
+                  console.log('metas',mlp);
+                  for(let c in mlp){
+                    proyecto_recurso.push({'proyecto_id': id, 'preguntasprint_id': mlp[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Preguntas Sprint"
+                });
+            });
+        }else if(type_fase == 'voto'){
+          
+          let icp = 0;
+          for(let nc in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            let icp2 = 0;
+            icp = icp + 1;
+            
+            for(let ncp in tablero[nc].data){
+              
+              icp2 = icp2 + 1;
+    
+              let idcp = tablero[nc].data[ncp].id;
+              let proyectos_notas = {
+                  votos: tablero[nc].data[ncp].votos
+                };
+
+              PreguntaSprint.update(proyectos_notas, {
+                where: { id: idcp }
+              })
+                .then(num2 => {
+                  if (num2 == 1 && icp == tablero.length && icp2 == tablero[nc].data.length) {
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+                  }
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error creating ProyectoRecurso Preguntas Sprint"
+                  });
+              });
+
+            }
+          }
+
         }else{
           res.send({
             message: `Proyecto with id=${id} was updated successfully.`

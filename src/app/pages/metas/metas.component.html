@@ -119,12 +119,12 @@
   <!-- Titulo -->
   <div class="container title-container">
     <h1>
-      Entrevista al experto
+      Metas a Largo Plazo
     </h1>
   </div>
   <!-- Instrucciones -->
   <div class="container instructions-container">
-    <app-entender-accordion></app-entender-accordion>
+    <app-entender-metas-accordion></app-entender-metas-accordion>
   </div>
 
   <!-- Tablero -->
@@ -137,7 +137,7 @@
       </a>
     </div>
     <div class="app" *ngFor="let note of notes">
-      <app-note (dismiss)="deleteNote($event)" (focusout)="saveNote($event)" id="{{note.id}}">{{note.content}}</app-note>
+      <app-note-meta (dismiss)="deleteNote($event)" (focusout)="saveNote($event)" id="{{note.id}}">{{note.content}}</app-note-meta>
     </div>
   </div>
   <!-- Video -->

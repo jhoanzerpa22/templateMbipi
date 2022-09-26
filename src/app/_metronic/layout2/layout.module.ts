@@ -30,8 +30,16 @@ import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mo
 */
 import { BoardsComponent } from '../../pages/boards/boards.component';
 import { BoardsVotoComponent } from '../../pages/boards-voto/boards-voto.component';
+import { MetasComponent } from '../../pages/metas/metas.component';
+import { MetasVotoComponent } from '../../pages/metas-voto/metas-voto.component';
+import { PreguntasComponent } from '../../pages/preguntas/preguntas.component';
+import { PreguntasVotoComponent } from '../../pages/preguntas-voto/preguntas-voto.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
+import { MetasModule } from '../../pages/metas/metas.module';
+import { MetasVotoModule } from '../../pages/metas-voto/metas-voto.module';
+import { PreguntasModule } from '../../pages/preguntas/preguntas.module';
+import { PreguntasVotoModule } from '../../pages/preguntas-voto/preguntas-voto.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -60,6 +68,22 @@ const routes: Routes = [
   {
     path: 'fase3',
     component: BoardsVotoComponent
+  },
+  {
+    path: 'fase4',
+    component: MetasComponent
+  },
+  {
+    path: 'fase5',
+    component: MetasVotoComponent
+  },
+  {
+    path: 'fase6',
+    component: PreguntasComponent
+  },
+  {
+    path: 'fase7',
+    component: PreguntasVotoComponent
   }
 ];
 

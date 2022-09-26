@@ -10,19 +10,19 @@ import {
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
 import * as $ from 'jquery';
-import { SocketWebService } from '../../pages/boards-default/boards.service';
-import { ProyectsService } from '../../pages/config-project-wizzard/proyects.service';
+import { SocketWebService } from '../boards-default/boards.service';
+import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+  selector: 'app-metas',
+  templateUrl: './metas.component.html',
+  styleUrls: ['./metas.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MetasComponent implements OnInit, AfterViewInit, OnDestroy {
   // Public variables
   selfLayout = 'default';
   asideSelfDisplay: true;
@@ -103,7 +103,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     //escuchamos el evento de las notas de los usuarios
-    this.socketWebService.outEvenTablero.subscribe((res: any) => {
+    this.socketWebService.outEvenTableroMeta.subscribe((res: any) => {
       const { tablero } = res;
       this.readBoard(tablero, false);
     });
@@ -126,7 +126,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.usuario.active = true; // indicamos que esta activo
 
     //leemos nota en cache
-    const notes: any = localStorage.getItem('notes');
+    const notes: any = localStorage.getItem('notes_meta');
     this.notes = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
 
     //si existen notas en cache las enviamos al socket
@@ -235,43 +235,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   private readUsersActive(data: any, emit: boolean){
     const usuarios = JSON.parse(data);
     console.log('recibe_usuarios', usuarios);
-    /*let agregar: number = 0;
-    let quitar: number = 0;
-    let actualizar: number = 0;
-    */
-    /*for(let c in this.usuarios_active){
-      let index = usuarios.findIndex((u: any) => u.id == this.usuarios_active[c].id);
 
-      if (index != -1) {
-        //this.usuarios.splice(index, 1);
-      }else{
-        this.usuarios_active.splice(index, 1);
-        quitar = 1;
-        //this.usuarios_active.push({'id': usuarios[c].id, 'nombre': usuarios[c].nombre});
-      }
-    }*/
-    /*
-    for(let d in usuarios){
-      let index2 = this.usuarios_active.findIndex((u2: any) => u2.id == usuarios[d].id);
-
-      if (index2 != -1) {
-        //this.usuarios.splice(index, 1);
-        if(this.usuarios_active[index2].active != usuarios[d].active){
-          actualizar = 1;
-          this.usuarios_active[index2].active = usuarios[d].active;
-        }
-      }else{
-        agregar = 1;
-        this.usuarios_active.push({'id': usuarios[d].id, 'nombre': usuarios[d].nombre, 'active': usuarios[d].active});
-      }
-    }*/
-
-    /*if(agregar == 1 || actualizar == 1){
-      console.log('agregado',agregar);
-      console.log('actualizar', actualizar);
-      console.log('envio_usuario', this.usuario);
-      this.socketWebService.emitEventUsersActive(this.usuario);
-    }*/
     this.usuarios_active = usuarios;
 
     this.ref.detectChanges();
@@ -280,7 +244,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   //actualizamos listado de notas de usuarios
   private readBoard(tablero: any, emit: boolean){
     const data = JSON.parse(tablero);
-    console.log('notas_all',data);
+    console.log('notas_all_meta',data);
     this.notes_all = data;
     /*this.notes_all = [];
     for(let c in data){
@@ -290,49 +254,49 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateAllNotes() {
-    console.log(document.querySelectorAll('app-note'));
-    let notes = document.querySelectorAll('app-note');
+    console.log(document.querySelectorAll('app-note-meta'));
+    let notes = document.querySelectorAll('app-note-meta');
 
     notes.forEach((note: any, index: any)=>{
          this.notes[note.id].content = note.querySelector('.content').innerHTML;
     });
 
-    localStorage.setItem('notes', JSON.stringify(this.notes));
+    localStorage.setItem('notes_meta', JSON.stringify(this.notes));
 
   }
 
   saveNoteAll() {
-    console.log('save_notes_all',this.notes_all);
-    localStorage.setItem('notes_all', JSON.stringify(this.notes_all));
+    console.log('save_notes_all_meta',this.notes_all);
+    localStorage.setItem('notes_all_meta', JSON.stringify(this.notes_all));
 
-    let como_podriamos: any = [];
+    let metas: any = [];
     let tablero: any = [];
     for(let n in this.notes_all){
-      como_podriamos.push({'content': this.notes_all[n].content});
+      metas.push({'content': this.notes_all[n].content});
     }
 
-    tablero.push({'title': 'Como podriamos', "data": como_podriamos});
+    tablero.push({'title': 'Como podriamos', "data": metas});
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase2', tablero: this.notes_all, type: 'notas'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase5', tablero: this.notes_all, type: 'notas'};
 
-    this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
+    this._proyectsService.updateEtapaMeta(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase5');
 
-          this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
+          this.socketWebService.emitEventTableroSaveMeta({tablero: JSON.stringify(tablero)});
 
         },
         (response) => {
         }
     );
 
-    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase2']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase5']);
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase2']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase5']);
   }
 
   etapa_active(etapa_active: any) {
@@ -345,7 +309,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: '', usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
-    localStorage.setItem('notes', JSON.stringify(this.notes));
+    localStorage.setItem('notes_meta', JSON.stringify(this.notes));
   }
 
   saveNote(event: any){
@@ -362,7 +326,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateNote(json);
     //this.updateNoteAll(json);
 
-    localStorage.setItem('notes', JSON.stringify(this.notes));
+    localStorage.setItem('notes_meta', JSON.stringify(this.notes));
     //this.sendNotes(this.notes);
     console.log("********* updating note *********")
   }
@@ -371,7 +335,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notes.forEach((note: any, index: any)=>{
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
-        this.socketWebService.emitEventTableroUpdate(newValue);
+        this.socketWebService.emitEventTableroUpdateMeta(newValue);
       }
     });
   }
@@ -389,11 +353,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.notes_all.push({ id: newValue.id, content:newValue.content });
     }
 
-    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
+    this.socketWebService.emitEventTableroMeta({tablero: JSON.stringify(this.notes_all)});
   }
 
   sendNotes(notes: any){
-    this.socketWebService.emitEventTablero({tablero: JSON.stringify(notes)});
+    this.socketWebService.emitEventTableroMeta({tablero: JSON.stringify(notes)});
   }
 
   deleteNote(event: any){
@@ -402,7 +366,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
-        this.socketWebService.emitEventTableroDelete(note);
+        this.socketWebService.emitEventTableroDeleteMeta(note);
         /*const index2 = this.notes_all.findIndex((n: any) => n.id == id);
 
         if (index2 != -1) {
@@ -411,7 +375,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
           this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
         }*/
 
-        localStorage.setItem('notes', JSON.stringify(this.notes));
+        localStorage.setItem('notes_meta', JSON.stringify(this.notes));
         console.log("********* deleting note *********")
         return;
       }
