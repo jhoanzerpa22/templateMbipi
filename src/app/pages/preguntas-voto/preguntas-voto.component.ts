@@ -259,7 +259,34 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   saveVotoAll(){
+    console.log('save_voto_all_preguntas',this.tablero);
+    let tablero: any = [];
 
+    for(let n in this.tablero){
+      let categorias: any = [];
+
+      for(let m in this.tablero[n].data){
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos});
+      }
+        tablero.push({'title': this.tablero[n].title, "data": categorias});
+    }
+
+    console.log('guardar_votos',tablero);
+
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase8', tablero: tablero, type: 'voto'};
+
+    this._proyectsService.updateEtapaPreguntas(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
+
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase8');
+
+          this.socketWebService.emitEventTableroSaveVotoPreguntas({tablero: JSON.stringify(tablero)});
+
+        },
+        (response) => {
+        }
+    );
   }
 
   etapa_active(etapa_active: any) {
