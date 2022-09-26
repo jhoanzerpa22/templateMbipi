@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation, Inject, ViewChild, Input, NgZone,ElementRef, Renderer2, AfterViewInit, HostListener } from '@angular/core';
-import { SocketWebService } from '../boards/boards.service';
+import { SocketWebService } from '../boards-default/boards.service';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
@@ -154,6 +154,11 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       this.etapa_active(res);
     });
 
+    //escuchamos el evento para continuar
+    this.socketWebService.outEvenContinueVoto.subscribe((res: any) => {
+      this.continue();
+    });
+
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
@@ -163,7 +168,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.socketWebService.emitEventGetEtapa();
+    //this.socketWebService.emitEventGetEtapa();
 
     this.route.params.subscribe(params => {
       //console.log('params',params);
@@ -171,7 +176,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getProyect();
     });
 
-    this.socketWebService.emitEventGetClasi();
+    //this.socketWebService.emitEventGetClasi();
 
 
     /*const notes: any = localStorage.getItem('category_all');
@@ -233,6 +238,10 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     window.removeEventListener('scroll', this.disableScroll);
   }
 
+  continue() {
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase4']);
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
@@ -254,6 +263,33 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.showTimer = true;
 
+            this.tablero = [];
+            let categorias: any = [];
+            for(let c in this.proyecto.proyecto_recursos){
+              if(this.proyecto.proyecto_recursos[c].notascp != null){
+
+                const index3 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
+                if(index3 == -1){
+                  categorias.push({categoria: this.proyecto.proyecto_recursos[c].notascp.categoria, data: []});
+                }
+                
+                const index4 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
+              
+              categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'label': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos});
+              }
+            }
+
+            console.log('categorias',categorias);
+
+            for(let d in categorias){
+              this.tablero.push({'title': categorias[d].categoria, "data": categorias[d].data});
+            }
+
+            //console.log('tablero_all', this.tablero);
+            this.tablero2 = JSON.stringify(this.tablero);
+
+            this.filteredTablero.next(this.tablero.slice());
+
             this.ref.detectChanges();
           },
           (response) => {
@@ -264,7 +300,34 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveVotoAll(){
+    console.log('save_voto_all',this.tablero);
+    let tablero: any = [];
 
+    for(let n in this.tablero){
+      let categorias: any = [];
+
+      for(let m in this.tablero[n].data){
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false});
+      }
+        tablero.push({'title': this.tablero[n].title, "data": categorias});
+    }
+
+    console.log('guardar_votos',tablero);
+
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase4', tablero: tablero, type: 'voto'};
+
+    this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
+
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase4');
+
+          this.socketWebService.emitEventTableroSaveVoto({tablero: JSON.stringify(tablero)});
+
+        },
+        (response) => {
+        }
+    );
   }
 
   etapa_active(etapa_active: any) {
@@ -373,14 +436,14 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   votar(i: any, j: any){
     //console.log('votar', i, j);
     //console.log(this.tablero[i].data[j].label);
-    this.tablero[i].data[j].voto = this.tablero[i].data[j].voto + 1;
+    this.tablero[i].data[j].votos = this.tablero[i].data[j].votos + 1;
 
     const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
 
       if (index == -1) {
-        this.votos.push({id: i+':'+j, voto: 1});
+        this.votos.push({id: i+':'+j, votos: 1});
       }else{
-        this.votos[index].voto = this.votos[index].voto + 1;
+        this.votos[index].votos = this.votos[index].votos + 1;
       }
 
       const index2 = this.voto_tablero.findIndex((c: any) => c == i);
@@ -407,16 +470,16 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   quitar(i: any, j: any){
     //console.log('quitar', i, j);
     //console.log(this.tablero[i].data[j].label);
-    this.tablero[i].data[j].voto = this.tablero[i].data[j].voto - 1;
+    this.tablero[i].data[j].votos = this.tablero[i].data[j].votos - 1;
 
     this.num_votos = this.num_votos - 1;
 
     const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
 
       if (index != -1) {
-        this.votos[index].voto = this.votos[index].voto - 1;
+        this.votos[index].votos = this.votos[index].votos - 1;
 
-        if(this.votos[index].voto == 0){
+        if(this.votos[index].votos == 0){
           this.votos.splice(index, 1);
 
           const index2 = this.voto_tablero.findIndex((c: any) => c == i);

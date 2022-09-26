@@ -87,6 +87,8 @@ let usuarios_mbipi = [];
 let notas_tablero = [];
 let notas_tablero_all = {};
 let notas_tablero_all_clasi = {};
+let notas_tablero_meta = [];
+let notas_tablero_all_meta = {};
 let etapa_active = '';
 
 io.on('connection', function (socket) {
@@ -207,6 +209,12 @@ io.on('connection', function (socket) {
     //socket.to(nombreCurso).emit('evento_tablero', res);
     io.in(nombreCurso).emit('evento_continue_voto');
   })
+  
+  socket.on('evento_tablero_save_voto', (res) => {
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_continue_voto');
+  })
 
   socket.on('evento_tablero_update', (res) => {
       let index = notas_tablero.findIndex((n) => n.id == res.id);
@@ -226,6 +234,60 @@ io.on('connection', function (socket) {
         notas_tablero.splice(index, 1);
       }
     io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
+  })
+
+  /* Eventos Metas*/
+  socket.on('evento_tablero_meta', (res) => {
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+
+    for(let c in tablero){
+      let index3 = notas_tablero_meta.findIndex((n) => n.id == tablero[c].id);
+
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero_meta.push({'id': tablero[c].id, 'content': tablero[c].content});
+        }
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
+  })
+
+  socket.on('evento_tablero_save_meta', (res) => {
+    if(Object.keys(notas_tablero_all_meta).length === 0){
+      notas_tablero_all_meta = res;
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_continue');
+  })
+  
+  socket.on('evento_tablero_save_voto_meta', (res) => {
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreCurso).emit('evento_tablero', res);
+    io.in(nombreCurso).emit('evento_continue_voto');
+  })
+
+  socket.on('evento_tablero_update_meta', (res) => {
+      let index = notas_tablero_meta.findIndex((n) => n.id == res.id);
+
+        if (index != -1) {
+          notas_tablero_meta[index].content = res.content;
+        }else{
+          notas_tablero_meta.push({'id': res.id, 'content': res.content});
+        }
+    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
+  })
+
+  socket.on('evento_tablero_delete_meta', (res) => {
+    let index = notas_tablero_meta.findIndex((n) => n.id == res.id);
+
+      if (index != -1) {
+        notas_tablero_meta.splice(index, 1);
+      }
+    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
   })
 
   socket.on('disconnect', function () {

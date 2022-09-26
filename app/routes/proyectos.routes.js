@@ -32,6 +32,12 @@ module.exports = app => {
 
     // Update the etapa of Proyectos with id
     router.put("/updateEtapa/:id", proyectos.updateEtapa);
+    
+    // Update the etapa metas of Proyectos with id
+    router.put("/updateEtapaMeta/:id", proyectos.updateEtapaMeta);
+
+    // Update the etapa preguntas of Proyectos with id
+    router.put("/updateEtapaPreguntas/:id", proyectos.updateEtapaPreguntas);
 
     // Update the time of Proyectos with id
     router.put("/updateTime/:id", proyectos.updateTime);

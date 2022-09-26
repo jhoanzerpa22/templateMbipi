@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { BoardsVotoComponent } from './boards-voto2.component';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  NgbDropdownModule,
+  NgbProgressbarModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { MetasVotoComponent } from './metas-voto.component';
 import { WidgetsModule } from '../../_metronic/partials';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -16,27 +22,30 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule} from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
-
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { VotoAccordionComponent } from './instructions/voto-accordion/voto-accordion.component';
+import { MetasAccordionComponent } from './instructions/metas-accordion/metas-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
-
+import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
 
 const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
 @NgModule({
-  declarations: [BoardsVotoComponent, VotoAccordionComponent],
+  declarations: [MetasVotoComponent, MetasAccordionComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: BoardsVotoComponent,
+        component: MetasVotoComponent,
       },
     ]),
+    InlineSVGModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
+    NgbModule,
     WidgetsModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -52,9 +61,8 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
     MatMenuModule,
     MatRadioModule,
     DragDropModule,
-    NgbModule,
-    // SocketIoModule
+    TimerModule,
     SocketIoModule.forRoot(config)
   ],
 })
-export class BoardsVotoModule {}
+export class MetasVotoModule {}

@@ -38,13 +38,13 @@
                   </div>
                   </ng-container>
                 </div>
+                
                 <!-- Timer -->
                 <div class="container align-items-center mb-3">
                   <div style="width: 300px;padding: 0;margin: auto;">
                     <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
                   </div>
                 </div>
-                
                 <!--end::Mobile menu toggle-->
                 <!--begin::Logo image-->
                 <!-- <a href="../../demo1/dist/landing.html">
@@ -118,57 +118,41 @@
     <!-- Titulo -->
     <div class="container title-container">
       <h1>
-        Categorización de notas
+        Votación Preguntas Sprint
       </h1>
     </div>
+    <!-- Instrucciones -->
     <div class="container instructions-container">
-      <app-categorizacion-notas-accordion></app-categorizacion-notas-accordion>
+      <app-preguntas-accordion></app-preguntas-accordion>
     </div>
     <!-- Tablero -->
     <div class="container tablero-container">
       <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable #tableroRef>
-        <!-- Main -->
+      <!-- Main -->
         <div class="flex flex-auto p-6 sm:p-10">
           <div cdkDropListGroup>
-          <!--<div class="notes-container">
-          <h2 style="color: #fff;">Como Podriamos</h2>
-          <div
-            cdkDropList
-            [cdkDropListData]="notas"
-            class="notes-list"
-            (cdkDropListDropped)="drop($event)">
-            <div class="notes-box" *ngFor="let no of filteredNotas | async; let z = index;" cdkDrag>{{no.content}}
-            </div>
-          </div>
-        </div>-->
-            <div style="width: 100%; height: 600px;overflow: auto;background-color: #fff; position: relative;padding: 20px;">
-              <div class="toolbar" id="toolbar" tabindex="0" style="position:static !important">
-            <!--<input name="category" #category type="text"/>-->
-                <a class="add-category material-icons" (click)="addCategory()" >
-                  Agregar Categoria
-                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-plus" style="margin-top: -40px;margin-left: 120px;" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                  </svg>
-                </a>
-              </div>
-              <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
-                <div [ngClass]="i == 0 ? 'notes-container' : 'example-container'">
-                  <div class="note_toolbar text-end" style="position: absolute; width: 300px;cursor: text;" *ngIf="i > 0">
-                    <span class="close material-icons" (click)="deleteCategory(t.data,i)" style="cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                      </svg></span>
-                  </div>
-                  <h2 style="color: #000;line-height: 2;" onkeypress="return (this.innerText.length <= 20)" contenteditable="true" data-max-length="20" (blur)="onFocusOut($event, i)" *ngIf="i > 0">{{t.title}}</h2><!-- 
-                    (keyup)="onKey($event); $event.preventDefault(); $event.stopPropagation()"-->
-                  <h2 style="color: #000;" *ngIf="i == 0">{{t.title}}</h2>
-                  
-                  <div cdkDropList [cdkDropListData]="t.data" [ngClass]="i == 0 ? 'notes-list' : 'example-list'" (cdkDropListDropped)="drop($event)">
-                    <div [ngClass]="i == 0 ? 'notes-box' : 'example-box'" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.content}}
-                    </div>
+            <ng-container *ngFor="let t of filteredTablero | async; let i = index;">
+              <div class="clasificacion-container">
+                <h2 style="color: #fff;">{{t.title}}</h2>
+                <div class="clasificacion-list" cdkDropList [cdkDropListData]="t.data" (cdkDropListDropped)="drop($event)">
+                  <div class="clasificacion-box" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.label}}
+                    <label class="votos">{{item.votos}}</label>
+                    <!--<div class="voto-maximo bg-success position-absolute h-8px w-8px rounded-circle" *ngIf="verifyVotoMaximo(i, j)">
+                    </div>-->
+                    <!--<mat-icon
+                    class="voto-maximo"
+                    [matTooltip]="'Voto máximo'" *ngIf="verifyVotoMaximo(i, j)">check_circle</mat-icon>-->
+                    <button class="quitar-maximo" (click)="quitar(i, j)" *ngIf="verifyVoto(i, j)">Quitar</button>
+                    <button class="votar" (click)="votar(i, j)" *ngIf="num_votos < maximo_votos">Votar</button>
+                    <!--
+                      *ngIf="verifyVoto(i, j)"
+                      *ngIf="!verifyVoto(i, j) && !verifyVotoTablero(i)"
+                    <button class="votar-maximo" (click)="votarMaximo(i, j)" *ngIf="!verifyVotoMaximo(i, j) && !verifyVotoTablero(i) && rol == 'Decisor'">Voto +</button>
+                    <button class="quitar-maximo" (click)="quitarMaximo(i, j)" *ngIf="verifyVotoMaximo(i, j) && rol == 'Decisor'">Quitar</button>-->
                   </div>
                 </div>
-              </ng-container>
-            </div>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -180,7 +164,7 @@
     </div>
     <!-- Video -->
     <!-- Fondo Opaco   -->
-    <div class="fondo-video" [ngClass]="showVideoFlag ? videoOn : videoOff">
+    <div  class="fondo-video" [ngClass]="showVideoFlag ? videoOn : videoOff">
     </div>
     <div class="video-container">
       <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="auto"></video>
@@ -206,13 +190,11 @@
       </ng-template>
     </div>
     <div class="container" style="align-items: flex-end;">
-      <a (click)="saveCategoryAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
+      <a (click)="saveVotoAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
       float: right;" *ngIf="rol == 'Decisor'">Siguiente Etapa</a>
       <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
       float: right;">Salir de MbipiLab</a>
     </div>
-
-
 
     <!-- <a (click)="onPause()" class="btn btn-lg btn-outline-white flex-shrink-0 my-2" style="text-align: center;margin: auto;background: transparent !important;">
       <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">

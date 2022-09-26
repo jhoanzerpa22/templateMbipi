@@ -9,6 +9,12 @@ module.exports = (sequelize, Sequelize) => {
       notascp_id: {
         type: Sequelize.INTEGER
       },
+      metaslp_id: {
+        type: Sequelize.INTEGER
+      },
+      preguntasprint_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },
