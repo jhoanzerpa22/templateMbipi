@@ -188,7 +188,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
     //enviamos al socket el usuario logueado
-    this.socketWebService.emitEventUsersActive(this.usuario);
+    this.socketWebService.emitEventUsersActive(this.usuario, this.proyecto_id);
 
     //Inicia video y cancela scroll
     this.onPlayPause();
@@ -199,7 +199,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     //si salimos de la pantalla indicamos que usuario salio
     console.log('ngdestroy');
-    this.socketWebService.emitEventUsersInactive(this.usuario);
+    this.socketWebService.emitEventUsersInactive(this.usuario, this.proyecto_id);
     window.removeEventListener('scroll', this.disableScroll);
   }
 
@@ -319,9 +319,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase2', this.proyecto_id);
 
-          this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)});
+          this.socketWebService.emitEventTableroSave({tablero: JSON.stringify(tablero)}, this.proyecto_id);
 
         },
         (response) => {
@@ -371,7 +371,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notes.forEach((note: any, index: any)=>{
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
-        this.socketWebService.emitEventTableroUpdate(newValue);
+        this.socketWebService.emitEventTableroUpdate(newValue, this.proyecto_id);
       }
     });
   }
@@ -389,11 +389,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.notes_all.push({ id: newValue.id, content:newValue.content });
     }
 
-    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
+    this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)}, this.proyecto_id);
   }
 
   sendNotes(notes: any){
-    this.socketWebService.emitEventTablero({tablero: JSON.stringify(notes)});
+    this.socketWebService.emitEventTablero({tablero: JSON.stringify(notes)}, this.proyecto_id);
   }
 
   deleteNote(event: any){
@@ -402,7 +402,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
-        this.socketWebService.emitEventTableroDelete(note);
+        this.socketWebService.emitEventTableroDelete(note, this.proyecto_id);
         /*const index2 = this.notes_all.findIndex((n: any) => n.id == id);
 
         if (index2 != -1) {

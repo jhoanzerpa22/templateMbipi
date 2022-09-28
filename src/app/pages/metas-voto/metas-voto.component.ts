@@ -196,7 +196,7 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-    this.socketWebService.emitEventUsersActive(this.usuario);
+    this.socketWebService.emitEventUsersActive(this.usuario,this.proyecto_id);
 
     //Inicia video y cancela scroll
     this.onPlayPause();
@@ -206,7 +206,7 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('ngdestroy');
-    this.socketWebService.emitEventUsersInactive(this.usuario);
+    this.socketWebService.emitEventUsersInactive(this.usuario,this.proyecto_id);
     this._onDestroy.next();
     this._onDestroy.complete();
     window.removeEventListener('scroll', this.disableScroll);
@@ -285,9 +285,9 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase6');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase6',this.proyecto_id);
 
-          this.socketWebService.emitEventTableroSaveVotoMeta({tablero: JSON.stringify(tablero)});
+          this.socketWebService.emitEventTableroSaveVotoMeta({tablero: JSON.stringify(tablero)},this.proyecto_id);
 
         },
         (response) => {
@@ -349,7 +349,7 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
       //this.drawOnCanvas(prevPost, currentPost);
       if (emit) {
-        this.socketWebService.emitEvent2({ prevPost })
+        this.socketWebService.emitEvent2({ prevPost },this.proyecto_id)
       }
 
     //}
@@ -382,7 +382,7 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private writeBoard(){
     //console.log('writeBoard');
-    this.socketWebService.emitEventTableroVotoMeta({tablero: JSON.stringify(this.tablero)});
+    this.socketWebService.emitEventTableroVotoMeta({tablero: JSON.stringify(this.tablero)},this.proyecto_id);
   }
 
   private readBoard(tablero: any, emit: boolean){
