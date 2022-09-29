@@ -349,6 +349,21 @@ io.on('connection', function (socket) {
     io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
   })
 
+  socket.on('evento_tablero_voto_meta', (res) => {
+    console.log('evento_tablero_voto_meta', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    
+    let index = notas_tablero_all_meta.findIndex((c) => c == res.proyecto_id);
+
+    if (index == -1) {
+      notas_tablero_all_meta.push(res.proyecto_id);
+      notas_tablero_all_meta[res.proyecto_id] = [];
+    }
+
+    notas_tablero_all_meta[res.proyecto_id] = res.payload;
+    socket.to(nombreCurso).emit('evento_tablero_voto_meta', res.payload);
+  })
+
   socket.on('evento_tablero_save_meta', (res) => {
     if(Object.keys(notas_tablero_all_meta).length === 0){
       notas_tablero_all_meta = res;
@@ -424,6 +439,21 @@ io.on('connection', function (socket) {
     io.in(nombreCurso).emit('evento_tablero_preguntas', {'tablero': JSON.stringify(notas_tablero_preguntas)});
   })
 
+  socket.on('evento_tablero_voto_preguntas', (res) => {
+    console.log('evento_tablero_voto_preguntas', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    
+    let index = notas_tablero_all_preguntas.findIndex((c) => c == res.proyecto_id);
+
+    if (index == -1) {
+      notas_tablero_all_preguntas.push(res.proyecto_id);
+      notas_tablero_all_preguntas[res.proyecto_id] = [];
+    }
+
+    notas_tablero_all_preguntas[res.proyecto_id] = res.payload;
+    socket.to(nombreCurso).emit('evento_tablero_voto_preguntas', res.payload);
+  })
+
   socket.on('evento_tablero_save_preguntas', (res) => {
     if(Object.keys(notas_tablero_all_preguntas).length === 0){
       notas_tablero_all_preguntas = res;
@@ -477,14 +507,21 @@ io.on('connection', function (socket) {
 
     console.log(`Usuario Desconectado: ${handshake}`);
 
-    let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
+    let proyecto_id = 0;
+    for (let index2 = 0; index2 < usuarios_mbipi.length; index2++) {
+      console.log('usuarios_mbipi', usuarios_mbipi);
+      if(usuarios_mbipi[index2] != undefined && usuarios_mbipi[index2] != null && Object.keys(usuarios_mbipi[index2]).length === 0){
+      let index = usuarios_mbipi[index2].findIndex((c) => c.id_socket == handshake);
 
-    if (index != -1) {
-      usuarios_mbipi.splice(index, 1);
+        if (index != -1) {
+          usuarios_mbipi[index2].splice(index, 1);
+          proyecto_id = index2;
+        } 
+      }
     }
 
-    console.log('usuarios', usuarios_mbipi);
-    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
+    console.log('usuarios', usuarios_mbipi[proyecto_id]);
+    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi[proyecto_id])});
 
   });
 });
