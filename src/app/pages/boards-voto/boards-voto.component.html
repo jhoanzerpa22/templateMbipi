@@ -31,7 +31,7 @@
                   </div>
                   </ng-container>
                 </div>-->
-                <div class="symbol-group symbol-hover mb-3">
+                <div class="container symbol-group symbol-hover mb-3">
                   <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
                   <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
                       <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
@@ -40,8 +40,8 @@
                 </div>
                 
                 <!-- Timer -->
-                <div class="container align-items-center mb-3">
-                  <div style="width: 300px;padding: 0;margin: auto;">
+                <div class="mb-3">
+                  <div>
                     <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
                   </div>
                 </div>
