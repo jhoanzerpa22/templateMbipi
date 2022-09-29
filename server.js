@@ -85,13 +85,14 @@ app.get('/', function (req, res) {
 
 let usuarios_mbipi = [];
 let notas_tablero = [];
-let notas_tablero_all = [];
-let notas_tablero_all_clasi = [];
+let notas_tablero_all = {};
+let notas_tablero_all_clasi = {};
+
 let notas_tablero_meta = [];
-let notas_tablero_all_meta = [];
+let notas_tablero_all_meta = {};
 let notas_tablero_preguntas = [];
-let notas_tablero_all_preguntas = [];
-let etapa_active = [];
+let notas_tablero_all_preguntas = {};
+let etapa_active = '';
 
 io.on('connection', function (socket) {
 
@@ -102,172 +103,111 @@ io.on('connection', function (socket) {
 
   socket.on('evento', (res) => {
     console.log('evento', res);
-    let index = notas_tablero_all.findIndex((c) => c == res.proyecto_id);
 
-    if (index == -1) {
-      notas_tablero_all.push(res.proyecto_id);
-      notas_tablero_all[res.proyecto_id] = [];
-    }
-
-    notas_tablero_all[res.proyecto_id] = res.payload;
+    notas_tablero_all = res;
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    socket.to(nombreCurso).emit('evento', res.payload);
+    socket.to(nombreCurso).emit('evento', res);
   })
 
   socket.on('evento_get_etapa', (res) => {
     
-    let index = etapa_active.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      etapa_active.push(res.proyecto_id);
-      etapa_active[res.proyecto_id] = '';
-    }
-
-    console.log('evento_get_etapa', etapa_active[res.proyecto_id]);
+    console.log('evento_get_etapa', etapa_active);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    io.in(nombreCurso).emit('evento_etapa_active', etapa_active[res.proyecto_id]);
+    io.in(nombreCurso).emit('evento_etapa_active', etapa_active);
   })
 
   socket.on('evento_set_etapa', (res) => {
     
-    let index = etapa_active.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      etapa_active.push(res.proyecto_id);
-      etapa_active[res.proyecto_id] = '';
-    }
-
     console.log('evento_set_etapa', res);
-    etapa_active[res.proyecto_id] = res.payload;
+    etapa_active = res;
   })
 
   socket.on('evento_get', (res) => {
     console.log('evento_get', res);
     
-    let index = notas_tablero_all.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      notas_tablero_all.push(res.proyecto_id);
-      notas_tablero_all[res.proyecto_id] = [];
-    }
-
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    io.in(nombreCurso).emit('evento', notas_tablero_all[res.proyecto_id]);
+    io.in(nombreCurso).emit('evento', notas_tablero_all);
   })
 
   socket.on('evento_get_clasi', (res) => {
     console.log('evento_get_clasi', res);
     
-    let index = notas_tablero_all_clasi.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      notas_tablero_all_clasi.push(res.proyecto_id);
-      notas_tablero_all_clasi[res.proyecto_id] = [];
-    }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    io.in(nombreCurso).emit('evento_tablero_voto', notas_tablero_all_clasi[res.proyecto_id]);
+    io.in(nombreCurso).emit('evento_tablero_voto', notas_tablero_all_clasi);
   })
 
   socket.on('evento_tablero_voto', (res) => {
     console.log('evento_tablero_voto', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     
-    let index = notas_tablero_all_clasi.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      notas_tablero_all_clasi.push(res.proyecto_id);
-      notas_tablero_all_clasi[res.proyecto_id] = [];
-    }
-
-    notas_tablero_all_clasi[res.proyecto_id] = res.payload;
-    socket.to(nombreCurso).emit('evento_tablero_voto', res.payload);
+    notas_tablero_all_clasi = res;
+    socket.to(nombreCurso).emit('evento_tablero_voto', res);
   })
 
   socket.on('evento2', (res) => {
     console.log('evento2', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    socket.to(nombreCurso).emit('evento2', res.payload);
+    socket.to(nombreCurso).emit('evento2', res);
   })
 
   socket.on('evento_usuarios_activos', (res) => {
     console.log('usuario', res);
     //let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
     
-    let index2 = usuarios_mbipi.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      usuarios_mbipi.push(res.proyecto_id);
-      usuarios_mbipi[res.proyecto_id] = [];
-    }
-
-    let index = usuarios_mbipi[res.proyecto_id].findIndex((c) => c.id == res.payload.id);
+    let index = usuarios_mbipi.findIndex((c) => c.id == res.id);
 
     if (index == -1) {
       //usuarios_mbipi.splice(index, 1);
-      usuarios_mbipi[res.proyecto_id].push({'id': res.payload.id, 'id_socket': handshake, 'nombre': res.payload.nombre, 'active': true});
+      usuarios_mbipi.push({'id': res.id, 'id_socket': handshake, 'nombre': res.nombre, 'active': true});
     }else{
-      usuarios_mbipi[res.proyecto_id][index].active = res.payload.active;
+      usuarios_mbipi[index].active = res.active;
     }
 
-    console.log('evento_usuarios_activos',usuarios_mbipi[res.proyecto_id]);
+    console.log('evento_usuarios_activos',usuarios_mbipi);
     //socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
-    io.in(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
   })
 
   socket.on('evento_usuarios_inactivos', (res) => {
     
-    let index2 = usuarios_mbipi.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      usuarios_mbipi.push(res.proyecto_id);
-      usuarios_mbipi[res.proyecto_id] = [];
-    }
-
-    let index = usuarios_mbipi[res.proyecto_id].findIndex((c) => c.id == res.payload.id);
+    let index = usuarios_mbipi.findIndex((c) => c.id == res.id);
 
     if (index != -1) {/*
       usuarios_mbipi.splice(index, 1);*/
-      usuarios_mbipi[res.proyecto_id][index].active = false;
+      usuarios_mbipi[index].active = false;
     }
 
-    console.log('evento_usuarios_inactivos', usuarios_mbipi[res.proyecto_id]);
-    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi[res.proyecto_id])});
+    console.log('evento_usuarios_inactivos', usuarios_mbipi);
+    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
   })
 
   socket.on('evento_usuarios', (res) => {
     console.log('evento_usuarios', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    socket.to(nombreCurso).emit('evento_usuarios', res.payload);
+    socket.to(nombreCurso).emit('evento_usuarios', res);
   })
 
   socket.on('evento_tablero', (res) => {
-    let data = res.payload.tablero;
+    let data = res.tablero;
     let tablero = JSON.parse(data);
 
-    let index = notas_tablero.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      notas_tablero.push(res.proyecto_id);
-      notas_tablero[res.proyecto_id] = [];
-    }
-
     for(let c in tablero){
-      let index3 = notas_tablero[res.proyecto_id].findIndex((n) => n.id == tablero[c].id);
+      let index3 = notas_tablero.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero[res.proyecto_id].push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero.push({'id': tablero[c].id, 'content': tablero[c].content});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreCurso).emit('evento_tablero', res);
-    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
   })
 
   socket.on('evento_tablero_save', (res) => {
     if(Object.keys(notas_tablero_all).length === 0){
-      notas_tablero_all[res.proyecto_id] = res.payload;
+      notas_tablero_all = res;
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreCurso).emit('evento_tablero', res);
@@ -276,7 +216,7 @@ io.on('connection', function (socket) {
 
   socket.on('evento_tablero_save_clasi', (res) => {
     if(Object.keys(notas_tablero_all_clasi).length === 0){
-      notas_tablero_all_clasi[res.proyecto_id] = res.payload;
+      notas_tablero_all_clasi = res;
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreCurso).emit('evento_tablero', res);
@@ -291,84 +231,51 @@ io.on('connection', function (socket) {
 
   socket.on('evento_tablero_update', (res) => {
     
-    let index2 = notas_tablero.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      notas_tablero.push(res.proyecto_id);
-      notas_tablero[res.proyecto_id] = [];
-    }
-
-      let index = notas_tablero[res.proyecto_id].findIndex((n) => n.id == res.payload.id);
+    let index = notas_tablero.findIndex((n) => n.id == res.id);
 
         if (index != -1) {
-          notas_tablero[res.proyecto_id][index].content = res.payload.content;
+          notas_tablero[index].content = res.content;
         }else{
-          notas_tablero[res.proyecto_id].push({'id': res.payload.id, 'content': res.payload.content});
+          notas_tablero.push({'id': res.id, 'content': res.content});
         }
-    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
   })
 
   socket.on('evento_tablero_delete', (res) => {
-    
-    let index2 = notas_tablero.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      notas_tablero.push(res.proyecto_id);
-      notas_tablero[res.proyecto_id] = [];
-    }
-
-    let index = notas_tablero[res.proyecto_id].findIndex((n) => n.id == res.payload.id);
+  
+    let index = notas_tablero.findIndex((n) => n.id == res.id);
 
       if (index != -1) {
-        notas_tablero[res.proyecto_id].splice(index, 1);
+        notas_tablero.splice(index, 1);
       }
-    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
   })
 
   /* Eventos Metas*/
   socket.on('evento_tablero_meta', (res) => {
-    let data = res.payload.tablero;
+    let data = res.tablero;
     let tablero = JSON.parse(data);
     
-    let index2 = notas_tablero_meta.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      notas_tablero_meta.push(res.proyecto_id);
-      notas_tablero_meta[res.proyecto_id] = [];
-    }
-
     for(let c in tablero){
-      let index3 = notas_tablero_meta[res.proyecto_id].findIndex((n) => n.id == tablero[c].id);
+      let index3 = notas_tablero_meta.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero_meta[res.proyecto_id].push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero_meta.push({'id': tablero[c].id, 'content': tablero[c].content});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreCurso).emit('evento_tablero', res);
-    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
   })
 
   socket.on('evento_tablero_voto_meta', (res) => {
     console.log('evento_tablero_voto_meta', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    if(Array.isArray(notas_tablero_all_meta)){
-    let index = notas_tablero_all_meta.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      notas_tablero_all_meta.push(res.proyecto_id);
-      notas_tablero_all_meta[res.proyecto_id] = [];
-    }
-
-    }else{
-      notas_tablero_all_meta.push(res.proyecto_id);
-      notas_tablero_all_meta[res.proyecto_id] = [];
-    }
-
-    notas_tablero_all_meta[res.proyecto_id] = res.payload;
-    socket.to(nombreCurso).emit('evento_tablero_voto_meta', res.payload);
+    
+    notas_tablero_all_meta = res;
+    socket.to(nombreCurso).emit('evento_tablero_voto_meta', res);
   })
 
   socket.on('evento_tablero_save_meta', (res) => {
@@ -387,58 +294,38 @@ io.on('connection', function (socket) {
   })
 
   socket.on('evento_tablero_update_meta', (res) => {
-    let index2 = notas_tablero_meta.findIndex((c) => c == res.proyecto_id);
 
-    if (index2 == -1) {
-      notas_tablero_meta.push(res.proyecto_id);
-      notas_tablero_meta[res.proyecto_id] = [];
-    }
-
-      let index = notas_tablero_meta[res.proyecto_id].findIndex((n) => n.id == res.payload.id);
+      let index = notas_tablero_meta.findIndex((n) => n.id == res.id);
 
         if (index != -1) {
-          notas_tablero_meta[res.proyecto_id][index].content = res.payload.content;
+          notas_tablero_meta[index].content = res.content;
         }else{
-          notas_tablero_meta[res.proyecto_id].push({'id': res.payload.id, 'content': res.payload.content});
+          notas_tablero_meta.push({'id': res.id, 'content': res.content});
         }
-    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
   })
 
   socket.on('evento_tablero_delete_meta', (res) => {
-    let index2 = notas_tablero_meta.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      notas_tablero_meta.push(res.proyecto_id);
-      notas_tablero_meta[res.proyecto_id] = [];
-    }
-
-    let index = notas_tablero_meta[res.proyecto_id].findIndex((n) => n.id == res.payload.id);
+    let index = notas_tablero_meta.findIndex((n) => n.id == res.id);
 
       if (index != -1) {
-        notas_tablero_meta[res.proyecto_id].splice(index, 1);
+        notas_tablero_meta.splice(index, 1);
       }
-    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
   })
 
   /* Eventos Preguntas*/
   socket.on('evento_tablero_preguntas', (res) => {
-    let data = res.payload.tablero;
+    let data = res.tablero;
     let tablero = JSON.parse(data);
     
-    let index2 = notas_tablero_preguntas.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      notas_tablero_preguntas.push(res.proyecto_id);
-      notas_tablero_preguntas[res.proyecto_id] = [];
-    }
-
     for(let c in tablero){
-      let index3 = notas_tablero_preguntas[res.proyecto_id].findIndex((n) => n.id == tablero[c].id);
+      let index3 = notas_tablero_preguntas.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero_preguntas[res.proyecto_id].push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero_preguntas.push({'id': tablero[c].id, 'content': tablero[c].content});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -450,21 +337,8 @@ io.on('connection', function (socket) {
     console.log('evento_tablero_voto_preguntas', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
 
-    if(Array.isArray(notas_tablero_all_preguntas)){
-    
-    let index = notas_tablero_all_preguntas.findIndex((c) => c == res.proyecto_id);
-
-    if (index == -1) {
-      notas_tablero_all_preguntas.push(res.proyecto_id);
-      notas_tablero_all_preguntas[res.proyecto_id] = [];
-    }
-    }else{
-      notas_tablero_all_preguntas.push(res.proyecto_id);
-      notas_tablero_all_preguntas[res.proyecto_id] = [];
-    }
-
-    notas_tablero_all_preguntas[res.proyecto_id] = res.payload;
-    socket.to(nombreCurso).emit('evento_tablero_voto_preguntas', res.payload);
+    notas_tablero_all_preguntas = res;
+    socket.to(nombreCurso).emit('evento_tablero_voto_preguntas', res);
   })
 
   socket.on('evento_tablero_save_preguntas', (res) => {
@@ -483,59 +357,39 @@ io.on('connection', function (socket) {
   })
 
   socket.on('evento_tablero_update_preguntas', (res) => {
-    let index2 = notas_tablero_preguntas.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      notas_tablero_preguntas.push(res.proyecto_id);
-      notas_tablero_preguntas[res.proyecto_id] = [];
-    }
-
-      let index = notas_tablero_preguntas[res.proyecto_id].findIndex((n) => n.id == res.payload.id);
+    
+      let index = notas_tablero_preguntas.findIndex((n) => n.id == res.id);
 
         if (index != -1) {
-          notas_tablero_preguntas[res.proyecto_id][index].content = res.payload.content;
+          notas_tablero_preguntas[index].content = res.content;
         }else{
-          notas_tablero_preguntas[res.proyecto_id].push({'id': res.payload.id, 'content': res.payload.content});
+          notas_tablero_preguntas.push({'id': res.id, 'content': res.content});
         }
-    io.in(nombreCurso).emit('evento_tablero_preguntas', {'tablero': JSON.stringify(notas_tablero_preguntas[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero_preguntas', {'tablero': JSON.stringify(notas_tablero_preguntas)});
   })
 
   socket.on('evento_tablero_delete_preguntas', (res) => {
-    let index2 = notas_tablero_preguntas.findIndex((c) => c == res.proyecto_id);
-
-    if (index2 == -1) {
-      notas_tablero_preguntas.push(res.proyecto_id);
-      notas_tablero_preguntas[res.proyecto_id] = [];
-    }
-
-    let index = notas_tablero_preguntas[res.proyecto_id].findIndex((n) => n.id == res.payload.id);
+    
+    let index = notas_tablero_preguntas.findIndex((n) => n.id == res.id);
 
       if (index != -1) {
-        notas_tablero_preguntas[res.proyecto_id].splice(index, 1);
+        notas_tablero_preguntas.splice(index, 1);
       }
-    io.in(nombreCurso).emit('evento_tablero_preguntas', {'tablero': JSON.stringify(notas_tablero_preguntas[res.proyecto_id])});
+    io.in(nombreCurso).emit('evento_tablero_preguntas', {'tablero': JSON.stringify(notas_tablero_preguntas)});
   })
 
   socket.on('disconnect', function () {
 
     console.log(`Usuario Desconectado: ${handshake}`);
 
-    let proyecto_id = 0;
-    for (let index2 = 0; index2 < usuarios_mbipi.length; index2++) {
-      console.log('usuarios_mbipi', usuarios_mbipi);
-      if(Array.isArray(usuarios_mbipi[index2])){
-        console.log('usuarios_mbipi_array',usuarios_mbipi[index2]);
-        let index = usuarios_mbipi[index2].findIndex((c) => c.id_socket == handshake);
+        let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
 
         if (index != -1) {
-          usuarios_mbipi[index2].splice(index, 1);
-          proyecto_id = index2;
+          usuarios_mbipi.splice(index, 1);
         } 
-      }
-    }
 
-    console.log('usuarios_disconect', usuarios_mbipi[proyecto_id]);
-    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi[proyecto_id])});
+    console.log('usuarios_disconect', usuarios_mbipi);
+    socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
 
   });
 });
