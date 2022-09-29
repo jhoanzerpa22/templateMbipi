@@ -338,17 +338,17 @@ io.on('connection', function (socket) {
     }
 
     for(let c in tablero){
-      let index3 = notas_tablero_meta.findIndex((n) => n.id == tablero[c].id);
+      let index3 = notas_tablero_meta[res.proyecto_id].findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero_meta.push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero_meta[res.proyecto_id].push({'id': tablero[c].id, 'content': tablero[c].content});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreCurso).emit('evento_tablero', res);
-    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
+    io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta[res.proyecto_id])});
   })
 
   socket.on('evento_tablero_voto_meta', (res) => {
@@ -428,12 +428,12 @@ io.on('connection', function (socket) {
     }
 
     for(let c in tablero){
-      let index3 = notas_tablero_preguntas.findIndex((n) => n.id == tablero[c].id);
+      let index3 = notas_tablero_preguntas[res.proyecto_id].findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero_preguntas.push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero_preguntas[res.proyecto_id].push({'id': tablero[c].id, 'content': tablero[c].content});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
