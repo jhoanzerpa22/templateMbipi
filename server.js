@@ -208,6 +208,8 @@ io.on('connection', function (socket) {
     }else{
       usuarios_mbipi[res.proyecto_id][index].active = res.payload.active;
     }
+
+    console.log('evento_usuarios_activos',usuarios_mbipi[res.proyecto_id]);
     //socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi)});
     io.in(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi[res.proyecto_id])});
   })
@@ -228,7 +230,7 @@ io.on('connection', function (socket) {
       usuarios_mbipi[res.proyecto_id][index].active = false;
     }
 
-    console.log('usuarios', usuarios_mbipi[res.proyecto_id]);
+    console.log('evento_usuarios_inactivos', usuarios_mbipi[res.proyecto_id]);
     socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi[res.proyecto_id])});
   })
 
@@ -510,8 +512,9 @@ io.on('connection', function (socket) {
     let proyecto_id = 0;
     for (let index2 = 0; index2 < usuarios_mbipi.length; index2++) {
       console.log('usuarios_mbipi', usuarios_mbipi);
-      if(usuarios_mbipi[index2] != undefined && usuarios_mbipi[index2] != null && Object.keys(usuarios_mbipi[index2]).length === 0){
-      let index = usuarios_mbipi[index2].findIndex((c) => c.id_socket == handshake);
+      if(Array.isArray(usuarios_mbipi[index2])){
+        console.log('usuarios_mbipi_array',usuarios_mbipi[index2]);
+        let index = usuarios_mbipi[index2].findIndex((c) => c.id_socket == handshake);
 
         if (index != -1) {
           usuarios_mbipi[index2].splice(index, 1);
@@ -520,7 +523,7 @@ io.on('connection', function (socket) {
       }
     }
 
-    console.log('usuarios', usuarios_mbipi[proyecto_id]);
+    console.log('usuarios_disconect', usuarios_mbipi[proyecto_id]);
     socket.to(nombreCurso).emit('evento_usuarios_activos', {'usuarios_active': JSON.stringify(usuarios_mbipi[proyecto_id])});
 
   });
