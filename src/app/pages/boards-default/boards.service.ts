@@ -66,143 +66,143 @@ export class SocketWebService extends Socket {
 
   }
 
-  emitEvent = (payload = {}, proyecto_id: any) => {
+  emitEvent = (payload = {}) => {
     //console.log('evento',payload);
-    this.ioSocket.emit('evento', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento', payload)
   }
 
-  emitEventGetEtapa = (payload = {}, proyecto_id: any) => {
+  emitEventGetEtapa = (payload = {}) => {
     //console.log('evento',payload);
-    this.ioSocket.emit('evento_get_etapa', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_get_etapa', payload)
   }
 
-  emitEventSetEtapa = (payload = '', proyecto_id: any) => {
+  emitEventSetEtapa = (payload = '') => {
     //console.log('evento',payload);
-    this.ioSocket.emit('evento_set_etapa', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_set_etapa', payload)
   }
 
-  emitEventGet = (payload = {}, proyecto_id: any) => {
+  emitEventGet = (payload = {}) => {
     //console.log('evento',payload);
-    this.ioSocket.emit('evento_get', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_get', payload)
   }
 
-  emitEventGetClasi = (payload = {}, proyecto_id: any) => {
+  emitEventGetClasi = (payload = {}) => {
     //console.log('evento',payload);
-    this.ioSocket.emit('evento_get_clasi', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_get_clasi', payload)
   }
 
-  emitEvent2 = (payload = {}, proyecto_id: any) => {
+  emitEvent2 = (payload = {}) => {
     //console.log('evento2',payload);
-    this.ioSocket.emit('evento2', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento2', payload)
   }
 
-  emitEventUsers = (payload = {}, proyecto_id: any) => {
+  emitEventUsers = (payload = {}) => {
     //console.log('evento2',payload);
-    this.ioSocket.emit('evento_usuarios', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_usuarios', payload)
   }
   
-  emitEventUsersActive = (payload = {}, proyecto_id: any) => {
+  emitEventUsersActive = (payload = {}) => {
     //console.log('evento2',payload);
-    this.ioSocket.emit('evento_usuarios_activos', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_usuarios_activos', payload)
   }
 
-  emitEventUsersInactive = (payload = {}, proyecto_id: any) => {
+  emitEventUsersInactive = (payload = {}) => {
     //console.log('evento2',payload);
-    this.ioSocket.emit('evento_usuarios_inactivos', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_usuarios_inactivos', payload)
   }
 
-  emitEventTablero = (payload = {}, proyecto_id: any) => {
+  emitEventTablero = (payload = {}) => {
     console.log('evento_tablero',payload);
-    this.ioSocket.emit('evento_tablero', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero', payload)
   }
 
-  emitEventTableroVoto = (payload = {}, proyecto_id: any) => {
+  emitEventTableroVoto = (payload = {}) => {
     console.log('evento_tablero_voto',payload);
-    this.ioSocket.emit('evento_tablero_voto', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_voto', payload)
   }
 
-  emitEventTableroSave = (payload = {}, proyecto_id: any) => {
+  emitEventTableroSave = (payload = {}) => {
     console.log('evento_tablero_save',payload);
-    this.ioSocket.emit('evento_tablero_save', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_save', payload)
   }
 
-  emitEventTableroSaveClasi = (payload = {}, proyecto_id: any) => {
+  emitEventTableroSaveClasi = (payload = {}) => {
     console.log('evento_tablero_save_clasi',payload);
-    this.ioSocket.emit('evento_tablero_save_clasi', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_save_clasi', payload)
   }
 
-  emitEventTableroSaveVoto = (payload = {}, proyecto_id: any) => {
+  emitEventTableroSaveVoto = (payload = {}) => {
     console.log('evento_tablero_save_voto',payload);
-    this.ioSocket.emit('evento_tablero_save_voto', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_save_voto', payload)
   }
 
-  emitEventTableroDelete = (payload = {}, proyecto_id: any) => {
+  emitEventTableroDelete = (payload = {}) => {
     console.log('evento_tablero_delete',payload);
-    this.ioSocket.emit('evento_tablero_delete', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_delete', payload)
   }
 
-  emitEventTableroUpdate = (payload = {}, proyecto_id: any) => {
+  emitEventTableroUpdate = (payload = {}) => {
     console.log('evento_tablero_update',payload);
-    this.ioSocket.emit('evento_tablero_update', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_update', payload)
   }
 
-  emitEventTableroMeta = (payload = {}, proyecto_id: any) => {
+  emitEventTableroMeta = (payload = {}) => {
     console.log('evento_tablero_meta',payload);
-    this.ioSocket.emit('evento_tablero_meta', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_meta', payload)
   }
   
-  emitEventTableroVotoMeta = (payload = {}, proyecto_id: any) => {
+  emitEventTableroVotoMeta = (payload = {}) => {
     console.log('evento_tablero_voto_meta',payload);
-    this.ioSocket.emit('evento_tablero_voto_meta', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_voto_meta', payload)
   }
 
-  emitEventTableroSaveMeta = (payload = {}, proyecto_id: any) => {
+  emitEventTableroSaveMeta = (payload = {}) => {
     console.log('evento_tablero_save_meta',payload);
-    this.ioSocket.emit('evento_tablero_save_meta', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_save_meta', payload)
   }
 
-  emitEventTableroSaveVotoMeta = (payload = {}, proyecto_id: any) => {
+  emitEventTableroSaveVotoMeta = (payload = {}) => {
     console.log('evento_tablero_save_voto_meta',payload);
-    this.ioSocket.emit('evento_tablero_save_voto_meta', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_save_voto_meta', payload)
   }
 
-  emitEventTableroDeleteMeta = (payload = {}, proyecto_id: any) => {
+  emitEventTableroDeleteMeta = (payload = {}) => {
     console.log('evento_tablero_delete_meta',payload);
-    this.ioSocket.emit('evento_tablero_delete_meta', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_delete_meta', payload)
   }
 
-  emitEventTableroUpdateMeta = (payload = {}, proyecto_id: any) => {
+  emitEventTableroUpdateMeta = (payload = {}) => {
     console.log('evento_tablero_update_meta',payload);
-    this.ioSocket.emit('evento_tablero_update_meta', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_update_meta', payload)
   }
 
-  emitEventTableroPreguntas = (payload = {}, proyecto_id: any) => {
+  emitEventTableroPreguntas = (payload = {}) => {
     console.log('evento_tablero_preguntas',payload);
-    this.ioSocket.emit('evento_tablero_preguntas', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_preguntas', payload)
   }
 
-  emitEventTableroVotoPreguntas = (payload = {}, proyecto_id: any) => {
+  emitEventTableroVotoPreguntas = (payload = {}) => {
     console.log('evento_tablero_voto_preguntas',payload);
-    this.ioSocket.emit('evento_tablero_voto_preguntas', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_voto_preguntas', payload)
   }
 
-  emitEventTableroSavePreguntas = (payload = {}, proyecto_id: any) => {
+  emitEventTableroSavePreguntas = (payload = {}) => {
     console.log('evento_tablero_save_preguntas',payload);
-    this.ioSocket.emit('evento_tablero_save_preguntas', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_save_preguntas', payload)
   }
 
-  emitEventTableroSaveVotoPreguntas = (payload = {}, proyecto_id: any) => {
+  emitEventTableroSaveVotoPreguntas = (payload = {}) => {
     console.log('evento_tablero_save_voto_preguntas',payload);
-    this.ioSocket.emit('evento_tablero_save_voto_preguntas', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_save_voto_preguntas', payload)
   }
 
-  emitEventTableroDeletePreguntas = (payload = {}, proyecto_id: any) => {
+  emitEventTableroDeletePreguntas = (payload = {}) => {
     console.log('evento_tablero_delete_preguntas',payload);
-    this.ioSocket.emit('evento_tablero_delete_preguntas', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_delete_preguntas', payload)
   }
 
-  emitEventTableroUpdatePreguntas = (payload = {}, proyecto_id: any) => {
+  emitEventTableroUpdatePreguntas = (payload = {}) => {
     console.log('evento_tablero_update_preguntas',payload);
-    this.ioSocket.emit('evento_tablero_update_preguntas', {payload: payload, proyecto_id: proyecto_id})
+    this.ioSocket.emit('evento_tablero_update_preguntas', payload)
   }
 }

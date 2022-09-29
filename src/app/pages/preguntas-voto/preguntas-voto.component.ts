@@ -193,7 +193,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-    this.socketWebService.emitEventUsersActive(this.usuario,this.proyecto_id);
+    this.socketWebService.emitEventUsersActive(this.usuario);
 
     //Inicia video y cancela scroll
     this.onPlayPause();
@@ -203,7 +203,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnDestroy() {
     console.log('ngdestroy');
-    this.socketWebService.emitEventUsersInactive(this.usuario,this.proyecto_id);
+    this.socketWebService.emitEventUsersInactive(this.usuario);
     this._onDestroy.next();
     this._onDestroy.complete();
     window.removeEventListener('scroll', this.disableScroll);
@@ -279,9 +279,9 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase8',this.proyecto_id);
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase8');
 
-          this.socketWebService.emitEventTableroSaveVotoPreguntas({tablero: JSON.stringify(tablero)},this.proyecto_id);
+          this.socketWebService.emitEventTableroSaveVotoPreguntas({tablero: JSON.stringify(tablero)});
 
         },
         (response) => {
@@ -343,7 +343,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
 
       //this.drawOnCanvas(prevPost, currentPost);
       if (emit) {
-        this.socketWebService.emitEvent2({ prevPost },this.proyecto_id)
+        this.socketWebService.emitEvent2({ prevPost })
       }
 
     //}
@@ -376,7 +376,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private writeBoard(){
     //console.log('writeBoard');
-    this.socketWebService.emitEventTableroVotoPreguntas({tablero: JSON.stringify(this.tablero)},this.proyecto_id);
+    this.socketWebService.emitEventTableroVotoPreguntas({tablero: JSON.stringify(this.tablero)});
   }
 
   private readBoard(tablero: any, emit: boolean){
