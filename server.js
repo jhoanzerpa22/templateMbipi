@@ -354,10 +354,15 @@ io.on('connection', function (socket) {
   socket.on('evento_tablero_voto_meta', (res) => {
     console.log('evento_tablero_voto_meta', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
-    
+    if(Array.isArray(notas_tablero_all_meta)){
     let index = notas_tablero_all_meta.findIndex((c) => c == res.proyecto_id);
 
     if (index == -1) {
+      notas_tablero_all_meta.push(res.proyecto_id);
+      notas_tablero_all_meta[res.proyecto_id] = [];
+    }
+
+    }else{
       notas_tablero_all_meta.push(res.proyecto_id);
       notas_tablero_all_meta[res.proyecto_id] = [];
     }
@@ -444,10 +449,16 @@ io.on('connection', function (socket) {
   socket.on('evento_tablero_voto_preguntas', (res) => {
     console.log('evento_tablero_voto_preguntas', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+
+    if(Array.isArray(notas_tablero_all_preguntas)){
     
     let index = notas_tablero_all_preguntas.findIndex((c) => c == res.proyecto_id);
 
     if (index == -1) {
+      notas_tablero_all_preguntas.push(res.proyecto_id);
+      notas_tablero_all_preguntas[res.proyecto_id] = [];
+    }
+    }else{
       notas_tablero_all_preguntas.push(res.proyecto_id);
       notas_tablero_all_preguntas[res.proyecto_id] = [];
     }
