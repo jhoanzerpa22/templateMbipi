@@ -220,7 +220,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('enviando_usuario',this.usuario);
 
     //this.socketWebService.emitEventUsers({usuarios: JSON.stringify(this.usuarios)});
-    this.socketWebService.emitEventUsersActive(this.usuario, this.proyecto_id);
+    this.socketWebService.emitEventUsersActive(this.usuario);
 
     //Inicia video y cancela scroll
     $('#myVideo').trigger('play');
@@ -231,7 +231,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('ngdestroy');
-    this.socketWebService.emitEventUsersInactive(this.usuario, this.proyecto_id);
+    this.socketWebService.emitEventUsersInactive(this.usuario);
     this._onDestroy.next();
     this._onDestroy.complete();
     window.removeEventListener('scroll', this.disableScroll);
@@ -355,7 +355,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
       //this.drawOnCanvas(prevPost, currentPost);
       if (emit) {
-        this.socketWebService.emitEvent2({ prevPost }, this.proyecto_id)
+        this.socketWebService.emitEvent2({ prevPost })
       }
 
     //}
@@ -394,7 +394,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   private writeBoard(){
     //console.log('writeBoard');
     console.log('notas',this.notas);
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)/*,notas: JSON.stringify(this.notas)*/}, this.proyecto_id);
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)/*,notas: JSON.stringify(this.notas)*/});
   }
 
   private readBoard(tablero: any, emit: boolean){
@@ -426,7 +426,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tablero2 = JSON.stringify(this.tablero);
     this.filteredTablero.next(this.tablero.slice());
 
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)}, this.proyecto_id);
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
   }
 
   deleteCategory(contenido: any, index: any){
@@ -444,7 +444,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tablero[i].title = event.target.innerText;
     this.tablero2 = JSON.stringify(this.tablero);
 
-    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)}, this.proyecto_id);
+    this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
   }
 
   saveCategoryAll() {
@@ -474,9 +474,9 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase3', this.proyecto_id);
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase3');
 
-          this.socketWebService.emitEventTableroSaveClasi({tablero: JSON.stringify(tablero)}, this.proyecto_id);
+          this.socketWebService.emitEventTableroSaveClasi({tablero: JSON.stringify(tablero)});
 
         },
         (response) => {
