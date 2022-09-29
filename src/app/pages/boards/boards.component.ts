@@ -259,23 +259,33 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
             this.tablero = [];
             let categorias: any = [];
+            let como_podriamos: any = [];
+            
             for(let c in this.proyecto.proyecto_recursos){
               if(this.proyecto.proyecto_recursos[c].notascp != null){
-                const index3 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
-                if(index3 == -1){
-                  categorias.push({categoria: this.proyecto.proyecto_recursos[c].notascp.categoria, data: []});
-                }
+                if(this.proyecto.proyecto_recursos[c].notascp.categoria != 'como podriamos'){
+                  const index3 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
+                  if(index3 == -1){
+                    categorias.push({categoria: this.proyecto.proyecto_recursos[c].notascp.categoria, data: []});
+                  }
+                  
+                  const index4 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
                 
-                const index4 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
-              
-              categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos});
+                  categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos});
+                }else{
+                  
+                  como_podriamos.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos});
+                }
               }
             }
 
             console.log('categorias',categorias);
 
-            const index5 = categorias.findIndex((ct: any) => ct.categoria == 'como podriamos');
-                if(index5 == -1){
+            //const index5 = categorias.findIndex((ct: any) => ct.categoria == 'como podriamos');
+                //if(index5 == -1){
+                if(como_podriamos.length > 0){
+                  this.tablero.push({'title': 'como podriamos', "data": como_podriamos});
+                }else{
                   this.tablero.push({'title': 'como podriamos', "data": []});
                 }
 
