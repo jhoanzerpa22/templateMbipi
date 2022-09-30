@@ -72,10 +72,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //Lista de notas
   notes: any = []; // lista de notas del tablero
+  notes_cache: any = [];
   recognition:any;
   notes_all: any = []; // lista de notas de todos los participantes
   public proyecto: any = {};
-  public proyecto_id: number;
+  public proyecto_id: any;
   public rol: any = '';
 
   ms:any = '0' + 0;
@@ -127,13 +128,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //leemos nota en cache
     const notes: any = localStorage.getItem('notes');
-    this.notes = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
+    this.notes_cache = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
 
     //si existen notas en cache las enviamos al socket
-    if(this.notes.length > 0){
+    //if(this.notes.length > 0){
       //this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes)});
-      this.sendNotes(this.notes);
-    }
+      //this.sendNotes(this.notes);
+    //}
 
     const {webkitSpeechRecognition} : IWindow = <any>window;
     this.recognition = new webkitSpeechRecognition();
@@ -222,6 +223,28 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
               this.min = tiempo[1];
             }
             this.showTimer = true;
+
+            let como_podriamos: any = [];
+            
+            for(let c in this.proyecto.proyecto_recursos){
+              if(this.proyecto.proyecto_recursos[c].notascp != null){   
+                if(this.proyecto.proyecto_recursos[c].notascp.categoria == 'como podriamos' && this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
+                 como_podriamos.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }
+              }
+            }
+
+            this.notes = como_podriamos;
+
+            //leemos nota en cache
+              //this.notes = localStorage.getItem('proyecto_id') == this.proyecto_id ? '' : '';
+
+              //si existen notas en cache las enviamos al socket
+              if(this.notes.length > 0){
+                //this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes)});
+                this.sendNotes(this.notes);
+              }
+              
             this.ref.detectChanges();
           },
           (response) => {
