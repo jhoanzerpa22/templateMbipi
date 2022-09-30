@@ -142,7 +142,7 @@
                     <!--<mat-icon
                     class="voto-maximo"
                     [matTooltip]="'Voto máximo'" *ngIf="verifyVotoMaximo(i, j)">check_circle</mat-icon>-->
-                    <button class="quitar-maximo" (click)="quitar(i, j)" *ngIf="verifyVoto(i, j)">Quitar</button>
+                    <button class="quitar-maximo" (click)="quitar(i, j)" *ngIf="verifyVoto(i, j) && item.votos > 0">Quitar</button>
                     <button class="votar" (click)="votar(i, j)" *ngIf="num_votos < maximo_votos">Votar</button>
                     <!--
                       *ngIf="verifyVoto(i, j)"
