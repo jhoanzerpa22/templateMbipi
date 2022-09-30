@@ -97,7 +97,8 @@ let etapa_active = '';
 io.on('connection', function (socket) {
 
   const handshake = socket.id;
-  let nombreCurso = 'Mbipi';
+  //let nombreCurso = 'Mbipi';
+  const {nombreCurso} = socket.handshake.query; 
   console.log(`Nuevo dispositivo: ${handshake} conectado a la ${nombreCurso}`);
   socket.join(nombreCurso)
 
@@ -336,6 +337,7 @@ io.on('connection', function (socket) {
   socket.on('evento_tablero_voto_preguntas', (res) => {
     console.log('evento_tablero_voto_preguntas', res);
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    console.log('nombre_curso',nombreCurso);
 
     notas_tablero_all_preguntas = res;
     socket.to(nombreCurso).emit('evento_tablero_voto_preguntas', res);
