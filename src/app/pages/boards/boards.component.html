@@ -174,7 +174,7 @@
       </div>
       <ng-container *ngFor="let eq of equipo; let i = index;">
         <img id="puntero-{{eq}}" src="assets/images/puntero.png" style="position: absolute;width: 30px;height: 30px;display: none;"/>
-        <label id="equipo-{{eq}}" style="position: absolute;width: 100px;height: 100px;display: none;color:rgb(3, 165, 136);">{{eq}}</label>
+        <label id="equipo-{{eq}}" style="position: absolute;width: 100px;height: 100px;display: none;color:rgb(3, 165, 136);font-weight: bold;">{{eq}}</label>
       </ng-container>
       <canvas id="canvasId" #canvasRef width="100" height="100"></canvas>
     </div>
