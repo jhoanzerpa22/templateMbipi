@@ -25,7 +25,7 @@ export interface Usuario {
 export class DashboardProjectComponent implements OnInit {
 
   public proyecto: any = {};
-  public proyecto_id: number;
+  public proyecto_id: any;
   public usuario: any = {};
   public usuarios: any = [];
   public miembros: any = [];
@@ -192,6 +192,8 @@ export class DashboardProjectComponent implements OnInit {
 }
 
   getProyect(){
+    
+    localStorage.setItem('proyecto_id', this.proyecto_id);
 
     this._proyectsService.get(this.proyecto_id)
       .subscribe(
