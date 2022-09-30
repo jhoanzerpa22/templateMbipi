@@ -74,6 +74,7 @@ export class PreguntasComponent implements OnInit, AfterViewInit, OnDestroy {
   notes: any = []; // lista de notas del tablero
   recognition:any;
   notes_all: any = []; // lista de notas de todos los participantes
+  notes_cache: any = [];
   public proyecto: any = {};
   public proyecto_id: number;
   public rol: any = '';
@@ -127,13 +128,13 @@ export class PreguntasComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //leemos nota en cache
     const notes: any = localStorage.getItem('notes_preguntas');
-    this.notes = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
+    this.notes_cache = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
 
     //si existen notas en cache las enviamos al socket
-    if(this.notes.length > 0){
+    //if(this.notes.length > 0){
       //this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes)});
-      this.sendNotes(this.notes);
-    }
+      //this.sendNotes(this.notes);
+    //}
 
     const {webkitSpeechRecognition} : IWindow = <any>window;
     this.recognition = new webkitSpeechRecognition();
@@ -222,6 +223,27 @@ export class PreguntasComponent implements OnInit, AfterViewInit, OnDestroy {
               this.min = tiempo[1];
             }
             this.showTimer = true;
+
+            
+            let preguntas: any = [];
+            
+            for(let c in this.proyecto.proyecto_recursos){
+              if(this.proyecto.proyecto_recursos[c].preguntasprint != null){   
+                 preguntas.push({'id': this.proyecto.proyecto_recursos[c].preguntasprint.id,'content': this.proyecto.proyecto_recursos[c].preguntasprint.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              }
+            }
+
+            this.notes = preguntas;
+
+            //leemos nota en cache
+              //this.notes = localStorage.getItem('proyecto_id') == this.proyecto_id ? '' : '';
+
+              //si existen notas en cache las enviamos al socket
+              if(this.notes.length > 0){
+                //this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes)});
+                this.sendNotes(this.notes);
+              }
+
             this.ref.detectChanges();
           },
           (response) => {

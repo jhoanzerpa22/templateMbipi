@@ -198,7 +198,7 @@ io.on('connection', function (socket) {
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero.push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -237,7 +237,7 @@ io.on('connection', function (socket) {
         if (index != -1) {
           notas_tablero[index].content = res.content;
         }else{
-          notas_tablero.push({'id': res.id, 'content': res.content});
+          notas_tablero.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
         }
     io.in(nombreCurso).emit('evento_tablero', {'tablero': JSON.stringify(notas_tablero)});
   })
@@ -263,7 +263,7 @@ io.on('connection', function (socket) {
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero_meta.push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero_meta.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -301,7 +301,7 @@ io.on('connection', function (socket) {
         if (index != -1) {
           notas_tablero_meta[index].content = res.content;
         }else{
-          notas_tablero_meta.push({'id': res.id, 'content': res.content});
+          notas_tablero_meta.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
         }
     io.in(nombreCurso).emit('evento_tablero_meta', {'tablero': JSON.stringify(notas_tablero_meta)});
   })
@@ -326,7 +326,7 @@ io.on('connection', function (socket) {
         if (index3 != -1) {
           //notas_tablero[index3].content = tablero[c].content;
         }else{
-          notas_tablero_preguntas.push({'id': tablero[c].id, 'content': tablero[c].content});
+          notas_tablero_preguntas.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -365,7 +365,7 @@ io.on('connection', function (socket) {
         if (index != -1) {
           notas_tablero_preguntas[index].content = res.content;
         }else{
-          notas_tablero_preguntas.push({'id': res.id, 'content': res.content});
+          notas_tablero_preguntas.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
         }
     io.in(nombreCurso).emit('evento_tablero_preguntas', {'tablero': JSON.stringify(notas_tablero_preguntas)});
   })
