@@ -35,7 +35,7 @@ export class SocketWebService extends Socket {
       url: environment.API,//'https://mbipi.tresidea.cl/',
       options: {
         query: {
-          nameRoom: 'mbipi'//cookieService.get('room')
+          nombreCurso: 'Proyecto-'+localStorage.getItem('proyecto_id'),//'mbipi'//cookieService.get('room')
         },
         transports: ['websocket'],
         jsonp: false
