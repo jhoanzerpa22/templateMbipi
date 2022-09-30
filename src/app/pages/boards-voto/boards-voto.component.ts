@@ -131,7 +131,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       //jQuery("#canvasId").css({"left" : prevPost.x, "top" : prevPost.y});
       jQuery("#puntero-"+usuario_label[0]).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
       jQuery("#equipo-"+usuario_label[0]).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
-      console.log('equipo',this.equipo);
+      //console.log('equipo',this.equipo);
 
       this.writeSingle(prevPost, false);
     })
