@@ -32,15 +32,13 @@ export class TimerComponent implements OnInit {
       this.startTimer = setInterval(()=>{
         this.ms++;
         this.ms = this.ms < 10 ? '0' + this.ms : this.ms;
-        this.ref.detectChanges();
-        if(this.ms === 100){
+        if(this.ms >= 100){
           this.sec++;
           this.sec = this.sec < 10 ? '0' + this.sec : this.sec;
           this.ms = '0' + 0;
 
         }
-        this.ref.detectChanges();
-        if(this.sec === 60){
+        if(this.sec >= 60){
           this.min++;
           this.min = this.min < 10 ? '0' + this.min : this.min;
           this.sec = '0' + 0;
@@ -57,8 +55,7 @@ export class TimerComponent implements OnInit {
             );
           }
         }
-        this.ref.detectChanges();
-        if(this.min === 60){
+        if(this.min >= 60){
           this.hr++;
           this.hr = this.hr < 10 ? '0' + this.hr : this.hr;
           this.min = '0' + 0;
