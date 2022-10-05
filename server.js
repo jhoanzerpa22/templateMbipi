@@ -6,6 +6,8 @@ var bcrypt = require("bcryptjs");
 var CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 const path = require("path");
+const mailConfig = require("./app/config/mail.config.js");
+
 require('dotenv').config();
 
 app.use(cors({ origin: true, credentials: true, methods: 'GET,POST,PUT,DELETE,OPTIONS' }));
@@ -580,17 +582,17 @@ async function sendMail(user, callback) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "tresidea.cl",/*"smtp.gmail.com",*/
-    port: 465,
-    secure: true, // true for 465, false for other ports
+    host: mailConfig.HOST, /*"smtp.gmail.com",*/
+    port: mailConfig.PORT,//465,
+    secure: mailConfig.SECURE,//true, // true for 465, false for other ports
     auth: {
-      user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-      pass: 'NoReplyTresidea'
+      user: mailConfig.USER,
+      pass: mailConfig.PASS
     }
   });
 
   let mailOptions = {
-    from: 'no-reply2@tresidea.cl',// sender address
+    from: mailConfig.FROM,//'no-reply2@tresidea.cl',// sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Registro Mbipi", // Subject line
     html:
@@ -623,12 +625,12 @@ async function sendMailResume(user, callback) {
   let usuario = user.data;
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "tresidea.cl",/*"smtp.gmail.com",*/
-    port: 465,
-    secure: true, // true for 465, false for other ports
+    host: mailConfig.HOST,//"smtp.gmail.com",*/
+    port: mailConfig.PORT,//465,
+    secure: mailConfig.SECURE,//true, // true for 465, false for other ports
     auth: {
-      user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-      pass: 'NoReplyTresidea'
+      user: mailConfig.USER,
+      pass: mailConfig.PASS
     }
   });
 
@@ -660,7 +662,7 @@ async function sendMailResume(user, callback) {
   `;
 
   let mailOptions = {
-    from: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
+    from: mailConfig.FROM,//'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
     to: user.correo_login, // list of receivers user.email
     subject: "Bienvenido a Mbipi", // Subject line
     html: contenido
@@ -678,12 +680,12 @@ async function sendMailResume(user, callback) {
 
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: "tresidea.cl",/*"smtp.gmail.com",*/
-        port: 465,
-        secure: true, // true for 465, false for other ports
+        host: mailConfig.HOST,
+        port: mailConfig.PORT,//465,
+        secure: mailConfig.SECURE,//true, // true for 465, false for other ports
         auth: {
-          user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-          pass: 'NoReplyTresidea'
+          user: mailConfig.USER,
+          pass: mailConfig.PASS
         }
       });
 
@@ -697,7 +699,7 @@ async function sendMailResume(user, callback) {
       }
 
       let mailOptions = {
-        from: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
+        from: mailConfig.FROM,//'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
         to: emails, // list of receivers user.email
         subject: "Invitación Mbipi", // Subject line
         html:
@@ -729,12 +731,12 @@ async function sendMailResume(user, callback) {
 
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: "tresidea.cl",/*"smtp.gmail.com",*/
-        port: 465,
-        secure: true, // true for 465, false for other ports
+        host: mailConfig.HOST,
+        port: mailConfig.PORT,//465,
+        secure: mailConfig.SECURE,//true, // true for 465, false for other ports
         auth: {
-          user: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl',
-          pass: 'NoReplyTresidea'
+          user: mailConfig.USER,
+          pass: mailConfig.PASS
         }
       });
 
@@ -748,7 +750,7 @@ async function sendMailResume(user, callback) {
       // }
 
       let mailOptions = {
-        from: 'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
+        from: mailConfig.FROM,//'no-reply2@tresidea.cl',//'jhoan.zerpa@tresidea.cl', // sender address
         to: user.correo_login, // list of receivers user.email
         subject: "Recuperar Password Mbipi", // Subject line
         html:
