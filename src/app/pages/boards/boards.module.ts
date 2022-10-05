@@ -30,11 +30,13 @@ import { CategorizacionNotasAccordionComponent } from './instructions/categoriza
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
 import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
+import { LoadMaskModule/*LoadMaskComponent*/ } from '../../_metronic/layout2/loadMask/loadMask.module';
 
 const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
 @NgModule({
-  declarations: [BoardsComponent, CategorizacionNotasAccordionComponent, /*TimerComponent*/],
+  declarations: [BoardsComponent, CategorizacionNotasAccordionComponent,
+    /*LoadMaskComponent, TimerComponent*/],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -63,7 +65,8 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
     MatRadioModule,
     DragDropModule,
     TimerModule,
+    LoadMaskModule,
     SocketIoModule.forRoot(config)
-  ],
+  ]
 })
 export class BoardsModule {}

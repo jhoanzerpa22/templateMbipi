@@ -84,6 +84,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   min: any = '0' + 0;
   hr: any = '0' + 0;
 
+  isLoading:boolean = true;
+
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
@@ -192,7 +194,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.emitEventUsersActive(this.usuario);
 
     //Inicia video y cancela scroll
-    this.onPlayPause();
+    //this.onPlayPause();
 
     this.ref.detectChanges();
   }
@@ -244,6 +246,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                 //this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes)});
                 this.sendNotes(this.notes);
               }
+
+              this.isLoading = false;    
+              this.onPlayPause();
               
             this.ref.detectChanges();
           },
