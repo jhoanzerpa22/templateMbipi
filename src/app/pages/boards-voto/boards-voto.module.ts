@@ -29,6 +29,7 @@ import { VotoAccordionComponent } from './instructions/voto-accordion/voto-accor
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
 import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
+import { LoadMaskModule/*LoadMaskComponent*/ } from '../../_metronic/layout2/loadMask/loadMask.module';
 
 const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
@@ -62,7 +63,8 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
     MatRadioModule,
     DragDropModule,
     TimerModule,
+    LoadMaskModule,
     SocketIoModule.forRoot(config)
-  ],
+  ]
 })
 export class BoardsVotoModule {}
