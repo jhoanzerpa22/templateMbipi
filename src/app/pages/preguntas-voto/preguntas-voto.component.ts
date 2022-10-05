@@ -74,6 +74,8 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
   min: any = '0' + 0;
   hr: any = '0' + 0;
 
+  isLoading:boolean = true;    
+
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
       //if (e.target.id === 'canvasId' && (this.isAvailabe)) {
@@ -196,7 +198,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     this.socketWebService.emitEventUsersActive(this.usuario);
 
     //Inicia video y cancela scroll
-    this.onPlayPause();
+    //this.onPlayPause();
 
     this.ref.detectChanges();
   }
@@ -248,6 +250,9 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
             this.tablero2 = JSON.stringify(this.tablero);
 
             this.filteredTablero.next(this.tablero.slice());
+            
+            this.isLoading = false;    
+            this.onPlayPause();
 
             this.ref.detectChanges();
           },

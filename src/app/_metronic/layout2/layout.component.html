@@ -1,6 +1,11 @@
 <!--begin::Root-->
 <!--<div class="d-flex flex-column flex-root" style="background-color: #070d15 !important;height: 100%;">-->
 <div class="" style="background-color: #070d15 !important;overflow: hidden;height: 100%;">
+  
+  <!-- Seccion Loader-->  
+  <app-loadmask [loader]="isLoading"  *ngIf="isLoading"></app-loadmask>
+  <!-- Fin Seccion Loader-->
+
   <!--begin::Header Section-->
   <div class="mb-0" id="home">
     <!--begin::Wrapper-->

@@ -44,6 +44,7 @@ import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
+import { LoadMaskModule } from './loadMask/loadMask.module';
 
 const routes: Routes = [
   {
@@ -120,6 +121,7 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
     ExtrasModule,
     NgbModule,
     TimerModule,
+    LoadMaskModule,
     /*
     BoardsModule,*/
     SocketIoModule.forRoot(config)
