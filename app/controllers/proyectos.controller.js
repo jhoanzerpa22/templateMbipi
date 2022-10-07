@@ -130,11 +130,11 @@ exports.findOne = (req, res) => {
       {
         model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id','usuario_id'], 
           include: [{
-            model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos']
+            model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
-            model: MetasLp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos']
+            model: MetasLp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle']
           }, {
-            model: PreguntaSprint/*, as: "equipo_usuarios"*/, attributes:['id','contenido','votos']
+            model: PreguntaSprint/*, as: "equipo_usuarios"*/, attributes:['id','contenido','votos','detalle']
           }]
       }]
     })
@@ -331,12 +331,11 @@ exports.updateEtapa = (req, res) => {
           let i = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
-            como_podriamos.push({'contenido': tablero[n].content, 'categoria': 'como podriamos', 'votos': 0});
+            como_podriamos.push({'contenido': tablero[n].content, 'categoria': 'como podriamos', 'votos': 0, 'detalle': JSON.stringify([])});
           }
 
           let proyecto_recurso = [];
 
-          
           NotasCp.bulkCreate(como_podriamos).then(cp =>{
                 //if((i + 1) == req.body.tablero.length){
                   console.log('cp',cp);
@@ -420,7 +419,8 @@ exports.updateEtapa = (req, res) => {
     
               let idcp = tablero[nc].data[ncp].id;
               let proyectos_notas = {
-                  votos: tablero[nc].data[ncp].votos
+                  votos: tablero[nc].data[ncp].votos,
+                  detalle: tablero[nc].data[ncp].detalle
                 };
 
               NotasCp.update(proyectos_notas, {
@@ -482,7 +482,7 @@ exports.updateEtapaMeta = (req, res) => {
           let i = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
-            metas.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0});
+            metas.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0, 'detalle': JSON.stringify([])});
           }
 
           let proyecto_recurso = [];
@@ -525,7 +525,8 @@ exports.updateEtapaMeta = (req, res) => {
               let idcp = tablero[nc].data[ncp].id;
               let proyectos_notas = {
                   votos: tablero[nc].data[ncp].votos,
-                  seleccionado: tablero[nc].data[ncp].seleccionado
+                  seleccionado: tablero[nc].data[ncp].seleccionado,
+                  detalle: tablero[nc].data[ncp].detalle
                 };
 
               MetasLp.update(proyectos_notas, {
@@ -587,7 +588,7 @@ exports.updateEtapaPreguntas = (req, res) => {
           let i = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
-            preguntas.push({'contenido': tablero[n].content, 'votos': 0});
+            preguntas.push({'contenido': tablero[n].content, 'votos': 0, 'detalle': JSON.stringify([])});
           }
 
           let proyecto_recurso = [];
@@ -629,7 +630,8 @@ exports.updateEtapaPreguntas = (req, res) => {
     
               let idcp = tablero[nc].data[ncp].id;
               let proyectos_notas = {
-                  votos: tablero[nc].data[ncp].votos
+                  votos: tablero[nc].data[ncp].votos,
+                  detalle: tablero[nc].data[ncp].detalle
                 };
 
               PreguntaSprint.update(proyectos_notas, {

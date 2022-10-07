@@ -11,6 +11,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       votos: {
         type: Sequelize.INTEGER
+      },
+      detalle: {
+        type: Sequelize.STRING
       }
     }, {
       tableName: 'preguntasprint',
