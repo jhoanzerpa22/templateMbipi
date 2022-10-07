@@ -14,6 +14,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       seleccionado: {
         type: Sequelize.BOOLEAN
+      },
+      detalle: {
+        type: Sequelize.STRING
       }
     }, {
       tableName: 'metaslp',

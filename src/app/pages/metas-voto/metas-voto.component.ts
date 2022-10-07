@@ -243,7 +243,14 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
             let metas: any = [];
             for(let c in this.proyecto.proyecto_recursos){
                 if(this.proyecto.proyecto_recursos[c].metaslp != null){
-                metas.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'label': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'votos': this.proyecto.proyecto_recursos[c].metaslp.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].metaslp.seleccionado});
+                  metas.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'label': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'votos': this.proyecto.proyecto_recursos[c].metaslp.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].metaslp.seleccionado});
+                
+                  let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].metaslp.detalle) || [];
+                  const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+
+                  if (index_usuario != -1) {
+                    this.num_votos = this.num_votos + detalle[index_usuario].votos;
+                  }
                 }
             }
 
@@ -276,7 +283,7 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       let metas: any = [];
 
       for(let m in this.tablero[n].data){
-        metas.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'seleccionado': this.tablero[n].data[m].seleccionado});
+        metas.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'seleccionado': this.tablero[n].data[m].seleccionado, 'detalle': this.tablero[n].data[m].detalle});
       }
         tablero.push({'title': this.tablero[n].title, "data": metas});
     }
@@ -423,6 +430,16 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.num_votos = this.num_votos + 1;
     //console.log('votos', this.votos);
+
+    let detalle: any = this.tablero[i].data[j].detalle;
+    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+
+    if (index_usuario == -1) {
+      this.tablero[i].data[j].detalle.push({usuario_id: this.usuario.id, votos: 1});
+    }else{
+      this.tablero[i].data[j].detalle[index_usuario].votos = this.tablero[i].data[j].detalle[index_usuario].votos + 1;
+    }
+    
     this.writeBoard();
   }
 
@@ -460,6 +477,20 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     //console.log('votos', this.votos);
+    
+    let detalle: any = this.tablero[i].data[j].detalle;
+    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+
+    if (index_usuario != -1) {
+      let voto: any = this.tablero[i].data[j].detalle[index_usuario].votos - 1;
+      if(voto < 1){
+        this.tablero[i].data[j].detalle.splice(index_usuario, 1);
+      }else{
+        this.tablero[i].data[j].detalle[index_usuario].votos = voto;
+      }
+      
+    }
+    
     this.writeBoard();
   }
 
@@ -489,8 +520,10 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   verifyVoto(i: any, j: any){
     const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
+    const detalle: any = this.tablero[i].data[j].detalle;
+    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
 
-    if (index != -1) {
+    if (index != -1 || index_usuario != -1) {
       return true;
     }
 

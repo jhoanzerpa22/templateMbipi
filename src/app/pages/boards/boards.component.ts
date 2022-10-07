@@ -273,10 +273,10 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
                   
                   const index4 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
                 
-                  categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos});
+                  categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos, 'detalle': this.proyecto.proyecto_recursos[c].notascp.detalle});
                 }else{
                   
-                  como_podriamos.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos});
+                  como_podriamos.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'content': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos, 'detalle': this.proyecto.proyecto_recursos[c].notascp.detalle});
                 }
               }
             }
@@ -463,7 +463,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       let categorias: any = [];
 
       for(let m in this.tablero[n].data){
-        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].content, 'votos': 0, 'voto_maximo': false});
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].content, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false, 'detalle': this.tablero[n].data[m].detalle});
       }
       if(primero > 0){
         tablero.push({'title': this.tablero[n].title, "data": categorias});
