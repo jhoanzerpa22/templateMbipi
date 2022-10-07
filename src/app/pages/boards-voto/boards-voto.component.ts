@@ -277,7 +277,14 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
                 
                 const index4 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
               
-              categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'label': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos});
+                categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'label': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].notascp.detalle) || []});
+
+                let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].notascp.detalle) || [];
+                const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+
+                if (index_usuario != -1) {
+                  this.num_votos = this.num_votos + detalle[index_usuario].votos;
+                }
               }
             }
 
@@ -312,7 +319,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       let categorias: any = [];
 
       for(let m in this.tablero[n].data){
-        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false});
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false, 'detalle': JSON.stringify(this.tablero[n].data[m].detalle)});
       }
         tablero.push({'title': this.tablero[n].title, "data": categorias});
     }
@@ -442,7 +449,6 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     //console.log('votar', i, j);
     //console.log(this.tablero[i].data[j].label);
     this.tablero[i].data[j].votos = this.tablero[i].data[j].votos + 1;
-
     const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
 
       if (index == -1) {
@@ -458,6 +464,16 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
     this.num_votos = this.num_votos + 1;
+
+    let detalle: any = this.tablero[i].data[j].detalle;
+    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+
+    if (index_usuario == -1) {
+      this.tablero[i].data[j].detalle.push({usuario_id: this.usuario.id, votos: 1});
+    }else{
+      this.tablero[i].data[j].detalle[index_usuario].votos = this.tablero[i].data[j].detalle[index_usuario].votos + 1;
+    }
+
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -494,6 +510,19 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       }
+
+    let detalle: any = this.tablero[i].data[j].detalle;
+    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+
+    if (index_usuario != -1) {
+      let voto: any = this.tablero[i].data[j].detalle[index_usuario].votos - 1;
+      if(voto < 1){
+        this.tablero[i].data[j].detalle.splice(index_usuario, 1);
+      }else{
+        this.tablero[i].data[j].detalle[index_usuario].votos = voto;
+      }
+      
+    }
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -523,8 +552,10 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   verifyVoto(i: any, j: any){
     const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
+    const detalle: any = this.tablero[i].data[j].detalle;
+    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
 
-    if (index != -1) {
+    if (index != -1 || index_usuario != -1) {
       return true;
     }
 

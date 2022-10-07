@@ -8,7 +8,7 @@ import { NgbPanelChangeEvent, NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 })
 export class MetasAccordionComponent implements OnInit {
 
-  @ViewChild('acc') accordion: NgbAccordion;
+  @ViewChild('acc') accordion: any;//NgbAccordion;
 
   constructor() { }
 
