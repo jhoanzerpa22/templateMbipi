@@ -243,7 +243,7 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
             let metas: any = [];
             for(let c in this.proyecto.proyecto_recursos){
                 if(this.proyecto.proyecto_recursos[c].metaslp != null){
-                  metas.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'label': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'votos': this.proyecto.proyecto_recursos[c].metaslp.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].metaslp.seleccionado});
+                  metas.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'label': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'votos': this.proyecto.proyecto_recursos[c].metaslp.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].metaslp.seleccionado, 'voto_maximo': this.proyecto.proyecto_recursos[c].metaslp.seleccionado, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].metaslp.detalle) || []});
                 
                   let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].metaslp.detalle) || [];
                   const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
