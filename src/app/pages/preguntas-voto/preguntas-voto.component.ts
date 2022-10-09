@@ -238,8 +238,8 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
 
               if(this.proyecto.proyecto_recursos[c].preguntasprint != null){
                 
-              preguntas.push({'id': this.proyecto.proyecto_recursos[c].preguntasprint.id,'label': this.proyecto.proyecto_recursos[c].preguntasprint.contenido, 'votos': this.proyecto.proyecto_recursos[c].preguntasprint.votos});
-              }
+              preguntas.push({'id': this.proyecto.proyecto_recursos[c].preguntasprint.id,'label': this.proyecto.proyecto_recursos[c].preguntasprint.contenido, 'votos': this.proyecto.proyecto_recursos[c].preguntasprint.votos, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].preguntasprint.detalle) || []});
+              
 
               let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].preguntasprint.detalle) || [];
                 const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
@@ -247,6 +247,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
                 if (index_usuario != -1) {
                   this.num_votos = this.num_votos + detalle[index_usuario].votos;
                 }
+              }
             }
 
             console.log('preguntas',preguntas);
