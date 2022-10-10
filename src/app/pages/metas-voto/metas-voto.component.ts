@@ -169,7 +169,6 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
    }
 
   ngOnInit(): void {
-
     //this.socketWebService.emitEventGetEtapa();
 
     this.route.params.subscribe(params => {
@@ -177,6 +176,9 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       this.proyecto_id = params['id'];
       this.getProyect();
     });
+
+    this.socketWebService.ioSocket.connect();
+    this.socketWebService.emitLogin(this.proyecto_id);
 
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
@@ -209,6 +211,9 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     console.log('ngdestroy');
     this.socketWebService.emitEventUsersInactive(this.usuario);
+    
+    this.socketWebService.ioSocket.disconnect();
+    
     this._onDestroy.next();
     this._onDestroy.complete();
     window.removeEventListener('scroll', this.disableScroll);
@@ -241,9 +246,14 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
             this.tablero = [];
             let metas: any = [];
+            let position: number = 0;
             for(let c in this.proyecto.proyecto_recursos){
                 if(this.proyecto.proyecto_recursos[c].metaslp != null){
                   metas.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'label': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'votos': this.proyecto.proyecto_recursos[c].metaslp.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].metaslp.seleccionado, 'voto_maximo': this.proyecto.proyecto_recursos[c].metaslp.seleccionado, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].metaslp.detalle) || []});
+
+                  if(this.proyecto.proyecto_recursos[c].metaslp.seleccionado){
+                    this.voto_tablero.push(0);
+                  }
                 
                   let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].metaslp.detalle) || [];
                   const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
@@ -251,6 +261,8 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
                   if (index_usuario != -1) {
                     this.num_votos = this.num_votos + detalle[index_usuario].votos;
                   }
+                  this.voto_maximo.push(0+':'+position);
+                  position++;
                 }
             }
 
@@ -550,7 +562,6 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   verifyVotoTablero(i: any){
-    //console.log('voto_tablero',this.voto_tablero);
     const index = this.voto_tablero.findIndex((c: any) => c == i);
 
     if (index != -1) {

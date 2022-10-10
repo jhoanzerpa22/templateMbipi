@@ -173,6 +173,9 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
       this.getProyect();
     });
 
+    this.socketWebService.ioSocket.connect();
+    this.socketWebService.emitLogin(this.proyecto_id);
+
     //this.socketWebService.emitEventGetClasi();
 
     const usuario: any = localStorage.getItem('usuario');
@@ -206,6 +209,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnDestroy() {
     console.log('ngdestroy');
     this.socketWebService.emitEventUsersInactive(this.usuario);
+    this.socketWebService.ioSocket.disconnect();
     this._onDestroy.next();
     this._onDestroy.complete();
     window.removeEventListener('scroll', this.disableScroll);

@@ -8,6 +8,8 @@ import { environment } from "../../../environments/environment";
 })
 export class SocketWebService extends Socket {
 
+  private proyecto_id: any = '';
+
   @Output() outEven: EventEmitter<any> = new EventEmitter();
   @Output() outEven2: EventEmitter<any> = new EventEmitter();
   
@@ -41,6 +43,7 @@ export class SocketWebService extends Socket {
         jsonp: false
       }
     })
+    this.proyecto_id = localStorage.getItem('proyecto_id');
     this.listen();
   }
 
@@ -64,6 +67,10 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_preguntas', (res: any) => this.outEvenTableroPreguntas.emit(res));
     this.ioSocket.on('evento_tablero_voto_preguntas', (res: any) => this.outEvenTableroVotoPreguntas.emit(res));
 
+  }
+
+  emitLogin = (payload: any) => {
+    this.ioSocket.emit('login', payload)
   }
 
   emitEvent = (payload = {}) => {
@@ -108,6 +115,7 @@ export class SocketWebService extends Socket {
 
   emitEventUsersInactive = (payload = {}) => {
     //console.log('evento2',payload);
+    console.log('usuarios_inactivos_nombre_curso',localStorage.getItem('proyecto_id'));
     this.ioSocket.emit('evento_usuarios_inactivos', payload)
   }
 
