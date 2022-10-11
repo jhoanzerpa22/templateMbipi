@@ -420,7 +420,7 @@ exports.updateEtapa = (req, res) => {
               let idcp = tablero[nc].data[ncp].id;
               let proyectos_notas = {
                   votos: tablero[nc].data[ncp].votos,
-                  detalle: tablero[nc].data[ncp].detalle
+                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle)
                 };
 
               NotasCp.update(proyectos_notas, {
@@ -526,7 +526,7 @@ exports.updateEtapaMeta = (req, res) => {
               let proyectos_notas = {
                   votos: tablero[nc].data[ncp].votos,
                   seleccionado: tablero[nc].data[ncp].seleccionado,
-                  detalle: tablero[nc].data[ncp].detalle
+                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle)
                 };
 
               MetasLp.update(proyectos_notas, {
@@ -540,7 +540,7 @@ exports.updateEtapaMeta = (req, res) => {
                   }
                 }).catch(err => {
                   res.status(500).send({
-                  message: "Error creating ProyectoRecurso Meta Voto"
+                  message: "Error creating ProyectoRecurso Meta Voto"+err.message
                   });
               });
 
@@ -631,7 +631,7 @@ exports.updateEtapaPreguntas = (req, res) => {
               let idcp = tablero[nc].data[ncp].id;
               let proyectos_notas = {
                   votos: tablero[nc].data[ncp].votos,
-                  detalle: tablero[nc].data[ncp].detalle
+                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle)
                 };
 
               PreguntaSprint.update(proyectos_notas, {
