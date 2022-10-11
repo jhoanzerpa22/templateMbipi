@@ -180,6 +180,9 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.proyecto_id = params['id'];
       this.getProyect();
     });
+    
+    this.socketWebService.ioSocket.connect();
+    this.socketWebService.emitLogin(this.proyecto_id);
 
     //Buscar notas iniciales de etapa anterior
     //this.socketWebService.emitEventGet();
@@ -234,6 +237,9 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     console.log('ngdestroy');
     this.socketWebService.emitEventUsersInactive(this.usuario);
+
+    this.socketWebService.ioSocket.disconnect();
+
     this._onDestroy.next();
     this._onDestroy.complete();
     window.removeEventListener('scroll', this.disableScroll);
