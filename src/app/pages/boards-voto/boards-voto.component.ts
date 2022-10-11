@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 declare var $: any;
 declare var jQuery: any;
@@ -317,15 +318,33 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   saveVotoAll(){
     console.log('save_voto_all',this.tablero);
     let tablero: any = [];
+    let usuarios_votos: any = [];
+    let index_usuario: any = '';
+    let index_votos: any = '';
 
     for(let n in this.tablero){
       let categorias: any = [];
 
       for(let m in this.tablero[n].data){
         categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false, 'detalle': JSON.stringify(this.tablero[n].data[m].detalle)});
+
+        for(let u in this.usuarios_active){
+          index_usuario = this.tablero[n].data[m].detalle.findIndex((d: any) => d.usuario_id == this.usuarios_active[u].id);
+
+          if (index_usuario != -1) {
+            index_votos = usuarios_votos.findIndex((v: any) => v == this.usuarios_active[u].id);
+
+            if (index_votos == -1) {
+              usuarios_votos.push(this.usuarios_active[u].id);
+            }
+          }
+        }
       }
         tablero.push({'title': this.tablero[n].title, "data": categorias});
     }
+
+    
+    if(this.usuarios_active.length == usuarios_votos.length){
 
     console.log('guardar_votos',tablero);
 
@@ -343,6 +362,17 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
         (response) => {
         }
     );
+    }else{
+      Swal.fire({
+        text: "Ups, no todos los participantes han votado.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }
   }
 
   etapa_active(etapa_active: any) {
