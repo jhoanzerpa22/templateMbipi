@@ -158,6 +158,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getProyect();
     });
 
+    this.socketWebService.ioSocket.connect();
+    this.socketWebService.emitLogin(this.proyecto_id);
+
     // build view by layout config settings
     /*
     this.asideDisplay = this.layout.getProp('aside.display') as boolean;
@@ -203,6 +206,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     //si salimos de la pantalla indicamos que usuario salio
     console.log('ngdestroy');
     this.socketWebService.emitEventUsersInactive(this.usuario);
+
+    this.socketWebService.ioSocket.disconnect();
+
     window.removeEventListener('scroll', this.disableScroll);
   }
 
