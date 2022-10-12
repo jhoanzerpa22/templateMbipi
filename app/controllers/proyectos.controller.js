@@ -309,6 +309,97 @@ exports.updateTime = (req, res) => {
     });
 };
 
+// Update notacp the Proyectos by the id in the request
+exports.updateNotaCp = (req, res) => {
+  const id = req.params.id;
+  let notacp = {
+      votos: req.body.votos,
+      detalle: JSON.stringify(req.body.detalle)
+    };
+
+  NotasCp.update(notacp, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto Notacp with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos notacp with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos notacp with id=" + id
+      });
+    });
+};
+
+// Update metalp the Proyectos by the id in the request
+exports.updateMetaLp = (req, res) => {
+  const id = req.params.id;
+  let metalp = {
+      votos: req.body.votos,
+      detalle: JSON.stringify(req.body.detalle),
+      seleccionado: req.body.seleccionado
+    };
+   
+  MetasLp.update(metalp, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto Metalp with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos metalp with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos metalp with id=" + id
+      });
+    });
+};
+
+// Update preguntasprint the Proyectos by the id in the request
+exports.updatePreguntaSprint = (req, res) => {
+  const id = req.params.id;
+  let pregunta = {
+      votos: req.body.votos,
+      detalle: JSON.stringify(req.body.detalle)
+    };
+   
+  PreguntaSprint.update(pregunta, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto PreguntaSprint with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos PreguntaSprint with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos PreguntaSprint with id=" + id
+      });
+    });
+};
+
 // Update etapa the Proyectos by the id in the request
 exports.updateEtapa = (req, res) => {
   const id = req.params.id;
@@ -331,10 +422,31 @@ exports.updateEtapa = (req, res) => {
           let i = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
-            como_podriamos.push({'contenido': tablero[n].content, 'categoria': 'como podriamos', 'votos': 0, 'detalle': JSON.stringify([])});
+            if(tablero[n].id > 0){
+
+              let notas_cp = {
+                  contenido: tablero[n].content
+                };
+
+              NotasCp.update(notas_cp, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso NotasCp with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              como_podriamos.push({'contenido': tablero[n].content, 'categoria': 'como podriamos', 'votos': 0, 'detalle': JSON.stringify([])});
+            }
           }
 
           let proyecto_recurso = [];
+
+          if(como_podriamos.length > 0){
 
           NotasCp.bulkCreate(como_podriamos).then(cp =>{
                 //if((i + 1) == req.body.tablero.length){
@@ -371,6 +483,11 @@ exports.updateEtapa = (req, res) => {
                 message: "Error creating NotasCp"
                 });
             });
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
         }else if(type_fase == 'clasificacion'){
 
           let icp = 0;
@@ -482,11 +599,31 @@ exports.updateEtapaMeta = (req, res) => {
           let i = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
-            metas.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0, 'detalle': JSON.stringify([])});
+            if(tablero[n].id > 0){
+
+              let meta_lp = {
+                  contenido: tablero[n].content
+                };
+
+              MetasLp.update(meta_lp, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Metas with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              metas.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0, 'detalle': JSON.stringify([])});
+            }
           }
 
           let proyecto_recurso = [];
 
+          if(metas.length > 0){
           
           MetasLp.bulkCreate(metas).then(mlp =>{
                   console.log('metas',mlp);
@@ -510,6 +647,12 @@ exports.updateEtapaMeta = (req, res) => {
                 message: "Error creating MetasLp"
                 });
             });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
         }else if(type_fase == 'voto'){
           
           let icp = 0;
@@ -588,13 +731,33 @@ exports.updateEtapaPreguntas = (req, res) => {
           let i = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
-            preguntas.push({'contenido': tablero[n].content, 'votos': 0, 'detalle': JSON.stringify([])});
+            if(tablero[n].id > 0){
+
+              let preg_sprint = {
+                  contenido: tablero[n].content
+                };
+
+              PreguntaSprint.update(preg_sprint, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Preguntas Sprint with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              preguntas.push({'contenido': tablero[n].content, 'votos': 0, 'detalle': JSON.stringify([])});
+            }
           }
 
           let proyecto_recurso = [];
 
+          if(preguntas.length > 0){
           
-          PreguntaSprint.bulkCreate(preguntas).then(mlp =>{
+            PreguntaSprint.bulkCreate(preguntas).then(mlp =>{
                   console.log('metas',mlp);
                   for(let c in mlp){
                     proyecto_recurso.push({'proyecto_id': id, 'preguntasprint_id': mlp[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
@@ -616,6 +779,11 @@ exports.updateEtapaPreguntas = (req, res) => {
                 message: "Error creating Preguntas Sprint"
                 });
             });
+            }else{
+              res.send({
+                message: `Proyecto with id=${id} was updated successfully.`
+              });
+            }
         }else if(type_fase == 'voto'){
           
           let icp = 0;

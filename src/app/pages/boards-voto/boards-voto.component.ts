@@ -507,6 +507,16 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       this.tablero[i].data[j].detalle[index_usuario].votos = this.tablero[i].data[j].detalle[index_usuario].votos + 1;
     }
 
+    let nota_cp: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle };
+    this._proyectsService.updateNotaCp(this.tablero[i].data[j].id, nota_cp)
+    .subscribe(
+        data => {
+
+        },
+        (response) => {
+        }
+    );
+
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -556,6 +566,17 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       
     }
+
+    let nota_cp: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle };
+    this._proyectsService.updateNotaCp(this.tablero[i].data[j].id, nota_cp)
+    .subscribe(
+        data => {
+
+        },
+        (response) => {
+        }
+    );
+    
     //console.log('votos', this.votos);
     this.writeBoard();
   }
