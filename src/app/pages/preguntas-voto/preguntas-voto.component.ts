@@ -467,6 +467,17 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     }else{
       this.tablero[i].data[j].detalle[index_usuario].votos = this.tablero[i].data[j].detalle[index_usuario].votos + 1;
     }
+
+    let pregunta: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle };
+
+    this._proyectsService.updatePreguntaSprint(this.tablero[i].data[j].id, pregunta)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+
     this.writeBoard();
   }
 
@@ -515,6 +526,16 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
       }
       
     }
+
+    let pregunta: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle };
+
+    this._proyectsService.updatePreguntaSprint(this.tablero[i].data[j].id, pregunta)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
 
     //console.log('votos', this.votos);
     this.writeBoard();

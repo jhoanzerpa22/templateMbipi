@@ -61,6 +61,18 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
 
+      updateNotaCp(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateNotaCp/${id}`, data);
+      }
+
+      updateMetaLp(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateMetaLp/${id}`, data);
+      }
+
+      updatePreguntaSprint(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updatePreguntaSprint/${id}`, data);
+      }
+
       delete(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/${id}`);
       }

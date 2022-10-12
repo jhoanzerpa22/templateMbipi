@@ -39,6 +39,15 @@ module.exports = app => {
     // Update the etapa preguntas of Proyectos with id
     router.put("/updateEtapaPreguntas/:id", proyectos.updateEtapaPreguntas);
 
+    // Update the notacp of Proyectos with id
+    router.put("/updateNotaCp/:id", proyectos.updateNotaCp);
+
+    // Update the metalp of Proyectos with id
+    router.put("/updateMetaLp/:id", proyectos.updateMetaLp);
+
+    // Update the preguntasprint of Proyectos with id
+    router.put("/updatePreguntaSprint/:id", proyectos.updatePreguntaSprint);
+
     // Update the time of Proyectos with id
     router.put("/updateTime/:id", proyectos.updateTime);
   

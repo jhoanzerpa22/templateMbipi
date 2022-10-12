@@ -406,6 +406,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     //console.log('writeBoard');
     console.log('notas',this.notas);
     this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)/*,notas: JSON.stringify(this.notas)*/});
+    this.saveCategoryBD();
   }
 
   private readBoard(tablero: any, emit: boolean){
@@ -456,6 +457,37 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tablero2 = JSON.stringify(this.tablero);
 
     this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+  }
+
+  saveCategoryBD() {
+    let primero = 0;
+    let tablero: any = [];
+
+    if(this.tablero.length > 1){
+    for(let n in this.tablero){
+      let categorias: any = [];
+
+      for(let m in this.tablero[n].data){
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].content, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false, 'detalle': this.tablero[n].data[m].detalle});
+      }
+      if(primero > 0){
+        tablero.push({'title': this.tablero[n].title, "data": categorias});
+      }
+      primero = primero + 1;
+    }
+
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase2', tablero: tablero, type: 'clasificacion'};
+
+    this._proyectsService.updateEtapa(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
+
+        },
+        (response) => {
+        }
+    );
+    }
+
   }
 
   saveCategoryAll() {
