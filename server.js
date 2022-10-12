@@ -409,7 +409,8 @@ io.on('connection', function (socket) {
         let index = usuarios_mbipi.findIndex((c) => c.id_socket == handshake);
 
         if (index != -1) {
-          usuarios_mbipi.splice(index, 1);
+          //usuarios_mbipi.splice(index, 1);
+          usuarios_mbipi[index].active = false;
         }     
     socket.leave(nombreSala);
     let usuarios_filter = usuarios_mbipi.filter(

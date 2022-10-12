@@ -485,6 +485,16 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     }else{
       this.tablero[i].data[j].detalle[index_usuario].votos = this.tablero[i].data[j].detalle[index_usuario].votos + 1;
     }
+
+    let meta_lp: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+
+    this._proyectsService.updateMetaLp(this.tablero[i].data[j].id, meta_lp)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
     
     this.writeBoard();
   }
@@ -497,6 +507,17 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tablero[i].data[j].voto_maximo = true;
     this.tablero[i].data[j].seleccionado = true;
     //console.log('votos', this.votos);
+
+    let meta_lp: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+
+    this._proyectsService.updateMetaLp(this.tablero[i].data[j].id, meta_lp)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+    
     this.writeBoard();
   }
 
@@ -536,6 +557,17 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       
     }
+
+    let meta_lp: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+
+    this._proyectsService.updateMetaLp(this.tablero[i].data[j].id, meta_lp)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+    
     
     this.writeBoard();
   }
@@ -560,6 +592,16 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tablero[i].data[j].voto_maximo = false;
     this.tablero[i].data[j].seleccionado = false;
 
+    let meta_lp: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+
+    this._proyectsService.updateMetaLp(this.tablero[i].data[j].id, meta_lp)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+    
     //console.log('votos', this.votos);
     this.writeBoard();
   }
