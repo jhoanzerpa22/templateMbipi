@@ -1,0 +1,223 @@
+<!--begin::Root-->
+<!--<div class="d-flex flex-column flex-root" style="background-color: #070d15 !important;height: 100%;">-->
+<div class="" style="background-color: #070d15 !important;overflow: hidden;height: 100%;">
+  
+  <!-- Seccion Loader-->  
+  <app-loadmask [loader]="isLoading" *ngIf="isLoading"></app-loadmask>
+  <!-- Fin Seccion Loader-->
+
+  <!--begin::Header Section-->
+  <div class="mb-0" id="home">
+    <!--begin::Wrapper-->
+    <div class="bgi-no-repeat bgi-size-contain bgi-position-x-center bgi-position-y-bottom landing-dark-bg" style="background-image: url(assets/media/svg/illustrations/landing.svg)">
+      <!--begin::Header-->
+      <div class="landing-header" data-kt-sticky="true" data-kt-sticky-name="landing-header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
+        <!--begin::Container-->
+        <div class="container">
+          <!--begin::Wrapper-->
+          <div class="d-flex align-items-center justify-content-between">
+            <!--begin::Logo-->
+            <div class="d-flex align-items-center flex-equal">
+              <!--begin::Mobile menu toggle-->
+              
+              <div class="container symbol-group symbol-hover mb-3">
+                <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
+                <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
+                    <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
+                </div>
+                </ng-container>
+              </div>
+
+              <!-- Timer -->
+              <div class="mb-3">
+                <div>
+                  <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
+                </div>
+              </div>
+              <!--end::Mobile menu toggle-->
+              
+            </div>
+            <!--end::Logo-->
+            <!--begin::Menu wrapper-->
+            <div class="d-lg-block" id="kt_header_nav_wrapper">
+              <div class="d-lg-block p-5 p-lg-0" data-kt-drawer="true" data-kt-drawer-name="landing-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="200px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_landing_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav_wrapper'}">
+                <!--begin::Menu-->
+                <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-500 menu-state-title-primary nav nav-flush fs-5 fw-bold" style="display:none;" id="kt_landing_menu">
+                  <!--begin::Menu item-->
+                  <!--end::Menu item-->
+                </div>
+                <!--end::Menu-->
+              </div>
+            </div>
+            <!--end::Menu wrapper-->
+            <!--begin::Toolbar-->
+
+            <!--end::Toolbar-->
+          </div>
+          <!--end::Wrapper-->
+        </div>
+        <!--end::Container-->
+      </div>
+      <!--end::Header-->
+    </div>
+    <!--end::Wrapper-->
+    <!--begin::Curve bottom-->
+    <div class="landing-curve landing-dark-color mb-3 mb-lg-3">
+      <svg viewBox="15 12 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 11C3.93573 11.3356 7.85984 11.6689 11.7725 12H1488.16C1492.1 11.6689 1496.04 11.3356 1500 11V12H1488.16C913.668 60.3476 586.282 60.6117 11.7725 12H0V11Z" fill="currentColor"></path>
+      </svg>
+    </div>
+    <!--end::Curve bottom-->
+  </div>
+  <!--end::Header Section-->
+  <!-- Timer -->
+  <!-- Titulo -->
+  <div class="container title-container">
+    <h1>
+      Mapa de Experiencia de Usuario
+    </h1>
+  </div>
+  <!-- Instrucciones -->
+  <div class="container instructions-container">
+    <app-mapa-accordion></app-mapa-accordion>
+  </div>
+
+  <!-- Tablero -->
+  <div class="container tablero-container">
+    <div class="draw-flow-poc">
+      <div class="wrapper">
+        <div class="col" style="text-align: center">
+          <ng-container *ngFor="let node of nodes">
+            <div
+              class="drag-drawflow"
+              draggable="true"
+              (dragstart)="onDragStart($event)"
+            >
+              {{ node.name }}
+              <div class="container" style="align-items:center;">
+                <div class="draw-flow-palette">
+                  <div class="box">
+                    <!-- <textarea df-template></textarea> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div>
+              <label>Inputs:</label>
+              <input
+                type="number"
+                [(ngModel)]="node.inputs"
+                min="0"
+                style="width: 30px"
+              />
+              <label> Outputs:</label>
+              <input
+                type="number"
+                [(ngModel)]="node.outputs"
+                min="0"
+                style="width: 30px"
+              />
+            </div>
+            <hr /> -->
+    
+    
+    
+          </ng-container>
+        </div>
+        <div class="col-right">
+          <!-- <div
+            class="btn-export"
+            onclick="Swal.fire({ title: 'Export',
+            html: '<pre><code>'+JSON.stringify(editor.export(), null,4)+'</code></pre>'
+            })"
+          >
+            Export
+          </div> -->
+          <div
+            id="drawflow"
+            (dragenter)="onDragEnter($event)"
+            (dragleave)="onDragLeave($event)"
+            (dragover)="onDragOver($event)"
+            (dragend)="onDragEnd($event)"
+            (drop)="onDrop($event)"
+          >
+            <div class="btn-submit" (click)="onSubmit()">Enviar</div>
+            <div class="btn-clear" (click)="onClear()">Limpiar</div>
+            <div class="btn-lock">
+              <button
+                (click)="changeMode()"
+                [ngStyle]="{ display: locked ? 'none' : 'block' }"
+              >
+                Bloquear
+              </button>
+              <button
+                (click)="changeMode()"
+                [ngStyle]="{ display: locked ? 'block' : 'none' }"
+              >
+                Desbloquear
+              </button>
+            </div>
+            <div class="bar-zoom">
+              <button (click)="onZoomOut()">-</button>
+              <button (click)="onZoomReset()">Normal</button>
+              <button (click)="onZoomIn()">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
+  <!-- Video -->
+    <!-- Fondo Opaco   -->
+  <div class="fondo-video" [ngClass]="showVideoFlag ? videoOn : videoOff">
+  </div>
+  <!-- Video Container -->
+  <div class="video-container">
+    <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="auto"></video>
+  </div>
+  	<!--begin::Bottom Toolbar-->
+  <div style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
+    <!--begin::Link-->
+    <!-- PlayPause Bttn -->
+    <div class="container" style="text-align: center;">
+      <ng-container *ngIf="!playing; else elseBlock">
+        <a (click)="onPlayPause()" class="btn btn-lg flex-shrink-0 my-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="margin:-46px; margin-left: 10px;position: absolute;background-color:#03A588; border-radius: 100%; color:white">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+          </svg>
+        </a>
+      </ng-container>
+      <ng-template #elseBlock>
+        <a (click)="onPlayPause()" class="btn btn-lg flex-shrink-0 my-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="margin:-46px;margin-left: 10px;position: absolute;background-color:#03A588; border-radius: 100%; color:white">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
+          </svg>
+        </a>
+      </ng-template>
+    </div>
+    <div class="container" style="align-items: flex-end;">
+      <a (click)="saveNoteAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
+      float: right;" *ngIf="rol == 'Decisor'">Siguiente Etapa</a>
+      <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
+      float: right;">Salir de MbipiLab</a>
+    </div>
+
+    <!--end::Link-->
+  </div>
+    <!--end::Bottom Toolbar-->
+  <!--begin::Scrolltop-->
+  <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+    <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
+    <span class="svg-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)" fill="currentColor" />
+        <path d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z" fill="currentColor" />
+      </svg>
+    </span>
+    <!--end::Svg Icon-->
+  </div>
+  <!--end::Scrolltop-->
+</div>
+<!--end::Root-->
