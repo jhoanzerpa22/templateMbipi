@@ -34,12 +34,14 @@ import { MetasComponent } from '../../pages/metas/metas.component';
 import { MetasVotoComponent } from '../../pages/metas-voto/metas-voto.component';
 import { PreguntasComponent } from '../../pages/preguntas/preguntas.component';
 import { PreguntasVotoComponent } from '../../pages/preguntas-voto/preguntas-voto.component';
+import { MapaComponent } from '../../pages/mapa/mapa.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { MetasModule } from '../../pages/metas/metas.module';
 import { MetasVotoModule } from '../../pages/metas-voto/metas-voto.module';
 import { PreguntasModule } from '../../pages/preguntas/preguntas.module';
 import { PreguntasVotoModule } from '../../pages/preguntas-voto/preguntas-voto.module';
+import { MapaModule } from '../../pages/mapa/mapa.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -85,6 +87,10 @@ const routes: Routes = [
   {
     path: 'fase7',
     component: PreguntasVotoComponent
+  },
+  {
+    path: 'fase8',
+    component: MapaComponent
   }
 ];
 
