@@ -135,7 +135,7 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     //escuchamos el evento de las notas de los usuarios
-    this.socketWebService.outEvenTableroPreguntas.subscribe((res: any) => {
+    this.socketWebService.outEven.subscribe((res: any) => {
       const { tablero } = res;
       this.readBoard(tablero, false);
     });
@@ -533,14 +533,14 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
     const dataToImport = this.editor.export()
     console.log('dataToImport', dataToImport);
 
-    // this.socketWebService.emitEvent({tablero: JSON.stringify(dataToImport)});
+    this.socketWebService.emitEvent({tablero: JSON.stringify(dataToImport)});
 
   }
 
   private readBoard(tablero: any, emit: boolean){
     const data = JSON.parse(tablero);
     console.log('data',data);
-    this.editor.import(data)
+    this.editor.import(data);
     // this.tablero = [];
     // for(let c in data){
     //   this.tablero.push({'title': data[c].title, "data": data[c].data});
