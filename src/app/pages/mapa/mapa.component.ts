@@ -207,9 +207,15 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.initDrawFlow(this.drawFlowHtmlElement);
   
       // Events!
-      this.editor.on('keydown', function(event: any){
+      //this.editor.on('keydown', function(event: any){
   
         // this.writeBoard()
+      //})
+
+      this.editor.on('keydown', (event: any) => {
+        console.log("Keydown" + event);
+        
+        this.writeBoard();
       })
   
       this.editor.on('nodeDataChanged', (id: any)=>{
@@ -364,9 +370,9 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
                 "1": {
                     "id": 1,
                     "name": "node 1",
-                    "data": {},
-                    "class": "",
-                    "html": "\n        <div>\n          <div class=\"box\">\n            <span class=\"txtAreaStyle\" id=\"textarea-1\" contenteditable></span>\n          </div>\n        </div>\n          ",
+                    "data": {"template":""},
+                    "class": "template",
+                    "html": "\n        <div>\n          <div class=\"box\">\n <span class=\"txtAreaStyle\" df-template id=\"textarea-1\" contenteditable></span>\n          </div>\n        </div>\n          ",
                     "typenode": false,
                     "inputs": {
                         "input_1": {
@@ -393,7 +399,7 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
   getNodeHeight(){
     const id= "node-1";
     this.nodeHeight = document.getElementById(id);
-    console.log('Height: ', this.nodeHeight.clientHeight);
+    //console.log('Height: ', this.nodeHeight.clientHeight);
   }
 
   // Drag Events
@@ -406,7 +412,6 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
   }
-
 
   onDragEnter(e: any) {
     console.log('onDragEnter :>> e :>> ', e);
@@ -439,7 +444,6 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.addNodeToDrawBoard(e.clientX, e.clientY);
       this.resetAllInputsOutputs();
     }
-
 
   }
 
@@ -475,7 +479,7 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
       const htmlTemplate = `
         <div>
           <div class="box">
-            <span class="txtAreaStyle" id="textarea-`+ this.idNode +`" contenteditable></span>
+            <span class="txtAreaStyle" df-template id="textarea-`+ this.idNode +`" contenteditable></span>
           </div>
         </div>
           `;
@@ -487,8 +491,8 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedItem.outputs,
         pos_x,
         pos_y,
-        '',
-        {},
+        'template', 
+        { "template": ''},
         htmlTemplate,
         false
       );
@@ -529,7 +533,7 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private writeBoard(){
-    console.log('writeBoard');
+    //console.log('writeBoard');
     const dataToImport = this.editor.export()
     console.log('dataToImport', dataToImport);
 
