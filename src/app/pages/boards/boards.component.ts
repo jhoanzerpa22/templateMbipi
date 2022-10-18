@@ -449,7 +449,9 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.tablero.splice(index,1);
       this.tablero2 = JSON.stringify(this.tablero);
       this.filteredTablero.next(this.tablero.slice());
-      //this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+      
+      this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
+      this.saveCategoryBD();
   }
 
   onFocusOut(event: any, i: any){
@@ -470,9 +472,9 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       for(let m in this.tablero[n].data){
         categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].content, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false, 'detalle': this.tablero[n].data[m].detalle});
       }
-      if(primero > 0){
+      //if(primero > 0){
         tablero.push({'title': this.tablero[n].title, "data": categorias});
-      }
+      //}
       primero = primero + 1;
     }
 

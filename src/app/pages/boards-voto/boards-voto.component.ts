@@ -280,11 +280,11 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
                 
                 const index4 = categorias.findIndex((ct: any) => ct.categoria == this.proyecto.proyecto_recursos[c].notascp.categoria);
-              
+                //console.log('detalle',this.proyecto.proyecto_recursos[c].notascp.detalle);
                 categorias[index4].data.push({'id': this.proyecto.proyecto_recursos[c].notascp.id,'label': this.proyecto.proyecto_recursos[c].notascp.contenido, 'votos': this.proyecto.proyecto_recursos[c].notascp.votos, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].notascp.detalle) || []});
 
                 let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].notascp.detalle) || [];
-                const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+                const index_usuario = /*typeof detalle.usuario_id !== 'undefined' ?*/detalle.findIndex((d: any) => d.usuario_id == this.usuario.id) /*: -1*/;
 
                 if (index_usuario != -1) {
                   this.num_votos = this.num_votos + detalle[index_usuario].votos;
@@ -292,7 +292,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             }
 
-            console.log('categorias',categorias);
+            //console.log('categorias',categorias);
 
             for(let d in categorias){
               this.tablero.push({'title': categorias[d].categoria, "data": categorias[d].data});
@@ -319,14 +319,17 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('save_voto_all',this.tablero);
     let tablero: any = [];
     let usuarios_votos: any = [];
+    let usuarios_votos_detalle: any = [];
     let index_usuario: any = '';
     let index_votos: any = '';
+    let index_votos_detalle: any = '';
+    let valido: number = 0;
 
     for(let n in this.tablero){
       let categorias: any = [];
 
       for(let m in this.tablero[n].data){
-        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false, 'detalle': JSON.stringify(this.tablero[n].data[m].detalle)});
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'voto_maximo': false, 'detalle': /*JSON.stringify(*/this.tablero[n].data[m].detalle/*)*/});
 
         for(let u in this.usuarios_active){
           index_usuario = this.tablero[n].data[m].detalle.findIndex((d: any) => d.usuario_id == this.usuarios_active[u].id);
@@ -336,6 +339,12 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (index_votos == -1) {
               usuarios_votos.push(this.usuarios_active[u].id);
+              usuarios_votos_detalle.push({'usuario_id': this.usuarios_active[u].id, 'votos': this.tablero[n].data[m].detalle[index_usuario].votos});
+            }else{
+              
+              index_votos_detalle = usuarios_votos_detalle.findIndex((d: any) => d.usuario_id == this.usuarios_active[u].id);
+
+              usuarios_votos_detalle[index_votos_detalle].votos = usuarios_votos_detalle[index_votos_detalle].votos + this.tablero[n].data[m].detalle[index_usuario].votos;
             }
           }
         }
@@ -343,8 +352,21 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
         tablero.push({'title': this.tablero[n].title, "data": categorias});
     }
 
-    
-    if(this.usuarios_active.length == usuarios_votos.length){
+    let index_validar: any = '';
+    for(let ua in this.usuarios_active){
+
+      index_validar = usuarios_votos_detalle.findIndex((vd: any) => vd.usuario_id == this.usuarios_active[ua].id);
+
+      //console.log('voto',usuarios_votos_detalle[index_validar].votos);
+
+      valido += (this.usuarios_active[ua].id == this.usuario.id && usuarios_votos_detalle[index_validar].votos >= 4) || (this.usuarios_active[ua].id != this.usuario.id && usuarios_votos_detalle[index_validar].votos >= 2) ? 1 : 0;
+
+      //console.log('valido',valido);
+
+    }
+
+    //console.log('usuarios_votos_Detalles',usuarios_votos_detalle);    
+    if(this.usuarios_active.length == usuarios_votos.length && this.usuarios_active.length == valido){
 
     console.log('guardar_votos',tablero);
 
@@ -499,7 +521,8 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.num_votos = this.num_votos + 1;
 
     let detalle: any = this.tablero[i].data[j].detalle;
-    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+    //console.log('detalle_voto',this.tablero[i].data[j]);
+    const index_usuario = /*typeof detalle.usuario_id !== 'undefined' ? */detalle.findIndex((d: any) => d.usuario_id == this.usuario.id)/* : -1*/;
 
     if (index_usuario == -1) {
       this.tablero[i].data[j].detalle.push({usuario_id: this.usuario.id, votos: 1});
@@ -555,7 +578,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
     let detalle: any = this.tablero[i].data[j].detalle;
-    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+    const index_usuario = /*typeof detalle.usuario_id !== 'undefined' ?*/detalle.findIndex((d: any) => d.usuario_id == this.usuario.id)/* : -1*/;
 
     if (index_usuario != -1) {
       let voto: any = this.tablero[i].data[j].detalle[index_usuario].votos - 1;
@@ -576,7 +599,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
         (response) => {
         }
     );
-    
+
     //console.log('votos', this.votos);
     this.writeBoard();
   }
@@ -607,7 +630,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   verifyVoto(i: any, j: any){
     const index = this.votos.findIndex((c: any) => c.id == i+':'+j);
     const detalle: any = this.tablero[i].data[j].detalle;
-    const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
+    const index_usuario = /*typeof detalle.usuario_id !== 'undefined' ? */detalle.findIndex((d: any) => d.usuario_id == this.usuario.id)/* : -1*/;
 
     if (index != -1 || index_usuario != -1) {
       return true;

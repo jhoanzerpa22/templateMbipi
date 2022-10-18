@@ -280,14 +280,17 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     console.log('save_voto_all_preguntas',this.tablero);
     let tablero: any = [];
     let usuarios_votos: any = [];
+    let usuarios_votos_detalle: any = [];
     let index_usuario: any = '';
     let index_votos: any = '';
+    let index_votos_detalle: any = '';
+    let valido: number = 0;
 
     for(let n in this.tablero){
       let categorias: any = [];
 
       for(let m in this.tablero[n].data){
-        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'detalle': JSON.stringify(this.tablero[n].data[m].detalle)});
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'detalle': /*JSON.stringify(*/this.tablero[n].data[m].detalle/*)*/});
         
         for(let u in this.usuarios_active){
           index_usuario = this.tablero[n].data[m].detalle.findIndex((d: any) => d.usuario_id == this.usuarios_active[u].id);
@@ -297,14 +300,29 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
 
             if (index_votos == -1) {
               usuarios_votos.push(this.usuarios_active[u].id);
+              usuarios_votos_detalle.push({'usuario_id': this.usuarios_active[u].id, 'votos': this.tablero[n].data[m].detalle[index_usuario].votos});
+            }else{
+              
+              index_votos_detalle = usuarios_votos_detalle.findIndex((d: any) => d.usuario_id == this.usuarios_active[u].id);
+
+              usuarios_votos_detalle[index_votos_detalle].votos = usuarios_votos_detalle[index_votos_detalle].votos + this.tablero[n].data[m].detalle[index_usuario].votos;
             }
           }
         }
       }
         tablero.push({'title': this.tablero[n].title, "data": categorias});
     }
+    
+    let index_validar: any = '';
+    for(let ua in this.usuarios_active){
 
-    if(this.usuarios_active.length == usuarios_votos.length){
+      index_validar = usuarios_votos_detalle.findIndex((vd: any) => vd.usuario_id == this.usuarios_active[ua].id);
+
+      valido += (this.usuarios_active[ua].id == this.usuario.id && usuarios_votos_detalle[index_validar].votos >= 4) || (this.usuarios_active[ua].id != this.usuario.id && usuarios_votos_detalle[index_validar].votos >= 2) ? 1 : 0;
+
+    }
+
+    if(this.usuarios_active.length == usuarios_votos.length && this.usuarios_active.length == valido){
     console.log('guardar_votos',tablero);
 
     const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase8', tablero: tablero, type: 'voto'};

@@ -77,6 +77,18 @@ export class ProyectsService
         return this.http.delete(environment.API_G +`${baseUrl}/${id}`);
       }
 
+      deleteNotaCp(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteNotaCp/${id}`);
+      }
+
+      deleteMetaLp(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteNotaCp/${id}`);
+      }
+
+      deletePreguntaSprint(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteNotaCp/${id}`);
+      }
+
       deleteMember(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/deleteMember/${id}`);
       }
