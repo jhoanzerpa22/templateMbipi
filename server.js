@@ -229,8 +229,10 @@ io.on('connection', function (socket) {
 
   socket.on('evento_tablero_save', (res) => {
     if(Object.keys(notas_tablero_all).length === 0){
-      notas_tablero_all = res;
+      //notas_tablero_all = res;
     }
+    
+    notas_tablero_all = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     io.in(nombreSala).emit('evento_continue');
@@ -302,8 +304,9 @@ io.on('connection', function (socket) {
 
   socket.on('evento_tablero_save_meta', (res) => {
     if(Object.keys(notas_tablero_all_meta).length === 0){
-      notas_tablero_all_meta = res;
+      //notas_tablero_all_meta = res;
     }
+    notas_tablero_all_meta = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     console.log('nombreSala',nombreSala);
@@ -367,8 +370,9 @@ io.on('connection', function (socket) {
 
   socket.on('evento_tablero_save_preguntas', (res) => {
     if(Object.keys(notas_tablero_all_preguntas).length === 0){
-      notas_tablero_all_preguntas = res;
+      //notas_tablero_all_preguntas = res;
     }
+    notas_tablero_all_preguntas = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     io.in(nombreSala).emit('evento_continue');

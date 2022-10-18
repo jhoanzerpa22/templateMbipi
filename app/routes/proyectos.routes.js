@@ -53,6 +53,15 @@ module.exports = app => {
   
     // Delete a Proyectos with id
     router.delete("/:id", proyectos.delete);
+    
+    // Delete the notacp of Proyectos with id
+    router.delete("/deleteNotaCp/:id", proyectos.deleteNotaCp);
+    
+    // Delete the metalp of Proyectos with id
+    router.delete("/deleteMetaLp/:id", proyectos.deleteMetaLp);
+    
+    // Delete the preguntasprint of Proyectos with id
+    router.delete("/deletePreguntaSprint/:id", proyectos.deletePreguntaSprint);
   
     // Create a new Proyectos
     router.delete("/", proyectos.deleteAll);

@@ -758,7 +758,7 @@ exports.updateEtapaPreguntas = (req, res) => {
           if(preguntas.length > 0){
           
             PreguntaSprint.bulkCreate(preguntas).then(mlp =>{
-                  console.log('metas',mlp);
+                  console.log('preguntas',mlp);
                   for(let c in mlp){
                     proyecto_recurso.push({'proyecto_id': id, 'preguntasprint_id': mlp[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
                   }
@@ -904,12 +904,84 @@ exports.delete = (req, res) => {
                           });
                     } else {
                       res.send({
-                        message: `Cannot delete Proyectos Login with id=${id}. Maybe Proyectos was not found!`
+                        message: `Cannot delete Proyectos with id=${id}. Maybe Proyectos was not found!`
                       });
                     }
                   }).catch(err => {
                     res.status(500).send({
-                      message: "Could not delete Proyectos Login with id=" + data.login_id + ' | error:' + err.message
+                      message: "Could not delete Proyectos with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+// Delete a NotaCp with the specified id in the request
+exports.deleteNotaCp = (req, res) => {
+  const id = req.params.id;
+
+                NotasCp.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "NotaCp was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete Nota Cp with id=${id}. Maybe NotaCp was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete NotaCp with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+// Delete a MetaLp with the specified id in the request
+exports.deleteMetaLp = (req, res) => {
+  const id = req.params.id;
+
+                MetasLp.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "MetaLp was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete MetaLp with id=${id}. Maybe MetaLp was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete MetaLp with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+// Delete a PreguntaSprint with the specified id in the request
+exports.deletePreguntaSprint = (req, res) => {
+  const id = req.params.id;
+
+                PreguntaSprint.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "PreguntaSprint was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete PreguntaSprint with id=${id}. Maybe PreguntaSprint was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete PreguntaSprint with id=" + id + ' | error:' + err.message
                     });
                   });
 };

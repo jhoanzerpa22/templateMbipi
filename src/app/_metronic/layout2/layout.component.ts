@@ -446,6 +446,16 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         }*/
 
         localStorage.setItem('notes', JSON.stringify(this.notes));
+        if(id > 0){
+        this._proyectsService.deleteNotaCp(id)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
+        }
         console.log("********* deleting note *********")
         return;
       }
