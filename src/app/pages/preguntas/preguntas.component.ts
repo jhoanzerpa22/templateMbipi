@@ -234,8 +234,10 @@ export class PreguntasComponent implements OnInit, AfterViewInit, OnDestroy {
             let preguntas: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].preguntasprint != null){   
+              if(this.proyecto.proyecto_recursos[c].preguntasprint != null){
+                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
                  preguntas.push({'id': this.proyecto.proyecto_recursos[c].preguntasprint.id,'content': this.proyecto.proyecto_recursos[c].preguntasprint.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }
               }
             }
 
@@ -407,6 +409,16 @@ export class PreguntasComponent implements OnInit, AfterViewInit, OnDestroy {
         }*/
 
         localStorage.setItem('notes_preguntas', JSON.stringify(this.notes));
+        if(id > 0){
+        this._proyectsService.deletePreguntaSprint(id)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
+        }
         console.log("********* deleting note *********")
         return;
       }

@@ -157,7 +157,7 @@ export class MetasComponent implements OnInit, AfterViewInit, OnDestroy {
       this.proyecto_id = params['id'];
       this.getProyect();
     });
-    
+
     this.socketWebService.ioSocket.connect();
     this.socketWebService.emitLogin(this.proyecto_id);
 
@@ -234,7 +234,9 @@ export class MetasComponent implements OnInit, AfterViewInit, OnDestroy {
             
             for(let c in this.proyecto.proyecto_recursos){
               if(this.proyecto.proyecto_recursos[c].metaslp != null){   
+                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
                  metas.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'content': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }
               }
             }
 
@@ -405,6 +407,16 @@ export class MetasComponent implements OnInit, AfterViewInit, OnDestroy {
         }*/
 
         localStorage.setItem('notes_meta', JSON.stringify(this.notes));
+        if(id > 0){
+        this._proyectsService.deleteMetaLp(id)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
+        }
         console.log("********* deleting note *********")
         return;
       }
