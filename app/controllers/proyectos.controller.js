@@ -10,6 +10,7 @@ const ProyectoRecurso = db.proyecto_recurso;
 const NotasCp = db.notascp;
 const MetasLp = db.metaslp;
 const PreguntaSprint = db.preguntasprint;
+const MapaUx = db.mapaux;
 
 const Op = db.Sequelize.Op;
 
@@ -135,6 +136,8 @@ exports.findOne = (req, res) => {
             model: MetasLp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle']
           }, {
             model: PreguntaSprint/*, as: "equipo_usuarios"*/, attributes:['id','contenido','votos','detalle']
+          }, {
+            model: MapaUx/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }]
       }]
     })
@@ -398,6 +401,74 @@ exports.updatePreguntaSprint = (req, res) => {
         message: "Error updating Proyectos PreguntaSprint with id=" + id
       });
     });
+};
+
+// Update or Create mapaux the Proyectos by the id in the request
+exports.updateMapaUx = (req, res) => {
+  const id = req.params.id;
+  let mapaux = {
+      contenido: JSON.stringify(req.body.contenido)
+    };
+
+    ProyectoRecurso.findOne({
+      where: {
+        proyecto_id: id, 
+        mapaux_id: {
+          [Op.gt]: 0
+        }} })
+      .then(data => {
+        if (data) {
+          
+          MapaUx.update(mapaux, {
+            where: { id: data.mapaux_id }
+          })
+            .then(num => {
+              if (num == 1) {
+                res.send({
+                  message: `Proyecto Mapaux with id=${data.mapaux_id} was updated successfully.`
+                });
+        
+              } else {
+                res.send({
+                  message: `Cannot update Proyectos mapaux with id=${data.mapaux_id}. Maybe Proyectos was not found or req.body is empty!`
+                });
+              }
+            })
+            .catch(err => {
+              res.status(500).send({
+                message: "Error updating Proyectos mapaux with id=" + data.mapaux_id
+              });
+            });
+
+        } else {
+
+          MapaUx.create(mapaux).then(new_mapa =>{
+              //console.log('new_mapa',new_mapa);
+              //console.log('id_mapa', new_mapa.dataValues.id);
+              ProyectoRecurso.create({'proyecto_id': id, 'mapaux_id': new_mapa.dataValues.id}).then(pr =>{
+                  res.send({
+                    message: `ProyectoRecurso of Proyecto with id=${id} was updated successfully.`
+                  });
+
+              }).catch(err => {
+                  res.status(500).send({
+                  message: "Error creating ProyectoRecurso"
+                  });
+              });
+                
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating MapaUx"+err.message
+                });
+            });
+
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error retrieving Proyecto with id=" + id
+        });
+      });
 };
 
 // Update etapa the Proyectos by the id in the request
