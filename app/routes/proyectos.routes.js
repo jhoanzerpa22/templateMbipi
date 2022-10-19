@@ -48,6 +48,9 @@ module.exports = app => {
     // Update the preguntasprint of Proyectos with id
     router.put("/updatePreguntaSprint/:id", proyectos.updatePreguntaSprint);
 
+    // Update the mapaux of Proyectos with id
+    router.put("/updateMapaUx/:id", proyectos.updateMapaUx);
+
     // Update the time of Proyectos with id
     router.put("/updateTime/:id", proyectos.updateTime);
   

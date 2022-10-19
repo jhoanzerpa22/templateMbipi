@@ -538,6 +538,13 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('dataToImport', dataToImport);
 
     this.socketWebService.emitEvent({tablero: JSON.stringify(dataToImport)});
+    this._proyectsService.updateMapaux(this.proyecto_id, {contenido: dataToImport})
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
 
   }
 
@@ -575,7 +582,14 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.showTimer = true;
               
-              this.isLoading = false;    
+              this.isLoading = false;
+
+              for(let c in this.proyecto.proyecto_recursos){
+                if(this.proyecto.proyecto_recursos[c].mapaux != null){      
+                  this.readBoard(this.proyecto.proyecto_recursos[c].mapaux.contenido, false);
+                }
+            }
+            
               this.onPlayPause();
 
             this.ref.detectChanges();
