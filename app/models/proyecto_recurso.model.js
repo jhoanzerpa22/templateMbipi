@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
       preguntasprint_id: {
         type: Sequelize.INTEGER
       },
+      mapaux_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },

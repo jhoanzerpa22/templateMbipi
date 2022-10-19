@@ -44,6 +44,7 @@ db.cloud_user = require("./cloud_user.js")(sequelize, Sequelize);
 db.notascp = require("./notascp.model.js")(sequelize, Sequelize);
 db.metaslp = require("./metaslp.model.js")(sequelize, Sequelize);
 db.preguntasprint = require("./preguntasprint.model.js")(sequelize, Sequelize);
+db.mapaux = require("./mapaux.model.js")(sequelize, Sequelize);
 db.proyecto_recurso = require("./proyecto_recurso.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
@@ -130,6 +131,10 @@ db.proyecto_recurso.belongsTo(db.metaslp, {
 
 db.proyecto_recurso.belongsTo(db.preguntasprint, {
   foreignKey: 'preguntasprint_id'
+});
+
+db.proyecto_recurso.belongsTo(db.mapaux, {
+  foreignKey: 'mapaux_id'
 });
 
 db.proyecto_recurso.belongsTo(db.proyectos, {
