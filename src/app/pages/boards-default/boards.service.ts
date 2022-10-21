@@ -213,4 +213,9 @@ export class SocketWebService extends Socket {
     console.log('evento_tablero_update_preguntas',payload);
     this.ioSocket.emit('evento_tablero_update_preguntas', payload)
   }
+
+  emitEventTableroSaveMapa = (payload = {}) => {
+    console.log('evento_tablero_save_mapa',payload);
+    this.ioSocket.emit('evento_tablero_save_mapa', payload)
+  }
 }

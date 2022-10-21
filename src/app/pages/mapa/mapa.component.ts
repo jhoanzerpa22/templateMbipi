@@ -612,26 +612,17 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   saveNoteAll() {
-    console.log('save_notes_all_preguntas',this.notes_all);
-    localStorage.setItem('notes_all_preguntas', JSON.stringify(this.notes_all));
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase9'};
 
-    let preguntas: any = [];
-    let tablero: any = [];
-    for(let n in this.notes_all){
-      preguntas.push({'content': this.notes_all[n].content});
-    }
+    const dataToImport = this.editor.export();
 
-    tablero.push({'title': 'Como podriamos', "data": preguntas});
-
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase7', tablero: this.notes_all, type: 'notas'};
-
-    this._proyectsService.updateEtapaPreguntas(this.proyecto_id, data_etapa)
+    this._proyectsService.updateEtapaMapa(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase7');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase9');
 
-          this.socketWebService.emitEventTableroSavePreguntas({tablero: JSON.stringify(tablero)});
+          this.socketWebService.emitEventTableroSaveMapa({tablero: JSON.stringify(dataToImport)});
 
         },
         (response) => {
@@ -642,7 +633,7 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase7']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase9']);
   }
 
   etapa_active(etapa_active: any) {
