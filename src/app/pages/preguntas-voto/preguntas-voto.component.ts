@@ -157,6 +157,11 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
       this.etapa_active(res);
     });
 
+    //escuchamos el evento para continuar
+    this.socketWebService.outEvenContinueVoto.subscribe((res: any) => {
+      this.continue();
+    });
+
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
@@ -214,6 +219,10 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     this._onDestroy.next();
     this._onDestroy.complete();
     window.removeEventListener('scroll', this.disableScroll);
+  }
+
+  continue() {
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase8']);
   }
 
   getProyect(){
