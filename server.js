@@ -95,6 +95,7 @@ let notas_tablero_all_meta = {};
 let notas_tablero_preguntas = [];
 let notas_tablero_all_preguntas = {};
 let etapa_active = '';
+let mapa = [];
 
 io.on('connection', function (socket) {
 
@@ -404,6 +405,13 @@ io.on('connection', function (socket) {
         notas_tablero_preguntas.splice(index, 1);
       }
     io.in(nombreSala).emit('evento_tablero_preguntas', {'tablero': JSON.stringify(notas_tablero_preguntas)});
+  })
+
+  socket.on('evento_tablero_save_mapa', (res) => {
+    mapa = [];
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_continue');
   })
 
   socket.on('disconnect', function () {
