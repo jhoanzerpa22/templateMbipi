@@ -96,6 +96,11 @@ let notas_tablero_preguntas = [];
 let notas_tablero_all_preguntas = {};
 let etapa_active = '';
 let mapa = [];
+let notas_tablero_necesidades = [];
+let notas_tablero_all_necesidades = {};
+
+let notas_tablero_propositos = [];
+let notas_tablero_all_propositos = {};
 
 io.on('connection', function (socket) {
 
@@ -412,6 +417,123 @@ io.on('connection', function (socket) {
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     io.in(nombreSala).emit('evento_continue');
+  })
+
+  /* Eventos necesidades*/
+  socket.on('evento_tablero_necesidades', (res) => {
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+    
+    for(let c in tablero){
+      let index3 = notas_tablero_necesidades.findIndex((n) => n.id == tablero[c].id);
+
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero_necesidades.push({'id': tablero[c].id, 'content': tablero[c].content, 'type': tablero[c].type, 'usuario_id': tablero[c].usuario_id});
+        }
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_tablero_necesidades', {'tablero': JSON.stringify(notas_tablero_necesidades)});
+  })
+
+  socket.on('evento_tablero_save_necesidades', (res) => {
+    if(Object.keys(notas_tablero_all_necesidades).length === 0){
+      //notas_tablero_all_necesidades = res;
+    }
+    notas_tablero_all_necesidades = [];
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
+  })
+
+  socket.on('evento_tablero_update_necesidades', (res) => {
+    
+      let index = notas_tablero_necesidades.findIndex((n) => n.id == res.id);
+
+        if (index != -1) {
+          notas_tablero_necesidades[index].content = res.content;
+        }else{
+          notas_tablero_necesidades.push({'id': res.id, 'content': res.content, 'type': res.type, 'usuario_id': res.usuario_id});
+        }
+    io.in(nombreSala).emit('evento_tablero_necesidades', {'tablero': JSON.stringify(notas_tablero_necesidades)});
+  })
+
+  socket.on('evento_tablero_delete_necesidades', (res) => {
+    
+    let index = notas_tablero_necesidades.findIndex((n) => n.id == res.id);
+
+      if (index != -1) {
+        notas_tablero_necesidades.splice(index, 1);
+      }
+    io.in(nombreSala).emit('evento_tablero_necesidades', {'tablero': JSON.stringify(notas_tablero_necesidades)});
+  })
+  
+  /* Eventos Propositos*/
+  socket.on('evento_tablero_propositos', (res) => {
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+    
+    for(let c in tablero){
+      let index3 = notas_tablero_propositos.findIndex((n) => n.id == tablero[c].id);
+
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero_propositos.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+        }
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_tablero_propositos', {'tablero': JSON.stringify(notas_tablero_propositos)});
+  })
+
+  socket.on('evento_tablero_voto_propositos', (res) => {
+    console.log('evento_tablero_voto_propositos', res);
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    
+    notas_tablero_all_propositos = res;
+    socket.to(nombreSala).emit('evento_tablero_voto_propositos', res);
+  })
+
+  socket.on('evento_tablero_save_propositos', (res) => {
+    if(Object.keys(notas_tablero_all_propositos).length === 0){
+      //notas_tablero_all_propositos = res;
+    }
+    notas_tablero_all_propositos = [];
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
+  })
+  
+  socket.on('evento_tablero_save_voto_propositos', (res) => {
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_continue_voto');
+  })
+
+  socket.on('evento_tablero_update_propositos', (res) => {
+
+      let index = notas_tablero_propositos.findIndex((n) => n.id == res.id);
+
+        if (index != -1) {
+          notas_tablero_propositos[index].content = res.content;
+        }else{
+          notas_tablero_propositos.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
+        }
+    io.in(nombreSala).emit('evento_tablero_propositos', {'tablero': JSON.stringify(notas_tablero_propositos)});
+  })
+
+  socket.on('evento_tablero_delete_propositos', (res) => {
+    let index = notas_tablero_propositos.findIndex((n) => n.id == res.id);
+
+      if (index != -1) {
+        notas_tablero_propositos.splice(index, 1);
+      }
+    io.in(nombreSala).emit('evento_tablero_propositos', {'tablero': JSON.stringify(notas_tablero_propositos)});
   })
 
   socket.on('disconnect', function () {

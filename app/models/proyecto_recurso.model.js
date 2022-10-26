@@ -18,6 +18,12 @@ module.exports = (sequelize, Sequelize) => {
       mapaux_id: {
         type: Sequelize.INTEGER
       },
+      scopecanvas_necesidades_id: {
+        type: Sequelize.INTEGER
+      },
+      scopecanvas_propositos_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },

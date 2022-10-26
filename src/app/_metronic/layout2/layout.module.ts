@@ -35,7 +35,12 @@ import { MetasVotoComponent } from '../../pages/metas-voto/metas-voto.component'
 import { PreguntasComponent } from '../../pages/preguntas/preguntas.component';
 import { PreguntasVotoComponent } from '../../pages/preguntas-voto/preguntas-voto.component';
 import { MapaComponent } from '../../pages/mapa/mapa.component';
-import { DecisionComponent } from '../../pages/decision/decision.component';
+import { NecesidadesComponent } from '../../pages/necesidades/necesidades.component';
+import { NecesidadesDecisionComponent } from '../../pages/necesidades-decision/necesidades-decision.component';
+import { NecesidadesDoloresComponent } from '../../pages/necesidades-dolores/necesidades-dolores.component';
+import { NecesidadesDoloresDecisionComponent } from '../../pages/necesidades-dolores-decision/necesidades-dolores-decision.component';
+import { PropositosComponent } from '../../pages/propositos/propositos.component';
+import { PropositosVotoComponent } from '../../pages/propositos-voto/propositos-voto.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { MetasModule } from '../../pages/metas/metas.module';
@@ -43,7 +48,12 @@ import { MetasVotoModule } from '../../pages/metas-voto/metas-voto.module';
 import { PreguntasModule } from '../../pages/preguntas/preguntas.module';
 import { PreguntasVotoModule } from '../../pages/preguntas-voto/preguntas-voto.module';
 import { MapaModule } from '../../pages/mapa/mapa.module';
-import { DecisionModule } from '../../pages/decision/decision.module';
+import { NecesidadesModule } from '../../pages/necesidades/necesidades.module';
+import { NecesidadesDecisionModule } from '../../pages/necesidades-decision/necesidades-decision.module';
+import { NecesidadesDoloresModule } from '../../pages/necesidades-dolores/necesidades-dolores.module';
+import { NecesidadesDoloresDecisionModule } from '../../pages/necesidades-dolores-decision/necesidades-dolores-decision.module';
+import { PropositosModule } from '../../pages/propositos/propositos.module';
+import { PropositosVotoModule } from '../../pages/propositos-voto/propositos-voto.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -96,7 +106,27 @@ const routes: Routes = [
   },
   {
     path: 'fase9',
-    component: DecisionComponent
+    component: NecesidadesComponent
+  },
+  {
+    path: 'fase10',
+    component: NecesidadesDecisionComponent
+  },
+  {
+    path: 'fase11',
+    component: NecesidadesDoloresComponent
+  },
+  {
+    path: 'fase12',
+    component: NecesidadesDoloresDecisionComponent
+  },
+  {
+    path: 'fase13',
+    component: PropositosComponent
+  },
+  {
+    path: 'fase14',
+    component: PropositosVotoComponent
   }
 ];
 
