@@ -2,12 +2,12 @@ import {Component, HostBinding, EventEmitter, Output, ElementRef} from '@angular
 //declare var webkitSpeechRecognition:any;
 //declare var SpeechRecognition:any;
 @Component({
-  selector:'app-note-decision',
-  templateUrl:'./notes-decision.component.html',
-  styleUrls:['./notes-decision.component.css']
+  selector:'app-note-necesidades-dolores-decision',
+  templateUrl:'./notes-necesidades-dolores-decision.component.html',
+  styleUrls:['./notes-necesidades-dolores-decision.component.css']
 })
 
-export class NoteDecisionComponent {
+export class NoteNecesidadesDoloresDecisionComponent {
   //SpeechRecognition:any =webkitSpeechRecognition;
   
   recognition:any;

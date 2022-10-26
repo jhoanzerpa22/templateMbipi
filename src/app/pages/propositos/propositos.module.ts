@@ -7,11 +7,11 @@ import {
   NgbProgressbarModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { DecisionComponent } from './decision.component';
+import { PropositosComponent } from './propositos.component';
 import { WidgetsModule } from '../../_metronic/partials';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { NoteDecisionComponent } from './notes-decision/notes-decision.component';
+import { NotePropositosComponent } from './notes-propositos/notes-propositos.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,7 +29,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
-import { EntenderDecisionAccordionComponent } from './instructions/entender-decision-accordion/entender-decision-accordion.component';
+import { EntenderPropositosAccordionComponent } from './instructions/entender-propositos-accordion/entender-propositos-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
 
@@ -39,17 +39,17 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
 
 @NgModule({
   declarations: [
-    DecisionComponent,
-    NoteDecisionComponent,
+    PropositosComponent,
+    NotePropositosComponent,
     //TimerComponent,
-    EntenderDecisionAccordionComponent
+    EntenderPropositosAccordionComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: DecisionComponent,
+        component: PropositosComponent,
       },
     ]),
     InlineSVGModule,
@@ -76,4 +76,4 @@ const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/
     SocketIoModule.forRoot(config)
   ]
 })
-export class DecisionModule {}
+export class PropositosModule {}
