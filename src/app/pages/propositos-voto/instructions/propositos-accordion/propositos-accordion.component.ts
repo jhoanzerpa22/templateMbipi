@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbPanelChangeEvent, NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-entender-decision-accordion',
-  templateUrl: './entender-decision-accordion.component.html',
-  styleUrls: ['./entender-decision-accordion.component.scss']
+  selector: 'app-propositos-accordion',
+  templateUrl: './propositos-accordion.component.html',
+  styleUrls: ['./propositos-accordion.component.scss']
 })
-export class EntenderDecisionAccordionComponent implements OnInit {
+export class PropositosAccordionComponent implements OnInit {
 
   @ViewChild('acc') accordion: any;//NgbAccordion;
 

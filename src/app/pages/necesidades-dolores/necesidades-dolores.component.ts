@@ -17,12 +17,12 @@ import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-decision',
-  templateUrl: './decision.component.html',
-  styleUrls: ['./decision.component.scss'],
+  selector: 'app-necesidades-dolores',
+  templateUrl: './necesidades-dolores.component.html',
+  styleUrls: ['./necesidades-dolores.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NecesidadesDoloresComponent implements OnInit, AfterViewInit, OnDestroy {
   // Public variables
   selfLayout = 'default';
   asideSelfDisplay: true;
@@ -106,10 +106,10 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     //escuchamos el evento de las notas de los usuarios
-    /*this.socketWebService.outEvenTableroDecision.subscribe((res: any) => {
+    this.socketWebService.outEvenTableroNecesidades.subscribe((res: any) => {
       const { tablero } = res;
       this.readBoard(tablero, false);
-    });*/
+    });
 
     //escuchamos el evento para continuar
     this.socketWebService.outEvenContinue.subscribe((res: any) => {
@@ -129,7 +129,7 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.usuario.active = true; // indicamos que esta activo
 
     //leemos nota en cache
-    const notes: any = localStorage.getItem('notes_decision');
+    const notes: any = localStorage.getItem('notes_necesidades_dolores');
     this.notes_cache = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
 
     //si existen notas en cache las enviamos al socket
@@ -229,19 +229,18 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
               this.min = tiempo[1];
             }
             this.showTimer = true;
-
             
-            let decision: any = [];
+            let necesidades: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].decision != null){
-                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
-                 decision.push({'id': this.proyecto.proyecto_recursos[c].decision.id,'content': this.proyecto.proyecto_recursos[c].decision.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade != null){
+                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id && this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo == 'Dolores'){
+                 necesidades.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 }
               }
             }
 
-            this.notes = decision;
+            this.notes = necesidades;
 
             //leemos nota en cache
               //this.notes = localStorage.getItem('proyecto_id') == this.proyecto_id ? '' : '';
@@ -277,7 +276,7 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
   //actualizamos listado de notas de usuarios
   private readBoard(tablero: any, emit: boolean){
     const data = JSON.parse(tablero);
-    console.log('notas_all_decision',data);
+    console.log('notas_all_necesidades_dolores',data);
     this.notes_all = data;
     /*this.notes_all = [];
     for(let c in data){
@@ -287,22 +286,49 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateAllNotes() {
-    console.log(document.querySelectorAll('app-note-decision'));
-    let notes = document.querySelectorAll('app-note-decision');
+    console.log(document.querySelectorAll('app-note-necesidades-dolores'));
+    let notes = document.querySelectorAll('app-note-necesidades-dolores');
 
     notes.forEach((note: any, index: any)=>{
          this.notes[note.id].content = note.querySelector('.content').innerHTML;
     });
 
-    localStorage.setItem('notes_decision', JSON.stringify(this.notes));
+    localStorage.setItem('notes_necesidades_dolores', JSON.stringify(this.notes));
 
   }
 
   saveNoteAll() {
+    console.log('save_notes_all_necesidades_dolores',this.notes_all);
+    localStorage.setItem('notes_all_necesidades_dolores', JSON.stringify(this.notes_all));
+
+    let necesidades: any = [];
+    let tablero: any = [];
+    for(let n in this.notes_all){
+      necesidades.push({'content': this.notes_all[n].content, 'type': 'Dolores'});
+    }
+
+    tablero.push({'title': 'Como podriamos', "data": necesidades});
+
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase12', tablero: this.notes_all, type: 'notas'};
+
+    this._proyectsService.updateEtapaNecesidades(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
+
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase12');
+
+          this.socketWebService.emitEventTableroSaveNecesidades({tablero: JSON.stringify(tablero)});
+
+        },
+        (response) => {
+        }
+    );
+
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase12']);
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase7']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase12']);
   }
 
   etapa_active(etapa_active: any) {
@@ -312,10 +338,13 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addNote(event?: any) {
-    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: event.target.value, usuario_id: this.usuario.id });
+    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
-    localStorage.setItem('notes_decision', JSON.stringify(this.notes));
+    localStorage.setItem('notes_necesidades_dolores', JSON.stringify(this.notes));
+    
+    this.socketWebService.emitEventTableroUpdateNecesidades({id: this.notes.length+'-'+this.usuario.nombre, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
+
     $('#agregar_nota').val('');
     $('#agregar_nota').text('');
     $('#agregar_nota').focus();
@@ -328,13 +357,14 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
     const json = {
       'id':id,
       'content':content,
+      'type': 'Dolores',
       'usuario_id': this.usuario.id
     }
     console.log('json',json);
     this.updateNote(json);
     //this.updateNoteAll(json);
 
-    localStorage.setItem('notes_decision', JSON.stringify(this.notes));
+    localStorage.setItem('notes_necesidades_dolores', JSON.stringify(this.notes));
     //this.sendNotes(this.notes);
     console.log("********* updating note *********")
   }
@@ -343,7 +373,7 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notes.forEach((note: any, index: any)=>{
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
-        //this.socketWebService.emitEventTableroUpdateDecision(newValue);
+        this.socketWebService.emitEventTableroUpdateNecesidades(newValue);
       }
     });
   }
@@ -358,14 +388,14 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if(existe == 0){
-      this.notes_all.push({ id: newValue.id, content:newValue.content });
+      this.notes_all.push({ id: newValue.id, content:newValue.content, type: newValue.type });
     }
 
-    //this.socketWebService.emitEventTableroDecision({tablero: JSON.stringify(this.notes_all)});
+    this.socketWebService.emitEventTableroNecesidades({tablero: JSON.stringify(this.notes_all)});
   }
 
   sendNotes(notes: any){
-    //this.socketWebService.emitEventTableroDecision({tablero: JSON.stringify(notes)});
+    this.socketWebService.emitEventTableroNecesidades({tablero: JSON.stringify(notes)});
   }
 
   deleteNote(event: any, idNote: any){
@@ -375,7 +405,7 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
-        //this.socketWebService.emitEventTableroDeleteDecision(note);
+        this.socketWebService.emitEventTableroDeleteNecesidades(note);
         /*const index2 = this.notes_all.findIndex((n: any) => n.id == id);
 
         if (index2 != -1) {
@@ -384,16 +414,16 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
           this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
         }*/
 
-        localStorage.setItem('notes_decision', JSON.stringify(this.notes));
+        localStorage.setItem('notes_necesidades_dolores', JSON.stringify(this.notes));
         if(id > 0){
-        /*this._proyectsService.deleteDecisionSprint(id)
+        this._proyectsService.deleteNecesidades(id)
         .subscribe(
             data => {
 
             },
             (response) => {
             }
-        );*/
+        );
         }
         console.log("********* deleting note *********")
         return;
