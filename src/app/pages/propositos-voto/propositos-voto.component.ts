@@ -249,14 +249,17 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
             let propositos: any = [];
             let position: number = 0;
             for(let c in this.proyecto.proyecto_recursos){
-                if(this.proyecto.proyecto_recursos[c].metaslp != null){
-                  propositos.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'label': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'votos': this.proyecto.proyecto_recursos[c].metaslp.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].metaslp.seleccionado, 'voto_maximo': this.proyecto.proyecto_recursos[c].metaslp.seleccionado, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].metaslp.detalle) || []});
+                if(this.proyecto.proyecto_recursos[c].scopecanvas_proposito
+                  != null){
+                  propositos.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
+                  .id,'label': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
+                  .contenido, 'votos': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado, 'voto_maximo': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.detalle) || []});
 
-                  if(this.proyecto.proyecto_recursos[c].metaslp.seleccionado){
+                  if(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado){
                     this.voto_tablero.push(0);
                   }
                 
-                  let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].metaslp.detalle) || [];
+                  let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.detalle) || [];
                   const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
 
                   if (index_usuario != -1) {
