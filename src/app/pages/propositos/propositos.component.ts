@@ -233,9 +233,12 @@ export class PropositosComponent implements OnInit, AfterViewInit, OnDestroy {
             let propositos: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].metaslp != null){   
+              if(this.proyecto.proyecto_recursos[c].scopecanvas_proposito
+                != null){   
                 if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
-                 propositos.push({'id': this.proyecto.proyecto_recursos[c].metaslp.id,'content': this.proyecto.proyecto_recursos[c].metaslp.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 propositos.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
+                 .id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
+                 .contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 }
               }
             }
