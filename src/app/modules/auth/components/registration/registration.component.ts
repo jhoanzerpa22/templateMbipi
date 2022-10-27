@@ -8,6 +8,7 @@ import { InvitationsService } from '../../../../pages/invitations/invitations.se
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserModel } from '../../models/user.model';
 import { first } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registration',
@@ -134,8 +135,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                 
                 //this.router.navigate(['/invitations']);
               },
-              (response) => {
+              (err) => {
                   // Re-enable the form
+                  this.hasError = true;
+                  console.log(err)
+                  Swal.fire({
+                      text: "Ups, Usuario ya existe!",
+                      icon: "error",
+                      buttonsStyling: false,
+                      confirmButtonText: "Ok!",
+                      customClass: {
+                        confirmButton: "btn btn-primary"
+                      }
+                    });
               }
             );
 
@@ -177,8 +189,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                 localStorage.setItem('usuario_verify', JSON.stringify(response.data));
                 this.router.navigate(['/auth/verify']);
               },
-              (response) => {
+              (err) => {
                   // Re-enable the form
+                  this.hasError = true;
+                  console.log(err)
+                  Swal.fire({
+                      text: "Ups, Usuario ya existe!",
+                      icon: "error",
+                      buttonsStyling: false,
+                      confirmButtonText: "Ok!",
+                      customClass: {
+                        confirmButton: "btn btn-primary"
+                      }
+                    });
               }
             );
           }
