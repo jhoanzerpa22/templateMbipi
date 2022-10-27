@@ -116,7 +116,7 @@ export class Step4Component implements OnInit, OnDestroy {
           for (let index = 0; index < data.length; index++) {
             
             if (this.usuario.id != data[index].login_id) {
-            this.searchUsuarios.push({'id': data[index].login_id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: (data[index].tipo_plan == 'gratuito' && data[index].user.usuario_equipos.length > 0)});
+            this.searchUsuarios.push({'id': data[index].login_id,'nombre': data[index].nombre, 'foto': '', 'correo': data[index].user.correo_login, 'existe': 1, negado: ((data[index].tipo_plan == 'gratuito' || !data[index].tipo_plan) && data[index].user.usuario_equipos.length > 0)});
             }
             
           }
