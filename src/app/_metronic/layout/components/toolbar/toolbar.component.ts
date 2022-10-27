@@ -83,6 +83,12 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
           });
         }
         else{
+
+          if(this.newUser == 'pago'){
+
+            this.router.navigate(['/crafted/pages/wizards/project']);
+            
+          }else{
         
           this._proyectsService.dashboard(this.usuario.id, this.usuario.correo_login)
           .subscribe(
@@ -107,6 +113,8 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 
             }
           );
+          
+          }
         
         }
       

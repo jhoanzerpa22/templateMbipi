@@ -28,6 +28,12 @@ exports.create = (req, res) => {
     return;
   }
 
+  User.findOne({
+    where: {correo_login: req.body.correo_login}
+  })
+  .then(finduser => {
+  if (!finduser) {
+
   if(!empty(req.body.img)){
     var base64Data1 = req.body.img.replace(/^data:image\/png;base64,/, ""); 
     var base64Data2 = base64Data1.replace(/^data:image\/jpeg;base64,/, ""); 
@@ -99,6 +105,13 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({ message: 'Error Crear Login: '+err.message });
     });
+    }else{ 
+      return res.status(404).send({ message: "Usuario ya existe." });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({ message: 'Error Buscar Usuario: '+err.message });
+  });
 };
 
 // Retrieve all Usuarios from the database.
