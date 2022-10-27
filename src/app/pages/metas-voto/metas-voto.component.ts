@@ -124,16 +124,20 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
       //console.log('escucha_puntero',res);
 
       const { prevPost } = res;
-      let usuario_label = prevPost.usuario.split(' ');
-      const index = this.equipo.findIndex((c: any) => c == usuario_label[0]);
+      let usuario_label = prevPost.usuario.split(' ');      
+      let usuario_nombre = usuario_label[0].replace("-", "");
+      usuario_nombre = usuario_nombre.replace(".", "");
+      usuario_nombre = usuario_nombre.replace("@", "");
+
+      const index = this.equipo.findIndex((c: any) => c == usuario_nombre);
       //console.log('usuario',prevPost.usuario);
         if (index == -1) {
-          this.equipo.push(usuario_label[0]);
+          this.equipo.push(usuario_nombre);
         }
         this.ref.detectChanges();
       //jQuery("#canvasId").css({"left" : prevPost.x, "top" : prevPost.y});
-      jQuery("#puntero-"+usuario_label[0]).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
-      jQuery("#equipo-"+usuario_label[0]).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
+      jQuery("#puntero-"+usuario_nombre).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
+      jQuery("#equipo-"+usuario_nombre).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
       //console.log('equipo',this.equipo);
 
       this.writeSingle(prevPost, false);
@@ -386,10 +390,14 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     const canvasEl = this.tableroRef.nativeElement;
     const rect = canvasEl.getBoundingClientRect();
     let usuario_label = this._user.nombre.split(' ');
+    let usuario_nombre = usuario_label[0].replace("-", "");
+    usuario_nombre = usuario_nombre.replace(".", "");
+    usuario_nombre = usuario_nombre.replace("@", "");
+
     const prevPos = {
       x: res.clientX - rect.left,
       y: res.clientY - rect.top,
-      usuario: usuario_label[0]
+      usuario: usuario_nombre
     }
     /*const prevPos = {
       x: res.clientX,

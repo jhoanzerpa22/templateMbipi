@@ -173,6 +173,8 @@ exports.dashboard = (req, res) => {
       [Op.or]: [
         { correo: correo },
         { usuario_id: usuario_id }
+      ],[Op.and]: [
+        { participante: true }
       ]
     },
     include: [{
