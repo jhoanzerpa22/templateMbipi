@@ -48,6 +48,8 @@ db.mapaux = require("./mapaux.model.js")(sequelize, Sequelize);
 db.scopecanvas_necesidades = require("./scopecanvas_necesidades.model.js")(sequelize, Sequelize);
 db.scopecanvas_propositos = require("./scopecanvas_propositos.model.js")(sequelize, Sequelize);
 db.scopecanvas_objetivos = require("./scopecanvas_objetivos.model.js")(sequelize, Sequelize);
+db.scopecanvas_acciones = require("./scopecanvas_acciones.model.js")(sequelize, Sequelize);
+db.scopecanvas_metricas = require("./scopecanvas_metricas.model.js")(sequelize, Sequelize);
 db.proyecto_recurso = require("./proyecto_recurso.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
@@ -150,6 +152,14 @@ db.proyecto_recurso.belongsTo(db.scopecanvas_propositos, {
 
 db.proyecto_recurso.belongsTo(db.scopecanvas_objetivos, {
   foreignKey: 'scopecanvas_objetivos_id'
+});
+
+db.proyecto_recurso.belongsTo(db.scopecanvas_acciones, {
+  foreignKey: 'scopecanvas_acciones_id'
+});
+
+db.proyecto_recurso.belongsTo(db.scopecanvas_metricas, {
+  foreignKey: 'scopecanvas_metricas_id'
 });
 
 db.proyecto_recurso.belongsTo(db.proyectos, {

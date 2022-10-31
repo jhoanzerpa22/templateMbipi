@@ -37,6 +37,10 @@ export class SocketWebService extends Socket {
 
   @Output() outEvenTableroObjetivos: EventEmitter<any> = new EventEmitter();
 
+  @Output() outEvenTableroAcciones: EventEmitter<any> = new EventEmitter();
+
+  @Output() outEvenTableroMetricas: EventEmitter<any> = new EventEmitter();
+
   constructor(
     //public cookieService: CookieService,
   ) {
@@ -80,6 +84,10 @@ export class SocketWebService extends Socket {
 
     this.ioSocket.on('evento_tablero_propositos', (res: any) => this.outEvenTableroPropositos.emit(res));
     this.ioSocket.on('evento_tablero_voto_propositos', (res: any) => this.outEvenTableroVotoPropositos.emit(res));
+
+    this.ioSocket.on('evento_tablero_acciones', (res: any) => this.outEvenTableroAcciones.emit(res));
+
+    this.ioSocket.on('evento_tablero_metricas', (res: any) => this.outEvenTableroMetricas.emit(res));
 
   }
 
@@ -301,6 +309,46 @@ export class SocketWebService extends Socket {
   emitEventTableroDeleteObjetivos = (payload = {}) => {
     console.log('evento_tablero_delete_objetivos',payload);
     this.ioSocket.emit('evento_tablero_delete_objetivos', payload)
+  }
+
+  emitEventTableroSaveAcciones = (payload = {}) => {
+    console.log('evento_tablero_save_acciones',payload);
+    this.ioSocket.emit('evento_tablero_save_acciones', payload)
+  }
+
+  emitEventTableroUpdateAcciones = (payload = {}) => {
+    console.log('evento_tablero_update_acciones',payload);
+    this.ioSocket.emit('evento_tablero_update_acciones', payload)
+  }
+
+  emitEventTableroAcciones = (payload = {}) => {
+    console.log('evento_tablero_acciones',payload);
+    this.ioSocket.emit('evento_tablero_acciones', payload)
+  }
+
+  emitEventTableroDeleteAcciones = (payload = {}) => {
+    console.log('evento_tablero_delete_acciones',payload);
+    this.ioSocket.emit('evento_tablero_delete_acciones', payload)
+  }
+
+  emitEventTableroSaveMetricas = (payload = {}) => {
+    console.log('evento_tablero_save_metricas',payload);
+    this.ioSocket.emit('evento_tablero_save_metricas', payload)
+  }
+
+  emitEventTableroUpdateMetricas = (payload = {}) => {
+    console.log('evento_tablero_update_metricas',payload);
+    this.ioSocket.emit('evento_tablero_update_metricas', payload)
+  }
+
+  emitEventTableroMetricas = (payload = {}) => {
+    console.log('evento_tablero_metricas',payload);
+    this.ioSocket.emit('evento_tablero_metricas', payload)
+  }
+
+  emitEventTableroDeleteMetricas = (payload = {}) => {
+    console.log('evento_tablero_delete_metricas',payload);
+    this.ioSocket.emit('evento_tablero_delete_metricas', payload)
   }
 
 }

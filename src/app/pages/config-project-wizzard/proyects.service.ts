@@ -73,6 +73,14 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapaObjetivos/${id}`, data);
       }
 
+      updateEtapaAcciones(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaAcciones/${id}`, data);
+      }
+
+      updateEtapaMetricas(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaMetricas/${id}`, data);
+      }
+
       updateTime(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
@@ -95,6 +103,18 @@ export class ProyectsService
 
       updatePropositos(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updatePropositos/${id}`, data);
+      }
+
+      updateNecesidades(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateNecesidades/${id}`, data);
+      }
+
+      updateAcciones(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateAcciones/${id}`, data);
+      }
+
+      updateMetricas(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateMetricas/${id}`, data);
       }
 
       delete(id: any): Observable<any> {
@@ -123,6 +143,14 @@ export class ProyectsService
 
       deleteObjetivos(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/deleteObjetivos/${id}`);
+      }
+
+      deleteAcciones(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteAcciones/${id}`);
+      }
+
+      deleteMetricas(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteMetricas/${id}`);
       }
 
       deleteMember(id: any): Observable<any> {

@@ -14,6 +14,8 @@ const MapaUx = db.mapaux;
 const ScopeCanvasNecesidades = db.scopecanvas_necesidades;
 const ScopeCanvasObjetivos = db.scopecanvas_objetivos;
 const ScopeCanvasPropositos = db.scopecanvas_propositos;
+const ScopeCanvasAcciones = db.scopecanvas_acciones;
+const ScopeCanvasMetricas = db.scopecanvas_metricas;
 
 const Op = db.Sequelize.Op;
 
@@ -132,7 +134,7 @@ exports.findOne = (req, res) => {
         }]
       },
       {
-        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id','usuario_id'], 
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id','usuario_id'], 
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
@@ -147,6 +149,10 @@ exports.findOne = (req, res) => {
             model: ScopeCanvasPropositos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle']
           }, {
             model: ScopeCanvasObjetivos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','tipo']
+          }, {
+            model: ScopeCanvasAcciones/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+          }, {
+            model: ScopeCanvasMetricas/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }]
       }]
     })
@@ -569,6 +575,66 @@ exports.updateObjetivos = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Proyectos objetivos with id=" + id
+      });
+    });
+};
+
+
+// Update acciones the Proyectos by the id in the request
+exports.updateAcciones = (req, res) => {
+  const id = req.params.id;
+  let acciones = {
+      contenido: req.body.contenido
+    };
+   
+  ScopeCanvasAcciones.update(acciones, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto acciones with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos acciones with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos acciones with id=" + id
+      });
+    });
+};
+
+
+// Update metricas the Proyectos by the id in the request
+exports.updateMetricas = (req, res) => {
+  const id = req.params.id;
+  let metricas = {
+      contenido: req.body.contenido
+    };
+   
+  ScopeCanvasMetricas.update(metricas, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto metricas with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos metricas with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos metricas with id=" + id
       });
     });
 };
@@ -1371,6 +1437,197 @@ exports.updateEtapaObjetivos = (req, res) => {
     });
 };
 
+
+// Update etapa acciones the Proyectos by the id in the request
+exports.updateEtapaAcciones = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let acciones = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let accion = {
+                  contenido: tablero[n].content
+                };
+
+              ScopeCanvasAcciones.update(accion, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Acciones with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              acciones.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(acciones.length > 0){
+          
+          ScopeCanvasAcciones.bulkCreate(acciones).then(nec =>{
+                  console.log('acciones',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'scopecanvas_acciones_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Acciones"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+// Update etapa metricas the Proyectos by the id in the request
+exports.updateEtapaMetricas = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let metricas = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let metrica = {
+                  contenido: tablero[n].content
+                };
+
+              ScopeCanvasMetricas.update(metrica, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Metricas with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              metricas.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(metricas.length > 0){
+          
+          ScopeCanvasMetricas.bulkCreate(metricas).then(nec =>{
+                  console.log('metricas',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'scopecanvas_metricas_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Acciones"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
 // Update the members of Proyectos by the id in the request
 exports.updateMembers = (req, res) => {
   const id = req.params.id;
@@ -1587,6 +1844,54 @@ exports.deleteObjetivos = (req, res) => {
                   }).catch(err => {
                     res.status(500).send({
                       message: "Could not delete objetivos with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+// Delete a acciones with the specified id in the request
+exports.deleteAcciones = (req, res) => {
+  const id = req.params.id;
+
+                ScopeCanvasAcciones.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Acciones was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete acciones with id=${id}. Maybe acciones was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete acciones with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+// Delete a metricas with the specified id in the request
+exports.deleteMetricas = (req, res) => {
+  const id = req.params.id;
+
+                ScopeCanvasMetricas.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Metricas was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete metricas with id=${id}. Maybe metricas was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete metricas with id=" + id + ' | error:' + err.message
                     });
                   });
 };
