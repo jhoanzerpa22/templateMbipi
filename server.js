@@ -452,6 +452,7 @@ io.on('connection', function (socket) {
       //notas_tablero_all_necesidades = res;
     }
     notas_tablero_all_necesidades = [];
+    notas_tablero_necesidades = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     console.log('nombreSala',nombreSala);
@@ -512,6 +513,7 @@ io.on('connection', function (socket) {
       //notas_tablero_all_propositos = res;
     }
     notas_tablero_all_propositos = [];
+    notas_tablero_propositos = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     console.log('nombreSala',nombreSala);
@@ -569,6 +571,7 @@ io.on('connection', function (socket) {
       //notas_tablero_all_objetivos = res;
     }
     notas_tablero_all_objetivos = [];
+    notas_tablero_objetivos = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     console.log('nombreSala',nombreSala);
@@ -622,6 +625,7 @@ io.on('connection', function (socket) {
       //notas_tablero_all_acciones = res;
     }
     notas_tablero_all_acciones = [];
+    notas_tablero_acciones = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     console.log('nombreSala',nombreSala);
@@ -675,6 +679,7 @@ io.on('connection', function (socket) {
       //notas_tablero_all_metricas = res;
     }
     notas_tablero_all_metricas = [];
+    notas_tablero_metricas = [];
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
     console.log('nombreSala',nombreSala);
