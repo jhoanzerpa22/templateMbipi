@@ -233,10 +233,10 @@ export class MetricasDecisionComponent implements OnInit, AfterViewInit, OnDestr
             let metricas: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade != null){
-                if(/*this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id*/this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo == 'Motivadores'){
-                 metricas.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
-                }
+              if(this.proyecto.proyecto_recursos[c].scopecanvas_metrica != null){
+                
+                 metricas.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_metrica.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_metrica.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                
               }
             }
 

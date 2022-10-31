@@ -233,9 +233,9 @@ export class MetricasComponent implements OnInit, AfterViewInit, OnDestroy {
             let metricas: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade != null){
+              if(this.proyecto.proyecto_recursos[c].scopecanvas_metrica != null){
                 if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
-                 metricas.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 metricas.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_metrica.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_metrica.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 }
               }
             }

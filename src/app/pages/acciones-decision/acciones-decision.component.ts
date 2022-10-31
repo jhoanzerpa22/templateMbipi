@@ -233,8 +233,8 @@ export class AccionesDecisionComponent implements OnInit, AfterViewInit, OnDestr
             let acciones: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade != null){
-                 acciones.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              if(this.proyecto.proyecto_recursos[c].scopecanvas_accione != null){
+                 acciones.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_accione.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_accione.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
               }
             }
 
