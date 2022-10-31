@@ -24,6 +24,15 @@ module.exports = (sequelize, Sequelize) => {
       scopecanvas_propositos_id: {
         type: Sequelize.INTEGER
       },
+      scopecanvas_objetivos_id: {
+        type: Sequelize.INTEGER
+      },
+      scopecanvas_acciones_id: {
+        type: Sequelize.INTEGER
+      },
+      scopecanvas_metricas_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },
