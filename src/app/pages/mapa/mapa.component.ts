@@ -213,15 +213,15 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
       //})
 
       this.editor.on('keydown', (event: any) => {
-        console.log("Keydown" + event);
+        //console.log("Keydown" + event);
         
-        this.writeBoard();
+        //this.writeBoard();
       })
   
       this.editor.on('nodeDataChanged', (id: any)=>{
         console.log("Node Data Changed" + id)
         console.log("!!!!!!!!!!!!!!!!!!!!!!")
-  
+        this.writeBoard()
         // var height = $(this).prop("scrollHeight")+2+"px";
         // $(this).css({"height":height});
   
@@ -254,6 +254,15 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.dataNode= this.editor.getNodeFromId(id)
         // const dataNode2 = this.editor.getNodeFromId(id)
         // this.socketWebService.emitEvent({dataNode2});
+  
+      });
+  
+      this.editor.on('nodeUnselected', (id: any) => {
+        console.log(
+          'Editor Event :>> Node unselected '
+        );
+        this.writeBoard();
+        this.getNodeHeight();
   
       });
   
