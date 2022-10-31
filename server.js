@@ -102,6 +102,9 @@ let notas_tablero_all_necesidades = {};
 let notas_tablero_propositos = [];
 let notas_tablero_all_propositos = {};
 
+let notas_tablero_objetivos = [];
+let notas_tablero_all_objetivos = {};
+
 io.on('connection', function (socket) {
 
   const handshake = socket.id;
@@ -534,6 +537,58 @@ io.on('connection', function (socket) {
         notas_tablero_propositos.splice(index, 1);
       }
     io.in(nombreSala).emit('evento_tablero_propositos', {'tablero': JSON.stringify(notas_tablero_propositos)});
+  })
+
+  /* Eventos Objetivos*/
+  socket.on('evento_tablero_objetivos', (res) => {
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+    
+    for(let c in tablero){
+      let index3 = notas_tablero_objetivos.findIndex((n) => n.id == tablero[c].id);
+
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero_objetivos.push({'id': tablero[c].id, 'content': tablero[c].content, 'type': tablero[c].type, 'usuario_id': tablero[c].usuario_id});
+        }
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_tablero_objetivos', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+  })
+
+  socket.on('evento_tablero_save_objetivos', (res) => {
+    if(Object.keys(notas_tablero_all_objetivos).length === 0){
+      //notas_tablero_all_objetivos = res;
+    }
+    notas_tablero_all_objetivos = [];
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
+  })
+
+  socket.on('evento_tablero_update_objetivos', (res) => {
+    
+      let index = notas_tablero_objetivos.findIndex((n) => n.id == res.id);
+
+        if (index != -1) {
+          notas_tablero_objetivos[index].content = res.content;
+        }else{
+          notas_tablero_objetivos.push({'id': res.id, 'content': res.content, 'type': res.type, 'usuario_id': res.usuario_id});
+        }
+    io.in(nombreSala).emit('evento_tablero_objetivos', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+  })
+
+  socket.on('evento_tablero_delete_objetivos', (res) => {
+    
+    let index = notas_tablero_objetivos.findIndex((n) => n.id == res.id);
+
+      if (index != -1) {
+        notas_tablero_objetivos.splice(index, 1);
+      }
+    io.in(nombreSala).emit('evento_tablero_objetivos', {'tablero': JSON.stringify(notas_tablero_objetivos)});
   })
 
   socket.on('disconnect', function () {

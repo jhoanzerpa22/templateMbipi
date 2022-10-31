@@ -69,6 +69,10 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapaPropositos/${id}`, data);
       }
 
+      updateEtapaObjetivos(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaObjetivos/${id}`, data);
+      }
+
       updateTime(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
@@ -115,6 +119,10 @@ export class ProyectsService
 
       deletePropositos(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/deletePropositos/${id}`);
+      }
+
+      deleteObjetivos(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteObjetivos/${id}`);
       }
 
       deleteMember(id: any): Observable<any> {

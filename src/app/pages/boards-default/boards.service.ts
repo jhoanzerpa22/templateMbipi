@@ -35,6 +35,8 @@ export class SocketWebService extends Socket {
   @Output() outEvenTableroPropositos: EventEmitter<any> = new EventEmitter();
   @Output() outEvenTableroVotoPropositos: EventEmitter<any> = new EventEmitter();
 
+  @Output() outEvenTableroObjetivos: EventEmitter<any> = new EventEmitter();
+
   constructor(
     //public cookieService: CookieService,
   ) {
@@ -73,6 +75,8 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_voto_preguntas', (res: any) => this.outEvenTableroVotoPreguntas.emit(res));
 
     this.ioSocket.on('evento_tablero_necesidades', (res: any) => this.outEvenTableroNecesidades.emit(res));
+
+    this.ioSocket.on('evento_tablero_objetivos', (res: any) => this.outEvenTableroObjetivos.emit(res));
 
     this.ioSocket.on('evento_tablero_propositos', (res: any) => this.outEvenTableroPropositos.emit(res));
     this.ioSocket.on('evento_tablero_voto_propositos', (res: any) => this.outEvenTableroVotoPropositos.emit(res));
@@ -277,6 +281,26 @@ export class SocketWebService extends Socket {
   emitEventTableroUpdatePropositos = (payload = {}) => {
     console.log('evento_tablero_update_propositos',payload);
     this.ioSocket.emit('evento_tablero_update_propositos', payload)
+  }
+
+  emitEventTableroSaveObjetivos = (payload = {}) => {
+    console.log('evento_tablero_save_objetivos',payload);
+    this.ioSocket.emit('evento_tablero_save_objetivos', payload)
+  }
+
+  emitEventTableroUpdateObjetivos = (payload = {}) => {
+    console.log('evento_tablero_update_objetivos',payload);
+    this.ioSocket.emit('evento_tablero_update_objetivos', payload)
+  }
+
+  emitEventTableroObjetivos = (payload = {}) => {
+    console.log('evento_tablero_objetivos',payload);
+    this.ioSocket.emit('evento_tablero_objetivos', payload)
+  }
+
+  emitEventTableroDeleteObjetivos = (payload = {}) => {
+    console.log('evento_tablero_delete_objetivos',payload);
+    this.ioSocket.emit('evento_tablero_delete_objetivos', payload)
   }
 
 }
