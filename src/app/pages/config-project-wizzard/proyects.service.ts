@@ -120,6 +120,26 @@ export class ProyectsService
       updateMetricas(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateMetricas/${id}`, data);
       }
+      
+      createPropositos(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createPropositos`, data);
+      }
+
+      createNecesidades(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createNecesidades`, data);
+      }
+
+      createObjetivos(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createObjetivos`, data);
+      }
+
+      createAcciones(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createAcciones`, data);
+      }
+
+      createMetricas(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createMetricas`, data);
+      }
 
       delete(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/${id}`);

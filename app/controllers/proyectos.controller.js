@@ -1112,6 +1112,36 @@ exports.updateEtapaMapa = (req, res) => {
 };
 
 
+// Create necesidades the Proyectos by the id in the request
+exports.createNecesidades = (req, res) => {
+  
+  let necesidad = {
+                  contenido: req.body.content,
+                  tipo: req.body.type
+                };
+
+          ScopeCanvasNecesidades.create(necesidad).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'scopecanvas_necesidades_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, necesidad_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Necesidades"
+                });
+            });
+};
+
 // Update etapa necesidades the Proyectos by the id in the request
 exports.updateEtapaNecesidades = (req, res) => {
   const id = req.params.id;
@@ -1206,6 +1236,36 @@ exports.updateEtapaNecesidades = (req, res) => {
         message: "Error updating Proyectos with id=" + id
       });
     });
+};
+
+
+// Create propositos the Proyectos by the id in the request
+exports.createPropositos = (req, res) => {
+  
+  let proposito = {
+                  contenido: req.body.content
+                };
+
+          ScopeCanvasPropositos.create(proposito).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'scopecanvas_propositos_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, proposito_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Propositos"
+                });
+            });
 };
 
 // Update etapa propositos the Proyectos by the id in the request
@@ -1340,6 +1400,35 @@ exports.updateEtapaPropositos = (req, res) => {
     });
 };
 
+// Create objetivos the Proyectos by the id in the request
+exports.createObjetivos = (req, res) => {
+  
+  let objetivo = {
+                  contenido: req.body.content,
+                  tipo: req.body.type
+                };
+
+          ScopeCanvasObjetivos.create(objetivo).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'scopecanvas_objetivos_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, objetivo_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Objetivos"
+                });
+            });
+};
 
 // Update etapa objetivos the Proyectos by the id in the request
 exports.updateEtapaObjetivos = (req, res) => {
@@ -1437,6 +1526,34 @@ exports.updateEtapaObjetivos = (req, res) => {
     });
 };
 
+// Create acciones the Proyectos by the id in the request
+exports.createAcciones = (req, res) => {
+  
+  let accion = {
+                  contenido: req.body.content
+                };
+
+          ScopeCanvasAcciones.create(accion).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'scopecanvas_acciones_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, accion_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Acciones"
+                });
+            });
+};
 
 // Update etapa acciones the Proyectos by the id in the request
 exports.updateEtapaAcciones = (req, res) => {
@@ -1531,6 +1648,35 @@ exports.updateEtapaAcciones = (req, res) => {
         message: "Error updating Proyectos with id=" + id
       });
     });
+};
+
+// Create metricas the Proyectos by the id in the request
+exports.createMetricas = (req, res) => {
+  
+  let metrica = {
+                  contenido: req.body.content
+                };
+
+          ScopeCanvasMetricas.create(metrica).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'scopecanvas_metricas_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, metrica_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Metricas"
+                });
+            });
 };
 
 // Update etapa metricas the Proyectos by the id in the request
