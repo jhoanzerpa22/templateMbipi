@@ -311,13 +311,13 @@ export class ProblemaDecisionComponent implements OnInit, AfterViewInit, OnDestr
 
     tablero.push({'title': 'Como podriamos', "data": problema});
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase25', tablero: this.notes_all, type: 'notas'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase27', tablero: this.notes_all, type: 'notas'};
 
     this._proyectsService.updateEtapaProblema(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase25');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase27');
 
           this.socketWebService.emitEventTableroSaveProblema({tablero: JSON.stringify(tablero)});
 
@@ -326,11 +326,11 @@ export class ProblemaDecisionComponent implements OnInit, AfterViewInit, OnDestr
         }
     );
 
-    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase25']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase27']);
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase25']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase27']);
   }
 
   etapa_active(etapa_active: any) {

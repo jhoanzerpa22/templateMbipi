@@ -17,12 +17,12 @@ import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-problema',
-  templateUrl: './problema.component.html',
-  styleUrls: ['./problema.component.scss'],
+  selector: 'app-clientes-decision',
+  templateUrl: './clientes-decision.component.html',
+  styleUrls: ['./clientes-decision.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ClientesDecisionComponent implements OnInit, AfterViewInit, OnDestroy {
   // Public variables
   selfLayout = 'default';
   asideSelfDisplay: true;
@@ -106,7 +106,7 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     //escuchamos el evento de las notas de los usuarios
-    this.socketWebService.outEvenTableroProblema.subscribe((res: any) => {
+    this.socketWebService.outEvenTableroClientes.subscribe((res: any) => {
       const { tablero } = res;
       this.readBoard(tablero, false);
     });
@@ -129,7 +129,7 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.usuario.active = true; // indicamos que esta activo
 
     //leemos nota en cache
-    const notes: any = localStorage.getItem('notes_problema');
+    const notes: any = localStorage.getItem('notes_clientes_decision');
     this.notes_cache = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
 
     //si existen notas en cache las enviamos al socket
@@ -230,17 +230,17 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.showTimer = true;
             
-            let problema: any = [];
+            let clientes: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_problem != null){
-                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
-                 problema.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_problem.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_problem.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
-                }
+              if(this.proyecto.proyecto_recursos[c].leancanvas_cliente != null){
+                
+                 clientes.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_cliente.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_cliente.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                
               }
             }
 
-            this.notes = problema;
+            this.notes = clientes;
 
             //leemos nota en cache
               //this.notes = localStorage.getItem('proyecto_id') == this.proyecto_id ? '' : '';
@@ -276,8 +276,10 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
   //actualizamos listado de notas de usuarios
   private readBoard(tablero: any, emit: boolean){
     const data = JSON.parse(tablero);
-    console.log('notas_all_problema',data);
+    console.log('notas_all_clientes_decision',data);
     this.notes_all = data;
+    this.notes = data;
+    this.ref.detectChanges();
     /*this.notes_all = [];
     for(let c in data){
       this.notes_all.push({'id': data[c].id, 'content': data[c].content, "data": data[c].data});
@@ -286,49 +288,49 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateAllNotes() {
-    console.log(document.querySelectorAll('app-note-problema'));
-    let notes = document.querySelectorAll('app-note-problema');
+    console.log(document.querySelectorAll('app-note-clientes-decision'));
+    let notes = document.querySelectorAll('app-note-clientes-decision');
 
     notes.forEach((note: any, index: any)=>{
          this.notes[note.id].content = note.querySelector('.content').innerHTML;
     });
 
-    localStorage.setItem('notes_problema', JSON.stringify(this.notes));
+    localStorage.setItem('notes_clientes_decision', JSON.stringify(this.notes));
 
   }
 
   saveNoteAll() {
-    console.log('save_notes_all_problema',this.notes_all);
-    localStorage.setItem('notes_all_problema', JSON.stringify(this.notes_all));
+    console.log('save_notes_all_clientes',this.notes_all);
+    localStorage.setItem('notes_all_clientes', JSON.stringify(this.notes_all));
 
-    let problema: any = [];
+    let cliente: any = [];
     let tablero: any = [];
     for(let n in this.notes_all){
-      problema.push({'content': this.notes_all[n].content});
+      cliente.push({'content': this.notes_all[n].content});
     }
 
-    tablero.push({'title': 'Como podriamos', "data": problema});
+    tablero.push({'title': 'Como podriamos', "data": cliente});
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase26', tablero: this.notes_all, type: 'notas'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase25', tablero: this.notes_all, type: 'notas'};
 
-    this._proyectsService.updateEtapaProblema(this.proyecto_id, data_etapa)
+    this._proyectsService.updateEtapaClientes(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase26');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase25');
 
-          this.socketWebService.emitEventTableroSaveProblema({tablero: JSON.stringify(tablero)});
+          this.socketWebService.emitEventTableroSaveClientes({tablero: JSON.stringify(tablero)});
 
         },
         (response) => {
         }
     );
 
-    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase26']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase25']);
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase26']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase25']);
   }
 
   etapa_active(etapa_active: any) {
@@ -338,31 +340,16 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addNote(event?: any) {
-    const data = {
-      proyecto_id: this.proyecto_id,
-      usuario_id: this.usuario.id,
-      content: event.target.value
-    };
-    this._proyectsService.createProblema(data)
-        .subscribe(
-            data => {
-    const id = data.problema_id;
-    //const id = this.notes.length+'-'+this.usuario.nombre;
-    this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, usuario_id: this.usuario.id });
+    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: event.target.value, usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
-    localStorage.setItem('notes_problema', JSON.stringify(this.notes));
-
-    this.ref.detectChanges();
+    localStorage.setItem('notes_clientes_decision', JSON.stringify(this.notes));
     
-    this.socketWebService.emitEventTableroUpdateProblema({id: id, content: event.target.value, usuario_id: this.usuario.id });
+    this.socketWebService.emitEventTableroUpdateClientes({id: this.notes.length+'-'+this.usuario.nombre, content: event.target.value, usuario_id: this.usuario.id });
 
     $('#agregar_nota').val('');
     $('#agregar_nota').text('');
-    $('#agregar_nota').focus();},
-            (response) => {
-            }
-    );
+    $('#agregar_nota').focus();
   }
 
   saveNote(event: any){
@@ -378,7 +365,7 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateNote(json);
     //this.updateNoteAll(json);
 
-    localStorage.setItem('notes_problema', JSON.stringify(this.notes));
+    localStorage.setItem('notes_clientes_decision', JSON.stringify(this.notes));
     //this.sendNotes(this.notes);
     console.log("********* updating note *********")
   }
@@ -387,8 +374,8 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notes.forEach((note: any, index: any)=>{
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
-        this.socketWebService.emitEventTableroUpdateProblema(newValue);
-        this._proyectsService.updateProblema(newValue.id,newValue)
+        this.socketWebService.emitEventTableroUpdateClientes(newValue);
+        this._proyectsService.updateClientes(newValue.id,newValue)
         .subscribe(
             data => {
 
@@ -413,11 +400,11 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.notes_all.push({ id: newValue.id, content:newValue.content });
     }
 
-    this.socketWebService.emitEventTableroProblema({tablero: JSON.stringify(this.notes_all)});
+    this.socketWebService.emitEventTableroClientes({tablero: JSON.stringify(this.notes_all)});
   }
 
   sendNotes(notes: any){
-    this.socketWebService.emitEventTableroProblema({tablero: JSON.stringify(notes)});
+    this.socketWebService.emitEventTableroClientes({tablero: JSON.stringify(notes)});
   }
 
   deleteNote(event: any, idNote: any){
@@ -427,7 +414,7 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
-        this.socketWebService.emitEventTableroDeleteProblema(note);
+        this.socketWebService.emitEventTableroDeleteClientes(note);
         /*const index2 = this.notes_all.findIndex((n: any) => n.id == id);
 
         if (index2 != -1) {
@@ -436,9 +423,9 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
           this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
         }*/
 
-        localStorage.setItem('notes_problema', JSON.stringify(this.notes));
+        localStorage.setItem('notes_clientes_decision', JSON.stringify(this.notes));
         if(id > 0){
-        this._proyectsService.deleteProblema(id)
+        this._proyectsService.deleteClientes(id)
         .subscribe(
             data => {
 

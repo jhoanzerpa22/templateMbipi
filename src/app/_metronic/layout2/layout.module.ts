@@ -51,6 +51,8 @@ import { MetricasComponent } from '../../pages/metricas/metricas.component';
 import { MetricasDecisionComponent } from '../../pages/metricas-decision/metricas-decision.component';
 import { ProblemaComponent } from '../../pages/problema/problema.component';
 import { ProblemaDecisionComponent } from '../../pages/problema-decision/problema-decision.component';
+import { ClientesComponent } from '../../pages/clientes/clientes.component';
+import { ClientesDecisionComponent } from '../../pages/clientes-decision/clientes-decision.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { MetasModule } from '../../pages/metas/metas.module';
@@ -74,6 +76,8 @@ import { MetricasModule } from '../../pages/metricas/metricas.module';
 import { MetricasDecisionModule } from '../../pages/metricas-decision/metricas-decision.module';
 import { ProblemaModule } from '../../pages/problema/problema.module';
 import { ProblemaDecisionModule } from '../../pages/problema-decision/problema-decision.module';
+import { ClientesModule } from '../../pages/clientes/clientes.module';
+import { ClientesDecisionModule } from '../../pages/clientes-decision/clientes-decision.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -182,10 +186,18 @@ const routes: Routes = [
   },
   {
     path: 'fase23',
-    component: ProblemaComponent
+    component: ClientesComponent
   },
   {
     path: 'fase24',
+    component: ClientesDecisionComponent
+  },
+  {
+    path: 'fase25',
+    component: ProblemaComponent
+  },
+  {
+    path: 'fase26',
     component: ProblemaDecisionComponent
   }
 ];

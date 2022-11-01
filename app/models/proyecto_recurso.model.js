@@ -36,6 +36,9 @@ module.exports = (sequelize, Sequelize) => {
       leancanvas_problema_id: {
         type: Sequelize.INTEGER
       },
+      leancanvas_clientes_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },
