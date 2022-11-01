@@ -338,17 +338,31 @@ export class MetricasComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addNote(event?: any) {
-    const id = this.notes.length+'-'+this.usuario.nombre;
+    const data = {
+      proyecto_id: this.proyecto_id,
+      usuario_id: this.usuario.id,
+      content: event.target.value
+    };
+    this._proyectsService.createMetricas(data)
+        .subscribe(
+            data => {
+    const id = data.metrica_id;
+    //const id = this.notes.length+'-'+this.usuario.nombre;
     this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes_metricas', JSON.stringify(this.notes));
+
+    this.ref.detectChanges();
     
     this.socketWebService.emitEventTableroUpdateMetricas({id: id, content: event.target.value, usuario_id: this.usuario.id });
 
     $('#agregar_nota').val('');
     $('#agregar_nota').text('');
-    $('#agregar_nota').focus();
+    $('#agregar_nota').focus();},
+            (response) => {
+            }
+    );
   }
 
   saveNote(event: any){
@@ -374,6 +388,14 @@ export class MetricasComponent implements OnInit, AfterViewInit, OnDestroy {
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdateMetricas(newValue);
+        this._proyectsService.updateMetricas(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }

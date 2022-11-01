@@ -338,17 +338,33 @@ export class NecesidadesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addNote(event?: any) {
-    const id = this.notes.length+'-'+this.usuario.nombre;
-    this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, type: 'Motivadores', usuario_id: this.usuario.id });
-    // sort the array
-    this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
-    localStorage.setItem('notes_necesidades', JSON.stringify(this.notes));
-    
-    this.socketWebService.emitEventTableroUpdateNecesidades({id: id, content: event.target.value, type: 'Motivadores', usuario_id: this.usuario.id });
+    const data = {
+      proyecto_id: this.proyecto_id,
+      usuario_id: this.usuario.id,
+      content: event.target.value,
+      type: 'Motivadores'
+    };
+    this._proyectsService.createNecesidades(data)
+        .subscribe(
+            data => {
+              //const id = this.notes.length+'-'+this.usuario.nombre;
+              const id = data.necesidad_id;
+              this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, type: 'Motivadores', usuario_id: this.usuario.id });
+              // sort the array
+              this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
+              localStorage.setItem('notes_necesidades', JSON.stringify(this.notes));
+              
+              this.ref.detectChanges();
+              
+              this.socketWebService.emitEventTableroUpdateNecesidades({id: id, content: event.target.value, type: 'Motivadores', usuario_id: this.usuario.id });
 
-    $('#agregar_nota').val('');
-    $('#agregar_nota').text('');
-    $('#agregar_nota').focus();
+              $('#agregar_nota').val('');
+              $('#agregar_nota').text('');
+              $('#agregar_nota').focus();
+            },
+            (response) => {
+            }
+        );
   }
 
   saveNote(event: any){
@@ -375,6 +391,14 @@ export class NecesidadesComponent implements OnInit, AfterViewInit, OnDestroy {
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdateNecesidades(newValue);
+        this._proyectsService.updateNecesidades(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }

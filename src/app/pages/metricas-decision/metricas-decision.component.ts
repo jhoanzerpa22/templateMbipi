@@ -279,6 +279,7 @@ export class MetricasDecisionComponent implements OnInit, AfterViewInit, OnDestr
     console.log('notas_all_metricas_decision',data);
     this.notes_all = data;
     this.notes = data;
+    this.ref.detectChanges();
     /*this.notes_all = [];
     for(let c in data){
       this.notes_all.push({'id': data[c].id, 'content': data[c].content, "data": data[c].data});
@@ -374,6 +375,14 @@ export class MetricasDecisionComponent implements OnInit, AfterViewInit, OnDestr
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdateMetricas(newValue);
+        this._proyectsService.updateMetricas(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }
