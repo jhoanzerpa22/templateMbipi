@@ -338,12 +338,14 @@ export class NecesidadesDoloresComponent implements OnInit, AfterViewInit, OnDes
   }
 
   addNote(event?: any) {
-    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
+    const id = this.notes.length+'-'+this.usuario.nombre;
+
+    this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes_necesidades_dolores', JSON.stringify(this.notes));
     
-    this.socketWebService.emitEventTableroUpdateNecesidades({id: this.notes.length+'-'+this.usuario.nombre, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
+    this.socketWebService.emitEventTableroUpdateNecesidades({id: id, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
 
     $('#agregar_nota').val('');
     $('#agregar_nota').text('');
