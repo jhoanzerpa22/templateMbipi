@@ -338,17 +338,33 @@ export class ObjetivosCortoComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   addNote(event?: any) {
-    const id = this.notes.length+'-'+this.usuario.nombre;
+    const data = {
+      proyecto_id: this.proyecto_id,
+      usuario_id: this.usuario.id,
+      content: event.target.value,
+      type: 'Corto'
+    };
+    this._proyectsService.createObjetivos(data)
+        .subscribe(
+            data => {
+    const id = data.objetivo_id;
+    //const id = this.notes.length+'-'+this.usuario.nombre;
     this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, type: 'Corto', usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes_objetivos_corto', JSON.stringify(this.notes));
+
+    this.ref.detectChanges();
     
     this.socketWebService.emitEventTableroUpdateObjetivos({id: id, content: event.target.value, type: 'Corto', usuario_id: this.usuario.id });
 
     $('#agregar_nota').val('');
     $('#agregar_nota').text('');
     $('#agregar_nota').focus();
+      },
+      (response) => {
+      }
+    );
   }
 
   saveNote(event: any){
@@ -375,6 +391,14 @@ export class ObjetivosCortoComponent implements OnInit, AfterViewInit, OnDestroy
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdateObjetivos(newValue);
+        this._proyectsService.updateObjetivos(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }

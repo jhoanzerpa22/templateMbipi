@@ -72,7 +72,7 @@ module.exports = app => {
     // Update the Necesidades of Proyectos with id
     router.put("/updateNecesidades/:id", proyectos.updateNecesidades);
 
-    // Update the metalp of Proyectos with id
+    // Update the Propositos of Proyectos with id
     router.put("/updatePropositos/:id", proyectos.updatePropositos);
 
     // Update the Objetivos of Proyectos with id
@@ -83,6 +83,21 @@ module.exports = app => {
 
     // Update the Metricas of Proyectos with id
     router.put("/updateMetricas/:id", proyectos.updateMetricas);
+    
+    // Create the Necesidades of Proyectos with id
+    router.post("/createNecesidades", proyectos.createNecesidades);
+
+    // Create the propositos of Proyectos with id
+    router.post("/createPropositos", proyectos.createPropositos);
+
+    // Create the Objetivos of Proyectos with id
+    router.post("/createObjetivos", proyectos.createObjetivos);
+
+    // Create the Acciones of Proyectos with id
+    router.post("/createAcciones", proyectos.createAcciones);
+
+    // Create the Metricas of Proyectos with id
+    router.post("/createMetricas", proyectos.createMetricas);
 
     // Update the time of Proyectos with id
     router.put("/updateTime/:id", proyectos.updateTime);

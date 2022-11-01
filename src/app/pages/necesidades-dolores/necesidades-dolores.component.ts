@@ -338,7 +338,17 @@ export class NecesidadesDoloresComponent implements OnInit, AfterViewInit, OnDes
   }
 
   addNote(event?: any) {
-    const id = this.notes.length+'-'+this.usuario.nombre;
+    const data = {
+      proyecto_id: this.proyecto_id,
+      usuario_id: this.usuario.id,
+      content: event.target.value,
+      type: 'Dolores'
+    };
+    this._proyectsService.createNecesidades(data)
+        .subscribe(
+            data => {
+    const id = data.necesidad_id;
+    //const id = this.notes.length+'-'+this.usuario.nombre;
 
     this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
     // sort the array
@@ -346,10 +356,16 @@ export class NecesidadesDoloresComponent implements OnInit, AfterViewInit, OnDes
     localStorage.setItem('notes_necesidades_dolores', JSON.stringify(this.notes));
     
     this.socketWebService.emitEventTableroUpdateNecesidades({id: id, content: event.target.value, type: 'Dolores', usuario_id: this.usuario.id });
+    
+    this.ref.detectChanges();
 
     $('#agregar_nota').val('');
     $('#agregar_nota').text('');
     $('#agregar_nota').focus();
+      },
+      (response) => {
+      }
+    );
   }
 
   saveNote(event: any){
@@ -376,6 +392,14 @@ export class NecesidadesDoloresComponent implements OnInit, AfterViewInit, OnDes
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdateNecesidades(newValue);
+        this._proyectsService.updateNecesidades(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }
