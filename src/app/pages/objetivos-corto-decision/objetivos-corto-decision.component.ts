@@ -279,6 +279,7 @@ export class ObjetivosCortoDecisionComponent implements OnInit, AfterViewInit, O
     console.log('notas_all_objetivos_corto_decision',data);
     this.notes_all = data;
     this.notes = data;
+    this.ref.detectChanges();
     /*this.notes_all = [];
     for(let c in data){
       this.notes_all.push({'id': data[c].id, 'content': data[c].content, "data": data[c].data});
@@ -375,6 +376,14 @@ export class ObjetivosCortoDecisionComponent implements OnInit, AfterViewInit, O
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdateObjetivos(newValue);
+        this._proyectsService.updateObjetivos(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }

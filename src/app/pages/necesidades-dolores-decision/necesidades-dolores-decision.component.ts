@@ -279,6 +279,7 @@ export class NecesidadesDoloresDecisionComponent implements OnInit, AfterViewIni
     console.log('notas_all_necesidades_dolores_decision',data);
     this.notes_all = data;
     this.notes = data;
+    this.ref.detectChanges();
     /*this.notes_all = [];
     for(let c in data){
       this.notes_all.push({'id': data[c].id, 'content': data[c].content, "data": data[c].data});
@@ -375,6 +376,14 @@ export class NecesidadesDoloresDecisionComponent implements OnInit, AfterViewIni
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdateNecesidades(newValue);
+        this._proyectsService.updateNecesidades(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }

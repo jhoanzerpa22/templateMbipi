@@ -492,8 +492,8 @@ exports.updateMapaUx = (req, res) => {
 exports.updateNecesidades = (req, res) => {
   const id = req.params.id;
   let necesidades = {
-      contenido: req.body.contenido,
-      tipo: req.body.tipo
+      contenido: req.body.content,
+      tipo: req.body.type
     };
    
   ScopeCanvasNecesidades.update(necesidades, {
@@ -553,8 +553,8 @@ exports.updatePropositos = (req, res) => {
 exports.updateObjetivos = (req, res) => {
   const id = req.params.id;
   let objetivos = {
-      contenido: req.body.contenido,
-      tipo: req.body.tipo
+      contenido: req.body.content,
+      tipo: req.body.type
     };
    
   ScopeCanvasObjetivos.update(objetivos, {
@@ -584,7 +584,7 @@ exports.updateObjetivos = (req, res) => {
 exports.updateAcciones = (req, res) => {
   const id = req.params.id;
   let acciones = {
-      contenido: req.body.contenido
+      contenido: req.body.content
     };
    
   ScopeCanvasAcciones.update(acciones, {
@@ -614,7 +614,7 @@ exports.updateAcciones = (req, res) => {
 exports.updateMetricas = (req, res) => {
   const id = req.params.id;
   let metricas = {
-      contenido: req.body.contenido
+      contenido: req.body.content
     };
    
   ScopeCanvasMetricas.update(metricas, {

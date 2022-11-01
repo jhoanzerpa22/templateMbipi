@@ -109,6 +109,10 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateNecesidades/${id}`, data);
       }
 
+      updateObjetivos(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateObjetivos/${id}`, data);
+      }
+
       updateAcciones(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateAcciones/${id}`, data);
       }
