@@ -45,6 +45,8 @@ export class SocketWebService extends Socket {
 
   @Output() outEvenTableroClientes: EventEmitter<any> = new EventEmitter();
 
+  @Output() outEvenTableroSolucion: EventEmitter<any> = new EventEmitter();
+
   constructor(
     //public cookieService: CookieService,
   ) {
@@ -96,6 +98,8 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_problema', (res: any) => this.outEvenTableroProblema.emit(res));
 
     this.ioSocket.on('evento_tablero_cliente', (res: any) => this.outEvenTableroClientes.emit(res));
+
+    this.ioSocket.on('evento_tablero_solucion', (res: any) => this.outEvenTableroSolucion.emit(res));
 
   }
 
@@ -397,6 +401,26 @@ export class SocketWebService extends Socket {
   emitEventTableroDeleteClientes = (payload = {}) => {
     console.log('evento_tablero_delete_clientes',payload);
     this.ioSocket.emit('evento_tablero_delete_clientes', payload)
+  }
+  
+  emitEventTableroSaveSolucion = (payload = {}) => {
+    console.log('evento_tablero_save_solucion',payload);
+    this.ioSocket.emit('evento_tablero_save_solucion', payload)
+  }
+
+  emitEventTableroUpdateSolucion = (payload = {}) => {
+    console.log('evento_tablero_update_solucion',payload);
+    this.ioSocket.emit('evento_tablero_update_solucion', payload)
+  }
+
+  emitEventTableroSolucion = (payload = {}) => {
+    console.log('evento_tablero_solucion',payload);
+    this.ioSocket.emit('evento_tablero_solucion', payload)
+  }
+
+  emitEventTableroDeleteSolucion = (payload = {}) => {
+    console.log('evento_tablero_delete_solucion',payload);
+    this.ioSocket.emit('evento_tablero_delete_solucion', payload)
   }
 
 }
