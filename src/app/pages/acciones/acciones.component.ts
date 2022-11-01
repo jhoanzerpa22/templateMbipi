@@ -338,12 +338,13 @@ export class AccionesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addNote(event?: any) {
-    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: event.target.value, usuario_id: this.usuario.id });
+    const id = this.notes.length+'-'+this.usuario.nombre;
+    this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes_acciones', JSON.stringify(this.notes));
     
-    this.socketWebService.emitEventTableroUpdateAcciones({id: this.notes.length+'-'+this.usuario.nombre, content: event.target.value, usuario_id: this.usuario.id });
+    this.socketWebService.emitEventTableroUpdateAcciones({id: id, content: event.target.value, usuario_id: this.usuario.id });
 
     $('#agregar_nota').val('');
     $('#agregar_nota').text('');

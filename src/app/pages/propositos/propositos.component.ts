@@ -339,16 +339,22 @@ export class PropositosComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  addNote() {
-    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: '', usuario_id: this.usuario.id });
+  addNote(event?: any) {
+    const id = this.notes.length+'-'+this.usuario.nombre;
+    this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, usuario_id: this.usuario.id });
     // sort the array
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes_propositos', JSON.stringify(this.notes));
+    
+    this.socketWebService.emitEventTableroUpdatePropositos({id: id, content: event.target.value, usuario_id: this.usuario.id });
+
+    $('#agregar_nota').val('');
+    $('#agregar_nota').text('');
+    $('#agregar_nota').focus();
   }
 
   saveNote(event: any){
-    console.log('event',event);
-    const id = event.srcElement.parentElement.parentElement/*.parentElement.parentElement*/.getAttribute('id');
+    const id = event.srcElement.parentElement/*.parentElement*//*.parentElement.parentElement*/.getAttribute('id');
     const content = event.target.innerText;
     event.target.innerText = content;
     const json = {
@@ -394,8 +400,10 @@ export class PropositosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.emitEventTableroPropositos({tablero: JSON.stringify(notes)});
   }
 
-  deleteNote(event: any){
-    const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
+  deleteNote(event: any, idNote: any){
+    event.preventDefault();
+    const id = idNote;
+    //const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
     this.notes.forEach((note: any, index: any)=>{
       console.log('nota',note);
       if(note.id== id) {
