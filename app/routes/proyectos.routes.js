@@ -74,6 +74,12 @@ module.exports = app => {
     
     // Update the etapa canales of Proyectos with id
     router.put("/updateEtapaCanales/:id", proyectos.updateEtapaCanales);
+    
+    // Update the etapa estructura of Proyectos with id
+    router.put("/updateEtapaEstructura/:id", proyectos.updateEtapaEstructura);
+    
+    // Update the etapa flujo of Proyectos with id
+    router.put("/updateEtapaFlujo/:id", proyectos.updateEtapaFlujo);
 
     // Update the etapa mapa of Proyectos with id
     router.put("/updateEtapaMapa/:id", proyectos.updateEtapaMapa);
@@ -125,6 +131,12 @@ module.exports = app => {
 
     // Update the Canales of Proyectos with id
     router.put("/updateCanales/:id", proyectos.updateCanales);
+
+    // Update the Estructura of Proyectos with id
+    router.put("/updateEstructura/:id", proyectos.updateEstructura);
+
+    // Update the flujo of Proyectos with id
+    router.put("/updateFlujo/:id", proyectos.updateFlujo);
     
     // Create the Necesidades of Proyectos with id
     router.post("/createNecesidades", proyectos.createNecesidades);
@@ -158,6 +170,12 @@ module.exports = app => {
     
     // Create the Canales of Proyectos with id
     router.post("/createCanales", proyectos.createCanales);
+    
+    // Create the estructura of Proyectos with id
+    router.post("/createEstructura", proyectos.createEstructura);
+    
+    // Create the flujo of Proyectos with id
+    router.post("/createFlujo", proyectos.createFlujo);
     
     // Create the MetricasClave of Proyectos with id
     router.post("/createMetricasClave", proyectos.createMetricasClave);
@@ -212,6 +230,12 @@ module.exports = app => {
 
     // Delete the Canales of Proyectos with id
     router.delete("/deleteCanales/:id", proyectos.deleteCanales);
+
+    // Delete the estructura of Proyectos with id
+    router.delete("/deleteEstructura/:id", proyectos.deleteEstructura);
+
+    // Delete the flujo of Proyectos with id
+    router.delete("/deleteFlujo/:id", proyectos.deleteFlujo);
 
     // Create a new Proyectos
     router.delete("/", proyectos.deleteAll);

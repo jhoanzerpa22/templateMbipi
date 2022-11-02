@@ -109,6 +109,14 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapaCanales/${id}`, data);
       }
 
+      updateEtapaEstructura(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaFlujo/${id}`, data);
+      }
+
+      updateEtapaFlujo(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaFlujo/${id}`, data);
+      }
+
       updateTime(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
@@ -176,6 +184,14 @@ export class ProyectsService
       updateCanales(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateCanales/${id}`, data);
       }
+
+      updateEstructura(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEstructura/${id}`, data);
+      }
+
+      updateFlujo(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateFlujo/${id}`, data);
+      }
       
       createPropositos(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createPropositos`, data);
@@ -223,6 +239,14 @@ export class ProyectsService
 
       createCanales(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createCanales`, data);
+      }
+
+      createEstructura(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createEstructura`, data);
+      }
+
+      createFlujo(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createFlujo`, data);
       }
 
       delete(id: any): Observable<any> {
@@ -283,6 +307,14 @@ export class ProyectsService
 
       deleteCanales(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/deleteCanales/${id}`);
+      }
+
+      deleteEstructura(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteEstructura/${id}`);
+      }
+
+      deleteFlujo(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteFlujo/${id}`);
       }
 
       deleteMetricasClave(id: any): Observable<any> {
