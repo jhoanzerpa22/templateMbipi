@@ -63,6 +63,10 @@ import { VentajasComponent } from '../../pages/ventajas/ventajas.component';
 import { VentajasDecisionComponent } from '../../pages/ventajas-decision/ventajas-decision.component';
 import { CanalesComponent } from '../../pages/canales/canales.component';
 import { CanalesDecisionComponent } from '../../pages/canales-decision/canales-decision.component';
+import { EstructuraComponent } from '../../pages/estructura/estructura.component';
+import { EstructuraDecisionComponent } from '../../pages/estructura-decision/estructura-decision.component';
+import { FlujoComponent } from '../../pages/flujo/flujo.component';
+import { FlujoDecisionComponent } from '../../pages/flujo-decision/flujo-decision.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { MetasModule } from '../../pages/metas/metas.module';
@@ -98,6 +102,10 @@ import { VentajasModule } from '../../pages/ventajas/ventajas.module';
 import { VentajasDecisionModule } from '../../pages/ventajas-decision/ventajas-decision.module';
 import { CanalesModule } from '../../pages/canales/canales.module';
 import { CanalesDecisionModule } from '../../pages/canales-decision/canales-decision.module';
+import { EstructuraModule } from '../../pages/estructura/estructura.module';
+import { EstructuraDecisionModule } from '../../pages/estructura-decision/estructura-decision.module';
+import { FlujoModule } from '../../pages/flujo/flujo.module';
+import { FlujoDecisionModule } from '../../pages/flujo-decision/flujo-decision.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -259,6 +267,22 @@ const routes: Routes = [
   {
     path: 'fase36',
     component: CanalesDecisionComponent
+  },
+  {
+    path: 'fase37',
+    component: EstructuraComponent
+  },
+  {
+    path: 'fase38',
+    component: EstructuraDecisionComponent
+  },
+  {
+    path: 'fase39',
+    component: FlujoComponent
+  },
+  {
+    path: 'fase40',
+    component: FlujoDecisionComponent
   }
 ];
 

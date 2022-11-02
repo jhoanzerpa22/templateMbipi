@@ -132,6 +132,12 @@ let notas_tablero_all_ventajas = {};
 let notas_tablero_canales = [];
 let notas_tablero_all_canales = {};
 
+let notas_tablero_estructura = [];
+let notas_tablero_all_estructura = {};
+
+let notas_tablero_flujo = [];
+let notas_tablero_all_flujo = {};
+
 io.on('connection', function (socket) {
 
   const handshake = socket.id;
@@ -1103,6 +1109,114 @@ io.on('connection', function (socket) {
         notas_tablero_canales.splice(index, 1);
       }
     io.in(nombreSala).emit('evento_tablero_canales', {'tablero': JSON.stringify(notas_tablero_canales)});
+  })
+
+  
+  /* Eventos Estructura*/
+  socket.on('evento_tablero_estructura', (res) => {
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+    
+    for(let c in tablero){
+      let index3 = notas_tablero_estructura.findIndex((n) => n.id == tablero[c].id);
+
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero_estructura.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+        }
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_tablero_estructura', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+  })
+
+  socket.on('evento_tablero_save_estructura', (res) => {
+    if(Object.keys(notas_tablero_all_estructura).length === 0){
+      //notas_tablero_all_estructura = res;
+    }
+    notas_tablero_all_estructura = [];
+    notas_tablero_estructura = [];
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
+  })
+
+  socket.on('evento_tablero_update_estructura', (res) => {
+    
+      let index = notas_tablero_estructura.findIndex((n) => n.id == res.id);
+
+        if (index != -1) {
+          notas_tablero_estructura[index].content = res.content;
+        }else{
+          notas_tablero_estructura.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
+        }
+    io.in(nombreSala).emit('evento_tablero_estructura', {'tablero': JSON.stringify(notas_tablero_estructura)});
+  })
+
+  socket.on('evento_tablero_delete_estructura', (res) => {
+    
+    let index = notas_tablero_estructura.findIndex((n) => n.id == res.id);
+
+      if (index != -1) {
+        notas_tablero_estructura.splice(index, 1);
+      }
+    io.in(nombreSala).emit('evento_tablero_estructura', {'tablero': JSON.stringify(notas_tablero_estructura)});
+  })
+
+  
+  /* Eventos Flujo*/
+  socket.on('evento_tablero_flujo', (res) => {
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+    
+    for(let c in tablero){
+      let index3 = notas_tablero_flujo.findIndex((n) => n.id == tablero[c].id);
+
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero_flujo.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+        }
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+  })
+
+  socket.on('evento_tablero_save_flujo', (res) => {
+    if(Object.keys(notas_tablero_all_flujo).length === 0){
+      //notas_tablero_all_flujo = res;
+    }
+    notas_tablero_all_flujo = [];
+    notas_tablero_flujo = [];
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
+  })
+
+  socket.on('evento_tablero_update_flujo', (res) => {
+    
+      let index = notas_tablero_flujo.findIndex((n) => n.id == res.id);
+
+        if (index != -1) {
+          notas_tablero_flujo[index].content = res.content;
+        }else{
+          notas_tablero_flujo.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
+        }
+    io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_flujo)});
+  })
+
+  socket.on('evento_tablero_delete_flujo', (res) => {
+    
+    let index = notas_tablero_flujo.findIndex((n) => n.id == res.id);
+
+      if (index != -1) {
+        notas_tablero_flujo.splice(index, 1);
+      }
+    io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_flujo)});
   })
 
   socket.on('disconnect', function () {
