@@ -62,6 +62,18 @@ module.exports = app => {
     
     // Update the etapa solucion of Proyectos with id
     router.put("/updateEtapaSolucion/:id", proyectos.updateEtapaSolucion);
+    
+    // Update the etapa metricas clave of Proyectos with id
+    router.put("/updateEtapaMetricasClave/:id", proyectos.updateEtapaMetricasClave);
+    
+    // Update the etapa propuesta of Proyectos with id
+    router.put("/updateEtapaPropuesta/:id", proyectos.updateEtapaPropuesta);
+    
+    // Update the etapa ventajas of Proyectos with id
+    router.put("/updateEtapaVentajas/:id", proyectos.updateEtapaVentajas);
+    
+    // Update the etapa canales of Proyectos with id
+    router.put("/updateEtapaCanales/:id", proyectos.updateEtapaCanales);
 
     // Update the etapa mapa of Proyectos with id
     router.put("/updateEtapaMapa/:id", proyectos.updateEtapaMapa);
@@ -101,6 +113,18 @@ module.exports = app => {
 
     // Update the Solucion of Proyectos with id
     router.put("/updateSolucion/:id", proyectos.updateSolucion);
+
+    // Update the metricas_clave of Proyectos with id
+    router.put("/updateMetricasClave/:id", proyectos.updateMetricasClave);
+
+    // Update the Propuesta of Proyectos with id
+    router.put("/updatePropuesta/:id", proyectos.updatePropuesta);
+
+    // Update the Ventajas of Proyectos with id
+    router.put("/updateVentajas/:id", proyectos.updateVentajas);
+
+    // Update the Canales of Proyectos with id
+    router.put("/updateCanales/:id", proyectos.updateCanales);
     
     // Create the Necesidades of Proyectos with id
     router.post("/createNecesidades", proyectos.createNecesidades);
@@ -125,6 +149,18 @@ module.exports = app => {
     
     // Create the Solucion of Proyectos with id
     router.post("/createSolucion", proyectos.createSolucion);
+    
+    // Create the propuesta of Proyectos with id
+    router.post("/createPropuesta", proyectos.createPropuesta);
+    
+    // Create the ventajas of Proyectos with id
+    router.post("/createVentajas", proyectos.createVentajas);
+    
+    // Create the Canales of Proyectos with id
+    router.post("/createCanales", proyectos.createCanales);
+    
+    // Create the MetricasClave of Proyectos with id
+    router.post("/createMetricasClave", proyectos.createMetricasClave);
 
     // Update the time of Proyectos with id
     router.put("/updateTime/:id", proyectos.updateTime);
@@ -164,6 +200,18 @@ module.exports = app => {
 
     // Delete the Solucion of Proyectos with id
     router.delete("/deleteSolucion/:id", proyectos.deleteSolucion);
+
+    // Delete the metricas_clave of Proyectos with id
+    router.delete("/deleteMetricasClave/:id", proyectos.deleteMetricasClave);
+
+    // Delete the Propuesta of Proyectos with id
+    router.delete("/deletePropuesta/:id", proyectos.deletePropuesta);
+
+    // Delete the Ventajas of Proyectos with id
+    router.delete("/deleteVentajas/:id", proyectos.deleteVentajas);
+
+    // Delete the Canales of Proyectos with id
+    router.delete("/deleteCanales/:id", proyectos.deleteCanales);
 
     // Create a new Proyectos
     router.delete("/", proyectos.deleteAll);
