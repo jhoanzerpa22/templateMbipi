@@ -233,9 +233,9 @@ export class SolucionDecisionComponent implements OnInit, AfterViewInit, OnDestr
             let solucion: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_solucio != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_solucion != null){
                 
-                 solucion.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_solucio.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_solucio.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 solucion.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_solucion.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_solucion.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
             }

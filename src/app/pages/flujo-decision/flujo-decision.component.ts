@@ -233,9 +233,9 @@ export class FlujoDecisionComponent implements OnInit, AfterViewInit, OnDestroy 
             let flujo: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_fluj != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_flujo != null){
                 
-                 flujo.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_fluj.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_fluj.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 flujo.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_flujo.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_flujo.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
             }

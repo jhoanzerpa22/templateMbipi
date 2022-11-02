@@ -233,9 +233,9 @@ export class ProblemaComponent implements OnInit, AfterViewInit, OnDestroy {
             let problema: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_problem != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_problema != null){
                 if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
-                 problema.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_problem.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_problem.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 problema.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_problema.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_problema.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 }
               }
             }

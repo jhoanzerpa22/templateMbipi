@@ -233,9 +233,9 @@ export class EstructuraComponent implements OnInit, AfterViewInit, OnDestroy {
             let estructura: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_estructur != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_estructura != null){
                 if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
-                 estructura.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_estructur.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_estructur.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 estructura.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_estructura.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_estructura.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 }
               }
             }
