@@ -233,9 +233,12 @@ export class PropuestaDecisionComponent implements OnInit, AfterViewInit, OnDest
             let propuesta: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_propuesta != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                != null){
                 
-                 propuesta.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_propuesta.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_propuesta.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 propuesta.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                 .id,'content': this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                 .contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
             }

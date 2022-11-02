@@ -233,9 +233,12 @@ export class PropuestaComponent implements OnInit, AfterViewInit, OnDestroy {
             let propuesta: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_propuest != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                != null){
                 if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
-                 propuesta.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_propuest.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_propuest.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 propuesta.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                 .id,'content': this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                 .contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 }
               }
             }
