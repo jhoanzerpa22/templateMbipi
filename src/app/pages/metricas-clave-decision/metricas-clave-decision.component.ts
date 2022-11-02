@@ -233,9 +233,9 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
             let metricas_clave: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].leancanvas_metricas_clav != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_metrica != null){
                 
-                 metricas_clave.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_metricas_clav.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_metricas_clav.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 metricas_clave.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_metrica.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_metrica.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
             }
