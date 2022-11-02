@@ -1,0 +1,42 @@
+/*.note {
+    background-color: rgb(255, 240, 70);
+    //position: relative;
+    position: initial;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1em;
+    border-radius: 10px 10px 0px 0px;
+}*/
+
+.note_toolbar {
+    /*background: #7f6c04;*/
+    background-color: rgb(255, 240, 70);
+    border-radius: 8px 8px 0px 0px;
+}
+
+.close {
+    top: 0px;
+    right: -230px;
+    cursor: pointer;
+    color: black;
+    position: relative;
+}
+
+.content {
+    padding: 5px;
+    outline: none;
+    height: 150px;
+    border-radius: 8px;
+    overflow-y: auto;
+    margin: 0 0 45px 0;
+}
+
+.footer{
+  text-align: center
+}
+button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: x-large;
+    outline: none;
+}

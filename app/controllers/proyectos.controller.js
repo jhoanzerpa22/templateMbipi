@@ -23,6 +23,8 @@ const LeanCanvasMetricasClave = db.leancanvas_metricas;
 const LeanCanvasPropuesta = db.leancanvas_propuesta;
 const LeanCanvasVentajas = db.leancanvas_ventajas;
 const LeanCanvasCanales = db.leancanvas_canales;
+const LeanCanvasEstructura = db.leancanvas_estructura;
+const LeanCanvasFlujo = db.leancanvas_flujo;
 
 const Op = db.Sequelize.Op;
 
@@ -141,7 +143,7 @@ exports.findOne = (req, res) => {
         }]
       },
       {
-        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id','usuario_id'], 
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id', 'leancanvas_estructura_id', 'leancanvas_flujo_id','usuario_id'], 
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
@@ -174,6 +176,10 @@ exports.findOne = (req, res) => {
             model: LeanCanvasVentajas/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }, {
             model: LeanCanvasCanales/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+          }, {
+            model: LeanCanvasEstructura/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+          }, {
+            model: LeanCanvasFlujo/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }]
       }]
     })
@@ -858,6 +864,66 @@ exports.updateCanales = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Proyectos canales with id=" + id
+      });
+    });
+};
+
+
+// Update estructura the Proyectos by the id in the request
+exports.updateEstructura = (req, res) => {
+  const id = req.params.id;
+  let estructura = {
+      contenido: req.body.content
+    };
+   
+  LeanCanvasEstructura.update(estructura, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto estructura with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos estructura with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos estructura with id=" + id
+      });
+    });
+};
+
+
+// Update flujo the Proyectos by the id in the request
+exports.updateFlujo = (req, res) => {
+  const id = req.params.id;
+  let flujo = {
+      contenido: req.body.content
+    };
+   
+  LeanCanvasFlujo.update(flujo, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto flujo with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos flujo with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos flujo with id=" + id
       });
     });
 };
@@ -2869,6 +2935,256 @@ exports.updateEtapaCanales = (req, res) => {
       });
     });
 };
+
+
+// Create estructura the Proyectos by the id in the request
+exports.createEstructura = (req, res) => {
+  
+  let estructura = {
+                  contenido: req.body.content
+                };
+
+          LeanCanvasEstructura.create(estructura).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'leancanvas_estructura_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, estructura_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Estructura"
+                });
+            });
+};
+
+// Update etapa estructura the Proyectos by the id in the request
+exports.updateEtapaEstructura = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let estructura = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let solucio = {
+                  contenido: tablero[n].content
+                };
+
+              LeanCanvasEstructura.update(solucio, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Estructura with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              estructura.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(estructura.length > 0){
+          
+          LeanCanvasEstructura.bulkCreate(estructura).then(nec =>{
+                  console.log('estructura',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'leancanvas_estructura_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Estructura"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+
+// Create flujo the Proyectos by the id in the request
+exports.createFlujo = (req, res) => {
+  
+  let flujo = {
+                  contenido: req.body.content
+                };
+
+          LeanCanvasFlujo.create(flujo).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'leancanvas_flujo_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, flujo_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Flujo"
+                });
+            });
+};
+
+// Update etapa flujo the Proyectos by the id in the request
+exports.updateEtapaFlujo = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let flujo = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let solucio = {
+                  contenido: tablero[n].content
+                };
+
+              LeanCanvasFlujo.update(solucio, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Flujo with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              flujo.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(flujo.length > 0){
+          
+          LeanCanvasFlujo.bulkCreate(flujo).then(nec =>{
+                  console.log('flujo',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'leancanvas_flujo_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Flujo"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
 // Update the members of Proyectos by the id in the request
 exports.updateMembers = (req, res) => {
   const id = req.params.id;
@@ -3307,6 +3623,56 @@ exports.deleteCanales = (req, res) => {
                   }).catch(err => {
                     res.status(500).send({
                       message: "Could not delete canales with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+
+// Delete a estructura with the specified id in the request
+exports.deleteEstructura = (req, res) => {
+  const id = req.params.id;
+
+                LeanCanvasEstructura.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Estructura was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete estructura with id=${id}. Maybe estructura was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete estructura with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+
+// Delete a flujo with the specified id in the request
+exports.deleteFlujo = (req, res) => {
+  const id = req.params.id;
+
+                LeanCanvasFlujo.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Flujo was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete flujo with id=${id}. Maybe flujo was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete flujo with id=" + id + ' | error:' + err.message
                     });
                   });
 };

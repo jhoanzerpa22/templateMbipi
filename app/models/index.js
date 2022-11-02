@@ -57,6 +57,8 @@ db.leancanvas_metricas = require("./leancanvas_metricas.model.js")(sequelize, Se
 db.leancanvas_propuesta = require("./leancanvas_propuesta.model.js")(sequelize, Sequelize);
 db.leancanvas_ventajas = require("./leancanvas_ventajas.model.js")(sequelize, Sequelize);
 db.leancanvas_canales = require("./leancanvas_canales.model.js")(sequelize, Sequelize);
+db.leancanvas_estructura = require("./leancanvas_estructura.model.js")(sequelize, Sequelize);
+db.leancanvas_flujo = require("./leancanvas_flujo.model.js")(sequelize, Sequelize);
 db.proyecto_recurso = require("./proyecto_recurso.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
@@ -195,6 +197,14 @@ db.proyecto_recurso.belongsTo(db.leancanvas_ventajas, {
 
 db.proyecto_recurso.belongsTo(db.leancanvas_canales, {
   foreignKey: 'leancanvas_canales_id'
+});
+
+db.proyecto_recurso.belongsTo(db.leancanvas_estructura, {
+  foreignKey: 'leancanvas_estructura_id'
+});
+
+db.proyecto_recurso.belongsTo(db.leancanvas_flujo, {
+  foreignKey: 'leancanvas_flujo_id'
 });
 
 db.proyecto_recurso.belongsTo(db.proyectos, {

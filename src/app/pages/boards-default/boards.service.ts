@@ -55,6 +55,10 @@ export class SocketWebService extends Socket {
 
   @Output() outEvenTableroCanales: EventEmitter<any> = new EventEmitter();
 
+  @Output() outEvenTableroEstructura: EventEmitter<any> = new EventEmitter();
+
+  @Output() outEvenTableroFlujo: EventEmitter<any> = new EventEmitter();
+
   constructor(
     //public cookieService: CookieService,
   ) {
@@ -116,6 +120,10 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_ventajas', (res: any) => this.outEvenTableroVentajas.emit(res));
 
     this.ioSocket.on('evento_tablero_canales', (res: any) => this.outEvenTableroCanales.emit(res));
+
+    this.ioSocket.on('evento_tablero_estructura', (res: any) => this.outEvenTableroEstructura.emit(res));
+
+    this.ioSocket.on('evento_tablero_flujo', (res: any) => this.outEvenTableroFlujo.emit(res));
 
   }
 
@@ -519,6 +527,48 @@ export class SocketWebService extends Socket {
   emitEventTableroDeleteCanales = (payload = {}) => {
     console.log('evento_tablero_delete_canales',payload);
     this.ioSocket.emit('evento_tablero_delete_canales', payload)
+  }
+
+  
+  emitEventTableroSaveEstructura = (payload = {}) => {
+    console.log('evento_tablero_save_estructura',payload);
+    this.ioSocket.emit('evento_tablero_save_estructura', payload)
+  }
+
+  emitEventTableroUpdateEstructura = (payload = {}) => {
+    console.log('evento_tablero_update_estructura',payload);
+    this.ioSocket.emit('evento_tablero_update_estructura', payload)
+  }
+
+  emitEventTableroEstructura = (payload = {}) => {
+    console.log('evento_tablero_estructura',payload);
+    this.ioSocket.emit('evento_tablero_estructura', payload)
+  }
+
+  emitEventTableroDeleteEstructura = (payload = {}) => {
+    console.log('evento_tablero_delete_estructura',payload);
+    this.ioSocket.emit('evento_tablero_delete_estructura', payload)
+  }
+
+  
+  emitEventTableroSaveFlujo = (payload = {}) => {
+    console.log('evento_tablero_save_flujo',payload);
+    this.ioSocket.emit('evento_tablero_save_flujo', payload)
+  }
+
+  emitEventTableroUpdateFlujo = (payload = {}) => {
+    console.log('evento_tablero_update_flujo',payload);
+    this.ioSocket.emit('evento_tablero_update_flujo', payload)
+  }
+
+  emitEventTableroFlujo = (payload = {}) => {
+    console.log('evento_tablero_flujo',payload);
+    this.ioSocket.emit('evento_tablero_flujo', payload)
+  }
+
+  emitEventTableroDeleteFlujo = (payload = {}) => {
+    console.log('evento_tablero_delete_flujo',payload);
+    this.ioSocket.emit('evento_tablero_delete_flujo', payload)
   }
 
 }
