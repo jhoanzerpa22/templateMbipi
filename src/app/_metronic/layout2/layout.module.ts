@@ -55,6 +55,14 @@ import { ClientesComponent } from '../../pages/clientes/clientes.component';
 import { ClientesDecisionComponent } from '../../pages/clientes-decision/clientes-decision.component';
 import { SolucionComponent } from '../../pages/solucion/solucion.component';
 import { SolucionDecisionComponent } from '../../pages/solucion-decision/solucion-decision.component';
+import { MetricasClaveComponent } from '../../pages/metricas-clave/metricas-clave.component';
+import { MetricasClaveDecisionComponent } from '../../pages/metricas-clave-decision/metricas-clave-decision.component';
+import { PropuestaComponent } from '../../pages/propuesta/propuesta.component';
+import { PropuestaDecisionComponent } from '../../pages/propuesta-decision/propuesta-decision.component';
+import { VentajasComponent } from '../../pages/ventajas/ventajas.component';
+import { VentajasDecisionComponent } from '../../pages/ventajas-decision/ventajas-decision.component';
+import { CanalesComponent } from '../../pages/canales/canales.component';
+import { CanalesDecisionComponent } from '../../pages/canales-decision/canales-decision.component';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { MetasModule } from '../../pages/metas/metas.module';
@@ -82,6 +90,14 @@ import { ClientesModule } from '../../pages/clientes/clientes.module';
 import { ClientesDecisionModule } from '../../pages/clientes-decision/clientes-decision.module';
 import { SolucionModule } from '../../pages/solucion/solucion.module';
 import { SolucionDecisionModule } from '../../pages/solucion-decision/solucion-decision.module';
+import { MetricasClaveModule } from '../../pages/metricas-clave/metricas-clave.module';
+import { MetricasClaveDecisionModule } from '../../pages/metricas-clave-decision/metricas-clave-decision.module';
+import { PropuestaModule } from '../../pages/propuesta/propuesta.module';
+import { PropuestaDecisionModule } from '../../pages/propuesta-decision/propuesta-decision.module';
+import { VentajasModule } from '../../pages/ventajas/ventajas.module';
+import { VentajasDecisionModule } from '../../pages/ventajas-decision/ventajas-decision.module';
+import { CanalesModule } from '../../pages/canales/canales.module';
+import { CanalesDecisionModule } from '../../pages/canales-decision/canales-decision.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -211,6 +227,38 @@ const routes: Routes = [
   {
     path: 'fase28',
     component: SolucionDecisionComponent
+  },
+  {
+    path: 'fase29',
+    component: MetricasClaveComponent
+  },
+  {
+    path: 'fase30',
+    component: MetricasClaveDecisionComponent
+  },
+  {
+    path: 'fase31',
+    component: PropuestaComponent
+  },
+  {
+    path: 'fase32',
+    component: PropuestaDecisionComponent
+  },
+  {
+    path: 'fase33',
+    component: VentajasComponent
+  },
+  {
+    path: 'fase34',
+    component: VentajasDecisionComponent
+  },
+  {
+    path: 'fase35',
+    component: CanalesComponent
+  },
+  {
+    path: 'fase36',
+    component: CanalesDecisionComponent
   }
 ];
 
