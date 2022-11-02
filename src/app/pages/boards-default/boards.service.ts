@@ -47,6 +47,8 @@ export class SocketWebService extends Socket {
 
   @Output() outEvenTableroSolucion: EventEmitter<any> = new EventEmitter();
 
+  @Output() outEvenTableroMetricasClave: EventEmitter<any> = new EventEmitter();
+
   constructor(
     //public cookieService: CookieService,
   ) {
@@ -100,6 +102,8 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_cliente', (res: any) => this.outEvenTableroClientes.emit(res));
 
     this.ioSocket.on('evento_tablero_solucion', (res: any) => this.outEvenTableroSolucion.emit(res));
+
+    this.ioSocket.on('evento_tablero_metricas_clave', (res: any) => this.outEvenTableroMetricasClave.emit(res));
 
   }
 
@@ -421,6 +425,26 @@ export class SocketWebService extends Socket {
   emitEventTableroDeleteSolucion = (payload = {}) => {
     console.log('evento_tablero_delete_solucion',payload);
     this.ioSocket.emit('evento_tablero_delete_solucion', payload)
+  }
+
+  emitEventTableroSaveMetricasClave = (payload = {}) => {
+    console.log('evento_tablero_save_metricas_clave',payload);
+    this.ioSocket.emit('evento_tablero_save_metricas_clave', payload)
+  }
+
+  emitEventTableroUpdateMetricasClave = (payload = {}) => {
+    console.log('evento_tablero_update_metricas_clave',payload);
+    this.ioSocket.emit('evento_tablero_update_metricas_clave', payload)
+  }
+
+  emitEventTableroMetricasClave = (payload = {}) => {
+    console.log('evento_tablero_metricas_clave',payload);
+    this.ioSocket.emit('evento_tablero_metricas_clave', payload)
+  }
+
+  emitEventTableroDeleteMetricasClave = (payload = {}) => {
+    console.log('evento_tablero_delete_metricas_clave',payload);
+    this.ioSocket.emit('evento_tablero_delete_metricas_clave', payload)
   }
 
 }

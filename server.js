@@ -120,6 +120,9 @@ let notas_tablero_all_clientes = {};
 let notas_tablero_solucion = [];
 let notas_tablero_all_solucion = {};
 
+let notas_tablero_metricas_clave = [];
+let notas_tablero_all_metricas_clave = {};
+
 io.on('connection', function (socket) {
 
   const handshake = socket.id;
@@ -875,6 +878,60 @@ io.on('connection', function (socket) {
         notas_tablero_solucion.splice(index, 1);
       }
     io.in(nombreSala).emit('evento_tablero_solucion', {'tablero': JSON.stringify(notas_tablero_solucion)});
+  })
+
+  
+  /* Eventos MetricasClave*/
+  socket.on('evento_tablero_metricas_clave', (res) => {
+    let data = res.tablero;
+    let tablero = JSON.parse(data);
+    
+    for(let c in tablero){
+      let index3 = notas_tablero_metricas_clave.findIndex((n) => n.id == tablero[c].id);
+
+        if (index3 != -1) {
+          //notas_tablero[index3].content = tablero[c].content;
+        }else{
+          notas_tablero_metricas_clave.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+        }
+    }
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    io.in(nombreSala).emit('evento_tablero_metricas_clave', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+  })
+
+  socket.on('evento_tablero_save_metricas_clave', (res) => {
+    if(Object.keys(notas_tablero_all_metricas_clave).length === 0){
+      //notas_tablero_all_metricas_clave = res;
+    }
+    notas_tablero_all_metricas_clave = [];
+    notas_tablero_metricas_clave = [];
+    // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+    //socket.to(nombreSala).emit('evento_tablero', res);
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
+  })
+
+  socket.on('evento_tablero_update_metricas_clave', (res) => {
+    
+      let index = notas_tablero_metricas_clave.findIndex((n) => n.id == res.id);
+
+        if (index != -1) {
+          notas_tablero_metricas_clave[index].content = res.content;
+        }else{
+          notas_tablero_metricas_clave.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
+        }
+    io.in(nombreSala).emit('evento_tablero_metricas_clave', {'tablero': JSON.stringify(notas_tablero_metricas_clave)});
+  })
+
+  socket.on('evento_tablero_delete_metricas_clave', (res) => {
+    
+    let index = notas_tablero_metricas_clave.findIndex((n) => n.id == res.id);
+
+      if (index != -1) {
+        notas_tablero_metricas_clave.splice(index, 1);
+      }
+    io.in(nombreSala).emit('evento_tablero_metricas_clave', {'tablero': JSON.stringify(notas_tablero_metricas_clave)});
   })
 
   socket.on('disconnect', function () {

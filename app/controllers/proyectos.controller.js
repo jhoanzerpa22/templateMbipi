@@ -19,6 +19,7 @@ const ScopeCanvasMetricas = db.scopecanvas_metricas;
 const LeanCanvasProblema = db.leancanvas_problema;
 const LeanCanvasClientes = db.leancanvas_clientes;
 const LeanCanvasSolucion = db.leancanvas_solucion;
+const LeanCanvasMetricasClave = db.leancanvas_metricas;
 
 const Op = db.Sequelize.Op;
 
@@ -137,7 +138,7 @@ exports.findOne = (req, res) => {
         }]
       },
       {
-        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id','usuario_id'], 
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id','usuario_id'], 
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
@@ -162,6 +163,8 @@ exports.findOne = (req, res) => {
             model: LeanCanvasClientes/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }, {
             model: LeanCanvasSolucion/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+          }, {
+            model: LeanCanvasMetricasClave/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }]
       }]
     })
@@ -731,6 +734,36 @@ exports.updateSolucion = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Proyectos solucion with id=" + id
+      });
+    });
+};
+
+
+// Update metricas clave the Proyectos by the id in the request
+exports.updateMetricasClave = (req, res) => {
+  const id = req.params.id;
+  let metricas_clave = {
+      contenido: req.body.content
+    };
+   
+  LeanCanvasMetricasClave.update(metricas_clave, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto metricas clave with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos metricas clave with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos metricas clave with id=" + id
       });
     });
 };
@@ -2245,6 +2278,131 @@ exports.updateEtapaSolucion = (req, res) => {
     });
 };
 
+
+// Create metricas clave the Proyectos by the id in the request
+exports.createMetricasClave = (req, res) => {
+  
+  let metricas_clave = {
+                  contenido: req.body.content
+                };
+
+          LeanCanvasMetricasClave.create(metricas_clave).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'leancanvas_metricas_clave_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, metricas_clave_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Metricas Clave"
+                });
+            });
+};
+
+// Update etapa metricas_clave the Proyectos by the id in the request
+exports.updateEtapaMetricasClave = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let metricas_clave = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let metrica_clave = {
+                  contenido: tablero[n].content
+                };
+
+              LeanCanvasMetricasClave.update(metrica_clave, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Metricas Clave with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              metricas_clave.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(metricas_clave.length > 0){
+          
+          LeanCanvasMetricasClave.bulkCreate(metricas_clave).then(nec =>{
+                  console.log('metricas_clave',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'leancanvas_metricas_clave_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Metricas clave"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
 // Update the members of Proyectos by the id in the request
 exports.updateMembers = (req, res) => {
   const id = req.params.id;
@@ -2584,6 +2742,30 @@ exports.deleteSolucion = (req, res) => {
                   }).catch(err => {
                     res.status(500).send({
                       message: "Could not delete solucion with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+// Delete a metricas_clave with the specified id in the request
+exports.deleteMetricasClave = (req, res) => {
+  const id = req.params.id;
+
+                LeanCanvasMetricasClave.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Metrica clave was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete metrica clave with id=${id}. Maybe metrica_clave was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete metrica clave with id=" + id + ' | error:' + err.message
                     });
                   });
 };

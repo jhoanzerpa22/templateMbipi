@@ -93,6 +93,10 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapaSolucion/${id}`, data);
       }
 
+      updateEtapaMetricasClave(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaMetricasClave/${id}`, data);
+      }
+
       updateTime(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
@@ -144,6 +148,10 @@ export class ProyectsService
       updateSolucion(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateSolucion/${id}`, data);
       }
+
+      updateMetricasClave(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateMetricasClave/${id}`, data);
+      }
       
       createPropositos(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createPropositos`, data);
@@ -175,6 +183,10 @@ export class ProyectsService
 
       createSolucion(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createSolucion`, data);
+      }
+
+      createMetricasClave(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createMetricasClave`, data);
       }
 
       delete(id: any): Observable<any> {
@@ -223,6 +235,10 @@ export class ProyectsService
 
       deleteSolucion(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/deleteSolucion/${id}`);
+      }
+
+      deleteMetricasClave(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteMetricasClave/${id}`);
       }
 
       deleteMember(id: any): Observable<any> {

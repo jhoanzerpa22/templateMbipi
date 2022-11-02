@@ -62,6 +62,9 @@ module.exports = app => {
     
     // Update the etapa solucion of Proyectos with id
     router.put("/updateEtapaSolucion/:id", proyectos.updateEtapaSolucion);
+    
+    // Update the etapa solucion of Proyectos with id
+    router.put("/updateEtapaMetricasClave/:id", proyectos.updateEtapaMetricasClave);
 
     // Update the etapa mapa of Proyectos with id
     router.put("/updateEtapaMapa/:id", proyectos.updateEtapaMapa);
@@ -101,6 +104,9 @@ module.exports = app => {
 
     // Update the Solucion of Proyectos with id
     router.put("/updateSolucion/:id", proyectos.updateSolucion);
+
+    // Update the metricas_clave of Proyectos with id
+    router.put("/updateMetricasClave/:id", proyectos.updateMetricasClave);
     
     // Create the Necesidades of Proyectos with id
     router.post("/createNecesidades", proyectos.createNecesidades);
@@ -125,6 +131,9 @@ module.exports = app => {
     
     // Create the Solucion of Proyectos with id
     router.post("/createSolucion", proyectos.createSolucion);
+    
+    // Create the MetricasClave of Proyectos with id
+    router.post("/createMetricasClave", proyectos.createMetricasClave);
 
     // Update the time of Proyectos with id
     router.put("/updateTime/:id", proyectos.updateTime);
@@ -164,6 +173,9 @@ module.exports = app => {
 
     // Delete the Solucion of Proyectos with id
     router.delete("/deleteSolucion/:id", proyectos.deleteSolucion);
+
+    // Delete the metricas_clave of Proyectos with id
+    router.delete("/deleteMetricasClave/:id", proyectos.deleteMetricasClave);
 
     // Create a new Proyectos
     router.delete("/", proyectos.deleteAll);
