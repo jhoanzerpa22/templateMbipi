@@ -20,6 +20,9 @@ const LeanCanvasProblema = db.leancanvas_problema;
 const LeanCanvasClientes = db.leancanvas_clientes;
 const LeanCanvasSolucion = db.leancanvas_solucion;
 const LeanCanvasMetricasClave = db.leancanvas_metricas;
+const LeanCanvasPropuesta = db.leancanvas_propuesta;
+const LeanCanvasVentajas = db.leancanvas_ventajas;
+const LeanCanvasCanales = db.leancanvas_canales;
 
 const Op = db.Sequelize.Op;
 
@@ -138,7 +141,7 @@ exports.findOne = (req, res) => {
         }]
       },
       {
-        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id','usuario_id'], 
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id','usuario_id'], 
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
@@ -165,6 +168,12 @@ exports.findOne = (req, res) => {
             model: LeanCanvasSolucion/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }, {
             model: LeanCanvasMetricasClave/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+          }, {
+            model: LeanCanvasPropuesta/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+          }, {
+            model: LeanCanvasVentajas/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+          }, {
+            model: LeanCanvasCanales/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }]
       }]
     })
@@ -764,6 +773,91 @@ exports.updateMetricasClave = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Proyectos metricas clave with id=" + id
+      });
+    });
+};
+
+// Update propuesta the Proyectos by the id in the request
+exports.updatePropuesta = (req, res) => {
+  const id = req.params.id;
+  let propuesta = {
+      contenido: req.body.content
+    };
+   
+  LeanCanvasPropuesta.update(propuesta, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto propuesta with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos propuesta with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos propuesta with id=" + id
+      });
+    });
+};
+// Update ventajas the Proyectos by the id in the request
+exports.updateVentajas = (req, res) => {
+  const id = req.params.id;
+  let ventajas = {
+      contenido: req.body.content
+    };
+   
+  LeanCanvasVentajas.update(ventajas, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto ventajas with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos ventajas with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos ventajas with id=" + id
+      });
+    });
+};
+// Update canales the Proyectos by the id in the request
+exports.updateCanales = (req, res) => {
+  const id = req.params.id;
+  let canales = {
+      contenido: req.body.content
+    };
+   
+  LeanCanvasCanales.update(canales, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto canales with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos canales with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos canales with id=" + id
       });
     });
 };
@@ -2403,6 +2497,378 @@ exports.updateEtapaMetricasClave = (req, res) => {
     });
 };
 
+
+// Create propuesta the Proyectos by the id in the request
+exports.createPropuesta = (req, res) => {
+  
+  let propuesta = {
+                  contenido: req.body.content
+                };
+
+          LeanCanvasPropuesta.create(propuesta).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'leancanvas_propuesta_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, propuesta_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating propuesta"
+                });
+            });
+};
+
+// Update etapa propuesta the Proyectos by the id in the request
+exports.updateEtapaPropuesta = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let propuesta = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let solucio = {
+                  contenido: tablero[n].content
+                };
+
+              LeanCanvasPropuesta.update(solucio, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Propuesta with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              propuesta.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(propuesta.length > 0){
+          
+          LeanCanvasPropuesta.bulkCreate(propuesta).then(nec =>{
+                  console.log('propuesta',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'leancanvas_propuesta_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Propuesta"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+// Create ventajas the Proyectos by the id in the request
+exports.createVentajas = (req, res) => {
+  
+  let ventajas = {
+                  contenido: req.body.content
+                };
+
+          LeanCanvasVentajas.create(ventajas).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'leancanvas_ventajas_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, ventajas_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Ventajas"
+                });
+            });
+};
+
+// Update etapa ventajas the Proyectos by the id in the request
+exports.updateEtapaVentajas = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let ventajas = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let solucio = {
+                  contenido: tablero[n].content
+                };
+
+              LeanCanvasVentajas.update(solucio, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Ventajas with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              ventajas.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(ventajas.length > 0){
+          
+          LeanCanvasVentajas.bulkCreate(ventajas).then(nec =>{
+                  console.log('ventajas',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'leancanvas_ventajas_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Ventajas"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+// Create canales the Proyectos by the id in the request
+exports.createCanales = (req, res) => {
+  
+  let canales = {
+                  contenido: req.body.content
+                };
+
+          LeanCanvasCanales.create(canales).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'leancanvas_canales_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, canales_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Canales"
+                });
+            });
+};
+
+// Update etapa canales the Proyectos by the id in the request
+exports.updateEtapaCanales = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let canales = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let solucio = {
+                  contenido: tablero[n].content
+                };
+
+              LeanCanvasCanales.update(solucio, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Canales with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              canales.push({'contenido': tablero[n].content});
+            }
+          }
+
+          let proyecto_recurso = [];
+
+          if(canales.length > 0){
+          
+          LeanCanvasCanales.bulkCreate(canales).then(nec =>{
+                  console.log('canales',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'leancanvas_canales_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Canales"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
 // Update the members of Proyectos by the id in the request
 exports.updateMembers = (req, res) => {
   const id = req.params.id;
@@ -2766,6 +3232,81 @@ exports.deleteMetricasClave = (req, res) => {
                   }).catch(err => {
                     res.status(500).send({
                       message: "Could not delete metrica clave with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+
+// Delete a propuesta with the specified id in the request
+exports.deletePropuesta = (req, res) => {
+  const id = req.params.id;
+
+                LeanCanvasPropuesta.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Propuesta was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete propuesta with id=${id}. Maybe propuesta was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete propuesta with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+
+// Delete a ventajas with the specified id in the request
+exports.deleteVentajas = (req, res) => {
+  const id = req.params.id;
+
+                LeanCanvasVentajas.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Ventajas was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete ventajas with id=${id}. Maybe ventajas was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete ventajas with id=" + id + ' | error:' + err.message
+                    });
+                  });
+};
+
+
+// Delete a canales with the specified id in the request
+exports.deleteCanales = (req, res) => {
+  const id = req.params.id;
+
+                LeanCanvasCanales.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "Canales was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete canales with id=${id}. Maybe canales was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete canales with id=" + id + ' | error:' + err.message
                     });
                   });
 };

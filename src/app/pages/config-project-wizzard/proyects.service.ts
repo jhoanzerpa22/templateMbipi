@@ -97,6 +97,18 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapaMetricasClave/${id}`, data);
       }
 
+      updateEtapaPropuesta(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaPropuesta/${id}`, data);
+      }
+
+      updateEtapaVentajas(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaVentajas/${id}`, data);
+      }
+
+      updateEtapaCanales(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaCanales/${id}`, data);
+      }
+
       updateTime(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
@@ -152,6 +164,18 @@ export class ProyectsService
       updateMetricasClave(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateMetricasClave/${id}`, data);
       }
+
+      updatePropuesta(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updatePropuesta/${id}`, data);
+      }
+
+      updateVentajas(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateVentajas/${id}`, data);
+      }
+
+      updateCanales(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateCanales/${id}`, data);
+      }
       
       createPropositos(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createPropositos`, data);
@@ -187,6 +211,18 @@ export class ProyectsService
 
       createMetricasClave(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createMetricasClave`, data);
+      }
+
+      createPropuesta(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createPropuesta`, data);
+      }
+
+      createVentajas(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createVentajas`, data);
+      }
+
+      createCanales(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createCanales`, data);
       }
 
       delete(id: any): Observable<any> {
@@ -235,6 +271,18 @@ export class ProyectsService
 
       deleteSolucion(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/deleteSolucion/${id}`);
+      }
+
+      deletePropuesta(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deletePropuesta/${id}`);
+      }
+
+      deleteVentajas(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteVentajas/${id}`);
+      }
+
+      deleteCanales(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteCanales/${id}`);
       }
 
       deleteMetricasClave(id: any): Observable<any> {
