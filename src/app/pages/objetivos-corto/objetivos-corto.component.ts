@@ -15,6 +15,7 @@ import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-objetivos-corto',
@@ -338,6 +339,17 @@ export class ObjetivosCortoComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   addNote(event?: any) {
+    if (event.target.value.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
     const data = {
       proyecto_id: this.proyecto_id,
       usuario_id: this.usuario.id,
@@ -365,9 +377,21 @@ export class ObjetivosCortoComponent implements OnInit, AfterViewInit, OnDestroy
       (response) => {
       }
     );
+    }
   }
 
   saveNote(event: any){
+    if (event.target.innerText.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
     const id = event.srcElement.parentElement/*.parentElement*//*.parentElement.parentElement*/.getAttribute('id');
     const content = event.target.innerText;
     event.target.innerText = content;
@@ -384,6 +408,7 @@ export class ObjetivosCortoComponent implements OnInit, AfterViewInit, OnDestroy
     localStorage.setItem('notes_objetivos_corto', JSON.stringify(this.notes));
     //this.sendNotes(this.notes);
     console.log("********* updating note *********")
+    }
   }
 
   updateNote(newValue: any){

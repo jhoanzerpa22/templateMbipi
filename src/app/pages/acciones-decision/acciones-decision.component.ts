@@ -15,6 +15,7 @@ import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-acciones-decision',
@@ -351,6 +352,17 @@ export class AccionesDecisionComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   saveNote(event: any){
+    if (event.target.innerText.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
     const id = event.srcElement.parentElement/*.parentElement*//*.parentElement.parentElement*/.getAttribute('id');
     const content = event.target.innerText;
     event.target.innerText = content;
@@ -366,6 +378,7 @@ export class AccionesDecisionComponent implements OnInit, AfterViewInit, OnDestr
     localStorage.setItem('notes_acciones_decision', JSON.stringify(this.notes));
     //this.sendNotes(this.notes);
     console.log("********* updating note *********")
+    }
   }
 
   updateNote(newValue: any){

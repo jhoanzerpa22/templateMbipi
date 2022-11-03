@@ -644,7 +644,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_acciones', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_acciones', {'tablero': JSON.stringify(notas_tablero_acciones)});
   })
 
   socket.on('evento_tablero_save_acciones', (res) => {
@@ -698,7 +698,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_metricas', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_metricas', {'tablero': JSON.stringify(notas_tablero_metricas)});
   })
 
   socket.on('evento_tablero_save_metricas', (res) => {
@@ -751,7 +751,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_problema', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_problema', {'tablero': JSON.stringify(notas_tablero_problema)});
   })
 
   socket.on('evento_tablero_save_problema', (res) => {
@@ -805,7 +805,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_clientes', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_clientes', {'tablero': JSON.stringify(notas_tablero_clientes)});
   })
 
   socket.on('evento_tablero_save_clientes', (res) => {
@@ -858,7 +858,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_solucion', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_solucion', {'tablero': JSON.stringify(notas_tablero_solucion)});
   })
 
   socket.on('evento_tablero_save_solucion', (res) => {
@@ -912,7 +912,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_metricas_clave', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_metricas_clave', {'tablero': JSON.stringify(notas_tablero_metricas_clave)});
   })
 
   socket.on('evento_tablero_save_metricas_clave', (res) => {
@@ -966,7 +966,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_propuesta', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_propuesta', {'tablero': JSON.stringify(notas_tablero_propuesta)});
   })
 
   socket.on('evento_tablero_save_propuesta', (res) => {
@@ -1020,7 +1020,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_ventajas', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_ventajas', {'tablero': JSON.stringify(notas_tablero_ventajas)});
   })
 
   socket.on('evento_tablero_save_ventajas', (res) => {
@@ -1074,7 +1074,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_canales', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_canales', {'tablero': JSON.stringify(notas_tablero_canales)});
   })
 
   socket.on('evento_tablero_save_canales', (res) => {
@@ -1128,7 +1128,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_estructura', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_estructura', {'tablero': JSON.stringify(notas_tablero_estructura)});
   })
 
   socket.on('evento_tablero_save_estructura', (res) => {
@@ -1182,7 +1182,7 @@ io.on('connection', function (socket) {
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
     //socket.to(nombreSala).emit('evento_tablero', res);
-    io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_objetivos)});
+    io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_flujo)});
   })
 
   socket.on('evento_tablero_save_flujo', (res) => {
