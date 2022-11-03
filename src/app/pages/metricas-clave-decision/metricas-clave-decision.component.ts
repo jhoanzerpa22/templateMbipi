@@ -15,6 +15,7 @@ import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-metricas-clave-decision',
@@ -311,13 +312,13 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
 
     tablero.push({'title': 'Como podriamos', "data": metricas_clav});
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase30', tablero: this.notes_all, type: 'notas'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase31', tablero: this.notes_all, type: 'notas'};
 
     this._proyectsService.updateEtapaMetricasClave(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase30');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase31');
 
           this.socketWebService.emitEventTableroSaveMetricasClave({tablero: JSON.stringify(tablero)});
 
@@ -326,11 +327,11 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
         }
     );
 
-    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase30']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase31']);
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase30']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase31']);
   }
 
   etapa_active(etapa_active: any) {
@@ -353,6 +354,17 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
   }
 
   saveNote(event: any){
+    if (event.target.innerText.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
     const id = event.srcElement.parentElement/*.parentElement*//*.parentElement.parentElement*/.getAttribute('id');
     const content = event.target.innerText;
     event.target.innerText = content;
@@ -368,6 +380,7 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
     localStorage.setItem('notes_metricas_clave_decision', JSON.stringify(this.notes));
     //this.sendNotes(this.notes);
     console.log("********* updating note *********")
+    }
   }
 
   updateNote(newValue: any){
