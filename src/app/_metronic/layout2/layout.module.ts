@@ -28,6 +28,7 @@ import { DrawersModule, DropdownMenusModule, ModalsModule, EngagesModule} from '
 import {EngagesComponent} from "../partials/layout/engages/engages.component";
 import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';
 */
+import { PrincipalComponent } from '../../pages/principal/principal.component';
 import { BoardsComponent } from '../../pages/boards/boards.component';
 import { BoardsVotoComponent } from '../../pages/boards-voto/boards-voto.component';
 import { MetasComponent } from '../../pages/metas/metas.component';
@@ -67,6 +68,7 @@ import { EstructuraComponent } from '../../pages/estructura/estructura.component
 import { EstructuraDecisionComponent } from '../../pages/estructura-decision/estructura-decision.component';
 import { FlujoComponent } from '../../pages/flujo/flujo.component';
 import { FlujoDecisionComponent } from '../../pages/flujo-decision/flujo-decision.component';
+import { PrincipalModule } from '../../pages/principal/principal.module';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
 import { MetasModule } from '../../pages/metas/metas.module';
@@ -114,7 +116,7 @@ import { LoadMaskModule } from './loadMask/loadMask.module';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'fase1',
     component: LayoutComponent
     /*children: Routing,*/
     /*children: [
@@ -127,6 +129,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: '**', redirectTo: 'overview', pathMatch: 'full' },*/
     /*],*/
+  },
+  {
+    path: '',
+    component: PrincipalComponent
   },
   {
     path: 'fase2',
