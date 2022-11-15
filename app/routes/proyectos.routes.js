@@ -137,6 +137,15 @@ module.exports = app => {
 
     // Update the flujo of Proyectos with id
     router.put("/updateFlujo/:id", proyectos.updateFlujo);
+
+    // Create the NotaCp of Proyectos with id
+    router.post("/createNotaCp", proyectos.createNotaCp);
+
+    // Create the MetaLp of Proyectos with id
+    router.post("/createMetaLp", proyectos.createMetaLp);
+
+    // Create the PreguntaSprint of Proyectos with id
+    router.post("/createPreguntaSprint", proyectos.createPreguntaSprint);
     
     // Create the Necesidades of Proyectos with id
     router.post("/createNecesidades", proyectos.createNecesidades);

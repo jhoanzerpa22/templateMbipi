@@ -386,6 +386,35 @@ exports.updateNotaCp = (req, res) => {
     });
 };
 
+// Create metalp the Proyectos by the id in the request
+exports.createMetaLp = (req, res) => {
+  
+  let meta = {
+                  contenido: req.body.content
+                };
+
+          MetasLp.create(meta).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'metaslp_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, meta_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating MetaLp"
+                });
+            });
+};
+
 // Update metalp the Proyectos by the id in the request
 exports.updateMetaLp = (req, res) => {
   const id = req.params.id;
@@ -415,6 +444,64 @@ exports.updateMetaLp = (req, res) => {
         message: "Error updating Proyectos metalp with id=" + id
       });
     });
+};
+
+// Create notacp the Proyectos by the id in the request
+exports.createNotaCp = (req, res) => {
+  
+  let nota = {
+                  contenido: req.body.content
+                };
+
+          NotasCp.create(nota).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'notascp_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, nota_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating NotaCp"
+                });
+            });
+};
+
+// Create preguntasprint the Proyectos by the id in the request
+exports.createPreguntaSprint = (req, res) => {
+  
+  let pregunta = {
+                  contenido: req.body.content
+                };
+
+          PreguntaSprint.create(pregunta).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'preguntasprint_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, pregunta_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating Pregunta"
+                });
+            });
 };
 
 // Update preguntasprint the Proyectos by the id in the request

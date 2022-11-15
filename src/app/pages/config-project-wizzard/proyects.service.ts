@@ -192,6 +192,18 @@ export class ProyectsService
       updateFlujo(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateFlujo/${id}`, data);
       }
+
+      createNotaCp(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createNotaCp`, data);
+      }
+
+      createMetaLp(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createMetaLp`, data);
+      }
+      
+      createPreguntaSprint(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createPreguntaSprint`, data);
+      }
       
       createPropositos(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createPropositos`, data);
@@ -258,11 +270,11 @@ export class ProyectsService
       }
 
       deleteMetaLp(id: any): Observable<any> {
-        return this.http.delete(environment.API_G +`${baseUrl}/deleteNotaCp/${id}`);
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteMetaLp/${id}`);
       }
 
       deletePreguntaSprint(id: any): Observable<any> {
-        return this.http.delete(environment.API_G +`${baseUrl}/deleteNotaCp/${id}`);
+        return this.http.delete(environment.API_G +`${baseUrl}/deletePreguntaSprint/${id}`);
       }
 
       deleteNecesidades(id: any): Observable<any> {
