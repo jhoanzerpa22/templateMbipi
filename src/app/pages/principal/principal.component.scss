@@ -44,6 +44,18 @@
   margin-bottom: 20px;
 }
 
+.categoria-inactiva{
+  width: 300px;
+  height: 300px;
+  margin: 10px 10px;
+  float: left;
+  background: #7c7c7c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+}
+
 .categoria-principal{  
   width: 300px;
   height: 300px;
@@ -68,6 +80,18 @@
   align-content: center;
   position: relative;
   cursor: pointer;
+}
+
+.categoria-mapa-inactiva{  
+  width: 940px;
+  height: 300px;
+  margin: 10px 10px;
+  float: left;
+  background: #7c7c7c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
 }
 
 .categoria-mapa-principal{  
@@ -155,6 +179,7 @@
   position: relative;
   padding: 20px 20px 40px 20px;
   margin: auto;
+  margin-bottom: 70px;
 }
 
 :host {
