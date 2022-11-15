@@ -164,11 +164,11 @@ export class DashboardProjectComponent implements OnInit {
 
   iniciar(){
     let fecha = new Date();
-    const data = {estado: 'Iniciado', fecha_inicio: fecha, etapa_activa: '/proyect-init/'+this.proyecto_id};
+    const data = {estado: 'Iniciado', fecha_inicio: fecha, etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase1'};
     this._proyectsService.updateStatus(this.proyecto_id, data)
     .subscribe(
         data => {
-            this._router.navigate(['/proyect-init/'+this.proyecto_id]);
+            this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase1']);
         },
         (response) => {
         }
