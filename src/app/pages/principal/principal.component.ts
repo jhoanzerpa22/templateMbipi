@@ -35,6 +35,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
   equipo: any = [];
 
   etapa: any = 'principal';
+  fase: any = '';
 
   public filteredTablero: ReplaySubject<any> = new ReplaySubject<[]>(1);
   public filteredNotas: ReplaySubject<any> = new ReplaySubject<[]>(1);
@@ -165,6 +166,10 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.showTimer = true;
 
+            let etapa_activa: any = this.proyecto.etapa_activa;
+            let ruta: any = etapa_activa.split('/');//location.pathname.split('/');
+            let fase_activa: any = ruta.length > 0 ? ruta[ruta.length-1] : '';
+            this.fase = parseInt(fase_activa.substring(4));
             this.tablero = [];
             let categorias: any = [];
             let como_podriamos: any = [];
@@ -189,14 +194,18 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ref.detectChanges();
   }
 
-  entrar(ruta: any) {
+  entrar(ruta: any, valid: boolean) {
     //this._router.navigate(['/principal/'+ruta]);
+    if(valid){
     this.etapa = ruta;
     this.ref.detectChanges();
+    }
   }
 
-  ir(fase?: any) {
+  ir(fase?: any, valid?: boolean) {
+    if(valid){
     this._router.navigate(['/proyect-init/'+this.proyecto_id+fase]);
+    }
   }
 
   
