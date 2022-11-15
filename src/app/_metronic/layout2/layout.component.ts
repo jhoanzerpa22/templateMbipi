@@ -15,11 +15,12 @@ import { ProyectsService } from '../../pages/config-project-wizzard/proyects.ser
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+  styleUrls: ['./layout2.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -375,16 +376,54 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  addNote() {
-    this.notes.push({ id: /*this.notes.length + 1*/this.notes.length+'-'+this.usuario.nombre, content: '', usuario_id: this.usuario.id });
-    // sort the array
+  /*addNote() {
+    this.notes.push({ id: this.notes.length+'-'+this.usuario.nombre, content: '', usuario_id: this.usuario.id });
     this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
     localStorage.setItem('notes', JSON.stringify(this.notes));
+  }*/
+  addNote(event?: any) {
+    if (event.target.value.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
+    const data = {
+      proyecto_id: this.proyecto_id,
+      usuario_id: this.usuario.id,
+      content: event.target.value
+    };
+    this._proyectsService.createNotaCp(data)
+        .subscribe(
+            data => {
+    const id = data.nota_id;
+    //const id = this.notes.length+'-'+this.usuario.nombre;
+    this.notes.push({ id: /*this.notes.length + 1*/id, content: event.target.value, usuario_id: this.usuario.id });
+    // sort the array
+    this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
+    localStorage.setItem('notes_all', JSON.stringify(this.notes));
+
+    this.ref.detectChanges();
+    
+    this.socketWebService.emitEventTableroUpdate({id: id, content: event.target.value, usuario_id: this.usuario.id });
+
+    $('#agregar_nota').val('');
+    $('#agregar_nota').text('');
+    $('#agregar_nota').focus();},
+            (response) => {
+            }
+    );
+    }
   }
 
-  saveNote(event: any){
+  /*saveNote(event: any){
     console.log('event',event);
-    const id = event.srcElement.parentElement.parentElement/*.parentElement.parentElement*/.getAttribute('id');
+    const id = event.srcElement.parentElement.parentElement.getAttribute('id');
     const content = event.target.innerText;
     event.target.innerText = content;
     const json = {
@@ -399,6 +438,36 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     localStorage.setItem('notes', JSON.stringify(this.notes));
     //this.sendNotes(this.notes);
     console.log("********* updating note *********")
+  }*/
+
+  saveNote(event: any){
+    if (event.target.innerText.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
+    const id = event.srcElement.parentElement/*.parentElement*//*.parentElement.parentElement*/.getAttribute('id');
+    const content = event.target.innerText;
+    event.target.innerText = content;
+    const json = {
+      'id':id,
+      'content':content,
+      'usuario_id': this.usuario.id
+    }
+    console.log('json',json);
+    this.updateNote(json);
+    //this.updateNoteAll(json);
+
+    localStorage.setItem('notes_all', JSON.stringify(this.notes));
+    //this.sendNotes(this.notes);
+    console.log("********* updating note *********")
+    }
   }
 
   updateNote(newValue: any){
@@ -406,6 +475,14 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       if(note.id== newValue.id) {
         this.notes[index].content = newValue.content;
         this.socketWebService.emitEventTableroUpdate(newValue);
+        this._proyectsService.updateNotaCp(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
       }
     });
   }
@@ -430,22 +507,41 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.emitEventTablero({tablero: JSON.stringify(notes)});
   }
 
-  deleteNote(event: any){
+  /*deleteNote(event: any){
     const id = event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id');
     this.notes.forEach((note: any, index: any)=>{
       console.log('nota',note);
       if(note.id== id) {
         this.notes.splice(index,1);
         this.socketWebService.emitEventTableroDelete(note);
-        /*const index2 = this.notes_all.findIndex((n: any) => n.id == id);
-
-        if (index2 != -1) {
-          this.notes_all.splice(index2, 1);
-
-          this.socketWebService.emitEventTablero({tablero: JSON.stringify(this.notes_all)});
-        }*/
 
         localStorage.setItem('notes', JSON.stringify(this.notes));
+        if(id > 0){
+        this._proyectsService.deleteNotaCp(id)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
+        }
+        console.log("********* deleting note *********")
+        return;
+      }
+    });
+  }*/
+
+  deleteNote(event: any, idNote: any){
+    event.preventDefault();
+    const id = idNote/*event.srcElement.parentElement.parentElement.parentElement.parentElement.getAttribute('id')*/;
+    this.notes.forEach((note: any, index: any)=>{
+      console.log('nota',note);
+      if(note.id== id) {
+        this.notes.splice(index,1);
+        this.socketWebService.emitEventTableroDelete(note);
+
+        localStorage.setItem('notes_all', JSON.stringify(this.notes));
         if(id > 0){
         this._proyectsService.deleteNotaCp(id)
         .subscribe(
