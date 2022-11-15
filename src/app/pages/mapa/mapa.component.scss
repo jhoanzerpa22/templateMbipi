@@ -171,7 +171,7 @@
   font-family: 'Roboto', sans-serif;
 }
 
-header {
+/*header {
   height: 66px;
   border-bottom: 1px solid var(--border-color);
   padding-left: 20px;
@@ -184,7 +184,7 @@ header h2 {
 
 header a {
   color: black;
-}
+}*/
 
 .them-edit-link {
   position: absolute;
@@ -211,12 +211,12 @@ header a {
   display: flex;
 }
 
-.col {
+/*.col {
   overflow: auto;
   width: 300px;
   height: 100%;
   border-right: 1px solid var(--border-color);
-}
+}*/
 
 .drag-drawflow {
   line-height: 50px;
@@ -227,7 +227,7 @@ header a {
   color: #fff;
 }
 
-.menu {
+/*.menu {
   position: absolute;
   height: 40px;
   display: block;
@@ -268,7 +268,7 @@ header a {
   border-radius: 4px;
   cursor: pointer;
   z-index: 5;
-}
+}*/
 
 .btn-clear {
   float: right;
@@ -298,7 +298,8 @@ header a {
   background: #555555;
   border-radius: 4px;
   border-right: 1px solid var(--border-color);
-  z-index: 5;
+  //z-index: 5;
+  z-index: 0;
   cursor: pointer;
 }
 
@@ -314,7 +315,8 @@ header a {
   background: #555555;
   border-radius: 4px;
   border-right: 1px solid var(--border-color);
-  z-index: 5;
+  //z-index: 5;
+  z-index: 0;
 }
 
 .bar-zoom svg {
