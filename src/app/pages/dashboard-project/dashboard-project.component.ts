@@ -168,7 +168,7 @@ export class DashboardProjectComponent implements OnInit {
     this._proyectsService.updateStatus(this.proyecto_id, data)
     .subscribe(
         data => {
-            this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase1']);
+            this._router.navigate(['/proyect-init/'+this.proyecto_id]);
         },
         (response) => {
         }
