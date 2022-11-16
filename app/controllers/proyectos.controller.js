@@ -448,9 +448,12 @@ exports.updateMetaLp = (req, res) => {
 
 // Create notacp the Proyectos by the id in the request
 exports.createNotaCp = (req, res) => {
-  
+
   let nota = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  categoria: 'como podriamos',
+                  votos: 0,
+                  detalle: JSON.stringify([])
                 };
 
           NotasCp.create(nota).then(nec =>{

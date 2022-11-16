@@ -141,7 +141,7 @@
                 <h2 style="color: #fff;">{{t.title}}</h2>
                 <div class="clasificacion-list" cdkDropList [cdkDropListData]="t.data" (cdkDropListDropped)="drop($event)">
                   <div class="clasificacion-box" *ngFor="let item of t.data; let j = index;" cdkDrag>{{item.label}}
-                    <label class="votos">{{item.votos}}</label>
+                    <label class="votos">{{item.votos ? item.votos : 0}}</label>
                     <!--<div class="voto-maximo bg-success position-absolute h-8px w-8px rounded-circle" *ngIf="verifyVotoMaximo(i, j)">
                     </div>-->
                     <!--<mat-icon
