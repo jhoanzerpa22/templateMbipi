@@ -390,7 +390,9 @@ exports.updateNotaCp = (req, res) => {
 exports.createMetaLp = (req, res) => {
   
   let meta = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  votos: 0,
+                  detalle: JSON.stringify([])
                 };
 
           MetasLp.create(meta).then(nec =>{
@@ -482,7 +484,9 @@ exports.createNotaCp = (req, res) => {
 exports.createPreguntaSprint = (req, res) => {
   
   let pregunta = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  votos: 0,
+                  detalle: JSON.stringify([])
                 };
 
           PreguntaSprint.create(pregunta).then(nec =>{
@@ -1622,7 +1626,9 @@ exports.updateEtapaNecesidades = (req, res) => {
 exports.createPropositos = (req, res) => {
   
   let proposito = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  votos: 0,
+                  detalle: JSON.stringify([])
                 };
 
           ScopeCanvasPropositos.create(proposito).then(nec =>{
