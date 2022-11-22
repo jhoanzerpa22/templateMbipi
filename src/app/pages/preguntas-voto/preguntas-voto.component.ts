@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { SocketWebService } from '../boards-default/boards.service';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragMove, CdkDragEnd} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -21,7 +21,6 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
 
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
-
   board: string;
 
   notas: any = [];
@@ -75,6 +74,10 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
   min: any = '0' + 0;
   hr: any = '0' + 0;
 
+  style: any = null;
+  offset: any= {x: 0, y: 0};
+  dragPosition: any = [];//{x: 0, y: 0};
+
   isLoading:boolean = true;    
 
     @HostListener('document:mousemove', ['$event'])
@@ -102,10 +105,46 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
         event.currentIndex,
       );
     }
-
     this.writeBoard();
   }
 
+  public onDragMove(event: CdkDragMove<any>, i?: any, j?: any): void {
+    const el=(document.getElementsByClassName('cdk-drag-preview')[0])as any
+    const xPos = event.pointerPosition.x - this.offset.x;
+    const yPos = event.pointerPosition.y - this.offset.y;
+    //el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+    //console.log('move:',event.pointerPosition);
+    //this.dragPosition.x = xPos;
+    //this.dragPosition.y = yPos;
+  }
+
+  public onDragEnded(event: CdkDragEnd<any>, i?: any, j?: any){
+    console.log('fin',event);
+    //console.log('dragPosition',this.dragPosition);
+    /*const xPos = event.dropPoint.x;
+    const yPos = event.dropPoint.y;*/
+    const xPos = event.dropPoint.x - 650;
+    const yPos = event.dropPoint.y - 500;
+    
+    this.dragPosition[j] = {x: xPos, y: yPos};
+
+    this.tablero[i].data[j].position = j;
+    this.tablero[i].data[j].dragPosition = this.dragPosition[j];
+    //console.log('tablero:',this.tablero);
+
+    let pregunta: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'position': this.tablero[i].data[j].position, 'dragPosition': this.tablero[i].data[j].dragPosition };
+
+    this._proyectsService.updatePreguntaSprint(this.tablero[i].data[j].id, pregunta)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+
+    this.writeBoard();
+  }
+  
   constructor(
     private route: ActivatedRoute,
     private socketWebService: SocketWebService,
@@ -229,6 +268,10 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase8']);
   }
 
+  getCoordenadas(xPos: number,yPos: number){
+    return {x: xPos, y: yPos};
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
@@ -252,12 +295,14 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
 
             this.tablero = [];
             let preguntas: any = [];
+            let position: number = 0;
             for(let c in this.proyecto.proyecto_recursos){
 
               if(this.proyecto.proyecto_recursos[c].preguntasprint != null){
                 
-              preguntas.push({'id': this.proyecto.proyecto_recursos[c].preguntasprint.id,'label': this.proyecto.proyecto_recursos[c].preguntasprint.contenido, 'votos': this.proyecto.proyecto_recursos[c].preguntasprint.votos, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].preguntasprint.detalle) || []});
+              preguntas.push({'id': this.proyecto.proyecto_recursos[c].preguntasprint.id,'label': this.proyecto.proyecto_recursos[c].preguntasprint.contenido, 'votos': this.proyecto.proyecto_recursos[c].preguntasprint.votos, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].preguntasprint.detalle) || [], 'position': this.proyecto.proyecto_recursos[c].preguntasprint.position ? this.proyecto.proyecto_recursos[c].preguntasprint.position : position, 'dragPosition': this.proyecto.proyecto_recursos[c].preguntasprint.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].preguntasprint.dragPosition) :  {'x': 0, 'y': 0}});
               
+              this.dragPosition.push(this.proyecto.proyecto_recursos[c].preguntasprint.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].preguntasprint.dragPosition) : {x: 0, y: 0});
 
               let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].preguntasprint.detalle) || [];
                 const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
@@ -265,15 +310,18 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
                 if (index_usuario != -1) {
                   this.num_votos = this.num_votos + detalle[index_usuario].votos;
                 }
+                position = position + 1;
               }
             }
 
             console.log('preguntas',preguntas);
 
-              this.tablero.push({'title': 'Preguntas', "data": preguntas});
+            this.tablero.push({'title': 'Preguntas', "data": preguntas});
 
             //console.log('tablero_all', this.tablero);
             this.tablero2 = JSON.stringify(this.tablero);
+            
+            console.log('tablero_inicial:',this.tablero);
 
             this.filteredTablero.next(this.tablero.slice());
             
@@ -303,7 +351,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
       let categorias: any = [];
 
       for(let m in this.tablero[n].data){
-        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'detalle': /*JSON.stringify(*/this.tablero[n].data[m].detalle/*)*/});
+        categorias.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'detalle': /*JSON.stringify(*/this.tablero[n].data[m].detalle/*)*/, position: this.tablero[n].data[m].position, dragPosition: this.tablero[n].data[m].dragPosition});
         
         for(let u in this.usuarios_active){
           index_usuario = this.tablero[n].data[m].detalle.findIndex((d: any) => d.usuario_id == this.usuarios_active[u].id);
@@ -468,6 +516,10 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     //console.log('tablero_all', this.tablero);
     this.tablero2 = JSON.stringify(this.tablero);
 
+    for(let d in this.tablero[0].data){
+      this.dragPosition[this.tablero[0].data[d].position] = this.tablero[0].data[d].dragPosition;
+    }
+
     this.filteredTablero.next(this.tablero.slice());
   }
 
@@ -502,7 +554,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
       this.tablero[i].data[j].detalle[index_usuario].votos = this.tablero[i].data[j].detalle[index_usuario].votos + 1;
     }
 
-    let pregunta: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle };
+    let pregunta: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, position: this.tablero[i].data[j].position, dragPosition: this.tablero[i].data[j].dragPosition };
 
     this._proyectsService.updatePreguntaSprint(this.tablero[i].data[j].id, pregunta)
     .subscribe(
@@ -561,7 +613,7 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
       
     }
 
-    let pregunta: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle };
+    let pregunta: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'position': this.tablero[i].data[j].position, 'dragPosition': this.tablero[i].data[j].dragPosition };
 
     this._proyectsService.updatePreguntaSprint(this.tablero[i].data[j].id, pregunta)
     .subscribe(
@@ -608,7 +660,6 @@ export class PreguntasVotoComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     return false;
-
   }
 
   verifyVotoMaximo(i: any, j: any){

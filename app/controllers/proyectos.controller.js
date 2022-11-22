@@ -147,15 +147,15 @@ exports.findOne = (req, res) => {
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
-            model: MetasLp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle']
+            model: MetasLp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle','position','dragPosition']
           }, {
-            model: PreguntaSprint/*, as: "equipo_usuarios"*/, attributes:['id','contenido','votos','detalle']
+            model: PreguntaSprint/*, as: "equipo_usuarios"*/, attributes:['id','contenido','votos','detalle','position','dragPosition']
           }, {
             model: MapaUx/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }, {
             model: ScopeCanvasNecesidades/*, as: "equipo_usuarios"*/, attributes:['id','contenido','tipo']
           }, {
-            model: ScopeCanvasPropositos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle']
+            model: ScopeCanvasPropositos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle','position','dragPosition']
           }, {
             model: ScopeCanvasObjetivos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','tipo']
           }, {
@@ -392,7 +392,9 @@ exports.createMetaLp = (req, res) => {
   let meta = {
                   contenido: req.body.content,
                   votos: 0,
-                  detalle: JSON.stringify([])
+                  detalle: JSON.stringify([]),
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           MetasLp.create(meta).then(nec =>{
@@ -423,7 +425,9 @@ exports.updateMetaLp = (req, res) => {
   let metalp = {
       votos: req.body.votos,
       detalle: JSON.stringify(req.body.detalle),
-      seleccionado: req.body.seleccionado
+      seleccionado: req.body.seleccionado,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   MetasLp.update(metalp, {
@@ -486,7 +490,9 @@ exports.createPreguntaSprint = (req, res) => {
   let pregunta = {
                   contenido: req.body.content,
                   votos: 0,
-                  detalle: JSON.stringify([])
+                  detalle: JSON.stringify([]),
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           PreguntaSprint.create(pregunta).then(nec =>{
@@ -516,7 +522,9 @@ exports.updatePreguntaSprint = (req, res) => {
   const id = req.params.id;
   let pregunta = {
       votos: req.body.votos,
-      detalle: JSON.stringify(req.body.detalle)
+      detalle: JSON.stringify(req.body.detalle),
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   PreguntaSprint.update(pregunta, {
@@ -645,7 +653,9 @@ exports.updatePropositos = (req, res) => {
   let proposito = {
       votos: req.body.votos,
       detalle: JSON.stringify(req.body.detalle),
-      seleccionado: req.body.seleccionado
+      seleccionado: req.body.seleccionado,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   ScopeCanvasPropositos.update(proposito, {
@@ -1219,12 +1229,14 @@ exports.updateEtapaMeta = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let meta_lp = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               MetasLp.update(meta_lp, {
@@ -1239,8 +1251,11 @@ exports.updateEtapaMeta = (req, res) => {
                 });
               
             }else{
-              metas.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0, 'detalle': JSON.stringify([])});
+              metas.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0, 'detalle': JSON.stringify([]), position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -1291,7 +1306,9 @@ exports.updateEtapaMeta = (req, res) => {
               let proyectos_notas = {
                   votos: tablero[nc].data[ncp].votos,
                   seleccionado: tablero[nc].data[ncp].seleccionado,
-                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle)
+                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle),
+                  position: tablero[nc].data[ncp].positon,
+                  dragPosition: JSON.stringify(tablero[nc].data[ncp].dragPosition)
                 };
 
               MetasLp.update(proyectos_notas, {
@@ -1351,12 +1368,14 @@ exports.updateEtapaPreguntas = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let preg_sprint = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               PreguntaSprint.update(preg_sprint, {
@@ -1371,8 +1390,9 @@ exports.updateEtapaPreguntas = (req, res) => {
                 });
               
             }else{
-              preguntas.push({'contenido': tablero[n].content, 'votos': 0, 'detalle': JSON.stringify([])});
+              preguntas.push({'contenido': tablero[n].content, 'votos': 0, 'detalle': JSON.stringify([]),position: position, dragPosition: JSON.stringify(tablero[n].dragPosition)});
             }
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -1421,7 +1441,9 @@ exports.updateEtapaPreguntas = (req, res) => {
               let idcp = tablero[nc].data[ncp].id;
               let proyectos_notas = {
                   votos: tablero[nc].data[ncp].votos,
-                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle)
+                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle),
+                  position: tablero[nc].data[ncp].position,
+                  dragPosition: JSON.stringify(tablero[nc].data[ncp].dragPosition)
                 };
 
               PreguntaSprint.update(proyectos_notas, {
@@ -1628,7 +1650,9 @@ exports.createPropositos = (req, res) => {
   let proposito = {
                   contenido: req.body.content,
                   votos: 0,
-                  detalle: JSON.stringify([])
+                  detalle: JSON.stringify([]),
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           ScopeCanvasPropositos.create(proposito).then(nec =>{
@@ -1673,12 +1697,14 @@ exports.updateEtapaPropositos = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let proposito = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               ScopeCanvasPropositos.update(proposito, {
@@ -1693,8 +1719,10 @@ exports.updateEtapaPropositos = (req, res) => {
                 });
               
             }else{
-              propositos.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0, 'detalle': JSON.stringify([])});
+              propositos.push({'contenido': tablero[n].content, 'seleccionado': false, 'votos': 0, 'detalle': JSON.stringify([]), position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -1745,7 +1773,9 @@ exports.updateEtapaPropositos = (req, res) => {
               let proyectos_notas = {
                   votos: tablero[nc].data[ncp].votos,
                   seleccionado: tablero[nc].data[ncp].seleccionado,
-                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle)
+                  detalle: JSON.stringify(tablero[nc].data[ncp].detalle),
+                  position: tablero[nc].data[ncp].position,
+                  dragPosition: JSON.stringify(tablero[nc].data[ncp].dragPosition)
                 };
 
               ScopeCanvasPropositos.update(proyectos_notas, {

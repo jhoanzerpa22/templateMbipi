@@ -17,6 +17,12 @@ module.exports = (sequelize, Sequelize) => {
       },
       detalle: {
         type: Sequelize.STRING
+      },
+      position: {
+        type: Sequelize.INTEGER
+      },
+      dragPosition: {
+        type: Sequelize.STRING
       }
     }, {
       tableName: 'scopecanvas_propositos',

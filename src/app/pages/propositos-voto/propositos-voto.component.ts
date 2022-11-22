@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { SocketWebService } from '../boards-default/boards.service';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragMove, CdkDragEnd} from '@angular/cdk/drag-drop';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -75,6 +75,10 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
   min: any = '0' + 0;
   hr: any = '0' + 0;
 
+  style: any = null;
+  offset: any= {x: 0, y: 0};
+  dragPosition: any = [];//{x: 0, y: 0};
+
   isLoading: boolean = true;    
 
     @HostListener('document:mousemove', ['$event'])
@@ -105,6 +109,44 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.writeBoard();
   }
+  
+  public onDragMove(event: CdkDragMove<any>, i?: any, j?: any): void {
+    const el=(document.getElementsByClassName('cdk-drag-preview')[0])as any
+    const xPos = event.pointerPosition.x - this.offset.x;
+    const yPos = event.pointerPosition.y - this.offset.y;
+    //el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+    //console.log('move:',event.pointerPosition);
+    //this.dragPosition.x = xPos;
+    //this.dragPosition.y = yPos;
+  }
+
+  public onDragEnded(event: CdkDragEnd<any>, i?: any, j?: any){
+    console.log('fin',event);
+    //console.log('dragPosition',this.dragPosition);
+    /*const xPos = event.dropPoint.x;
+    const yPos = event.dropPoint.y;*/
+    const xPos = event.dropPoint.x - 650;
+    const yPos = event.dropPoint.y - 500;
+    
+    this.dragPosition[j] = {x: xPos, y: yPos};
+
+    this.tablero[i].data[j].position = j;
+    this.tablero[i].data[j].dragPosition = this.dragPosition[j];
+    //console.log('tablero:',this.tablero);
+
+    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado, 'position': this.tablero[i].data[j].position, 'dragPosition': this.tablero[i].data[j].dragPosition };
+
+    this._proyectsService.updatePropositos(this.tablero[i].data[j].id, proposito)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+
+    this.writeBoard();
+  }
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -257,11 +299,13 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
                   != null){
                   propositos.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
                   .id,'label': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
-                  .contenido, 'votos': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado, 'voto_maximo': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.detalle) || []});
+                  .contenido, 'votos': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.votos, 'seleccionado': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado, 'voto_maximo': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado, 'detalle': JSON.parse(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.detalle) || [], 'position': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.position ? this.proyecto.proyecto_recursos[c].scopecanvas_proposito.position : position, 'dragPosition': this.proyecto.proyecto_recursos[c].scopecanvas_proposito.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.dragPosition) :  {'x': 0, 'y': 0}});
 
                   if(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.seleccionado){
                     this.voto_tablero.push(0);
                   }
+
+                  this.dragPosition.push(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.dragPosition) : {x: 0, y: 0});
                 
                   let detalle: any = JSON.parse(this.proyecto.proyecto_recursos[c].scopecanvas_proposito.detalle) || [];
                   const index_usuario = detalle.findIndex((d: any) => d.usuario_id == this.usuario.id);
@@ -306,7 +350,7 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
       let propositos: any = [];
 
       for(let m in this.tablero[n].data){
-        propositos.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'seleccionado': this.tablero[n].data[m].seleccionado, 'detalle': this.tablero[n].data[m].detalle});
+        propositos.push({'id': this.tablero[n].data[m].id, 'label': this.tablero[n].data[m].label, 'votos': this.tablero[n].data[m].votos, 'seleccionado': this.tablero[n].data[m].seleccionado, 'detalle': this.tablero[n].data[m].detalle, position: this.tablero[n].data[m].position, dragPosition: this.tablero[n].data[m].dragPosition});
 
         if(this.tablero[n].data[m].seleccionado){
           usuarios_votos.push(this.usuario.id);
@@ -463,6 +507,10 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
     //console.log('tablero_all', this.tablero);
     this.tablero2 = JSON.stringify(this.tablero);
 
+    for(let d in this.tablero[0].data){
+      this.dragPosition[this.tablero[0].data[d].position] = this.tablero[0].data[d].dragPosition;
+    }
+
     this.filteredTablero.next(this.tablero.slice());
   }
 
@@ -497,7 +545,7 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
       this.tablero[i].data[j].detalle[index_usuario].votos = this.tablero[i].data[j].detalle[index_usuario].votos + 1;
     }
 
-    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado, position: this.tablero[i].data[j].position, dragPosition: this.tablero[i].data[j].dragPosition };
 
     this._proyectsService.updatePropositos(this.tablero[i].data[j].id, proposito)
     .subscribe(
@@ -519,7 +567,7 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
     this.tablero[i].data[j].seleccionado = true;
     //console.log('votos', this.votos);
 
-    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado, position: this.tablero[i].data[j].position, dragPosition: this.tablero[i].data[j].dragPosition };
 
     this._proyectsService.updatePropositos(this.tablero[i].data[j].id, proposito)
     .subscribe(
@@ -569,7 +617,7 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
       
     }
 
-    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado, position: this.tablero[i].data[j].position, dragPosition: this.tablero[i].data[j].dragPosition };
 
     this._proyectsService.updatePropositos(this.tablero[i].data[j].id, proposito)
     .subscribe(
@@ -603,7 +651,7 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
     this.tablero[i].data[j].voto_maximo = false;
     this.tablero[i].data[j].seleccionado = false;
 
-    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado };
+    let proposito: any = { 'votos': this.tablero[i].data[j].votos, 'detalle': this.tablero[i].data[j].detalle, 'seleccionado': this.tablero[i].data[j].seleccionado, position: this.tablero[i].data[j].position, dragPosition: this.tablero[i].data[j].dragPosition };
 
     this._proyectsService.updatePropositos(this.tablero[i].data[j].id, proposito)
     .subscribe(
