@@ -160,7 +160,8 @@
     justify-content: space-between;
     box-sizing: border-box;
     cursor: move;
-    background: rgb(255, 201, 4);
+    //background: rgb(255, 201, 4);
+    background:#ffc;
     font-size: 14px;
     width:150px;
     min-width:150px;
@@ -171,6 +172,24 @@
     /*margin: auto;*/
     margin-left: 20px;
     margin-bottom: 0px;
+  }
+
+  .notes-box:nth-child(even) {
+    background:#cfc;
+  }
+
+  /*.notes-box:nth-child(odd) {
+      transform: rotate(0deg);
+  }*/
+
+  .notes-box:nth-child(3n){
+    background:#ccf;
+  }
+  .notes-box:nth-child(5n){
+    background:#ffc;
+  }
+  .notes-box:hover,ul li:focus{
+    box-shadow:10px 10px 7px rgba(0,0,0,.7);
   }
 
   .example-container {
@@ -212,7 +231,8 @@
     justify-content: space-between;
     box-sizing: border-box;
     cursor: move;
-    background: rgb(255, 201, 4);
+    //background: rgb(255, 201, 4);
+    background:#ffc;
     font-size: 14px;
     width:150px;
     height: 150px;
@@ -222,15 +242,23 @@
     margin: auto;
     margin-bottom: 20px;
   }
-
-  .example-box:nth-child(even) {
-      transform: rotate(0deg);
+  
+      .example-box:nth-child(even) {
+        background:#cfc;
       }
-
-  .example-box:nth-child(odd) {
-
-      transform: rotate(0deg);
-
+    
+      /*.example-box:nth-child(odd) {
+          transform: rotate(0deg);
+      }*/
+    
+      .example-box:nth-child(3n){
+        background:#ccf;
+      }
+      .example-box:nth-child(5n){
+        background:#ffc;
+      }
+      .example-box:hover,ul li:focus{
+        box-shadow:10px 10px 7px rgba(0,0,0,.7);
       }
 
   .cdk-drag-preview {

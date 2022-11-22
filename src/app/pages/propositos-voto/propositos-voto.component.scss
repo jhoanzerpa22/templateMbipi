@@ -124,7 +124,8 @@
     word-break: break-all;
     box-sizing: border-box;
     cursor: move;
-    background: rgb(255, 201, 4);
+    //background: rgb(255, 201, 4);
+    background:#ffc;
     font-size: 14px;
     width:150px;
     min-width:150px;
@@ -138,14 +139,22 @@
   }
 
   .clasificacion-box:nth-child(even) {
+    background:#cfc;
+  }
+
+  /*.clasificacion-box:nth-child(odd) {
       transform: rotate(0deg);
-      }
+  }*/
 
-  .clasificacion-box:nth-child(odd) {
-
-      transform: rotate(0deg);
-
-      }
+  .clasificacion-box:nth-child(3n){
+    background:#ccf;
+  }
+  .clasificacion-box:nth-child(5n){
+    background:#ffc;
+  }
+  .clasificacion-box:hover,ul li:focus{
+    box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  }
 
   .cdk-drag-preview {
     box-sizing: border-box;
