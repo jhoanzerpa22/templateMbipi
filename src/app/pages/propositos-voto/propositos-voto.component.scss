@@ -152,7 +152,7 @@
   .clasificacion-box:nth-child(5n){
     background:#ffc;
   }
-  .clasificacion-box:hover,ul li:focus{
+  .clasificacion-box:hover,.clasificacion-box:focus{
     box-shadow:10px 10px 7px rgba(0,0,0,.7);
   }
 
