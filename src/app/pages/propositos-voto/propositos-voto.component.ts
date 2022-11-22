@@ -125,8 +125,8 @@ export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy
     //console.log('dragPosition',this.dragPosition);
     /*const xPos = event.dropPoint.x;
     const yPos = event.dropPoint.y;*/
-    const xPos = event.dropPoint.x - 650;
-    const yPos = event.dropPoint.y - 500;
+    const xPos = this.dragPosition[j].x + event.distance.x;//event.dropPoint.x - 650;
+    const yPos = this.dragPosition[j].y + event.distance.y;//event.dropPoint.y - 500;
     
     this.dragPosition[j] = {x: xPos, y: yPos};
 
