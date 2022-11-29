@@ -4,6 +4,15 @@
 
 export const environment = {
   production: true,
+  firebaseConfig: {
+    apiKey: "AIzaSyCrMbQgLc15veCjw2f51QgAIppMvXYW2z0",
+    authDomain: "mbipi-61d04.firebaseapp.com",
+    projectId: "mbipi-61d04",
+    storageBucket: "mbipi-61d04.appspot.com",
+    messagingSenderId: "796597933519",
+    appId: "1:796597933519:web:71fc3560a06bbefc4ceeba",
+    measurementId: "G-NETTDYDEQV"
+  },
   appVersion: 'v8.0.38',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
