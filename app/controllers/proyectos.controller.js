@@ -153,33 +153,33 @@ exports.findOne = (req, res) => {
           }, {
             model: MapaUx/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
           }, {
-            model: ScopeCanvasNecesidades/*, as: "equipo_usuarios"*/, attributes:['id','contenido','tipo']
+            model: ScopeCanvasNecesidades/*, as: "equipo_usuarios"*/, attributes:['id','contenido','tipo','position','dragPosition']
           }, {
             model: ScopeCanvasPropositos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','seleccionado','votos','detalle','position','dragPosition']
           }, {
-            model: ScopeCanvasObjetivos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','tipo']
+            model: ScopeCanvasObjetivos/*, as: "equipo_usuarios"*/, attributes:['id','contenido','tipo','position','dragPosition']
           }, {
-            model: ScopeCanvasAcciones/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: ScopeCanvasAcciones/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: ScopeCanvasMetricas/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: ScopeCanvasMetricas/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasProblema/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasProblema/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasClientes/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasClientes/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasSolucion/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasSolucion/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasMetricasClave/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasMetricasClave/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasPropuesta/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasPropuesta/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasVentajas/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasVentajas/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasCanales/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasCanales/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasEstructura/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasEstructura/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
-            model: LeanCanvasFlujo/*, as: "equipo_usuarios"*/, attributes:['id','contenido']
+            model: LeanCanvasFlujo/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }]
       }]
     })
@@ -622,7 +622,9 @@ exports.updateNecesidades = (req, res) => {
   const id = req.params.id;
   let necesidades = {
       contenido: req.body.content,
-      tipo: req.body.type
+      tipo: req.body.type,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   ScopeCanvasNecesidades.update(necesidades, {
@@ -685,7 +687,9 @@ exports.updateObjetivos = (req, res) => {
   const id = req.params.id;
   let objetivos = {
       contenido: req.body.content,
-      tipo: req.body.type
+      tipo: req.body.type,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   ScopeCanvasObjetivos.update(objetivos, {
@@ -715,7 +719,9 @@ exports.updateObjetivos = (req, res) => {
 exports.updateAcciones = (req, res) => {
   const id = req.params.id;
   let acciones = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   ScopeCanvasAcciones.update(acciones, {
@@ -744,7 +750,9 @@ exports.updateAcciones = (req, res) => {
 exports.updateMetricas = (req, res) => {
   const id = req.params.id;
   let metricas = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   ScopeCanvasMetricas.update(metricas, {
@@ -774,7 +782,9 @@ exports.updateMetricas = (req, res) => {
 exports.updateProblema = (req, res) => {
   const id = req.params.id;
   let problema = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasProblema.update(problema, {
@@ -803,7 +813,9 @@ exports.updateProblema = (req, res) => {
 exports.updateClientes = (req, res) => {
   const id = req.params.id;
   let cliente = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasClientes.update(cliente, {
@@ -832,7 +844,9 @@ exports.updateClientes = (req, res) => {
 exports.updateSolucion = (req, res) => {
   const id = req.params.id;
   let solucion = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasSolucion.update(solucion, {
@@ -862,7 +876,9 @@ exports.updateSolucion = (req, res) => {
 exports.updateMetricasClave = (req, res) => {
   const id = req.params.id;
   let metricas_clave = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasMetricasClave.update(metricas_clave, {
@@ -891,7 +907,9 @@ exports.updateMetricasClave = (req, res) => {
 exports.updatePropuesta = (req, res) => {
   const id = req.params.id;
   let propuesta = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasPropuesta.update(propuesta, {
@@ -919,7 +937,9 @@ exports.updatePropuesta = (req, res) => {
 exports.updateVentajas = (req, res) => {
   const id = req.params.id;
   let ventajas = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasVentajas.update(ventajas, {
@@ -947,7 +967,9 @@ exports.updateVentajas = (req, res) => {
 exports.updateCanales = (req, res) => {
   const id = req.params.id;
   let canales = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasCanales.update(canales, {
@@ -977,7 +999,9 @@ exports.updateCanales = (req, res) => {
 exports.updateEstructura = (req, res) => {
   const id = req.params.id;
   let estructura = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasEstructura.update(estructura, {
@@ -1007,7 +1031,9 @@ exports.updateEstructura = (req, res) => {
 exports.updateFlujo = (req, res) => {
   const id = req.params.id;
   let flujo = {
-      contenido: req.body.content
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
     };
    
   LeanCanvasFlujo.update(flujo, {
@@ -1522,7 +1548,9 @@ exports.createNecesidades = (req, res) => {
   
   let necesidad = {
                   contenido: req.body.content,
-                  tipo: req.body.type
+                  tipo: req.body.type,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           ScopeCanvasNecesidades.create(necesidad).then(nec =>{
@@ -1567,13 +1595,15 @@ exports.updateEtapaNecesidades = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let necesidad = {
                   contenido: tablero[n].content,
-                  tipo: tablero[n].type
+                  tipo: tablero[n].type,
+                  position: position
                 };
 
               ScopeCanvasNecesidades.update(necesidad, {
@@ -1588,8 +1618,10 @@ exports.updateEtapaNecesidades = (req, res) => {
                 });
               
             }else{
-              necesidades.push({'contenido': tablero[n].content,'tipo': tablero[n].type});
+              necesidades.push({'contenido': tablero[n].content,'tipo': tablero[n].type, position: position, dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+            
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -1820,7 +1852,9 @@ exports.createObjetivos = (req, res) => {
   
   let objetivo = {
                   contenido: req.body.content,
-                  tipo: req.body.type
+                  tipo: req.body.type,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           ScopeCanvasObjetivos.create(objetivo).then(nec =>{
@@ -1865,13 +1899,15 @@ exports.updateEtapaObjetivos = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let objetivo = {
                   contenido: tablero[n].content,
-                  tipo: tablero[n].type
+                  tipo: tablero[n].type,
+                  position: position
                 };
 
               ScopeCanvasObjetivos.update(objetivo, {
@@ -1886,8 +1922,9 @@ exports.updateEtapaObjetivos = (req, res) => {
                 });
               
             }else{
-              objetivos.push({'contenido': tablero[n].content,'tipo': tablero[n].type});
+              objetivos.push({'contenido': tablero[n].content,'tipo': tablero[n].type, position: position, dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -1945,7 +1982,9 @@ exports.updateEtapaObjetivos = (req, res) => {
 exports.createAcciones = (req, res) => {
   
   let accion = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           ScopeCanvasAcciones.create(accion).then(nec =>{
@@ -1990,12 +2029,14 @@ exports.updateEtapaAcciones = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let accion = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               ScopeCanvasAcciones.update(accion, {
@@ -2010,8 +2051,9 @@ exports.updateEtapaAcciones = (req, res) => {
                 });
               
             }else{
-              acciones.push({'contenido': tablero[n].content});
+              acciones.push({'contenido': tablero[n].content, position: position, dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2069,7 +2111,9 @@ exports.updateEtapaAcciones = (req, res) => {
 exports.createMetricas = (req, res) => {
   
   let metrica = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           ScopeCanvasMetricas.create(metrica).then(nec =>{
@@ -2114,12 +2158,14 @@ exports.updateEtapaMetricas = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let metrica = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               ScopeCanvasMetricas.update(metrica, {
@@ -2134,8 +2180,9 @@ exports.updateEtapaMetricas = (req, res) => {
                 });
               
             }else{
-              metricas.push({'contenido': tablero[n].content});
+              metricas.push({'contenido': tablero[n].content, position: position, dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2194,7 +2241,9 @@ exports.updateEtapaMetricas = (req, res) => {
 exports.createProblema = (req, res) => {
   
   let problema = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasProblema.create(problema).then(nec =>{
@@ -2239,12 +2288,14 @@ exports.updateEtapaProblema = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let problem = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasProblema.update(problem, {
@@ -2259,8 +2310,11 @@ exports.updateEtapaProblema = (req, res) => {
                 });
               
             }else{
-              problema.push({'contenido': tablero[n].content});
+              problema.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2319,7 +2373,9 @@ exports.updateEtapaProblema = (req, res) => {
 exports.createClientes = (req, res) => {
   
   let cliente = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasClientes.create(cliente).then(nec =>{
@@ -2364,12 +2420,14 @@ exports.updateEtapaClientes = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let cliente = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasClientes.update(cliente, {
@@ -2384,8 +2442,11 @@ exports.updateEtapaClientes = (req, res) => {
                 });
               
             }else{
-              clientes.push({'contenido': tablero[n].content});
+              clientes.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2444,7 +2505,9 @@ exports.updateEtapaClientes = (req, res) => {
 exports.createSolucion = (req, res) => {
   
   let solucion = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasSolucion.create(solucion).then(nec =>{
@@ -2489,12 +2552,14 @@ exports.updateEtapaSolucion = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let solucio = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasSolucion.update(solucio, {
@@ -2509,8 +2574,11 @@ exports.updateEtapaSolucion = (req, res) => {
                 });
               
             }else{
-              solucion.push({'contenido': tablero[n].content});
+              solucion.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2569,7 +2637,9 @@ exports.updateEtapaSolucion = (req, res) => {
 exports.createMetricasClave = (req, res) => {
   
   let metricas_clave = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasMetricasClave.create(metricas_clave).then(nec =>{
@@ -2614,12 +2684,14 @@ exports.updateEtapaMetricasClave = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let metrica_clave = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasMetricasClave.update(metrica_clave, {
@@ -2634,8 +2706,10 @@ exports.updateEtapaMetricasClave = (req, res) => {
                 });
               
             }else{
-              metricas_clave.push({'contenido': tablero[n].content});
+              metricas_clave.push({'contenido': tablero[n].content, position: position, dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2694,7 +2768,9 @@ exports.updateEtapaMetricasClave = (req, res) => {
 exports.createPropuesta = (req, res) => {
   
   let propuesta = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasPropuesta.create(propuesta).then(nec =>{
@@ -2739,12 +2815,14 @@ exports.updateEtapaPropuesta = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let solucio = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasPropuesta.update(solucio, {
@@ -2759,8 +2837,11 @@ exports.updateEtapaPropuesta = (req, res) => {
                 });
               
             }else{
-              propuesta.push({'contenido': tablero[n].content});
+              propuesta.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2818,7 +2899,9 @@ exports.updateEtapaPropuesta = (req, res) => {
 exports.createVentajas = (req, res) => {
   
   let ventajas = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasVentajas.create(ventajas).then(nec =>{
@@ -2863,12 +2946,14 @@ exports.updateEtapaVentajas = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let solucio = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasVentajas.update(solucio, {
@@ -2883,8 +2968,11 @@ exports.updateEtapaVentajas = (req, res) => {
                 });
               
             }else{
-              ventajas.push({'contenido': tablero[n].content});
+              ventajas.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -2942,7 +3030,9 @@ exports.updateEtapaVentajas = (req, res) => {
 exports.createCanales = (req, res) => {
   
   let canales = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasCanales.create(canales).then(nec =>{
@@ -2987,12 +3077,14 @@ exports.updateEtapaCanales = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let solucio = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasCanales.update(solucio, {
@@ -3007,8 +3099,11 @@ exports.updateEtapaCanales = (req, res) => {
                 });
               
             }else{
-              canales.push({'contenido': tablero[n].content});
+              canales.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -3067,7 +3162,9 @@ exports.updateEtapaCanales = (req, res) => {
 exports.createEstructura = (req, res) => {
   
   let estructura = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasEstructura.create(estructura).then(nec =>{
@@ -3112,12 +3209,14 @@ exports.updateEtapaEstructura = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let solucio = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasEstructura.update(solucio, {
@@ -3132,8 +3231,11 @@ exports.updateEtapaEstructura = (req, res) => {
                 });
               
             }else{
-              estructura.push({'contenido': tablero[n].content});
+              estructura.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
@@ -3192,7 +3294,9 @@ exports.updateEtapaEstructura = (req, res) => {
 exports.createFlujo = (req, res) => {
   
   let flujo = {
-                  contenido: req.body.content
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
                 };
 
           LeanCanvasFlujo.create(flujo).then(nec =>{
@@ -3237,12 +3341,14 @@ exports.updateEtapaFlujo = (req, res) => {
         /*Verificamos que fase guardar*/
         if(type_fase == 'notas'){
           let i = 0;
+          let position = 0;
           for(let n in tablero){
           //for (let i = 0; i < req.body.tablero.length; i++) {
             if(tablero[n].id > 0){
 
               let solucio = {
-                  contenido: tablero[n].content
+                  contenido: tablero[n].content,
+                  position: position
                 };
 
               LeanCanvasFlujo.update(solucio, {
@@ -3257,8 +3363,11 @@ exports.updateEtapaFlujo = (req, res) => {
                 });
               
             }else{
-              flujo.push({'contenido': tablero[n].content});
+              flujo.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
             }
+
+            position = position + 1;
           }
 
           let proyecto_recurso = [];
