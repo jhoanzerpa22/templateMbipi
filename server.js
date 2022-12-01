@@ -1245,7 +1245,7 @@ app.use('/api/cloudinary', require('./app/routes/cloudinary.routes'));
 app.use('/cloud_user', require('./app/routes/cloud_user.routes'))
 
 // Serve static files
-//app.use('/', express.static(__dirname + '/dist/demo1'));
+app.use('/', express.static(__dirname + '/dist/demo1'));
 /*
 app.use('/', express.static(path.join(__dirname,'static/home/')));
 */
@@ -1266,10 +1266,10 @@ app.all('/api/*', (req, res) => {
 /*app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/demo1/index.html'));
 });*/
-/*Heroku*/
-/*app.use('/*', function(req, res) {
+/*Heroku y Firebase*/
+app.use('/*', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/demo1/'));
-});*/
+});
 /*
 app.use('/*', express.static(path.join(__dirname,'static/home/')));*/
 
@@ -1449,7 +1449,7 @@ async function sendMail(user, callback) {
     </div>
     <div class="container">
       <h4 style="text-align: center; padding-top: 20px;">Por favor ingresa en el siguiente link para verificar tu cuenta.</h4>
-      <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
+      <a style="text-align: center; padding-top: 20px;" href="https://mbipi-61d04.web.app/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
     </div>
   </div>
     `
@@ -1556,7 +1556,7 @@ async function sendMailResume(user, callback) {
         </div>
         <div class="container">
           <h4 style="text-align: center; padding-top: 20px;">El Usuario `+user.nombre_usuario+` lo ha invitado a unirse al proyecto `+user.nombre+`. Por favor ingresa en el siguiente link para ingresar al sistema y aceptar la invitación.</h4>
-          <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/invitations?code=`+user.code+`">Ingresar</a>
+          <a style="text-align: center; padding-top: 20px;" href="https://mbipi-61d04.web.app/invitations?code=`+user.code+`">Ingresar</a>
         </div>
       </div>
         `
@@ -1607,7 +1607,7 @@ async function sendMailResume(user, callback) {
           </div>
           <div class="container">
             <h4 style="text-align: center; padding-top: 5px;">Ingresa al siguiente link e ingresa el código de verificación</h4><span></span>
-            <a style="text-align: center; padding-top: 5px;" href="https://mbipi.herokuapp.com/auth/verify-code/`+user.id+`/`+user.pass_recovery_token+`">LINK</a>
+            <a style="text-align: center; padding-top: 5px;" href="https://mbipi-61d04.web.app/auth/verify-code/`+user.id+`/`+user.pass_recovery_token+`">LINK</a>
             <h2 style="text-align: center;padding-top: 5px;">Código: `+user.pass_recovery+` <h2>
           </div>
         </div>
