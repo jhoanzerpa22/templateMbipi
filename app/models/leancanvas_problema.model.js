@@ -8,6 +8,12 @@ module.exports = (sequelize, Sequelize) => {
       },*/
       contenido: {
         type: Sequelize.STRING
+      },
+      position: {
+        type: Sequelize.INTEGER
+      },
+      dragPosition: {
+        type: Sequelize.STRING
       }
     }, {
       tableName: 'leancanvas_problema',

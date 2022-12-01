@@ -459,14 +459,18 @@ io.on('connection', function (socket) {
   socket.on('evento_tablero_necesidades', (res) => {
     let data = res.tablero;
     let tablero = JSON.parse(data);
+
+    //console.log('notas_necesidades',notas_tablero_necesidades);
     
     for(let c in tablero){
       let index3 = notas_tablero_necesidades.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_necesidades[index3].content = tablero[c].content;
+          notas_tablero_necesidades[index3].position = tablero[c].position;
+          notas_tablero_necesidades[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_necesidades.push({'id': tablero[c].id, 'content': tablero[c].content, 'type': tablero[c].type, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_necesidades.push({'id': tablero[c].id, 'content': tablero[c].content, 'type': tablero[c].type, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -493,7 +497,7 @@ io.on('connection', function (socket) {
         if (index != -1) {
           notas_tablero_necesidades[index].content = res.content;
         }else{
-          notas_tablero_necesidades.push({'id': res.id, 'content': res.content, 'type': res.type, 'usuario_id': res.usuario_id});
+          notas_tablero_necesidades.push({'id': res.id, 'content': res.content, 'type': res.type, 'usuario_id': res.usuario_id, 'position': res.position, 'dragPosition': res.dragPosition});
         }
     io.in(nombreSala).emit('evento_tablero_necesidades', {'tablero': JSON.stringify(notas_tablero_necesidades)});
   })
@@ -583,9 +587,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_objetivos.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_objetivos[index3].content = tablero[c].content;
+          notas_tablero_objetivos[index3].position = tablero[c].position;
+          notas_tablero_objetivos[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_objetivos.push({'id': tablero[c].id, 'content': tablero[c].content, 'type': tablero[c].type, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_objetivos.push({'id': tablero[c].id, 'content': tablero[c].content, 'type': tablero[c].type, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -637,9 +643,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_acciones.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_acciones[index3].content = tablero[c].content;
+          notas_tablero_acciones[index3].position = tablero[c].position;
+          notas_tablero_acciones[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_acciones.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_acciones.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -691,9 +699,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_metricas.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_metricas[index3].content = tablero[c].content;
+          notas_tablero_metricas[index3].position = tablero[c].position;
+          notas_tablero_metricas[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_metricas.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_metricas.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -744,9 +754,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_problema.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_problema[index3].content = tablero[c].content;
+          notas_tablero_problema[index3].position = tablero[c].position;
+          notas_tablero_problema[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_problema.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_problema.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -798,9 +810,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_clientes.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_clientes[index3].content = tablero[c].content;
+          notas_tablero_clientes[index3].position = tablero[c].position;
+          notas_tablero_clientes[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_clientes.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_clientes.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -851,9 +865,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_solucion.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_solucion[index3].content = tablero[c].content;
+          notas_tablero_solucion[index3].position = tablero[c].position;
+          notas_tablero_solucion[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_solucion.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_solucion.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -905,9 +921,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_metricas_clave.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_metricas_clave[index3].content = tablero[c].content;
+          notas_tablero_metricas_clave[index3].position = tablero[c].position;
+          notas_tablero_metricas_clave[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_metricas_clave.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_metricas_clave.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -959,9 +977,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_propuesta.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_propuesta[index3].content = tablero[c].content;
+          notas_tablero_propuesta[index3].position = tablero[c].position;
+          notas_tablero_propuesta[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_propuesta.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_propuesta.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -1013,9 +1033,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_ventajas.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_ventajas[index3].content = tablero[c].content;
+          notas_tablero_ventajas[index3].position = tablero[c].position;
+          notas_tablero_ventajas[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_ventajas.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_ventajas.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -1067,9 +1089,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_canales.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_canales[index3].content = tablero[c].content;
+          notas_tablero_canales[index3].position = tablero[c].position;
+          notas_tablero_canales[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_canales.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_canales.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -1121,9 +1145,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_estructura.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_estructura[index3].content = tablero[c].content;
+          notas_tablero_estructura[index3].position = tablero[c].position;
+          notas_tablero_estructura[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_estructura.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_estructura.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -1175,9 +1201,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_flujo.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_flujo[index3].content = tablero[c].content;
+          notas_tablero_flujo[index3].position = tablero[c].position;
+          notas_tablero_flujo[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_flujo.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_flujo.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje

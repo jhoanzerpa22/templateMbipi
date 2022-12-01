@@ -5,7 +5,8 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ViewEncapsulation, Inject, Input, NgZone, Renderer2, HostListener
 } from '@angular/core';/*
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';*/
@@ -15,6 +16,9 @@ import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragMove, CdkDragEnd} from '@angular/cdk/drag-drop';
+import { ReplaySubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -65,6 +69,8 @@ export class CanalesDecisionComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
+  @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
+  @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
 
   //Lista de Usuarios
   usuarios: any = []; //usuarios
@@ -84,8 +90,81 @@ export class CanalesDecisionComponent implements OnInit, AfterViewInit, OnDestro
   sec: any = '0' + 0;
   min: any = '0' + 0;
   hr: any = '0' + 0;
-
   isLoading:boolean = true;
+
+  _user: any = {};
+  equipo: any = [];
+
+  public width: number = 50;
+  public height: number = 50;
+
+  private cx: CanvasRenderingContext2D;
+
+  private points: Array<any> = [];
+  style: any = null;
+  offset: any= {x: 0, y: 0};
+  dragPosition: any = [];//{x: 0, y: 0};
+
+  public isAvailabe: boolean = false;
+
+  @HostListener('document:mousemove', ['$event'])
+    onMouseMove = (e: any) => {
+      //if (e.target.id === 'canvasId' && (this.isAvailabe)) {
+        this.write(e);
+      //}
+    }
+
+    @HostListener('click', ['$event'])
+    onClick = (e: any) => {
+      if (e.target.id === 'canvasId') {
+        this.isAvailabe = !this.isAvailabe;
+      }
+    }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+    this.writeBoard();
+  }
+
+  public onDragMove(event: CdkDragMove<any>, i?: any, j?: any): void {
+    const el=(document.getElementsByClassName('cdk-drag-preview')[0])as any
+    const xPos = event.pointerPosition.x - this.offset.x;
+    const yPos = event.pointerPosition.y - this.offset.y;
+  }
+
+  public onDragEnded(event: CdkDragEnd<any>, i?: any, j?: any){
+    const xPos = this.dragPosition[j].x + event.distance.x;//event.dropPoint.x - 650;
+    const yPos = this.dragPosition[j].y + event.distance.y;//event.dropPoint.y - 500;
+    
+    this.dragPosition[j] = {x: xPos, y: yPos};
+
+    this.notes[j].position = j;
+    this.notes[j].dragPosition = this.dragPosition[j];
+    //console.log('tablero:',this.tablero);
+
+    this.notes_all = this.notes;
+
+    let canal: any = { 'position': this.notes[j].position, 'dragPosition': this.notes[j].dragPosition };
+
+    this._proyectsService.updateCanales(this.notes[j].id, canal)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+
+    this.writeBoard();
+  }
 
   constructor(/*
   private initService: LayoutInitService,
@@ -104,6 +183,29 @@ export class CanalesDecisionComponent implements OnInit, AfterViewInit, OnDestro
     this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
       const { usuarios_active } = res;
       this.readUsersActive(usuarios_active, false);
+    });
+
+    this.socketWebService.outEven2.subscribe((res: any) => {
+      //console.log('escucha_puntero',res);
+
+      const { prevPost } = res;
+      let usuario_label = prevPost.usuario.split(' ');
+      let usuario_nombre = usuario_label[0].replace("-", "");
+      usuario_nombre = usuario_nombre.replace(".", "");
+      usuario_nombre = usuario_nombre.replace("@", "");
+
+      const index = this.equipo.findIndex((c: any) => c == usuario_nombre);
+      //console.log('usuario',prevPost.usuario);
+        if (index == -1) {
+          this.equipo.push(usuario_nombre);
+        }
+        this.ref.detectChanges();
+      //jQuery("#canvasId").css({"left" : prevPost.x, "top" : prevPost.y});
+      jQuery("#puntero-"+usuario_nombre).css({"left" : prevPost.x, "top" : prevPost.y, "display": "block"});
+      jQuery("#equipo-"+usuario_nombre).css({"left" : prevPost.x + 30, "top" : prevPost.y, "display": "block"});
+      //console.log('equipo',this.equipo);
+
+      this.writeSingle(prevPost, false);
     });
 
     //escuchamos el evento de las notas de los usuarios
@@ -127,6 +229,7 @@ export class CanalesDecisionComponent implements OnInit, AfterViewInit, OnDestro
     let user: any = JSON.parse(usuario);
     //lo asignamos a variable
     this.usuario = user;
+    this._user = user;
     this.usuario.active = true; // indicamos que esta activo
 
     //leemos nota en cache
@@ -232,11 +335,16 @@ export class CanalesDecisionComponent implements OnInit, AfterViewInit, OnDestro
             this.showTimer = true;
             
             let canales: any = [];
+            let position: number = 0;
             
             for(let c in this.proyecto.proyecto_recursos){
               if(this.proyecto.proyecto_recursos[c].leancanvas_canale != null){
                 
-                 canales.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_canale.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_canale.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 canales.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_canale.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_canale.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id, 'position': this.proyecto.proyecto_recursos[c].leancanvas_canale.position ? this.proyecto.proyecto_recursos[c].leancanvas_canale.position : position, 'dragPosition': this.proyecto.proyecto_recursos[c].leancanvas_canale.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].leancanvas_canale.dragPosition) :  {'x': 0, 'y': 0}});
+
+                 this.dragPosition.push(this.proyecto.proyecto_recursos[c].leancanvas_canale.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].leancanvas_canale.dragPosition) : {x: 0, y: 0});
+                 
+                position = position + 1;
                 
               }
             }
@@ -280,12 +388,85 @@ export class CanalesDecisionComponent implements OnInit, AfterViewInit, OnDestro
     console.log('notas_all_canales_decision',data);
     this.notes_all = data;
     this.notes = data;
+
+    for(let d in data){
+      this.dragPosition[data[d].position] = data[d].dragPosition;
+    }
     this.ref.detectChanges();
     /*this.notes_all = [];
     for(let c in data){
       this.notes_all.push({'id': data[c].id, 'content': data[c].content, "data": data[c].data});
     }*/
 
+  }
+
+  
+  
+  private render() {
+    const canvasEl = this.canvasRef.nativeElement;
+    this.cx = canvasEl.getContext('2d');/*
+    var img = new Image();
+    img.src = "https://w7.pngwing.com/pngs/547/1024/png-transparent-computer-mouse-pointer-arrow-mouse-cursor-white-arrow-on-black-background-miscellaneous-angle-text.png";*/
+    canvasEl.width = this.width;
+    canvasEl.height = this.height;
+
+    this.cx.lineWidth = 3;
+    this.cx.lineCap = 'round';
+    this.cx.strokeStyle = '#000';/*
+    this.cx.drawImage(img, 0, 0);
+    this.cx.save();*/
+  }
+
+  private write(res: any) {
+    //const canvasEl = this.canvasRef.nativeElement;
+    const canvasEl = this.tableroRef.nativeElement;
+    const rect = canvasEl.getBoundingClientRect();
+    let usuario_label = this._user.nombre.split(' ');
+    let usuario_nombre = usuario_label[0].replace("-", "");
+    usuario_nombre = usuario_nombre.replace(".", "");
+    usuario_nombre = usuario_nombre.replace("@", "");
+    const prevPos = {
+      x: res.clientX - rect.left,
+      y: res.clientY - rect.top,
+      usuario: usuario_nombre
+    }
+    /*const prevPos = {
+      x: res.clientX,
+      y: res.clientY,
+    }*/
+    this.writeSingle(prevPos);
+  }
+
+  private writeSingle(prevPos: any, emit: boolean = true) {
+    this.points.push(prevPos);
+    //if (this.points.length > 3) {
+      const prevPost = this.points[this.points.length - 1];
+      const currentPost = this.points[this.points.length - 2];
+
+      //this.drawOnCanvas(prevPost, currentPost);
+      if (emit) {
+        this.socketWebService.emitEvent2({ prevPost })
+      }
+
+    //}
+  }
+
+  private drawOnCanvas(prevPos: any, currentPost: any) {
+    if (!this.cx) return;
+    this.cx.beginPath();
+
+    if (prevPos) {
+      this.points = [];
+      this.cx.clearRect(0, 0, this.width, this.height);
+      this.cx.moveTo(prevPos.x, prevPos.y);
+      this.cx.lineTo(currentPost.x, currentPost.y);
+      this.cx.stroke();
+    }
+  }
+
+  public clearZone = () => {
+    this.points = [];
+    this.cx.clearRect(0, 0, this.width, this.height);
   }
 
   updateAllNotes() {
@@ -413,6 +594,10 @@ export class CanalesDecisionComponent implements OnInit, AfterViewInit, OnDestro
       this.notes_all.push({ id: newValue.id, content:newValue.content });
     }
 
+    this.socketWebService.emitEventTableroCanales({tablero: JSON.stringify(this.notes_all)});
+  }
+  
+  private writeBoard(){
     this.socketWebService.emitEventTableroCanales({tablero: JSON.stringify(this.notes_all)});
   }
 
