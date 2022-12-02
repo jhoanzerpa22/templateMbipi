@@ -2,7 +2,6 @@
   "name": "demo1",
   "version": "8.0.38",
   "scripts": {
-    "heroku-postbuild": "ng build",
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
