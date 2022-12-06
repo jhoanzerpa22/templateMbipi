@@ -642,7 +642,8 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase9']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase9']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id]);
   }
 
   etapa_active(etapa_active: any) {
