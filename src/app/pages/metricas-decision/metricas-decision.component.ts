@@ -512,7 +512,7 @@ export class MetricasDecisionComponent implements OnInit, AfterViewInit, OnDestr
 
   continue() {
     //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase23']);
-    this._router.navigate(['/proyect-init/'+this.proyecto_id]);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/scope']);
   }
 
   etapa_active(etapa_active: any) {
