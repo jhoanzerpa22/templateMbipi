@@ -97,8 +97,8 @@
   position: relative;
 }
 
-.categoria-necesidades{  
-  width: 450px;
+.categoria-problema{  
+  width: 300px;
   height: 500px;
   margin: 10px 10px;
   float: left;
@@ -111,8 +111,8 @@
   overflow: scroll;
 }
 
-.categoria-necesidades:hover{  
-  width: 450px;
+.categoria-problema:hover{  
+  width: 300px;
   height: 500px;
   margin: 10px 10px;
   float: left;
@@ -125,10 +125,20 @@
   overflow: scroll;
 }
 
-.categoria-propositos{  
-  width: 450px;
+.solucion-metricas{  
+  width: 300px;
   height: 500px;
   margin: 10px 10px;
+  float: left;
+  align-items: center;
+  align-content: center;
+  position: relative;
+}
+
+.categoria-solucion{  
+  width: 300px;
+  height: 240px;
+  //margin: 10px 10px;
   float: left;
   background: #13263c;
   color: #fff;
@@ -139,66 +149,10 @@
   overflow: scroll;
 }
 
-.categoria-propositos:hover{  
-  width: 450px;
-  height: 500px;
-  margin: 10px 10px;
-  float: left;
-  background: #03A588;
-  color: #fff;
-  align-items: center;
-  align-content: center;
-  position: relative;
-  cursor: pointer;
-  overflow: scroll;
-}
-
-.categoria-objetivos{  
-  width: 450px;
-  height: 500px;
-  margin: 10px 10px;
-  float: left;
-  background: #13263c;
-  color: #fff;
-  align-items: center;
-  align-content: center;
-  position: relative;
-  cursor: pointer;
-  overflow: scroll;
-}
-
-.categoria-objetivos:hover{  
-  width: 450px;
-  height: 500px;
-  margin: 10px 10px;
-  float: left;
-  background: #03A588;
-  color: #fff;
-  align-items: center;
-  align-content: center;
-  position: relative;
-  cursor: pointer;
-  overflow: scroll;
-}
-
-.categoria-acciones{  
-  width: 685px;
-  height: 300px;
-  margin: 10px 10px;
-  float: left;
-  background: #13263c;
-  color: #fff;
-  align-items: center;
-  align-content: center;
-  position: relative;
-  cursor: pointer;
-  overflow: scroll;
-}
-
-.categoria-acciones:hover{  
-  width: 685px;
-  height: 300px;
-  margin: 10px 10px;
+.categoria-solucion:hover{  
+  width: 300px;
+  height: 240px;
+  //margin: 10px 10px;
   float: left;
   background: #03A588;
   color: #fff;
@@ -210,7 +164,158 @@
 }
 
 .categoria-metricas{  
-  width: 685px;
+  width: 300px;
+  height: 240px;
+  margin: 20px 0px;
+  float: left;
+  background: #13263c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-metricas:hover{  
+  width: 300px;
+  height: 240px;
+  margin: 20px 0px;
+  float: left;
+  background: #03A588;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-propuesta{  
+  width: 300px;
+  height: 500px;
+  margin: 10px 10px;
+  float: left;
+  background: #13263c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-propuesta:hover{  
+  width: 300px;
+  height: 500px;
+  margin: 10px 10px;
+  float: left;
+  background: #03A588;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.ventajas-canales{  
+  width: 300px;
+  height: 500px;
+  margin: 10px 10px;
+  float: left;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.categoria-ventajas{  
+  width: 300px;
+  height: 240px;
+  //margin: 10px 10px;
+  float: left;
+  background: #13263c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-ventajas:hover{  
+  width: 300px;
+  height: 240px;
+  //margin: 10px 10px;
+  float: left;
+  background: #03A588;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-canales{  
+  width: 300px;
+  height: 240px;
+  margin: 20px 0px;
+  float: left;
+  background: #13263c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-canales:hover{  
+  width: 300px;
+  height: 240px;
+  margin: 20px 0px;
+  float: left;
+  background: #03A588;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-clientes{  
+  width: 300px;
+  height: 500px;
+  margin: 10px 10px;
+  float: left;
+  background: #13263c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-clientes:hover{  
+  width: 300px;
+  height: 500px;
+  margin: 10px 10px;
+  float: left;
+  background: #03A588;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-estructuras{  
+  width: 780px;
   height: 300px;
   margin: 10px 10px;
   float: left;
@@ -223,8 +328,36 @@
   overflow: scroll;
 }
 
-.categoria-metricas:hover{  
-  width: 685px;
+.categoria-estructuras:hover{  
+  width: 780px;
+  height: 300px;
+  margin: 10px 10px;
+  float: left;
+  background: #03A588;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-flujos{  
+  width: 780px;
+  height: 300px;
+  margin: 10px 10px;
+  float: left;
+  background: #13263c;
+  color: #fff;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  overflow: scroll;
+}
+
+.categoria-flujos:hover{  
+  width: 780px;
   height: 300px;
   margin: 10px 10px;
   float: left;
@@ -325,7 +458,7 @@
   cursor: pointer;
 }
 
-.scope-container{
+.lean-container{
   min-width: 100%;
   width: 1000px;
   min-height: 600px;

@@ -11,13 +11,13 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-scope',
-  templateUrl: './scope.component.html',
-  styleUrls: ['./scope.component.scss'],
+  selector: 'app-lean',
+  templateUrl: './lean.component.html',
+  styleUrls: ['./lean.component.scss'],
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LeanComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
@@ -25,7 +25,7 @@ export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
   _user: any = {};
   equipo: any = [];
 
-  etapa: any = 'scope';
+  etapa: any = 'lean';
   fase: any = '';
 
   public filteredTablero: ReplaySubject<any> = new ReplaySubject<[]>(1);
@@ -70,11 +70,15 @@ export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isLoading: boolean = true;
 
-  necesidades: any = [];
-  propositos: any = [];
-  objetivos: any = [];
-  acciones: any = [];
+  problema: any = [];
+  solucion: any = [];
+  propuesta: any = [];
+  ventajas: any = [];
   metricas: any = [];
+  clientes: any = [];
+  canales: any = [];
+  flujos: any = [];
+  estructuras: any = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -162,49 +166,72 @@ export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
               this.min = tiempo[1];
             }
             this.showTimer = true;
-
-            let necesidades: any = [];
-            let propositos: any = [];
-            let objetivos: any = [];
-            let acciones: any = [];
+            
+            let problema: any = [];
+            let solucion: any = [];
+            let propuesta: any = [];
+            let ventajas: any = [];
             let metricas: any = [];
+            let clientes: any = [];
+            let canales: any = [];
+            let flujos: any = [];
+            let estructuras: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_problema != null){
+                 problema.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_problema.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_problema.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
-                 necesidades.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
-                
+              }  
+
+              if(this.proyecto.proyecto_recursos[c].leancanvas_solucion != null){
+                 solucion.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_solucion.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_solucion.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
               }
 
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_proposito
-                != null){   
-                 propositos.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
-                 .id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_proposito
+              if(this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                != null){
+                 propuesta.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_propuestum
+                 .id,'content': this.proyecto.proyecto_recursos[c].leancanvas_propuestum
                  .contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              }
+
+              if(this.proyecto.proyecto_recursos[c].leancanvas_ventaja != null){
+                 ventajas.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_ventaja.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_ventaja.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
 
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_objetivo != null){
-                 objetivos.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              if(this.proyecto.proyecto_recursos[c].leancanvas_metricas != null){
+                 metricas.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_metrica.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_metrica.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              }
+
+              if(this.proyecto.proyecto_recursos[c].leancanvas_cliente != null){
+                 clientes.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_cliente.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_cliente.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
 
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_accione != null){
-                 acciones.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_accione.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_accione.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              if(this.proyecto.proyecto_recursos[c].leancanvas_canale != null){
+                 canales.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_canale.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_canale.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
 
-              if(this.proyecto.proyecto_recursos[c].scopecanvas_metrica != null){
-                 metricas.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_metrica.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_metrica.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              if(this.proyecto.proyecto_recursos[c].leancanvas_flujo != null){
+                 flujos.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_flujo.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_flujo.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              }
+
+              if(this.proyecto.proyecto_recursos[c].leancanvas_estructura != null){
+                 estructuras.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_estructura.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_estructura.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
                 
               }
             }
-
-            this.necesidades = necesidades;
-            this.propositos = propositos;
-            this.objetivos = objetivos;
-            this.acciones = acciones;
+            
+            this.problema = problema;
+            this.solucion = solucion;
+            this.propuesta = propuesta;
+            this.ventajas = ventajas;
             this.metricas = metricas;
+            this.clientes = clientes;
+            this.canales = canales;
+            this.flujos = flujos;
+            this.estructuras = estructuras;
 
             this.isLoading = false; 
             this.onPlayPause();
