@@ -105,9 +105,9 @@
         Dia 3
         <label class="label-principal">Modelo de Negocios</label>
       </div>
-      <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'">
+      <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'" (click)="entrar('bosquejar',(fase >= 41))">
         Dia 4
-        <label class="label-principal">Dia 4</label>
+        <label class="label-principal">Bosquejar</label>
       </div>
       <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'">
         Dia 5
@@ -206,6 +206,32 @@
       <div [ngClass]="fase >= 39 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase39',(fase >= 39))">
         Lean-Canvas - Paso 9
         <label class="label-principal">Flujo de Ingresos</label>
+      </div>
+  </div>
+
+  <div class="container principal-container" *ngIf="etapa == 'bosquejar'">
+      <div class="button-principal" (click)="entrar('principal',true)">
+        <label class="label-button-principal">Principal</label>
+      </div>
+      <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase41',(fase >= 41))">
+        Bosquejar - Paso 1
+        <label class="label-principal">Demos Rápidas</label>
+      </div>
+      <div [ngClass]="fase >= 42 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase42',(fase >= 42))">
+        Bosquejar - Paso 2
+        <label class="label-principal">Ideación de 4 pasos<br>Notas de Repaso</label>
+      </div>
+      <div [ngClass]="fase >= 43 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase43',(fase >= 43))">
+        Bosquejar - Paso 3
+        <label class="label-principal">Ideación de 4 pasos<br>Generar ideas</label>
+      </div>
+      <div [ngClass]="fase >= 44 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase44',(fase >= 44))">
+        Bosquejar - Paso 4
+        <label class="label-principal">Ideación de 4 pasos<br>Crazy 8's</label>
+      </div>
+      <div [ngClass]="fase >= 45 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase45',(fase >= 45))">
+        Bosquejar - Paso 5
+        <label class="label-principal">Ideación de 4 pasos<br>Bocetar la solución</label>
       </div>
   </div>
 

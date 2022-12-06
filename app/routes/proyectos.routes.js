@@ -81,6 +81,9 @@ module.exports = app => {
     // Update the etapa flujo of Proyectos with id
     router.put("/updateEtapaFlujo/:id", proyectos.updateEtapaFlujo);
 
+    // Update the etapa bosquejar of Proyectos with id
+    router.put("/updateEtapaBosquejar/:id", proyectos.updateEtapaBosquejar);
+
     // Update the etapa mapa of Proyectos with id
     router.put("/updateEtapaMapa/:id", proyectos.updateEtapaMapa);
 
