@@ -125,6 +125,28 @@
   overflow: scroll;
 }
 
+.left-necesidades{  
+  width: 200px;
+  height: 500px;
+  margin: 30px 10px;
+  float: left;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.right-necesidades{  
+  width: 200px;
+  height: 500px;
+  margin: 10px 10px;
+  float: left;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
 .categoria-propositos{  
   width: 450px;
   height: 500px;
@@ -179,6 +201,29 @@
   position: relative;
   cursor: pointer;
   overflow: scroll;
+}
+
+
+.left-objetivos{  
+  width: 200px;
+  height: 500px;
+  margin: 30px 10px;
+  float: left;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.right-objetivos{  
+  width: 200px;
+  height: 500px;
+  margin: 10px 10px;
+  float: left;
+  align-items: center;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
 }
 
 .categoria-acciones{  

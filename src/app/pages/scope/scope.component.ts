@@ -70,9 +70,11 @@ export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isLoading: boolean = true;
 
-  necesidades: any = [];
+  necesidades_d: any = [];
+  necesidades_m: any = [];
   propositos: any = [];
-  objetivos: any = [];
+  objetivos_c: any = [];
+  objetivos_l: any = [];
   acciones: any = [];
   metricas: any = [];
 
@@ -163,17 +165,21 @@ export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.showTimer = true;
 
-            let necesidades: any = [];
+            let necesidades_d: any = [];
+            let necesidades_m: any = [];
             let propositos: any = [];
-            let objetivos: any = [];
+            let objetivos_c: any = [];
+            let objetivos_l: any = [];
             let acciones: any = [];
             let metricas: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
               if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade != null){
-                
-                 necesidades.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
-                
+                if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo == 'Motivadores'){
+                 necesidades_m.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }else if(this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo == 'Dolores'){
+                  necesidades_d.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_necesidade.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }
               }
 
               if(this.proyecto.proyecto_recursos[c].scopecanvas_proposito
@@ -185,8 +191,12 @@ export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
               }
 
               if(this.proyecto.proyecto_recursos[c].scopecanvas_objetivo != null){
-                 objetivos.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
-                
+                if(this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.tipo == 'Corto'){ 
+                  objetivos_c.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }else if(this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.tipo == 'Largo'){
+                  objetivos_l.push({'id': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.id,'content': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.contenido, 'type': this.proyecto.proyecto_recursos[c].scopecanvas_objetivo.tipo, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                 
+                }
               }
 
               if(this.proyecto.proyecto_recursos[c].scopecanvas_accione != null){
@@ -200,9 +210,11 @@ export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             }
 
-            this.necesidades = necesidades;
+            this.necesidades_d = necesidades_d;
+            this.necesidades_m = necesidades_m;
             this.propositos = propositos;
-            this.objetivos = objetivos;
+            this.objetivos_c = objetivos_c;
+            this.objetivos_l = objetivos_l;
             this.acciones = acciones;
             this.metricas = metricas;
 

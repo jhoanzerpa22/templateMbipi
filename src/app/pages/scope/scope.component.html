@@ -95,11 +95,23 @@
   <div class="container scope-container">
       <div class="categoria-necesidades">
         Necesidades
+        
+        <div class="left-necesidades">
+          Dolores
         <ul>
-          <li *ngFor="let nec of necesidades">
+          <li *ngFor="let nec of necesidades_d">
               <h2 class="caja-nota">{{nec.content}}</h2>
           </li>
         </ul>
+        </div>
+        <div class="right-necesidades">
+        Motivadores
+        <ul>
+          <li *ngFor="let nec2 of necesidades_m">
+              <h2 class="caja-nota">{{nec2.content}}</h2>
+          </li>
+        </ul>
+        </div>
       </div>
       <div class="categoria-propositos">
         Propósito
@@ -111,11 +123,23 @@
       </div>
       <div class="categoria-objetivos">
         Objetivos
+        <div class="left-objetivos">
+        Cortos
         <ul>
-          <li *ngFor="let obj of objetivos">
+          <li *ngFor="let obj of objetivos_c">
               <h2 class="caja-nota">{{obj.content}}</h2>
           </li>
         </ul>
+        
+        </div>
+        <div class="right-objetivos">
+          Largos
+        <ul>
+          <li *ngFor="let obj_l of objetivos_l">
+              <h2 class="caja-nota">{{obj_l.content}}</h2>
+          </li>
+        </ul>
+      </div>
       </div>
       <div class="categoria-acciones">
         Acciones
