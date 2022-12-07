@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environment';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
 // #fake-end#
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+//import { initializeApp } from "firebase/app";
+//import { getAnalytics } from "firebase/analytics";
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -28,8 +28,8 @@ function appInitializer(authService: AuthService) {
 }
 
 // Initialize Firebase
-const app = initializeApp(environment.firebaseConfig);
-const analytics = getAnalytics(app);
+//const app = initializeApp(environment.firebaseConfig);
+//const analytics = getAnalytics(app);
 
 @NgModule({
   declarations: [AppComponent,],
