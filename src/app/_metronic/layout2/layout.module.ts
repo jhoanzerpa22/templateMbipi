@@ -68,6 +68,12 @@ import { EstructuraComponent } from '../../pages/estructura/estructura.component
 import { EstructuraDecisionComponent } from '../../pages/estructura-decision/estructura-decision.component';
 import { FlujoComponent } from '../../pages/flujo/flujo.component';
 import { FlujoDecisionComponent } from '../../pages/flujo-decision/flujo-decision.component';
+import { DemosComponent } from '../../pages/demos/demos.component';
+import { RepasoComponent } from '../../pages/repaso/repaso.component';
+import { IdeasComponent } from '../../pages/ideas/ideas.component';
+import { CrazyComponent } from '../../pages/crazy/crazy.component';
+import { ScopeComponent } from '../../pages/scope/scope.component';
+import { LeanComponent } from '../../pages/lean/lean.component';
 import { PrincipalModule } from '../../pages/principal/principal.module';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
@@ -108,6 +114,12 @@ import { EstructuraModule } from '../../pages/estructura/estructura.module';
 import { EstructuraDecisionModule } from '../../pages/estructura-decision/estructura-decision.module';
 import { FlujoModule } from '../../pages/flujo/flujo.module';
 import { FlujoDecisionModule } from '../../pages/flujo-decision/flujo-decision.module';
+import { DemosModule } from '../../pages/demos/demos.module';
+import { RepasoModule } from '../../pages/repaso/repaso.module';
+import { IdeasModule } from '../../pages/ideas/ideas.module';
+import { CrazyModule } from '../../pages/crazy/crazy.module';
+import { ScopeModule } from '../../pages/scope/scope.module';
+import { LeanModule } from '../../pages/lean/lean.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -219,6 +231,10 @@ const routes: Routes = [
     component: MetricasDecisionComponent
   },
   {
+    path: 'scope',
+    component: ScopeComponent
+  },
+  {
     path: 'fase23',
     component: ClientesComponent
   },
@@ -289,6 +305,26 @@ const routes: Routes = [
   {
     path: 'fase40',
     component: FlujoDecisionComponent
+  },
+  {
+    path: 'lean',
+    component: LeanComponent
+  },
+  {
+    path: 'fase41',
+    component: DemosComponent
+  },
+  {
+    path: 'fase42',
+    component: RepasoComponent
+  },
+  {
+    path: 'fase43',
+    component: IdeasComponent
+  },
+  {
+    path: 'fase44',
+    component: CrazyComponent
   }
 ];
 

@@ -92,149 +92,72 @@
   </div>
     <!--end::Header Section-->
   
-  <div class="container principal-container" *ngIf="etapa == 'principal'">
-      <div [ngClass]="fase >= 1 ? 'categoria-principal' : 'categoria-inactiva'" (click)="entrar('entender',(fase >= 1))">
-        Dia 1
-        <label class="label-principal">Entender</label>
+  <div class="container scope-container">
+      <div class="categoria-necesidades">
+        Necesidades
+        
+        <div class="left-necesidades">
+          Dolores
+        <ul>
+          <li *ngFor="let nec of necesidades_d">
+              <h2 class="caja-nota">{{nec.content}}</h2>
+          </li>
+        </ul>
+        </div>
+        <div class="right-necesidades">
+        Motivadores
+        <ul>
+          <li *ngFor="let nec2 of necesidades_m">
+              <h2 class="caja-nota">{{nec2.content}}</h2>
+          </li>
+        </ul>
+        </div>
       </div>
-      <div [ngClass]="fase >= 9 ? 'categoria-principal' : 'categoria-inactiva'" (click)="entrar('enfoque',(fase >= 9))">
-        Dia 2
-        <label class="label-principal">Enfoque solución</label>
+      <div class="categoria-propositos">
+        Propósito
+        <ul>
+          <li *ngFor="let pro of propositos">
+              <h2 class="caja-nota">{{pro.content}}</h2>
+          </li>
+        </ul>
       </div>
-      <div [ngClass]="fase >= 23 ? 'categoria-principal' : 'categoria-inactiva'" (click)="entrar('modelo',(fase >= 23))">
-        Dia 3
-        <label class="label-principal">Modelo de Negocios</label>
+      <div class="categoria-objetivos">
+        Objetivos
+        <div class="left-objetivos">
+        Cortos
+        <ul>
+          <li *ngFor="let obj of objetivos_c">
+              <h2 class="caja-nota">{{obj.content}}</h2>
+          </li>
+        </ul>
+        
+        </div>
+        <div class="right-objetivos">
+          Largos
+        <ul>
+          <li *ngFor="let obj_l of objetivos_l">
+              <h2 class="caja-nota">{{obj_l.content}}</h2>
+          </li>
+        </ul>
       </div>
-      <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'" (click)="entrar('bosquejar',(fase >= 41))">
-        Dia 4
-        <label class="label-principal">Bosquejar</label>
       </div>
-      <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'">
-        Dia 5
-        <label class="label-principal">Dia 5</label>
+      <div class="categoria-acciones">
+        Acciones
+        <ul>
+          <li *ngFor="let acc of acciones">
+              <h2 class="caja-nota">{{acc.content}}</h2>
+          </li>
+        </ul>
       </div>
-      <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'">
-        Dia 6
-        <label class="label-principal">Dia 6</label>
-      </div>
-  </div>
-  
-  <div class="container principal-container" *ngIf="etapa == 'entender'">
-    <div class="button-principal" (click)="entrar('principal',true)">
-      <label class="label-button-principal">Principal</label>
-    </div>  
-    <div [ngClass]="fase >= 1 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase1',(fase >= 1))">
-        Entender - Paso 1
-        <label class="label-principal">Entender al experto</label>
-      </div>
-      <div [ngClass]="fase >= 4 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase4',(fase >= 4))">
-        Entender - Paso 2
-        <label class="label-principal">Metas a largo plazo</label>
-      </div>
-      <div [ngClass]="fase >= 6 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase6',(fase >= 6))">
-        Entender - Paso 3
-        <label class="label-principal">Preguntas del Sprint</label>
-      </div>
-      <div [ngClass]="fase >= 8 ? 'categoria-mapa-principal' : 'categoria-mapa-inactiva'" (click)="ir('/fase8',(fase >= 8))">
-        Entender - Paso 4
-        <label class="label-mapa-principal">Mapa de Experiencia de Usuario</label>
-      </div>
-  </div>
-  
-  <div class="container principal-container" *ngIf="etapa == 'enfoque'">
-      <div class="button-principal" (click)="entrar('principal',true)">
-        <label class="label-button-principal">Principal</label>
-      </div>  
-      <div [ngClass]="fase >= 9 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase9',(fase >= 9))">
-        Scope-Canvas - Paso 1
-        <label class="label-principal">Necesidades</label>
-      </div>
-      <div [ngClass]="fase >= 13 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase13',(fase >= 13))">
-        Scope-Canvas - Paso 2
-        <label class="label-principal">Propósito</label>
-      </div>
-      <div [ngClass]="fase >= 15 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase15',(fase >= 15))">
-        Scope-Canvas - Paso 3
-        <label class="label-principal">Objetivos</label>
-      </div>
-      <div [ngClass]="fase >= 19 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase19',(fase >= 19))">
-        Scope-Canvas - Paso 4
-        <label class="label-principal">Acciones</label>
-      </div>
-      <div [ngClass]="fase >= 21 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase21',(fase >= 21))">
-        Scope-Canvas - Paso 5
-        <label class="label-principal">Métricas</label>
+      <div class="categoria-metricas">
+        Métricas
+        <ul>
+          <li *ngFor="let me of metricas">
+              <h2 class="caja-nota">{{me.content}}</h2>
+          </li>
+        </ul>
       </div>
   </div>
-  
-  <div class="container principal-container" *ngIf="etapa == 'modelo'">
-      <div class="button-principal" (click)="entrar('principal',true)">
-        <label class="label-button-principal">Principal</label>
-      </div>
-      <div [ngClass]="fase >= 23 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase23',(fase >= 23))">
-        Lean-Canvas - Paso 1
-        <label class="label-principal">Segmento Clientes</label>
-      </div>
-      <div [ngClass]="fase >= 25 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase25',(fase >= 25))">
-        Lean-Canvas - Paso 2
-        <label class="label-principal">Problema</label>
-      </div>
-      <div [ngClass]="fase >= 27 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase27',(fase >= 27))">
-        Lean-Canvas - Paso 3
-        <label class="label-principal">Solución</label>
-      </div>
-      <div [ngClass]="fase >= 29 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase29',(fase >= 29))">
-        Lean-Canvas - Paso 4
-        <label class="label-principal">Métricas Clave</label>
-      </div>
-      <div [ngClass]="fase >= 31 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase31',(fase >= 31))">
-        Lean-Canvas - Paso 5
-        <label class="label-principal">Propuesta de Valor</label>
-      </div>
-      <div [ngClass]="fase >= 33 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase33',(fase >= 33))">
-        Lean-Canvas - Paso 6
-        <label class="label-principal">Ventaja Especial</label>
-      </div>
-      <div [ngClass]="fase >= 35 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase35',(fase >= 35))">
-        Lean-Canvas - Paso 7
-        <label class="label-principal">Canales</label>
-      </div>
-      <div [ngClass]="fase >= 37 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase37',(fase >= 37))">
-        Lean-Canvas - Paso 8
-        <label class="label-principal">Estructura de Costos</label>
-      </div>
-      <div [ngClass]="fase >= 39 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase39',(fase >= 39))">
-        Lean-Canvas - Paso 9
-        <label class="label-principal">Flujo de Ingresos</label>
-      </div>
-  </div>
-
-  <div class="container principal-container" *ngIf="etapa == 'bosquejar'">
-      <div class="button-principal" (click)="entrar('principal',true)">
-        <label class="label-button-principal">Principal</label>
-      </div>
-      <div [ngClass]="fase >= 41 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase41',(fase >= 41))">
-        Bosquejar - Paso 1
-        <label class="label-principal">Demos Rápidas</label>
-      </div>
-      <div [ngClass]="fase >= 42 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase42',(fase >= 42))">
-        Bosquejar - Paso 2
-        <label class="label-principal">Ideación de 4 pasos<br>Notas de Repaso</label>
-      </div>
-      <div [ngClass]="fase >= 43 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase43',(fase >= 43))">
-        Bosquejar - Paso 3
-        <label class="label-principal">Ideación de 4 pasos<br>Generar ideas</label>
-      </div>
-      <div [ngClass]="fase >= 44 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase44',(fase >= 44))">
-        Bosquejar - Paso 4
-        <label class="label-principal">Ideación de 4 pasos<br>Crazy 8's</label>
-      </div>
-      <div [ngClass]="fase >= 45 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase45',(fase >= 45))">
-        Bosquejar - Paso 5
-        <label class="label-principal">Ideación de 4 pasos<br>Bocetar la solución</label>
-      </div>
-  </div>
-
   <!--end::Highlight-->
 
   <!-- Video -->
@@ -266,6 +189,7 @@
         </ng-template>
       </div>
       <div class="container" style="align-items: flex-end;">
+        <a (click)="continue()" class="btn btn-success" style="margin: -15px 10px 0px 10px; float: right;">Siguiente Etapa</a>
         <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
         float: right;">Salir de MbipiLab</a>
       </div>
