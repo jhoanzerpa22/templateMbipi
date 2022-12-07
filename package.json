@@ -37,6 +37,7 @@
     "@popperjs/core": "2.11.2",
     "@types/socket.io": "^2.1.10",
     "@videogular/ngx-videogular": "^6.0.0",
+    "angular-cd-timer": "^3.0.0",
     "angular-in-memory-web-api": "0.13.0",
     "animate.css": "4.1.1",
     "apexcharts": "^3.27.2",

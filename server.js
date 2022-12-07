@@ -1247,6 +1247,11 @@ io.on('connection', function (socket) {
     io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_flujo)});
   })
 
+  socket.on('evento_tablero_save_bosquejar', (res) => {
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
+  })
+
   socket.on('disconnect', function () {
 
     console.log(`Usuario Desconectado: ${handshake}`);

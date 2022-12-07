@@ -511,7 +511,8 @@ export class FlujoDecisionComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase41']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase41']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/lean']);
   }
 
   etapa_active(etapa_active: any) {
