@@ -140,7 +140,7 @@
               <div class="clasificacion-container">
                 <h2 style="color: #fff;">{{t.title}}</h2>
                 <div class="clasificacion-list"><!--cdkDropList [cdkDropListData]="t.data" (cdkDropListDropped)="drop($event)"-->
-                  <div class="clasificacion-box" *ngFor="let item of t.data; let j = index;" cdkDragBoundary=".clasificacion-container"  [cdkDragData]="item" (cdkDragMoved)="onDragMove($event, i, j)" (cdkDragEnded)="onDragEnded($event, i, j)" [cdkDragFreeDragPosition]="dragPosition[j]" cdkDrag>{{item.label}}
+                  <div class="clasificacion-box" *ngFor="let item of t.data; let j = index;" cdkDragBoundary=".clasificacion-container"  [cdkDragData]="item" (cdkDragMoved)="onDragMove($event, i, j)" (cdkDragEnded)="onDragEnded($event, i, j)" [cdkDragFreeDragPosition]="dragPosition[j]" cdkDrag><div class="label-voto">{{item.label}}</div>
                     <label class="votos">{{item.votos ? item.votos : 0}}</label>
                     <div class="voto-maximo bg-success position-absolute h-8px w-8px rounded-circle" *ngIf="verifyVotoMaximo(i, j)">
                     </div>
