@@ -571,4 +571,9 @@ export class SocketWebService extends Socket {
     this.ioSocket.emit('evento_tablero_delete_flujo', payload)
   }
 
+  emitEventTableroSaveBosquejar = (payload = {}) => {
+    console.log('evento_tablero_save_bosquejar',payload);
+    this.ioSocket.emit('evento_tablero_save_bosquejar', payload)
+  }
+
 }
