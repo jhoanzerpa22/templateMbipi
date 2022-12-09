@@ -521,9 +521,11 @@ io.on('connection', function (socket) {
       let index3 = notas_tablero_propositos.findIndex((n) => n.id == tablero[c].id);
 
         if (index3 != -1) {
-          //notas_tablero[index3].content = tablero[c].content;
+          notas_tablero_propositos[index3].content = tablero[c].content;
+          notas_tablero_propositos[index3].position = tablero[c].position;
+          notas_tablero_propositos[index3].dragPosition = tablero[c].dragPosition;
         }else{
-          notas_tablero_propositos.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id});
+          notas_tablero_propositos.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
         }
     }
     // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
@@ -1245,6 +1247,11 @@ io.on('connection', function (socket) {
         notas_tablero_flujo.splice(index, 1);
       }
     io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_flujo)});
+  })
+
+  socket.on('evento_tablero_save_bosquejar', (res) => {
+    console.log('nombreSala',nombreSala);
+    io.in(nombreSala).emit('evento_continue');
   })
 
   socket.on('disconnect', function () {
