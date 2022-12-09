@@ -26,8 +26,11 @@
 .caja-nota{
   outline: none;
   overflow: auto;
-  min-height: 4em;
-  max-height: 4em;
+  width: 8.5em;
+  min-height: 7em;
+  max-height: 7em;
+  font-size: 1em;
+  word-break: break-word;
 }
 
 /* Tamaño del scroll */
@@ -219,8 +222,9 @@
 /* Notas en lista */
 .note_toolbar {
   /*background: #7f6c04;*//*
-  background-color: rgb(255, 240, 70);*/
-  border-radius: 8px 8px 0px 0px;
+  background-color: rgb(255, 240, 70);
+  border-radius: 8px 8px 0px 0px;*/
+  height: 10px;
 }
 
 .close {

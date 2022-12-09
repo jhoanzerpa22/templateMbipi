@@ -653,9 +653,10 @@ exports.updateNecesidades = (req, res) => {
 exports.updatePropositos = (req, res) => {
   const id = req.params.id;
   let proposito = {
-      votos: req.body.votos,
-      detalle: JSON.stringify(req.body.detalle),
-      seleccionado: req.body.seleccionado,
+      contenido: req.body.content,
+      votos: 0,//req.body.votos,
+      detalle: JSON.stringify([]/*req.body.detalle*/),
+      seleccionado: false,//req.body.seleccionado,
       position: req.body.position,
       dragPosition: JSON.stringify(req.body.dragPosition)
     };

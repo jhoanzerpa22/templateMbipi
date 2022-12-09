@@ -46,6 +46,7 @@ import { ObjetivosLargoComponent } from '../../pages/objetivos-largo/objetivos-l
 import { ObjetivosLargoDecisionComponent } from '../../pages/objetivos-largo-decision/objetivos-largo-decision.component';
 import { PropositosComponent } from '../../pages/propositos/propositos.component';
 import { PropositosVotoComponent } from '../../pages/propositos-voto/propositos-voto.component';
+import { PropositosDecisionComponent } from '../../pages/propositos-decision/propositos-decision.component';
 import { AccionesComponent } from '../../pages/acciones/acciones.component';
 import { AccionesDecisionComponent } from '../../pages/acciones-decision/acciones-decision.component';
 import { MetricasComponent } from '../../pages/metricas/metricas.component';
@@ -88,6 +89,7 @@ import { NecesidadesDoloresModule } from '../../pages/necesidades-dolores/necesi
 import { NecesidadesDoloresDecisionModule } from '../../pages/necesidades-dolores-decision/necesidades-dolores-decision.module';
 import { PropositosModule } from '../../pages/propositos/propositos.module';
 import { PropositosVotoModule } from '../../pages/propositos-voto/propositos-voto.module';
+import { PropositosDecisionModule } from '../../pages/propositos-decision/propositos-decision.module';
 import { ObjetivosCortoModule } from '../../pages/objetivos-corto/objetivos-corto.module';
 import { ObjetivosCortoDecisionModule } from '../../pages/objetivos-corto-decision/objetivos-corto-decision.module';
 import { ObjetivosLargoModule } from '../../pages/objetivos-largo/objetivos-largo.module';
@@ -196,7 +198,8 @@ const routes: Routes = [
   },
   {
     path: 'fase14',
-    component: PropositosVotoComponent
+    //component: PropositosVotoComponent
+    component: PropositosDecisionComponent
   },
   {
     path: 'fase15',
