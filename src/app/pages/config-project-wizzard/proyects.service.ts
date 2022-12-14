@@ -265,6 +265,22 @@ export class ProyectsService
         return this.http.post(environment.API_G +`${baseUrl}/createFlujo`, data);
       }
 
+      saveFiles(data: any): Observable<any> {
+        return this.http.post(environment.API_G +'cloud_user/saveFiles', data);
+      }
+
+      upload(file: File[], proyecto_id: any, usuario_id: any):Observable<any> {
+        // Create form data
+        const formData = new FormData(); 
+          
+        // Store form name as "file" with file data
+        formData.append("file", file[0], file[0].name);
+          
+        // Make http post request over api
+        // with formData as req
+        return this.http.post(environment.API_G +'cloud_user/saveFiles/'+proyecto_id+'/'+usuario_id, formData);
+    }
+
       delete(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/${id}`);
       }
