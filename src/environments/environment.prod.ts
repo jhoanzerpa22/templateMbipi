@@ -12,6 +12,8 @@ export const environment = {
   //API: 'https://mbipi.tresidea.cl/', // General
   API: 'https://mbipi.herokuapp.com/', // General
   API_G: 'https://mbipi.herokuapp.com/api/', // General
+  API_SOCKET: 'https://mbipi.herokuapp.com/',
+  URL: 'https://mbipi.herokuapp.com/',
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration: 'https://preview.keenthemes.com/metronic8/demo1/documentation/base/helpers/flex-layouts.html',

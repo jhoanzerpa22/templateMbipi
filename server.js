@@ -7,6 +7,7 @@ var CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 const path = require("path");
 const mailConfig = require("./app/config/mail.config.js");
+const serverConfig = require("./app/config/server.config.js");
 
 require('dotenv').config();
 
@@ -1484,7 +1485,7 @@ async function sendMail(user, callback) {
     </div>
     <div class="container">
       <h4 style="text-align: center; padding-top: 20px;">Por favor ingresa en el siguiente link para verificar tu cuenta.</h4>
-      <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
+      <a style="text-align: center; padding-top: 20px;" href="`+serverConfig.HOST+`/auth/verify-login?pass_token=`+user.pass_token_verify+`">Verificar</a>
     </div>
   </div>
     `
@@ -1591,7 +1592,7 @@ async function sendMailResume(user, callback) {
         </div>
         <div class="container">
           <h4 style="text-align: center; padding-top: 20px;">El Usuario `+user.nombre_usuario+` lo ha invitado a unirse al proyecto `+user.nombre+`. Por favor ingresa en el siguiente link para ingresar al sistema y aceptar la invitación.</h4>
-          <a style="text-align: center; padding-top: 20px;" href="https://mbipi.herokuapp.com/invitations?code=`+user.code+`">Ingresar</a>
+          <a style="text-align: center; padding-top: 20px;" href="`+serverConfig.HOST+`/invitations?code=`+user.code+`">Ingresar</a>
         </div>
       </div>
         `
@@ -1642,7 +1643,7 @@ async function sendMailResume(user, callback) {
           </div>
           <div class="container">
             <h4 style="text-align: center; padding-top: 5px;">Ingresa al siguiente link e ingresa el código de verificación</h4><span></span>
-            <a style="text-align: center; padding-top: 5px;" href="https://mbipi.herokuapp.com/auth/verify-code/`+user.id+`/`+user.pass_recovery_token+`">LINK</a>
+            <a style="text-align: center; padding-top: 5px;" href="`+serverConfig.HOST+`/auth/verify-code/`+user.id+`/`+user.pass_recovery_token+`">LINK</a>
             <h2 style="text-align: center;padding-top: 5px;">Código: `+user.pass_recovery+` <h2>
           </div>
         </div>
