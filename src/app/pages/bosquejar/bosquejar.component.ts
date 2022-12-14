@@ -8,6 +8,7 @@ import { take, takeUntil } from 'rxjs/operators';
 //import {maxlengthContentEditable} from 'maxlength-contenteditable';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { environment } from "../../../environments/environment";
+import Swal from 'sweetalert2';
 
 declare var $: any;
 declare var jQuery: any;
@@ -87,10 +88,14 @@ export class BosquejarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   files: File[] = [];
   recursos: any = [];
+  files_base: any = [];
+  selectedFile: File;
 
 onSelect(event: any) {
   console.log(event);
   this.files.push(...event.addedFiles);
+  
+  this.ref.detectChanges();
 }
 
 onRemove(event: any) {
@@ -115,7 +120,6 @@ onRemove(event: any) {
     let user: any = JSON.parse(usuario);
     this.usuario = user;
     this.usuario.active = true;
-
   }
 
   ngOnInit(): void {
@@ -193,6 +197,28 @@ onRemove(event: any) {
     return false;
   }
 
+  enviar(){
+    //for(let f in this.files){
+      console.log('files:',this.files);
+    /*const data: any = {
+      'files': JSON.stringify(this.files),
+      'usuario_id': this.usuario.id,
+      'proyecto_id': this.proyecto_id
+    };*/
+    this._proyectsService./*saveFiles*/upload(this.files, this.proyecto_id, this.usuario.id)
+      .subscribe(
+          data => {
+  
+            //this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase25');
+            console.log('data_resp',data);
+          },
+          (response) => {
+            console.log('error_resp',response);
+          }
+      );
+    //}
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
@@ -230,8 +256,6 @@ onRemove(event: any) {
             this.ref.detectChanges();
           },
           (response) => {
-              // Reset the form
-              //this.signUpNgForm.resetForm();
           }
       );
   }
