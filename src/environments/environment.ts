@@ -4,14 +4,23 @@
 
 export const environment = {
   production: false,
+  firebaseConfig: {
+    apiKey: "AIzaSyCrMbQgLc15veCjw2f51QgAIppMvXYW2z0",
+    authDomain: "mbipi-61d04.firebaseapp.com",
+    projectId: "mbipi-61d04",
+    storageBucket: "mbipi-61d04.appspot.com",
+    messagingSenderId: "796597933519",
+    appId: "1:796597933519:web:71fc3560a06bbefc4ceeba",
+    measurementId: "G-NETTDYDEQV"
+  },
   appVersion: 'v8.0.38',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'api',
-  API: 'http://localhost:5000/',
-  API_G: 'http://localhost:5000/api/',
-  API_SOCKET: 'http://localhost:5000/',
-  URL: 'http://localhost:4200/',
+  API: 'http://localhost:4000/',
+  API_G: 'http://localhost:4000/api/',
+  API_SOCKET: 'http://localhost:4000/',
+  URL: 'http://localhost:5000/',
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration: 'https://preview.keenthemes.com/metronic8/demo1/documentation/base/helpers/flex-layouts.html',
