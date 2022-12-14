@@ -7,6 +7,7 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 //import {maxlengthContentEditable} from 'maxlength-contenteditable';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
+import { environment } from "../../../environments/environment";
 
 declare var $: any;
 declare var jQuery: any;
@@ -81,9 +82,11 @@ export class BosquejarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
-  value = 'http://localhost:4200/uploadFileProyect/';
+  urlQr: any = '';
+  showQr: boolean = false;
 
   files: File[] = [];
+  recursos: any = [];
 
 onSelect(event: any) {
   console.log(event);
@@ -123,6 +126,10 @@ onRemove(event: any) {
     this.route.params.subscribe(params => {
       //console.log('params',params);
       this.proyecto_id = params['id'];
+      
+      this.urlQr = environment.URL+'proyect-init/'+params['id']+'/uploadFileProyect?usuario_id='+this.usuario.id;
+      this.showQr = true;
+
       this.getProyect();
     });
     
@@ -162,6 +169,30 @@ onRemove(event: any) {
     this._onDestroy.complete();
   }
 
+  getActive(usuario_id: any){
+    const usuario_in_sesion: any = this.usuarios_active.findIndex((c: any) => c.id == usuario_id);
+
+    if(usuario_in_sesion != -1){
+      
+      let usuario_filter = this.usuarios_active.filter(
+      (us: any) => (
+        us.id == usuario_id)
+      );
+
+      return usuario_filter[0].active;
+    }
+
+    return false;
+  }
+
+  getFileUser(usuario_id: any){
+    let usuario_file: any = this.recursos.findIndex((c: any) => c.usuario_id == usuario_id);
+    if(usuario_file != -1){
+      return true;
+    }
+    return false;
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
@@ -181,6 +212,17 @@ onRemove(event: any) {
               this.min = tiempo[1];
             }
             this.showTimer = true;
+
+            let imagenes: any = [];
+            
+            for(let c in this.proyecto.proyecto_recursos){
+              if(this.proyecto.proyecto_recursos[c].cloud_user != null){
+                
+                 imagenes.push({'id': this.proyecto.proyecto_recursos[c].cloud_user.id,'name': this.proyecto.proyecto_recursos[c].cloud_user.name, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              }
+            }
+
+            this.recursos = imagenes;
 
             this.isLoading = false; 
             this.onPlayPause();
