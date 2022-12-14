@@ -1278,7 +1278,7 @@ io.on('connection', function (socket) {
 
 //Cloudinary routes
 app.use('/api/cloudinary', require('./app/routes/cloudinary.routes'));
-app.use('/cloud_user', require('./app/routes/cloud_user.routes'))
+app.use('/api/cloud_user', require('./app/routes/cloud_user.routes'))
 
 // Serve static files
 app.use('/', express.static(__dirname + '/dist/demo1'));
