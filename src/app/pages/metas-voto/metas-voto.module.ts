@@ -32,7 +32,7 @@ import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/tim
 
 import { LoadMaskModule } from '../../_metronic/layout2/loadMask/loadMask.module';
 
-const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
+const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
 @NgModule({
   declarations: [MetasVotoComponent, MetasAccordionComponent],

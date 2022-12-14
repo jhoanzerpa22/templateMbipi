@@ -33,7 +33,7 @@ import { LoadMaskModule/*LoadMaskComponent*/ } from '../../_metronic/layout2/loa
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
-const config: SocketIoConfig = { url: environment.API/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
+const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
 @NgModule({
   declarations: [BosquejarComponent],

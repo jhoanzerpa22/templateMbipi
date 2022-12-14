@@ -10,6 +10,8 @@ export const environment = {
   apiUrl: 'api',
   API: 'http://localhost:5000/',
   API_G: 'http://localhost:5000/api/',
+  API_SOCKET: 'http://localhost:5000/',
+  URL: 'http://localhost:4200/',
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration: 'https://preview.keenthemes.com/metronic8/demo1/documentation/base/helpers/flex-layouts.html',

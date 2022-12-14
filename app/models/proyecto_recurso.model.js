@@ -60,6 +60,9 @@ module.exports = (sequelize, Sequelize) => {
       leancanvas_flujo_id: {
         type: Sequelize.INTEGER
       },
+      bosquejar_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },
