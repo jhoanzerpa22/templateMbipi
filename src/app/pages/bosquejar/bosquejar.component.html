@@ -96,21 +96,26 @@
       <div class="categoria-equipo">
         Equipo
         <div class="container symbol-group symbol-hover mb-3">
-          <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
-          <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
-              <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
+          <ng-container *ngFor="let usu2 of usuarios; let i2 = index;">
+          
+            <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
+              <div class="d-flex align-items-center">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.eq_usu_plat != null ? usu2.eq_usu_plat.nombre : ''}}">
+              <span [ngClass]="getActive(usu2.usuario_id) ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.eq_usu_plat != null ? usu2.eq_usu_plat.nombre.substring(0, 1).toUpperCase() : ''}}</span>
           </div>
           <div class="ms-6">
             <!--begin::Name-->
             <a href="#" class="d-flex align-items-center fs-5 fw-bolder text-dark text-hover-primary">
             <label class="fw-bold text-muted">{{usu2.eq_usu_plat != null ? usu2.eq_usu_plat.nombre : ''}}
-              </label>
+            </label>
             <span class="badge badge-light fs-8 fw-bold ms-2">{{usu2.rol}}</span></a>
             <!--end::Name-->
             <!--begin::Email-->
-            <div class="fw-bold text-muted">{{usu2.correo != null ? usu2.correo : usuario.correo_login}}</div>
+            <div class="fw-bold text-muted">{{usu2.correo != null ? usu2.correo : usuario.correo_login}} <i class="fas fa-check" *ngIf="getFileUser(usu2.usuario_id)"></i></div>
             <!--end::Email-->
           </div>
+          </div>
+        </div>
           </ng-container>
         </div>
       </div>
@@ -124,11 +129,11 @@
           </ngx-dropzone-preview>
         </ngx-dropzone>
 
-        <div style="margin-top: 50px;">
+        <div style="margin-top: 50px;" *ngIf="showQr">
         <ngx-qrcode
   [elementType]="elementType"
   [errorCorrectionLevel]="correctionLevel"
-  [value]="value"
+  [value]="urlQr"
   cssClass="bshadow"></ngx-qrcode>
         </div>
 

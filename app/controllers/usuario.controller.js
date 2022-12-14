@@ -236,7 +236,7 @@ exports.getPayment = async (req, res) => {
     const buyOrder = '123456';
     const sessionId = '123';
     const amount = 20;
-    const returnUrl = 'http://localhost:4000/usuarios/payment-sucess';
+    const returnUrl = serverConfig.HOST+'/usuarios/payment-sucess';//'http://localhost:5000/usuarios/payment-sucess';
     const response = await tx.create(buyOrder, sessionId, amount, returnUrl);
     console.log('response',response);
   /*  return response;

@@ -25,6 +25,7 @@ const LeanCanvasVentajas = db.leancanvas_ventajas;
 const LeanCanvasCanales = db.leancanvas_canales;
 const LeanCanvasEstructura = db.leancanvas_estructura;
 const LeanCanvasFlujo = db.leancanvas_flujo;
+const CloudUser = db.cloud_user;
 
 const Op = db.Sequelize.Op;
 
@@ -143,7 +144,7 @@ exports.findOne = (req, res) => {
         }]
       },
       {
-        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id', 'leancanvas_estructura_id', 'leancanvas_flujo_id','usuario_id'], 
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id', 'leancanvas_estructura_id', 'leancanvas_flujo_id','bosquejar_id','usuario_id'], 
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
@@ -180,6 +181,8 @@ exports.findOne = (req, res) => {
             model: LeanCanvasEstructura/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
             model: LeanCanvasFlujo/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
+          }, {
+            model: CloudUser/*, as: "equipo_usuarios"*/, attributes:['id','name','secure_url','cloudinary_id']
           }]
       }]
     })
