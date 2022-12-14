@@ -1,11 +1,11 @@
 module.exports = {
 
   //Local
-  /*USER: "postgres",
-  PASSWORD: "test01",
-  DB: "mbipi",
-*/
-  //Heroku
+  //USER: "postgres",
+  //PASSWORD: "20588459jz",
+  //DB: "mbipi_test",
+
+//Heroku
   
   USER: "mtaligncgdmqzd",
   PASSWORD: "1ee6689d3e58a91bbb1da37be35d36191b1d3db6ba0bfa07f4e9bebb0b046e1c",
@@ -14,9 +14,10 @@ module.exports = {
   //PORT: 5432,
 
   //Produccion
-  /*USER: "tresidea_mbipidb",
-  PASSWORD: "k{ndin[m}maR",
-  DB: "tresidea_mbipi",*/
+  //HOST: "45.7.229.117",
+  //USER: "tresidea_mbipidb",
+  //PASSWORD: "k{ndin[m}maR",
+  //DB: "tresidea_mbipi",
   dialect: "postgres",
   pool: {
     max: 5,
