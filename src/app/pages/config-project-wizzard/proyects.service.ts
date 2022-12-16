@@ -280,6 +280,23 @@ export class ProyectsService
         // with formData as req
         return this.http.post(environment.API_G +'cloud_user/saveFiles/'+proyecto_id+'/'+usuario_id, formData);
     }
+    
+    uploadMulti(files: File[], proyecto_id: any, usuario_id: any):Observable<any> {
+      // Create form data
+      const formData = new FormData(); 
+        
+      formData.append("proyecto_id", proyecto_id);
+      formData.append("usuario_id", usuario_id);
+
+      // Store form name as "file" with file data
+      for (let index = 0; index < files.length; index++) {
+        formData.append("files[]", files[index], files[index].name);
+      }
+        
+      // Make http post request over api
+      // with formData as req
+      return this.http.post(environment.API_G +'cloud_user/saveFilesMulti', formData);
+  }
 
       delete(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/${id}`);
