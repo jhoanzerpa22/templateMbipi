@@ -205,7 +205,7 @@ onRemove(event: any) {
       'usuario_id': this.usuario.id,
       'proyecto_id': this.proyecto_id
     };*/
-    this._proyectsService./*saveFiles*/upload(this.files, this.proyecto_id, this.usuario.id)
+    this._proyectsService./*saveFiles*/uploadMulti(this.files, this.proyecto_id, this.usuario.id)
       .subscribe(
           data => {
   
