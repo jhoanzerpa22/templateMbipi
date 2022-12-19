@@ -76,6 +76,7 @@ import { CrazyComponent } from '../../pages/crazy/crazy.component';
 import { ScopeComponent } from '../../pages/scope/scope.component';
 import { LeanComponent } from '../../pages/lean/lean.component';
 import { BosquejarComponent } from '../../pages/bosquejar/bosquejar.component';
+import { BosquejarMovilComponent } from '../../pages/bosquejar-movil/bosquejar-movil.component';
 import { PrincipalModule } from '../../pages/principal/principal.module';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
@@ -124,6 +125,7 @@ import { CrazyModule } from '../../pages/crazy/crazy.module';
 import { ScopeModule } from '../../pages/scope/scope.module';
 import { LeanModule } from '../../pages/lean/lean.module';
 import { BosquejarModule } from '../../pages/bosquejar/bosquejar.module';
+import { BosquejarMovilModule } from '../../pages/bosquejar-movil/bosquejar-movil.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -334,6 +336,10 @@ const routes: Routes = [
   {
     path: 'fase45',
     component: BosquejarComponent
+  },
+  {
+    path: 'uploadFileProyect',
+    component: BosquejarMovilComponent
   }
 ];
 
