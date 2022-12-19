@@ -17,8 +17,8 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'api',
-  API_G: 'https://mbipi.onrender.com',//'https://mbipi.tresidea.cl/api/', // General
-  API: 'https://mbipi.onrender.com',//'https://mbipi.tresidea.cl/', // General
+  API_G: 'https://mbipi.onrender.com/api/',//'https://mbipi.tresidea.cl/api/', // General
+  API: 'https://mbipi.onrender.com/',//'https://mbipi.tresidea.cl/', // General
   //API: 'https://mbipi.herokuapp.com/', // General
   //API_G: 'https://mbipi.herokuapp.com/api/', // General
   //API: 'https://mbipi-61d04.web.app/', // General
