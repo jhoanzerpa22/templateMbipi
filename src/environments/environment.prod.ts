@@ -17,13 +17,13 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'api',
-  API_G: 'https://mbipi.tresidea.cl/api/', // General
-  API: 'https://mbipi.tresidea.cl/', // General
+  API_G: 'https://mbipi.onrender.com',//'https://mbipi.tresidea.cl/api/', // General
+  API: 'https://mbipi.onrender.com',//'https://mbipi.tresidea.cl/', // General
   //API: 'https://mbipi.herokuapp.com/', // General
   //API_G: 'https://mbipi.herokuapp.com/api/', // General
   //API: 'https://mbipi-61d04.web.app/', // General
   //API_G: 'https://mbipi-61d04.web.app/api/', // General
-  API_SOCKET: 'https://mbipi.tresidea.cl:5000/',
+  API_SOCKET: 'https://mbipi.onrender.com',//'https://mbipi.tresidea.cl:5000/',
   URL: 'https://mbipi-61d04.web.app/',
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
