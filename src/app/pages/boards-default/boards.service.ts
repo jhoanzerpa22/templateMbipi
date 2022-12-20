@@ -58,6 +58,8 @@ export class SocketWebService extends Socket {
   @Output() outEvenTableroEstructura: EventEmitter<any> = new EventEmitter();
 
   @Output() outEvenTableroFlujo: EventEmitter<any> = new EventEmitter();
+  
+  @Output() outEvenRefresh: EventEmitter<any> = new EventEmitter();
 
   constructor(
     //public cookieService: CookieService,
@@ -124,6 +126,8 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_estructura', (res: any) => this.outEvenTableroEstructura.emit(res));
 
     this.ioSocket.on('evento_tablero_flujo', (res: any) => this.outEvenTableroFlujo.emit(res));
+
+    this.ioSocket.on('evento_refresh', (res: any) => this.outEvenRefresh.emit(res));
 
   }
 
@@ -574,6 +578,11 @@ export class SocketWebService extends Socket {
   emitEventTableroSaveBosquejar = (payload = {}) => {
     console.log('evento_tablero_save_bosquejar',payload);
     this.ioSocket.emit('evento_tablero_save_bosquejar', payload)
+  }
+
+  emitEventRefresh = () => {
+    console.log('evento_refresh');
+    this.ioSocket.emit('evento_refresh')
   }
 
 }

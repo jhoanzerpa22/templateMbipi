@@ -24,8 +24,7 @@
 }
 //VIDEO ENDS
 
-
-.caja-nota{
+.texto-nota{
   outline: none;
   //overflow: auto;
   //min-height: 5em;
@@ -34,34 +33,34 @@
 }
 
 /* Tamaño del scroll */
-::ng-deep .caja-nota::-webkit-scrollbar {
+::ng-deep .texto-nota::-webkit-scrollbar {
   width: 8px !important;
   height: 8px !important;
 }
 
  /* Estilos barra (thumb) de scroll */
-::ng-deep .caja-nota::-webkit-scrollbar-thumb {
+::ng-deep .texto-nota::-webkit-scrollbar-thumb {
   background: var(--custom-color) !important;
   border-radius: 4px;
 }
 
-::ng-deep .caja-nota::-webkit-scrollbar-thumb:active {
+::ng-deep .texto-nota::-webkit-scrollbar-thumb:active {
   background-color: #999999;
 }
 
-::ng-deep .caja-nota::-webkit-scrollbar-thumb:hover {
+::ng-deep .texto-nota::-webkit-scrollbar-thumb:hover {
   background: #000 !important;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 }
 
  /* Estilos track de scroll */
-::ng-deep .caja-nota::-webkit-scrollbar-track {
+::ng-deep .texto-nota::-webkit-scrollbar-track {
   background: #e1e1e1;
   border-radius: 4px;
 }
 
-::ng-deep .caja-nota::-webkit-scrollbar-track:hover,
-::ng-deep .caja-nota::-webkit-scrollbar-track:active {
+::ng-deep .texto-nota::-webkit-scrollbar-track:hover,
+::ng-deep .texto-nota::-webkit-scrollbar-track:active {
   background: #d4d4d4;
 }
 

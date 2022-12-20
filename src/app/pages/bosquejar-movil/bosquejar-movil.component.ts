@@ -3,7 +3,7 @@ import { SocketWebService } from '../boards-default/boards.service';
 import { ProyectsService } from '../config-project-wizzard/proyects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject,BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 //import {maxlengthContentEditable} from 'maxlength-contenteditable';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
@@ -92,6 +92,10 @@ export class BosquejarMovilComponent implements OnInit, AfterViewInit, OnDestroy
   files_base: any = [];
   selectedFile: File;
 
+  private unsubscribe: Subscription[] = [];
+  //isLoading$: Observable<boolean>;
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
 onSelect(event: any) {
   console.log(event);
   this.files.push(...event.addedFiles);
@@ -112,6 +116,16 @@ onRemove(event: any) {
     private ref: ChangeDetectorRef,
     private _router: Router
   ) {
+
+    const loadingSubscr = this.isLoading$
+      .asObservable()
+      .subscribe((res) => (this.isLoading = res));
+    this.unsubscribe.push(loadingSubscr);
+
+    this.socketWebService.outEvenRefresh.subscribe((res: any) => {
+      this.refresh();
+    });
+
     this.route.queryParams.subscribe(params => {
     this.usuario_id = params['usuario_id'];
     });
@@ -155,6 +169,8 @@ onRemove(event: any) {
   }
 
   enviar(){
+    
+    this.isLoading$.next(true);
     //for(let f in this.files){
       console.log('files:',this.files);
     /*const data: any = {
@@ -165,15 +181,52 @@ onRemove(event: any) {
     this._proyectsService./*saveFiles*/uploadMulti(this.files, this.proyecto_id, this.usuario_id)
       .subscribe(
           data => {
-  
+            Swal.fire({
+              text: "Archivos subidos exitosamente!",
+              icon: "success",
+              buttonsStyling: false,
+              confirmButtonText: "Ok!",
+              customClass: {
+                confirmButton: "btn btn-primary"
+              }
+            });
+            this.socketWebService.emitEventRefresh();
+            this.isLoading$.next(false);
             //this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase25');
             console.log('data_resp',data);
           },
           (response) => {
+            this.isLoading$.next(false);
             console.log('error_resp',response);
           }
       );
     //}
+  }
+
+  refresh(){
+
+    this._proyectsService.get(this.proyecto_id)
+      .subscribe(
+          (response) => {
+            this.proyecto = response;
+            this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
+
+            let imagenes: any = [];
+            
+            for(let c in this.proyecto.proyecto_recursos){
+              if(this.proyecto.proyecto_recursos[c].cloud_user != null){
+                
+                 imagenes.push({'id': this.proyecto.proyecto_recursos[c].cloud_user.id,'name': this.proyecto.proyecto_recursos[c].cloud_user.name, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+              }
+            }
+
+            this.recursos = imagenes;
+
+            this.ref.detectChanges();
+          },
+          (response) => {
+          }
+      );
   }
 
   getProyect(){
