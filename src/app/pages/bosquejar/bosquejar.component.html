@@ -111,7 +111,7 @@
             <span class="badge badge-light fs-8 fw-bold ms-2">{{usu2.rol}}</span></a>
             <!--end::Name-->
             <!--begin::Email-->
-            <div class="fw-bold text-muted">{{usu2.correo != null ? usu2.correo : usuario.correo_login}} <i class="fas fa-check" *ngIf="getFileUser(usu2.usuario_id)"></i></div>
+            <div class="fw-bold text-muted">{{usu2.correo != null ? usu2.correo : usuario.correo_login}} <i class="fas fa-check" style="color: greenyellow;" *ngIf="getFileUser(usu2.usuario_id)"></i></div>
             <!--end::Email-->
           </div>
           </div>
@@ -122,7 +122,7 @@
       <div class="categoria-archivo">
         Adjuntar
 
-        <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif">
+        <ngx-dropzone style="margin: 10px 60px;" (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label style="z-index: 0 !important;">Seleccione las imagenes o arrastrelas!</ngx-dropzone-label>
           <!--<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
             <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
@@ -133,7 +133,27 @@
         </ngx-dropzone>
 
         <div style="margin-top: 10px;">
-        <button (click)="enviar()">Enviar</button>
+        <button class="btn btn-success" style="margin-top: 10px;
+        width: 50%;
+        font-size: 20px;
+        margin: auto;
+        align-items: center;
+        align-content: center;
+        position: relative;
+        display: block;
+        " (click)="enviar()">
+        <ng-container *ngIf="isLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Por favor espere...
+            <span
+              class="spinner-border spinner-border-sm align-middle ms-2"
+            ></span>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!(isLoading$ | async)">
+          <span class="indicator-label">Enviar</span>
+        </ng-container>
+        </button>
         </div>
 
         <div style="margin-top: 50px;" *ngIf="showQr">

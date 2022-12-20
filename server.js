@@ -1255,6 +1255,10 @@ io.on('connection', function (socket) {
     io.in(nombreSala).emit('evento_continue');
   })
 
+  socket.on('evento_refresh', (res) => {
+    io.in(nombreSala).emit('evento_refresh');
+  })
+
   socket.on('disconnect', function () {
 
     console.log(`Usuario Desconectado: ${handshake}`);

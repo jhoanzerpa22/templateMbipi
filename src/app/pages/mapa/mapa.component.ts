@@ -25,6 +25,7 @@ import Drawflow, {
 } from 'drawflow';
 import { NodeElement } from './node.model';
 import { ReplaySubject, Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mapa',
@@ -643,6 +644,16 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   continue() {
     //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase9']);
+    Swal.fire({
+      text: "Has finalizado el día Entender, ahora puedes continuar con el siguiente día!",
+      icon: "success",
+      buttonsStyling: false,
+      confirmButtonText: "Ok!",
+      customClass: {
+        confirmButton: "btn btn-primary"
+      }
+    });
+    
     this._router.navigate(['/proyect-init/'+this.proyecto_id]);
   }
 

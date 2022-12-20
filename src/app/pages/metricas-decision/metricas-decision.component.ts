@@ -512,6 +512,15 @@ export class MetricasDecisionComponent implements OnInit, AfterViewInit, OnDestr
 
   continue() {
     //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase23']);
+    Swal.fire({
+      text: "Has finalizado el día Enfoque de Solución, ahora puedes continuar con el siguiente día!",
+      icon: "success",
+      buttonsStyling: false,
+      confirmButtonText: "Ok!",
+      customClass: {
+        confirmButton: "btn btn-primary"
+      }
+    });
     this._router.navigate(['/proyect-init/'+this.proyecto_id+'/scope']);
   }
 
