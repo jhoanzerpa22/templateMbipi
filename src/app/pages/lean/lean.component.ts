@@ -199,7 +199,7 @@ export class LeanComponent implements OnInit, AfterViewInit, OnDestroy {
                 
               }
 
-              if(this.proyecto.proyecto_recursos[c].leancanvas_metricas != null){
+              if(this.proyecto.proyecto_recursos[c].leancanvas_metrica != null){
                  metricas.push({'id': this.proyecto.proyecto_recursos[c].leancanvas_metrica.id,'content': this.proyecto.proyecto_recursos[c].leancanvas_metrica.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
               }
 
