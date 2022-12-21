@@ -3534,30 +3534,55 @@ exports.delete = (req, res) => {
 exports.deleteNotaCp = (req, res) => {
   const id = req.params.id;
 
-                NotasCp.destroy({
-                  where: { id: id }
-                })
-                  .then(num2 => {
-                    if (num2 == 1) {
-                        res.send({
-                            message: "NotaCp was deleted successfully!"
-                          });
-                    } else {
-                      res.send({
-                        message: `Cannot delete Nota Cp with id=${id}. Maybe NotaCp was not found!`
-                      });
-                    }
-                  }).catch(err => {
-                    res.status(500).send({
-                      message: "Could not delete NotaCp with id=" + id + ' | error:' + err.message
-                    });
+  ProyectoRecurso.destroy({
+    where: { notascp_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+        
+        NotasCp.destroy({
+          where: { id: id }
+        })
+          .then(num2 => {
+            if (num2 == 1) {
+                res.send({
+                    message: "NotaCp was deleted successfully!"
                   });
+            } else {
+              res.send({
+                message: `Cannot delete Nota Cp with id=${id}. Maybe NotaCp was not found!`
+              });
+            }
+          }).catch(err => {
+            res.status(500).send({
+              message: "Could not delete NotaCp with id=" + id + ' | error:' + err.message
+            });
+          });
+
+      } else {
+        res.send({
+          message: `Cannot delete Nota Cp Proyecto Recurso with id=${id}. Maybe NotaCp was not found!`
+        });
+      }
+    }).catch(err => {
+      res.status(500).send({
+        message: "Could not delete NotaCp Proyecto Recurso with id=" + id + ' | error:' + err.message
+      });
+    });
+
+                
 };
 
 // Delete a MetaLp with the specified id in the request
 exports.deleteMetaLp = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { metaslp_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 MetasLp.destroy({
                   where: { id: id }
                 })
@@ -3576,12 +3601,28 @@ exports.deleteMetaLp = (req, res) => {
                       message: "Could not delete MetaLp with id=" + id + ' | error:' + err.message
                     });
                   });
+                } else {
+                  res.send({
+                    message: `Cannot delete Metas Lp Proyecto Recurso with id=${id}. Maybe Metas Lp was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete MetasLp Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 // Delete a PreguntaSprint with the specified id in the request
 exports.deletePreguntaSprint = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { preguntasprint_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 PreguntaSprint.destroy({
                   where: { id: id }
                 })
@@ -3600,12 +3641,29 @@ exports.deletePreguntaSprint = (req, res) => {
                       message: "Could not delete PreguntaSprint with id=" + id + ' | error:' + err.message
                     });
                   });
+
+                } else {
+                  res.send({
+                    message: `Cannot delete PreguntaSprint Proyecto Recurso with id=${id}. Maybe PreguntaSprint was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete PreguntaSprint Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 // Delete a necesidades with the specified id in the request
 exports.deleteNecesidades = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { scopecanvas_necesidades_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 ScopeCanvasNecesidades.destroy({
                   where: { id: id }
                 })
@@ -3623,13 +3681,30 @@ exports.deleteNecesidades = (req, res) => {
                     res.status(500).send({
                       message: "Could not delete necesidades with id=" + id + ' | error:' + err.message
                     });
+                  }); 
+
+                } else {
+                  res.send({
+                    message: `Cannot delete necesidades Proyecto Recurso with id=${id}. Maybe necesidades was not found!`
                   });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete necesidades Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 // Delete a Propositos with the specified id in the request
 exports.deletePropositos = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { scopecanvas_propositos_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 ScopeCanvasPropositos.destroy({
                   where: { id: id }
                 })
@@ -3648,6 +3723,18 @@ exports.deletePropositos = (req, res) => {
                       message: "Could not delete Propositos with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+
+                } else {
+                  res.send({
+                    message: `Cannot delete Propositos Proyecto Recurso with id=${id}. Maybe Propositos was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Propositos Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
@@ -3655,6 +3742,12 @@ exports.deletePropositos = (req, res) => {
 exports.deleteObjetivos = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { scopecanvas_objetivos_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 ScopeCanvasObjetivos.destroy({
                   where: { id: id }
                 })
@@ -3673,11 +3766,30 @@ exports.deleteObjetivos = (req, res) => {
                       message: "Could not delete objetivos with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+
+                } else {
+                  res.send({
+                    message: `Cannot delete Objetivos Proyecto Recurso with id=${id}. Maybe Objetivos was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Objetivos Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 // Delete a acciones with the specified id in the request
 exports.deleteAcciones = (req, res) => {
   const id = req.params.id;
+  
+  ProyectoRecurso.destroy({
+    where: { scopecanvas_acciones_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
 
                 ScopeCanvasAcciones.destroy({
                   where: { id: id }
@@ -3697,12 +3809,30 @@ exports.deleteAcciones = (req, res) => {
                       message: "Could not delete acciones with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+
+                } else {
+                  res.send({
+                    message: `Cannot delete Acciones Proyecto Recurso with id=${id}. Maybe Acciones was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Acciones Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 // Delete a metricas with the specified id in the request
 exports.deleteMetricas = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { scopecanvas_metricas_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 ScopeCanvasMetricas.destroy({
                   where: { id: id }
                 })
@@ -3721,12 +3851,28 @@ exports.deleteMetricas = (req, res) => {
                       message: "Could not delete metricas with id=" + id + ' | error:' + err.message
                     });
                   });
-};
 
+                } else {
+                  res.send({
+                    message: `Cannot delete Metricas Proyecto Recurso with id=${id}. Maybe Metricas was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Metricas Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
+};
 
 // Delete a problema with the specified id in the request
 exports.deleteProblema = (req, res) => {
   const id = req.params.id;
+  
+  ProyectoRecurso.destroy({
+    where: { leancanvas_problema_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
 
                 LeanCanvasProblema.destroy({
                   where: { id: id }
@@ -3746,6 +3892,17 @@ exports.deleteProblema = (req, res) => {
                       message: "Could not delete problema with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete Problema Proyecto Recurso with id=${id}. Maybe Problema was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Problema Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
@@ -3753,6 +3910,12 @@ exports.deleteProblema = (req, res) => {
 exports.deleteClientes = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { leancanvas_clientes_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 LeanCanvasClientes.destroy({
                   where: { id: id }
                 })
@@ -3771,6 +3934,17 @@ exports.deleteClientes = (req, res) => {
                       message: "Could not delete clientes with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete Clientes Proyecto Recurso with id=${id}. Maybe CLientes was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Clientes Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
@@ -3778,6 +3952,12 @@ exports.deleteClientes = (req, res) => {
 exports.deleteSolucion = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { leancanvas_solucion_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 LeanCanvasSolucion.destroy({
                   where: { id: id }
                 })
@@ -3796,12 +3976,29 @@ exports.deleteSolucion = (req, res) => {
                       message: "Could not delete solucion with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete Solucion Proyecto Recurso with id=${id}. Maybe Solucion was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Solucion Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 // Delete a metricas_clave with the specified id in the request
 exports.deleteMetricasClave = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { leancanvas_metricas_clave_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 LeanCanvasMetricasClave.destroy({
                   where: { id: id }
                 })
@@ -3819,13 +4016,30 @@ exports.deleteMetricasClave = (req, res) => {
                     res.status(500).send({
                       message: "Could not delete metrica clave with id=" + id + ' | error:' + err.message
                     });
+                  }); 
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete Metricas Proyecto Recurso with id=${id}. Maybe Metricas was not found!`
                   });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Metricas Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
 // Delete a propuesta with the specified id in the request
 exports.deletePropuesta = (req, res) => {
   const id = req.params.id;
+
+  ProyectoRecurso.destroy({
+    where: { leancanvas_propuesta_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
 
                 LeanCanvasPropuesta.destroy({
                   where: { id: id }
@@ -3845,12 +4059,29 @@ exports.deletePropuesta = (req, res) => {
                       message: "Could not delete propuesta with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete Propuesta Proyecto Recurso with id=${id}. Maybe Propuesta was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Propuesta Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
 // Delete a ventajas with the specified id in the request
 exports.deleteVentajas = (req, res) => {
   const id = req.params.id;
+
+  ProyectoRecurso.destroy({
+    where: { leancanvas_ventajas_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
 
                 LeanCanvasVentajas.destroy({
                   where: { id: id }
@@ -3870,12 +4101,29 @@ exports.deleteVentajas = (req, res) => {
                       message: "Could not delete ventajas with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete Ventajas Proyecto Recurso with id=${id}. Maybe Ventajas was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Ventajas Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
 // Delete a canales with the specified id in the request
 exports.deleteCanales = (req, res) => {
   const id = req.params.id;
+
+  ProyectoRecurso.destroy({
+    where: { leancanvas_canales_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
 
                 LeanCanvasCanales.destroy({
                   where: { id: id }
@@ -3895,6 +4143,17 @@ exports.deleteCanales = (req, res) => {
                       message: "Could not delete canales with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete Canales Proyecto Recurso with id=${id}. Maybe canales was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete Canales Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
@@ -3902,6 +4161,12 @@ exports.deleteCanales = (req, res) => {
 exports.deleteEstructura = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { leancanvas_estructura_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 LeanCanvasEstructura.destroy({
                   where: { id: id }
                 })
@@ -3920,6 +4185,17 @@ exports.deleteEstructura = (req, res) => {
                       message: "Could not delete estructura with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete estructura Proyecto Recurso with id=${id}. Maybe estructura was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete estructura Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 
@@ -3927,6 +4203,12 @@ exports.deleteEstructura = (req, res) => {
 exports.deleteFlujo = (req, res) => {
   const id = req.params.id;
 
+  ProyectoRecurso.destroy({
+    where: { leancanvas_flujo_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
                 LeanCanvasFlujo.destroy({
                   where: { id: id }
                 })
@@ -3945,6 +4227,17 @@ exports.deleteFlujo = (req, res) => {
                       message: "Could not delete flujo with id=" + id + ' | error:' + err.message
                     });
                   });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete flujo Proyecto Recurso with id=${id}. Maybe flujo was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete flujo Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
 };
 
 // Delete all Proyectoss from the database.
