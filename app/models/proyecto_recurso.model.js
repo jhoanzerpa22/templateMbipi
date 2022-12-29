@@ -63,6 +63,9 @@ module.exports = (sequelize, Sequelize) => {
       bosquejar_id: {
         type: Sequelize.INTEGER
       },
+      mapa_calor_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },

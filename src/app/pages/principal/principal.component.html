@@ -109,11 +109,11 @@
         Dia 4
         <label class="label-principal">Bosquejar</label>
       </div>
-      <div [ngClass]="fase >= 46 ? 'categoria-principal' : 'categoria-inactiva'">
+      <div [ngClass]="fase >= 46 ? 'categoria-principal' : 'categoria-inactiva'" (click)="entrar('decidir',(fase >= 46))">
         Dia 5
-        <label class="label-principal">Dia 5</label>
+        <label class="label-principal">Decidir</label>
       </div>
-      <div [ngClass]="fase >= 46 ? 'categoria-principal' : 'categoria-inactiva'">
+      <div [ngClass]="fase >= 48 ? 'categoria-principal' : 'categoria-inactiva'">
         Dia 6
         <label class="label-principal">Dia 6</label>
       </div>
@@ -234,6 +234,24 @@
         <label class="label-principal">Ideación de 4 pasos<br>Bocetar la solución</label>
       </div>
   </div>
+
+  <div class="container principal-container" *ngIf="etapa == 'decidir'">
+    <div class="button-principal" (click)="entrar('principal',true)">
+      <label class="label-button-principal">Principal</label>
+    </div>
+    <div [ngClass]="fase >= 46 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase46',(fase >= 46))">
+      Decisión - Paso 1
+      <label class="label-principal">Mapa de Calor</label>
+    </div>
+    <div [ngClass]="fase >= 47 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase47',(fase >= 47))">
+      Decisión - Paso 2
+      <label class="label-principal">Presentación</label>
+    </div>
+    <div [ngClass]="fase >= 48 ? 'categoria-principal' : 'categoria-inactiva'" (click)="ir('/fase48',(fase >= 48))">
+      Decisión - Paso 3
+      <label class="label-principal">Decisión</label>
+    </div>
+</div>
 
   <!--end::Highlight-->
 

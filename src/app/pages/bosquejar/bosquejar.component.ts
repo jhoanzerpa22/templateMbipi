@@ -88,6 +88,7 @@ export class BosquejarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   files: File[] = [];
   recursos: any = [];
+  imagenes_usuario: any = [];
   files_base: any = [];
   selectedFile: File;
 
@@ -124,6 +125,11 @@ onRemove(event: any) {
     this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
       const { usuarios_active } = res;
       this.readUsersActive(usuarios_active, false);
+    });
+
+    //escuchamos el evento para continuar
+    this.socketWebService.outEvenContinue.subscribe((res: any) => {
+      this.continue();
     });
 
     //escuchamos el evento para refrescar usuarios
@@ -212,6 +218,16 @@ onRemove(event: any) {
     return false;
   }
 
+  getFileUserCount(usuario_id: any){
+    let usuario_file: any = this.recursos.findIndex((c: any) => c.usuario_id == usuario_id);
+    
+    if(usuario_file != -1){
+      let cantidad = this.recursos.filter((d: any) => d.usuario_id == usuario_id);
+      return 'Imagenes subidas: ' + cantidad.length;
+    }
+    return '';
+  }
+
   enviar(){
     
     this.isLoading$.next(true);
@@ -234,7 +250,7 @@ onRemove(event: any) {
                 confirmButton: "btn btn-primary"
               }
             });
-
+            this.files = [];
             this.socketWebService.emitEventRefresh();
             this.isLoading$.next(false);
             console.log('data_resp',data);
@@ -246,7 +262,25 @@ onRemove(event: any) {
       );
     //}
   }
+  
+  deleteImg(id: any, cloudinary_id: any){
 
+    this.isLoading$.next(true);
+
+    this._proyectsService.deleteImg(id,cloudinary_id)
+      .subscribe(
+          (response) => {
+            
+            this.socketWebService.emitEventRefresh();
+            this.isLoading$.next(false);
+            //this.refresh();
+          },
+          (response) => {    
+            this.isLoading$.next(false);
+          }
+      );
+  }
+  
   refresh(){
 
     this._proyectsService.get(this.proyecto_id)
@@ -256,15 +290,21 @@ onRemove(event: any) {
             this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
 
             let imagenes: any = [];
+            let imagenes_usuario: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
               if(this.proyecto.proyecto_recursos[c].cloud_user != null){
                 
+                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
+                  imagenes_usuario.push({'id': this.proyecto.proyecto_recursos[c].cloud_user.id,'name': this.proyecto.proyecto_recursos[c].cloud_user.name, 'secure_url': this.proyecto.proyecto_recursos[c].cloud_user.secure_url,'cloudinary_id': this.proyecto.proyecto_recursos[c].cloud_user.cloudinary_id,'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }
+
                  imagenes.push({'id': this.proyecto.proyecto_recursos[c].cloud_user.id,'name': this.proyecto.proyecto_recursos[c].cloud_user.name, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
               }
             }
 
             this.recursos = imagenes;
+            this.imagenes_usuario = imagenes_usuario;
 
             this.ref.detectChanges();
           },
@@ -294,16 +334,22 @@ onRemove(event: any) {
             this.showTimer = true;
 
             let imagenes: any = [];
+            let imagenes_usuario: any = [];
             
             for(let c in this.proyecto.proyecto_recursos){
               if(this.proyecto.proyecto_recursos[c].cloud_user != null){
+
+                
+                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
+                  imagenes_usuario.push({'id': this.proyecto.proyecto_recursos[c].cloud_user.id,'name': this.proyecto.proyecto_recursos[c].cloud_user.name, 'secure_url': this.proyecto.proyecto_recursos[c].cloud_user.secure_url,'cloudinary_id': this.proyecto.proyecto_recursos[c].cloud_user.cloudinary_id,'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
+                }
                 
                  imagenes.push({'id': this.proyecto.proyecto_recursos[c].cloud_user.id,'name': this.proyecto.proyecto_recursos[c].cloud_user.name, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id});
               }
             }
 
             this.recursos = imagenes;
-
+            this.imagenes_usuario = imagenes_usuario;
             this.isLoading = false; 
             this.onPlayPause();
 
@@ -359,8 +405,39 @@ onRemove(event: any) {
     }
 
   }
+  
+  saveBosquejar() {
+    
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase46'};
+
+    this._proyectsService.updateEtapaBosquejar(this.proyecto_id, data_etapa)
+    .subscribe(
+        data => {
+
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase46');
+
+          this.socketWebService.emitEventTableroSaveBosquejar({});
+
+        },
+        (response) => {
+        }
+    );
+
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase45']);
+  }
+
 
   continue() {
+    Swal.fire({
+      text: "Has finalizado el día Bosquejar, ahora puedes continuar con el siguiente día!",
+      icon: "success",
+      buttonsStyling: false,
+      confirmButtonText: "Ok!",
+      customClass: {
+        confirmButton: "btn btn-primary"
+      }
+    });
+
     this._router.navigate(['/proyect-init/'+this.proyecto_id]);
   }
 

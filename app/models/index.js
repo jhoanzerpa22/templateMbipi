@@ -60,6 +60,7 @@ db.leancanvas_canales = require("./leancanvas_canales.model.js")(sequelize, Sequ
 db.leancanvas_estructura = require("./leancanvas_estructura.model.js")(sequelize, Sequelize);
 db.leancanvas_flujo = require("./leancanvas_flujo.model.js")(sequelize, Sequelize);
 db.cloud_user = require("./cloud_user.js")(sequelize, Sequelize);
+db.mapa_calor = require("./mapa_calor.model.js")(sequelize, Sequelize);
 db.proyecto_recurso = require("./proyecto_recurso.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
@@ -210,6 +211,10 @@ db.proyecto_recurso.belongsTo(db.leancanvas_flujo, {
 
 db.proyecto_recurso.belongsTo(db.cloud_user, {
   foreignKey: 'bosquejar_id'
+});
+
+db.proyecto_recurso.belongsTo(db.mapa_calor, {
+  foreignKey: 'mapa_calor_id'
 });
 
 db.proyecto_recurso.belongsTo(db.proyectos, {
