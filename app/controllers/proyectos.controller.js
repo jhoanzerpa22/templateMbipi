@@ -25,6 +25,7 @@ const LeanCanvasVentajas = db.leancanvas_ventajas;
 const LeanCanvasCanales = db.leancanvas_canales;
 const LeanCanvasEstructura = db.leancanvas_estructura;
 const LeanCanvasFlujo = db.leancanvas_flujo;
+const MapaCalor = db.mapa_calor;
 const CloudUser = db.cloud_user;
 
 const Op = db.Sequelize.Op;
@@ -144,7 +145,7 @@ exports.findOne = (req, res) => {
         }]
       },
       {
-        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id', 'leancanvas_estructura_id', 'leancanvas_flujo_id','bosquejar_id','usuario_id'], 
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id', 'leancanvas_estructura_id', 'leancanvas_flujo_id','bosquejar_id','mapa_calor_id','usuario_id'], 
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
@@ -181,6 +182,8 @@ exports.findOne = (req, res) => {
             model: LeanCanvasEstructura/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
             model: LeanCanvasFlujo/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
+          }, {
+            model: MapaCalor/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
             model: CloudUser/*, as: "equipo_usuarios"*/, attributes:['id','name','secure_url','cloudinary_id']
           }]
@@ -1030,7 +1033,6 @@ exports.updateEstructura = (req, res) => {
     });
 };
 
-
 // Update flujo the Proyectos by the id in the request
 exports.updateFlujo = (req, res) => {
   const id = req.params.id;
@@ -1058,6 +1060,37 @@ exports.updateFlujo = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Proyectos flujo with id=" + id
+      });
+    });
+};
+
+// Update mapa calor the Proyectos by the id in the request
+exports.updateMapaCalor = (req, res) => {
+  const id = req.params.id;
+  let mapa_calor = {
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
+    };
+   
+  MapaCalor.update(mapa_calor, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto mapa calor with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos mapa calor with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos mapa calor with id=" + id
       });
     });
 };
@@ -3293,7 +3326,6 @@ exports.updateEtapaEstructura = (req, res) => {
     });
 };
 
-
 // Create flujo the Proyectos by the id in the request
 exports.createFlujo = (req, res) => {
   
@@ -3321,6 +3353,37 @@ exports.createFlujo = (req, res) => {
             }).catch(err => {
                 res.status(500).send({
                 message: "Error creating Flujo"
+                });
+            });
+};
+
+// Create mapa calor the Proyectos by the id in the request
+exports.createMapaCalor = (req, res) => {
+  
+  let mapa_calor = {
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
+                };
+
+          MapaCalor.create(mapa_calor).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'mapa_calor_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, mapa_calor_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating MapaCalor"
                 });
             });
 };
@@ -3441,6 +3504,106 @@ exports.updateEtapaBosquejar = (req, res) => {
         res.send({
           message: `Proyecto with id=${id} was updated successfully.`
         });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+// Update etapa mapa calor the Proyectos by the id in the request
+exports.updateEtapaMapaCalor = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let mapa_calor = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          let position = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let solucio = {
+                  contenido: tablero[n].content,
+                  position: position
+                };
+
+              MapaCalor.update(solucio, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso MapaCalor with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              mapa_calor.push({'contenido': tablero[n].content, position: position,
+              dragPosition: JSON.stringify({x: 0, y: 0})});
+            }
+
+            position = position + 1;
+          }
+
+          let proyecto_recurso = [];
+
+          if(mapa_calor.length > 0){
+          
+          MapaCalor.bulkCreate(mapa_calor).then(nec =>{
+                  console.log('mapa_calor',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'mapa_calor_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating MapaCalor"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
 
       } else {
         res.send({
@@ -4198,7 +4361,6 @@ exports.deleteEstructura = (req, res) => {
               });
 };
 
-
 // Delete a flujo with the specified id in the request
 exports.deleteFlujo = (req, res) => {
   const id = req.params.id;
@@ -4236,6 +4398,47 @@ exports.deleteFlujo = (req, res) => {
               }).catch(err => {
                 res.status(500).send({
                   message: "Could not delete flujo Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
+};
+
+// Delete a mapa calor with the specified id in the request
+exports.deleteMapaCalor = (req, res) => {
+  const id = req.params.id;
+
+  ProyectoRecurso.destroy({
+    where: { mapa_calor_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
+                MapaCalor.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "MapaCalor was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete mapa calor with id=${id}. Maybe mapa calor was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete mapa calor with id=" + id + ' | error:' + err.message
+                    });
+                  });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete mapa calor Proyecto Recurso with id=${id}. Maybe mapa calor was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete mapa calor Proyecto Recurso with id=" + id + ' | error:' + err.message
                 });
               });
 };

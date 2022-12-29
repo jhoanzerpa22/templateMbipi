@@ -58,6 +58,8 @@ export class SocketWebService extends Socket {
   @Output() outEvenTableroEstructura: EventEmitter<any> = new EventEmitter();
 
   @Output() outEvenTableroFlujo: EventEmitter<any> = new EventEmitter();
+
+  @Output() outEvenTableroMapaCalor: EventEmitter<any> = new EventEmitter();
   
   @Output() outEvenRefresh: EventEmitter<any> = new EventEmitter();
 
@@ -126,6 +128,8 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_estructura', (res: any) => this.outEvenTableroEstructura.emit(res));
 
     this.ioSocket.on('evento_tablero_flujo', (res: any) => this.outEvenTableroFlujo.emit(res));
+    
+    this.ioSocket.on('evento_tablero_mapa_calor', (res: any) => this.outEvenTableroMapaCalor.emit(res));
 
     this.ioSocket.on('evento_refresh', (res: any) => this.outEvenRefresh.emit(res));
 
@@ -553,7 +557,6 @@ export class SocketWebService extends Socket {
     console.log('evento_tablero_delete_estructura',payload);
     this.ioSocket.emit('evento_tablero_delete_estructura', payload)
   }
-
   
   emitEventTableroSaveFlujo = (payload = {}) => {
     console.log('evento_tablero_save_flujo',payload);
@@ -573,6 +576,26 @@ export class SocketWebService extends Socket {
   emitEventTableroDeleteFlujo = (payload = {}) => {
     console.log('evento_tablero_delete_flujo',payload);
     this.ioSocket.emit('evento_tablero_delete_flujo', payload)
+  }
+
+  emitEventTableroSaveMapaCalor = (payload = {}) => {
+    console.log('evento_tablero_save_mapa_calor',payload);
+    this.ioSocket.emit('evento_tablero_save_mapa_calor', payload)
+  }
+
+  emitEventTableroUpdateMapaCalor = (payload = {}) => {
+    console.log('evento_tablero_update_mapa_calor',payload);
+    this.ioSocket.emit('evento_tablero_update_mapa_calor', payload)
+  }
+
+  emitEventTableroMapaCalor = (payload = {}) => {
+    console.log('evento_tablero_mapa_calor',payload);
+    this.ioSocket.emit('evento_tablero_mapa_calor', payload)
+  }
+
+  emitEventTableroDeleteMapaCalor = (payload = {}) => {
+    console.log('evento_tablero_delete_mapa_calor',payload);
+    this.ioSocket.emit('evento_tablero_delete_mapa_calor', payload)
   }
 
   emitEventTableroSaveBosquejar = (payload = {}) => {

@@ -61,6 +61,60 @@ exports.uploads = async (file, folder, params) => {
   }*/
 }
 
+router.delete('/deleteImg/:id/:cloudinary_id', async (req, res) =>{
+
+const id = req.params.id;
+const cloudinary_id = req.params.cloudinary_id;
+
+
+ProyectoRecurso.destroy({
+  where: { bosquejar_id: id }
+})
+  .then(num3 => {
+    if (num3 == 1) {
+    
+  CloudUser.destroy({
+    where: { id: id }
+  })
+    .then(num2 => {
+      if (num2 == 1) {
+        cloudinary.uploader
+        .destroy(cloudinary_id)
+        .then(result=> {
+          console.log(result);
+          res.send({
+            message: "Cloud User Web was deleted successfully!"
+          });
+        }).catch(err => {
+          res.status(500).send({
+            message: "Could not delete Cloud User Web with cloudinary_id=" + cloudinary_id + ' | error:' + err.message
+          });
+        });
+          /*res.send({
+              message: "Cloud User was deleted successfully!"
+            });*/
+      } else {
+        res.send({
+          message: `Cannot delete Cloud User with id=${id}. Maybe Proyectos was not found!`
+        });
+      }
+    }).catch(err => {
+      res.status(500).send({
+        message: "Could not delete Cloud User with id=" + id + ' | error:' + err.message
+      });
+    });
+  } else {
+    res.send({
+      message: `Cannot delete Bosquejar Proyecto Recurso with id=${id}. Maybe Bosquejar was not found!`
+    });
+  }
+  }).catch(err => {
+    res.status(500).send({
+      message: "Could not delete Bosquejar Proyecto Recurso with id=" + id + ' | error:' + err.message
+    });
+  });
+});
+
 router.post('/', upload.single('image'),async (req, res)=>{
   try{
     const result = await cloudinary.uploader.upload(req.file.path)
