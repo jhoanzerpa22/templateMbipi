@@ -77,6 +77,8 @@ import { ScopeComponent } from '../../pages/scope/scope.component';
 import { LeanComponent } from '../../pages/lean/lean.component';
 import { BosquejarComponent } from '../../pages/bosquejar/bosquejar.component';
 import { BosquejarMovilComponent } from '../../pages/bosquejar-movil/bosquejar-movil.component';
+import { MapaCalorComponent } from '../../pages/mapa-calor/mapa-calor.component';
+import { ExhibicionComponent } from '../../pages/exhibicion/exhibicion.component';
 import { PrincipalModule } from '../../pages/principal/principal.module';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
@@ -126,6 +128,8 @@ import { ScopeModule } from '../../pages/scope/scope.module';
 import { LeanModule } from '../../pages/lean/lean.module';
 import { BosquejarModule } from '../../pages/bosquejar/bosquejar.module';
 import { BosquejarMovilModule } from '../../pages/bosquejar-movil/bosquejar-movil.module';
+import { MapaCalorModule } from '../../pages/mapa-calor/mapa-calor.module';
+import { ExhibicionModule } from '../../pages/exhibicion/exhibicion.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -340,6 +344,14 @@ const routes: Routes = [
   {
     path: 'uploadFileProyect',
     component: BosquejarMovilComponent
+  },
+  {
+    path: 'fase46',
+    component: MapaCalorComponent
+  },
+  {
+    path: 'fase47',
+    component: ExhibicionComponent
   }
 ];
 

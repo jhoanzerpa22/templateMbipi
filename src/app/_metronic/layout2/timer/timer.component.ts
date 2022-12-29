@@ -48,7 +48,7 @@ export class TimerComponent implements OnInit {
             this._proyectsService.updateTime(this.proyecto_id, data_time)
             .subscribe(
                 data => {
-                  console.log('tiempo_guardado',data_time);
+                  //console.log('tiempo_guardado',data_time);
                 },
                 (response) => {
                 }

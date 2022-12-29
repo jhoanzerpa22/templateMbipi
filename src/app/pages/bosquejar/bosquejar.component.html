@@ -112,6 +112,7 @@
             <!--end::Name-->
             <!--begin::Email-->
             <div class="fw-bold text-muted">{{usu2.correo != null ? usu2.correo : usuario.correo_login}} <i class="fas fa-check" style="color: greenyellow;" *ngIf="getFileUser(usu2.usuario_id)"></i></div>
+            <div class="fw-bold text-muted">{{getFileUserCount(usu2.usuario_id)}}</div>
             <!--end::Email-->
           </div>
           </div>
@@ -156,7 +157,16 @@
         </button>
         </div>
 
-        <div style="margin-top: 50px;" *ngIf="showQr">
+      <div style="margin-top: 10px;width: 100%;height: auto;display: inline-block;">
+        <ng-container *ngFor="let img_u of imagenes_usuario; let i3 = index;">
+          <div class="contenedor-imagen">
+          <img class="imagen-usuario" src="{{img_u.secure_url}}"/>
+          <button style="position:absolute;width: 25px;height: 25px;left: 175px;"><i class="fas fa-close" (click)="deleteImg(img_u.id, img_u.cloudinary_id);$event.stopPropagation();$event.preventDefault()"></i></button>
+          </div>
+        </ng-container>
+      </div>
+
+        <div style="margin-top: 50px; display: grid;" *ngIf="showQr">
         <ngx-qrcode
   [elementType]="elementType"
   [errorCorrectionLevel]="correctionLevel"
@@ -200,7 +210,7 @@
         </ng-template>
       </div>
       <div class="container" style="align-items: flex-end;">
-        <a (click)="continue()" class="btn btn-success" style="margin: -15px 10px 0px 10px; float: right;">Siguiente Etapa</a>
+        <a (click)="saveBosquejar()" class="btn btn-success" style="margin: -15px 10px 0px 10px; float: right;" *ngIf="rol == 'Decisor'">Siguiente Etapa</a>
         <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
         float: right;">Salir de MbipiLab</a>
       </div>

@@ -139,6 +139,9 @@ let notas_tablero_all_estructura = {};
 let notas_tablero_flujo = [];
 let notas_tablero_all_flujo = {};
 
+let notas_tablero_mapa_calor = [];
+let notas_tablero_all_mapa_calor = {};
+
 io.on('connection', function (socket) {
 
   const handshake = socket.id;
@@ -1194,7 +1197,6 @@ io.on('connection', function (socket) {
     io.in(nombreSala).emit('evento_tablero_estructura', {'tablero': JSON.stringify(notas_tablero_estructura)});
   })
 
-  
   /* Eventos Flujo*/
   socket.on('evento_tablero_flujo', (res) => {
     let data = res.tablero;
@@ -1249,6 +1251,61 @@ io.on('connection', function (socket) {
       }
     io.in(nombreSala).emit('evento_tablero_flujo', {'tablero': JSON.stringify(notas_tablero_flujo)});
   })
+
+    /* Eventos MapaCalor*/
+    socket.on('evento_tablero_mapa_calor', (res) => {
+      let data = res.tablero;
+      let tablero = JSON.parse(data);
+      
+      for(let c in tablero){
+        let index3 = notas_tablero_mapa_calor.findIndex((n) => n.id == tablero[c].id);
+  
+          if (index3 != -1) {
+            notas_tablero_mapa_calor[index3].content = tablero[c].content;
+            notas_tablero_mapa_calor[index3].position = tablero[c].position;
+            notas_tablero_mapa_calor[index3].dragPosition = tablero[c].dragPosition;
+          }else{
+            notas_tablero_mapa_calor.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
+          }
+      }
+      // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+      //socket.to(nombreSala).emit('evento_tablero', res);
+      io.in(nombreSala).emit('evento_tablero_mapa_calor', {'tablero': JSON.stringify(notas_tablero_mapa_calor)});
+    })
+  
+    socket.on('evento_tablero_save_mapa_calor', (res) => {
+      if(Object.keys(notas_tablero_all_mapa_calor).length === 0){
+        //notas_tablero_all_mapa_calor = res;
+      }
+      notas_tablero_all_mapa_calor = [];
+      notas_tablero_mapa_calor = [];
+      // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+      //socket.to(nombreSala).emit('evento_tablero', res);
+      console.log('nombreSala',nombreSala);
+      io.in(nombreSala).emit('evento_continue');
+    })
+  
+    socket.on('evento_tablero_update_mapa_calor', (res) => {
+      
+        let index = notas_tablero_mapa_calor.findIndex((n) => n.id == res.id);
+  
+          if (index != -1) {
+            notas_tablero_mapa_calor[index].content = res.content;
+          }else{
+            notas_tablero_mapa_calor.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
+          }
+      io.in(nombreSala).emit('evento_tablero_mapa_calor', {'tablero': JSON.stringify(notas_tablero_mapa_calor)});
+    })
+  
+    socket.on('evento_tablero_delete_mapa_calor', (res) => {
+      
+      let index = notas_tablero_mapa_calor.findIndex((n) => n.id == res.id);
+  
+        if (index != -1) {
+          notas_tablero_mapa_calor.splice(index, 1);
+        }
+      io.in(nombreSala).emit('evento_tablero_mapa_calor', {'tablero': JSON.stringify(notas_tablero_mapa_calor)});
+    })
 
   socket.on('evento_tablero_save_bosquejar', (res) => {
     console.log('nombreSala',nombreSala);
