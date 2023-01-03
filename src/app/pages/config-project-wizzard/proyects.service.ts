@@ -121,6 +121,10 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapaMapaCalor/${id}`, data);
       }
 
+      updateEtapaBosquejarVoto(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateEtapaBosquejarVoto/${id}`, data);
+      }
+
       updateEtapaBosquejar(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateEtapaBosquejar/${id}`, data);
       }
@@ -205,6 +209,10 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateMapaCalor/${id}`, data);
       }
 
+      updateBosquejarVoto(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateBosquejarVoto/${id}`, data);
+      }
+
       createNotaCp(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createNotaCp`, data);
       }
@@ -275,6 +283,10 @@ export class ProyectsService
 
       createMapaCalor(data: any): Observable<any> {
         return this.http.post(environment.API_G +`${baseUrl}/createMapaCalor`, data);
+      }
+
+      createBosquejarVoto(data: any): Observable<any> {
+        return this.http.post(environment.API_G +`${baseUrl}/createBosquejarVoto`, data);
       }
 
       saveFiles(data: any): Observable<any> {
@@ -384,6 +396,10 @@ export class ProyectsService
 
       deleteMapaCalor(id: any): Observable<any> {
         return this.http.delete(environment.API_G +`${baseUrl}/deleteMapaCalor/${id}`);
+      }
+
+      deleteBosquejarVoto(id: any): Observable<any> {
+        return this.http.delete(environment.API_G +`${baseUrl}/deleteBosquejarVoto/${id}`);
       }
 
       deleteMetricasClave(id: any): Observable<any> {

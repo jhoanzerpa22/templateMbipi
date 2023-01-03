@@ -142,6 +142,9 @@ let notas_tablero_all_flujo = {};
 let notas_tablero_mapa_calor = [];
 let notas_tablero_all_mapa_calor = {};
 
+let notas_tablero_bosquejar_voto = [];
+let notas_tablero_all_bosquejar_voto = {};
+
 io.on('connection', function (socket) {
 
   const handshake = socket.id;
@@ -1305,6 +1308,61 @@ io.on('connection', function (socket) {
           notas_tablero_mapa_calor.splice(index, 1);
         }
       io.in(nombreSala).emit('evento_tablero_mapa_calor', {'tablero': JSON.stringify(notas_tablero_mapa_calor)});
+    })
+
+    /* Eventos Bosquejar voto*/
+    socket.on('evento_tablero_bosquejar_voto', (res) => {
+      let data = res.tablero;
+      let tablero = JSON.parse(data);
+      
+      for(let c in tablero){
+        let index3 = notas_tablero_bosquejar_voto.findIndex((n) => n.id == tablero[c].id);
+  
+          if (index3 != -1) {
+            notas_tablero_bosquejar_voto[index3].content = tablero[c].content;
+            notas_tablero_bosquejar_voto[index3].position = tablero[c].position;
+            notas_tablero_bosquejar_voto[index3].dragPosition = tablero[c].dragPosition;
+          }else{
+            notas_tablero_bosquejar_voto.push({'id': tablero[c].id, 'content': tablero[c].content, 'usuario_id': tablero[c].usuario_id, 'position': tablero[c].position, 'dragPosition': tablero[c].dragPosition});
+          }
+      }
+      // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+      //socket.to(nombreSala).emit('evento_tablero', res);
+      io.in(nombreSala).emit('evento_tablero_bosquejar_voto', {'tablero': JSON.stringify(notas_tablero_bosquejar_voto)});
+    })
+  
+    socket.on('evento_tablero_save_bosquejar_voto', (res) => {
+      if(Object.keys(notas_tablero_all_bosquejar_voto).length === 0){
+        //notas_tablero_all_bosquejar_voto = res;
+      }
+      notas_tablero_all_bosquejar_voto = [];
+      notas_tablero_bosquejar_voto = [];
+      // Emite el mensaje a todos lo miembros de las sala menos a la persona que envia el mensaje
+      //socket.to(nombreSala).emit('evento_tablero', res);
+      console.log('nombreSala',nombreSala);
+      io.in(nombreSala).emit('evento_continue');
+    })
+  
+    socket.on('evento_tablero_update_bosquejar_voto', (res) => {
+      
+        let index = notas_tablero_bosquejar_voto.findIndex((n) => n.id == res.id);
+  
+          if (index != -1) {
+            notas_tablero_bosquejar_voto[index].content = res.content;
+          }else{
+            notas_tablero_bosquejar_voto.push({'id': res.id, 'content': res.content, 'usuario_id': res.usuario_id});
+          }
+      io.in(nombreSala).emit('evento_tablero_bosquejar_voto', {'tablero': JSON.stringify(notas_tablero_bosquejar_voto)});
+    })
+  
+    socket.on('evento_tablero_delete_bosquejar_voto', (res) => {
+      
+      let index = notas_tablero_bosquejar_voto.findIndex((n) => n.id == res.id);
+  
+        if (index != -1) {
+          notas_tablero_bosquejar_voto.splice(index, 1);
+        }
+      io.in(nombreSala).emit('evento_tablero_bosquejar_voto', {'tablero': JSON.stringify(notas_tablero_bosquejar_voto)});
     })
 
   socket.on('evento_tablero_save_bosquejar', (res) => {
