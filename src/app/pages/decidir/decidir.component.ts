@@ -22,12 +22,12 @@ import { take, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-mapa-calor',
-  templateUrl: './mapa-calor.component.html',
-  styleUrls: ['./mapa-calor.component.scss'],
+  selector: 'app-decidir',
+  templateUrl: './decidir.component.html',
+  styleUrls: ['./decidir.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
   // Public variables
   selfLayout = 'default';
   asideSelfDisplay: true;
@@ -71,6 +71,7 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
   @ViewChild('canvasRef', { static: false }) canvasRef: ElementRef;
   @ViewChild('tableroRef', { static: false }) tableroRef: ElementRef;
+  @ViewChild('tableroRef2', { static: false }) tableroRef2: ElementRef;
 
   //Lista de Usuarios
   usuarios: any = []; //usuarios
@@ -80,9 +81,12 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //Lista de notas
   notes: any = []; // lista de notas del tablero
+  bosquejar_voto: any = []; // lista de notas del tablero
   recognition:any;
   notes_all: any = []; // lista de notas de todos los participantes
   notes_cache: any = [];
+  bosquejar_voto_all: any = []; // lista de bosquejar_voto de todos los participantes
+  bosquejar_voto_cache: any = [];
   public proyecto: any = {};
   public proyecto_id: number;
   public rol: any = '';
@@ -104,6 +108,7 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
   style: any = null;
   offset: any= {x: 0, y: 0};
   dragPosition: any = [];//{x: 0, y: 0};
+  dragPosition2: any = [];
 
   public isAvailabe: boolean = false;
 
@@ -167,6 +172,37 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
     this.writeBoard();
   }
 
+  public onDragMove2(event: CdkDragMove<any>, i?: any, j?: any): void {
+    const el=(document.getElementsByClassName('cdk-drag-preview')[0])as any
+    const xPos = event.pointerPosition.x - this.offset.x;
+    const yPos = event.pointerPosition.y - this.offset.y;
+  }
+
+  public onDragEnded2(event: CdkDragEnd<any>, i?: any, j?: any){
+    console.log('dragPosition2',this.dragPosition2);
+    const xPos = this.dragPosition2[j].x + event.distance.x;//event.dropPoint.x - 650;
+    const yPos = this.dragPosition2[j].y + event.distance.y;//event.dropPoint.y - 500;
+    
+    this.dragPosition2[j] = {x: xPos, y: yPos};
+
+    this.bosquejar_voto[j].position = j;
+    this.bosquejar_voto[j].dragPosition = this.dragPosition[j];
+    
+    this.bosquejar_voto_all = this.bosquejar_voto;
+
+    let bosquejar_voto: any = { 'position': this.bosquejar_voto[j].position, 'dragPosition': this.bosquejar_voto[j].dragPosition };
+
+    this._proyectsService.updateBosquejarVoto(this.bosquejar_voto[j].id, bosquejar_voto)
+    .subscribe(
+        data => {
+        },
+        (response) => {
+        }
+    );
+
+    //this.writeBoard2();
+  }
+
   constructor(/*
   private initService: LayoutInitService,
   private layout: LayoutService*/
@@ -192,6 +228,12 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
       this.readBoard(tablero, false);
     });
 
+    //escuchamos el evento de las bosquejar_voto de los usuarios
+    this.socketWebService.outEvenTableroBosquejarVoto.subscribe((res: any) => {
+      const { tablero } = res;
+      this.readBoard2(tablero, false);
+    });
+
     //escuchamos el evento para continuar
     this.socketWebService.outEvenContinue.subscribe((res: any) => {
       this.continue();
@@ -213,6 +255,10 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
     //leemos nota en cache
     const notes: any = localStorage.getItem('notes_mapa_calor');
     this.notes_cache = JSON.parse(notes) || [/*{ id: 0+'-'+this.usuario.nombre, content:'' }*/];
+    
+    //leemos votos en cache
+    const votos: any = localStorage.getItem('notes_bosquejar_voto');
+    this.bosquejar_voto_cache = JSON.parse(votos) || [];
 
     //si existen notas en cache las enviamos al socket
     //if(this.notes.length > 0){
@@ -315,6 +361,8 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
             let imagenes: any = [];
             let mapa_calor: any = [];
             let position: number = 0;
+            let bosquejar_voto: any = [];
+            let position2: number = 0;
             
             for(let c in this.proyecto.proyecto_recursos){
               if(this.proyecto.proyecto_recursos[c].cloud_user != null){
@@ -324,13 +372,63 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
               }
 
               if(this.proyecto.proyecto_recursos[c].mapa_calor != null){
-                if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
+                
                 mapa_calor.push({'id': this.proyecto.proyecto_recursos[c].mapa_calor.id,'content': this.proyecto.proyecto_recursos[c].mapa_calor.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id, 'position': this.proyecto.proyecto_recursos[c].mapa_calor.position ? this.proyecto.proyecto_recursos[c].mapa_calor.position : position, 'dragPosition': this.proyecto.proyecto_recursos[c].mapa_calor.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].mapa_calor.dragPosition) :  {'x': 0, 'y': 0}});
+
                 this.dragPosition.push(this.proyecto.proyecto_recursos[c].mapa_calor.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].mapa_calor.dragPosition) : {x: 0, y: 0});
                 
-                position = position + 1;
-                }
-              }
+               position = position + 1;
+               
+             }
+
+             if(this.proyecto.proyecto_recursos[c].bosquejar_voto != null){
+                
+              bosquejar_voto.push({'id': this.proyecto.proyecto_recursos[c].bosquejar_voto.id,'content': this.proyecto.proyecto_recursos[c].bosquejar_voto.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id, 'position': this.proyecto.proyecto_recursos[c].bosquejar_voto.position ? this.proyecto.proyecto_recursos[c].bosquejar_voto.position : position, 'dragPosition': this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition) :  {'x': 0, 'y': 0}});
+
+              this.dragPosition2.push(this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition) : {x: 0, y: 0});
+              
+             position2 = position2 + 1;
+             
+           }
+            }
+
+            if(bosquejar_voto.length > 0){
+              this.bosquejar_voto = bosquejar_voto;
+            }else{              
+              //this.bosquejar_voto.push({ id: 1, content: 'Prueba 1', usuario_id: this.usuario.id, position: 0, dragPosition: {'x': 0, 'y': 0} });
+              //this.bosquejar_voto.push({ id: 2, content: 'Prueba 2', usuario_id: this.usuario.id, position: 1, dragPosition: {'x': 0, 'y': 0} });
+
+              for (let cre = 0; cre < 2; cre++) {
+                
+                  const position = cre;
+                  const data = {
+                    proyecto_id: this.proyecto_id,
+                    usuario_id: this.usuario.id,
+                    content: '', 
+                    position: position,
+                    dragPosition: {'x': 0, 'y': 0}
+                  };
+                  
+                  this._proyectsService.createBosquejarVoto(data)
+                      .subscribe(
+                          data => {
+                  const id = data.bosquejar_voto_id;
+                  
+                  this.bosquejar_voto.push({ id: id, content: '', usuario_id: this.usuario.id, position: position, dragPosition: {'x': 0, 'y': 0} });
+                  // sort the array
+                  this.bosquejar_voto = this.bosquejar_voto.sort((a: any,b: any)=>{ return b.id-a.id});
+                  localStorage.setItem('notes_bosquejar_voto', JSON.stringify(this.bosquejar_voto));
+              
+                  this.dragPosition2.push({x: 0, y: 0});
+              
+                  this.ref.detectChanges();
+                  
+                  this.socketWebService.emitEventTableroUpdateBosquejarVoto({id: id, content: '', usuario_id: this.usuario.id, position: position,dragPosition: {'x': 0, 'y': 0} });
+                },
+                          (response) => {
+                          }
+                  );
+            }
             }
 
             this.recursos = imagenes;
@@ -365,7 +463,7 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //actualizamos listado de notas de usuarios
   private readBoard(tablero: any, emit: boolean){
-    /*const data = JSON.parse(tablero);
+    const data = JSON.parse(tablero);
     console.log('notas_all_mapa_calor',data);
     this.notes_all = data;
     
@@ -375,7 +473,21 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dragPosition[data[d].position] = data[d].dragPosition;
     }
 
-    this.ref.detectChanges();*/
+    this.ref.detectChanges();
+  }
+  
+  private readBoard2(tablero: any, emit: boolean){
+    const data = JSON.parse(tablero);
+    console.log('notas_all_bosquejar_voto',data);
+    this.bosquejar_voto_all = data;
+    
+    this.bosquejar_voto = data;
+
+    for(let d in data){
+      this.dragPosition2[data[d].position] = data[d].dragPosition;
+    }
+
+    this.ref.detectChanges();
   }
   
   private render() {
@@ -445,7 +557,6 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cx.clearRect(0, 0, this.width, this.height);
   }
 
-
   updateAllNotes() {
     console.log(document.querySelectorAll('app-note-mapa-calor'));
     let notes = document.querySelectorAll('app-note-mapa-calor');
@@ -470,13 +581,13 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     tablero.push({'title': 'Como podriamos', "data": mapa});
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase47', tablero: this.notes_all, type: 'notas'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase49', tablero: this.notes_all, type: 'notas'};
 
     this._proyectsService.updateEtapaMapaCalor(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase47');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase49');
 
           this.socketWebService.emitEventTableroSaveMapaCalor({tablero: JSON.stringify(tablero)});
 
@@ -485,11 +596,11 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     );
 
-    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase47']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase49']);
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase47']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase49']);
   }
 
   etapa_active(etapa_active: any) {
@@ -546,6 +657,39 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  saveNote2(event: any){
+    if (event.target.innerText.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
+    const id = event.srcElement.parentElement/*.parentElement*//*.parentElement.parentElement*/.getAttribute('id');
+    const content = event.target.innerText;
+    event.target.innerText = content;
+      
+    const json = {
+      'id':id,
+      'content':content,
+      'usuario_id': this.usuario.id
+    }
+    console.log('json',json);
+    this.updateNote2(json);
+    //this.updateNoteAll(json);
+
+    localStorage.setItem('notes_bosquejar_voto', JSON.stringify(this.bosquejar_voto));
+    //this.sendNotes(this.notes);
+    console.log("********* updating note *********")
+  
+    }
+  }
+
+
   saveNote(event: any){
     if (event.target.innerText.trim() == ""){
       Swal.fire({
@@ -593,6 +737,23 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  updateNote2(newValue: any){
+    this.bosquejar_voto.forEach((voto: any, index: any)=>{
+      if(voto.id== newValue.id) {
+        this.bosquejar_voto[index].content = newValue.content;
+        this.socketWebService.emitEventTableroUpdateBosquejarVoto(newValue);
+        this._proyectsService.updateBosquejarVoto(newValue.id,newValue)
+        .subscribe(
+            data => {
+
+            },
+            (response) => {
+            }
+        );
+      }
+    });
+  }
+
   updateNoteAll(newValue: any){
     let existe = 0;
     this.notes_all.forEach((note: any, index: any)=>{
@@ -607,6 +768,22 @@ export class MapaCalorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.socketWebService.emitEventTableroMapaCalor({tablero: JSON.stringify(this.notes_all)});
+  }
+
+  updateNoteAll2(newValue: any){
+    let existe = 0;
+    this.bosquejar_voto_all.forEach((voto: any, index: any)=>{
+      if(voto.id== newValue.id) {
+        existe = 1;
+        this.bosquejar_voto_all[index].content = newValue.content;
+      }
+    });
+
+    if(existe == 0){
+      this.bosquejar_voto_all.push({ id: newValue.id, content:newValue.content });
+    }
+
+    this.socketWebService.emitEventTableroBosquejarVoto({tablero: JSON.stringify(this.bosquejar_voto_all)});
   }
   
   private writeBoard(){

@@ -66,6 +66,9 @@ module.exports = (sequelize, Sequelize) => {
       mapa_calor_id: {
         type: Sequelize.INTEGER
       },
+      bosquejar_voto_id: {
+        type: Sequelize.INTEGER
+      },
       proyecto_id: {
         type: Sequelize.INTEGER
       },
