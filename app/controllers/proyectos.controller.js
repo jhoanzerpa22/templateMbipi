@@ -26,6 +26,7 @@ const LeanCanvasCanales = db.leancanvas_canales;
 const LeanCanvasEstructura = db.leancanvas_estructura;
 const LeanCanvasFlujo = db.leancanvas_flujo;
 const MapaCalor = db.mapa_calor;
+const BosquejarVoto = db.bosquejar_voto;
 const CloudUser = db.cloud_user;
 
 const Op = db.Sequelize.Op;
@@ -145,7 +146,7 @@ exports.findOne = (req, res) => {
         }]
       },
       {
-        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id', 'leancanvas_estructura_id', 'leancanvas_flujo_id','bosquejar_id','mapa_calor_id','usuario_id'], 
+        model: ProyectoRecurso, as: "proyecto_recursos", attributes:['id','notascp_id','metaslp_id', 'preguntasprint_id', 'scopecanvas_necesidades_id', 'scopecanvas_propositos_id', 'scopecanvas_objetivos_id', 'scopecanvas_acciones_id', 'scopecanvas_metricas_id', 'leancanvas_clientes_id', 'leancanvas_problema_id', 'leancanvas_solucion_id', 'leancanvas_metricas_clave_id', 'leancanvas_propuesta_id', 'leancanvas_ventajas_id', 'leancanvas_canales_id', 'leancanvas_estructura_id', 'leancanvas_flujo_id','bosquejar_id','mapa_calor_id', 'bosquejar_voto_id','usuario_id'], 
           include: [{
             model: NotasCp/*, as: "equipo_usuarios"*/, attributes:['id','contenido','categoria','votos','detalle']
           }, {
@@ -184,6 +185,8 @@ exports.findOne = (req, res) => {
             model: LeanCanvasFlujo/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
             model: MapaCalor/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
+          }, {
+            model: BosquejarVoto/*, as: "equipo_usuarios"*/, attributes:['id','contenido','position','dragPosition']
           }, {
             model: CloudUser/*, as: "equipo_usuarios"*/, attributes:['id','name','secure_url','cloudinary_id']
           }]
@@ -1091,6 +1094,37 @@ exports.updateMapaCalor = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Proyectos mapa calor with id=" + id
+      });
+    });
+};
+
+// Update bosquejar voto the Proyectos by the id in the request
+exports.updateBosquejarVoto = (req, res) => {
+  const id = req.params.id;
+  let bosquejar_voto = {
+      contenido: req.body.content,
+      position: req.body.position,
+      dragPosition: JSON.stringify(req.body.dragPosition)
+    };
+   
+  BosquejarVoto.update(bosquejar_voto, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: `Proyecto bosquejar with id=${id} was updated successfully.`
+        });
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos bosquejar voto with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos bosquejar voto with id=" + id
       });
     });
 };
@@ -3388,6 +3422,37 @@ exports.createMapaCalor = (req, res) => {
             });
 };
 
+// Create bosquejar voto the Proyectos by the id in the request
+exports.createBosquejarVoto = (req, res) => {
+  
+  let bosquejar_voto = {
+                  contenido: req.body.content,
+                  position: null,
+                  dragPosition: JSON.stringify({x: 0, y: 0})
+                };
+
+          BosquejarVoto.create(bosquejar_voto).then(nec =>{
+                  
+                let proyecto_recurso = {'proyecto_id': req.body.proyecto_id, 'bosquejar_voto_id': nec.dataValues.id, 'usuario_id': req.body.usuario_id };
+
+                ProyectoRecurso.create(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${req.body.proyecto_id} was updated successfully.`, bosquejar_voto_id: nec.dataValues.id
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating BosquejarVoto"
+                });
+            });
+};
+
 // Update etapa flujo the Proyectos by the id in the request
 exports.updateEtapaFlujo = (req, res) => {
   const id = req.params.id;
@@ -3591,6 +3656,105 @@ exports.updateEtapaMapaCalor = (req, res) => {
             }).catch(err => {
                 res.status(500).send({
                 message: "Error creating MapaCalor"
+                });
+            });
+          
+          }else{
+            res.send({
+              message: `Proyecto with id=${id} was updated successfully.`
+            });
+          }
+       }else{
+          res.send({
+            message: `Proyecto with id=${id} was updated successfully.`
+          });
+        }
+
+      } else {
+        res.send({
+          message: `Cannot update Proyectos with id=${id}. Maybe Proyectos was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Proyectos with id=" + id
+      });
+    });
+};
+
+// Update etapa bosquejar voto the Proyectos by the id in the request
+exports.updateEtapaBosquejarVoto = (req, res) => {
+  const id = req.params.id;
+  let proyectos = {
+      etapa_activa: req.body.etapa_activa
+    };
+   
+  let type_fase = req.body.type;
+  let tablero = req.body.tablero;
+  let bosquejar_voto = [];
+
+  Proyectos.update(proyectos, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+
+        /*Verificamos que fase guardar*/
+        if(type_fase == 'notas'){
+          let i = 0;
+          let position = 0;
+          for(let n in tablero){
+          //for (let i = 0; i < req.body.tablero.length; i++) {
+            if(tablero[n].id > 0){
+
+              let solucio = {
+                  contenido: tablero[n].content,
+                  position: position
+                };
+
+              BosquejarVoto.update(solucio, {
+                where: { id: tablero[n].id }
+              })
+                .then(num3 => {
+                  
+                }).catch(err => {
+                  res.status(500).send({
+                  message: "Error updating ProyectoRecurso Bosquejar voto with id"+tablero[n].id
+                  });
+                });
+              
+            }else{
+              bosquejar_voto.push({'contenido': tablero[n].content, position: position, dragPosition: JSON.stringify({x: 0, y: 0})});
+            }
+
+            position = position + 1;
+          }
+
+          let proyecto_recurso = [];
+
+          if(bosquejar_voto.length > 0){
+          
+          BosquejarVoto.bulkCreate(bosquejar_voto).then(nec =>{
+                  console.log('bosquejar_voto',nec);
+                  for(let c in nec){
+                    proyecto_recurso.push({'proyecto_id': id, 'bosquejar_voto_id': nec[c].dataValues.id, 'usuario_id': tablero[c].usuario_id });
+                  }
+
+                ProyectoRecurso.bulkCreate(proyecto_recurso).then(pr =>{
+                    res.send({
+                      message: `Proyecto with id=${id} was updated successfully.`
+                    });
+    
+                }).catch(err => {
+                    res.status(500).send({
+                    message: "Error creating ProyectoRecurso"
+                    });
+                });
+  
+            }).catch(err => {
+                res.status(500).send({
+                message: "Error creating BosquejarVoto"
                 });
             });
           
@@ -4439,6 +4603,48 @@ exports.deleteMapaCalor = (req, res) => {
               }).catch(err => {
                 res.status(500).send({
                   message: "Could not delete mapa calor Proyecto Recurso with id=" + id + ' | error:' + err.message
+                });
+              });
+};
+
+
+// Delete a bosquejar Voto with the specified id in the request
+exports.deleteBosquejarVoto = (req, res) => {
+  const id = req.params.id;
+
+  ProyectoRecurso.destroy({
+    where: { bosquejar_voto_id: id }
+  })
+    .then(num3 => {
+      if (num3 == 1) {
+  
+                BosquejarVoto.destroy({
+                  where: { id: id }
+                })
+                  .then(num2 => {
+                    if (num2 == 1) {
+                        res.send({
+                            message: "BosquejarVoto was deleted successfully!"
+                          });
+                    } else {
+                      res.send({
+                        message: `Cannot delete bosquejar voto with id=${id}. Maybe bosquejar voto was not found!`
+                      });
+                    }
+                  }).catch(err => {
+                    res.status(500).send({
+                      message: "Could not delete bosquejar voto with id=" + id + ' | error:' + err.message
+                    });
+                  });
+                  
+                } else {
+                  res.send({
+                    message: `Cannot delete bosquejar voto Proyecto Recurso with id=${id}. Maybe bosquejar voto was not found!`
+                  });
+                }
+              }).catch(err => {
+                res.status(500).send({
+                  message: "Could not delete bosquejar voto Proyecto Recurso with id=" + id + ' | error:' + err.message
                 });
               });
 };

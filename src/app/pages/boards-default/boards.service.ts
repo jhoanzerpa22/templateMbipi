@@ -60,6 +60,8 @@ export class SocketWebService extends Socket {
   @Output() outEvenTableroFlujo: EventEmitter<any> = new EventEmitter();
 
   @Output() outEvenTableroMapaCalor: EventEmitter<any> = new EventEmitter();
+
+  @Output() outEvenTableroBosquejarVoto: EventEmitter<any> = new EventEmitter();
   
   @Output() outEvenRefresh: EventEmitter<any> = new EventEmitter();
 
@@ -130,6 +132,8 @@ export class SocketWebService extends Socket {
     this.ioSocket.on('evento_tablero_flujo', (res: any) => this.outEvenTableroFlujo.emit(res));
     
     this.ioSocket.on('evento_tablero_mapa_calor', (res: any) => this.outEvenTableroMapaCalor.emit(res));
+
+    this.ioSocket.on('evento_tablero_bosquejar_voto', (res: any) => this.outEvenTableroBosquejarVoto.emit(res));
 
     this.ioSocket.on('evento_refresh', (res: any) => this.outEvenRefresh.emit(res));
 
@@ -601,6 +605,26 @@ export class SocketWebService extends Socket {
   emitEventTableroSaveBosquejar = (payload = {}) => {
     console.log('evento_tablero_save_bosquejar',payload);
     this.ioSocket.emit('evento_tablero_save_bosquejar', payload)
+  }
+
+  emitEventTableroSaveBosquejarVoto = (payload = {}) => {
+    console.log('evento_tablero_save_bosquejar_voto',payload);
+    this.ioSocket.emit('evento_tablero_save_bosquejar_voto', payload)
+  }
+
+  emitEventTableroUpdateBosquejarVoto = (payload = {}) => {
+    console.log('evento_tablero_update_bosquejar_voto',payload);
+    this.ioSocket.emit('evento_tablero_update_bosquejar_voto', payload)
+  }
+
+  emitEventTableroBosquejarVoto = (payload = {}) => {
+    console.log('evento_tablero_bosquejar_voto',payload);
+    this.ioSocket.emit('evento_tablero_bosquejar_voto', payload)
+  }
+
+  emitEventTableroDeleteBosquejarVoto = (payload = {}) => {
+    console.log('evento_tablero_delete_bosquejar_voto',payload);
+    this.ioSocket.emit('evento_tablero_delete_bosquejar_voto', payload)
   }
 
   emitEventRefresh = () => {

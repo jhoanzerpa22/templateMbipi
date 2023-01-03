@@ -94,18 +94,18 @@
   <!-- Titulo -->
   <div class="container title-container">
     <h1>
-      Decidir - Exhibición
+      Decidir - Votación
     </h1>
   </div>
   <!-- Instrucciones -->
   <div class="container instructions-container">
-    <app-entender-exhibicion-accordion></app-entender-exhibicion-accordion>
+    <app-entender-decidir-accordion></app-entender-decidir-accordion>
   </div>
 
   <!-- Tablero -->
   <div class="container tablero-container">
     <!--<div class="app" *ngFor="let note of notes">
-      <app-note-exhibicion (dismiss)="deleteNote($event)" (focusout)="saveNote($event)" id="{{note.id}}">{{note.content}}</app-note-exhibicion>
+      <app-note-decidir (dismiss)="deleteNote($event)" (focusout)="saveNote($event)" id="{{note.id}}">{{note.content}}</app-note-decidir>
     </div>-->
     <div style="width: 50%;float: left;">
     <ng-container *ngFor="let img_u of recursos; let i3 = index;">
@@ -115,6 +115,14 @@
     </ng-container>
     </div>
     <div style="width: 50%;float: left;">
+    <ul class="ul-container" #tableroRef2>
+      <!--<ng-container >-->
+      <li *ngFor="let voto of bosquejar_voto; let j = index;" id="{{voto.id}}" style="cursor: pointer;" cdkDragBoundary=".tablero-container" [cdkDragData]="voto" (cdkDragMoved)="onDragMove2($event, 0, j)" (cdkDragEnded)="onDragEnded2($event, 0, j)" [cdkDragFreeDragPosition]="dragPosition2[j]" cdkDrag>
+          <img src="assets/images/circulo.png" style="width: 30px;height: 30px;position: absolute;left: -30px;top: -10px;"/>
+          <h2 contenteditable class="caja-nota" style="cursor: auto;" (mousedown)="$event.stopPropagation()" (blur)="saveNote2($event)">{{voto.content}}</h2>
+      </li>
+    <!--</ng-container>-->
+    </ul>
     <ul class="ul-container" #tableroRef>
       <li *ngFor="let note of notes; let j = index;" id="{{note.id}}" style="cursor: pointer;" cdkDragBoundary=".tablero-container" [cdkDragData]="note" (cdkDragMoved)="onDragMove($event, 0, j)" (cdkDragEnded)="onDragEnded($event, 0, j)" [cdkDragFreeDragPosition]="dragPosition[j]" cdkDrag>
           <div class="note_toolbar">
@@ -126,16 +134,6 @@
       </li>
     </ul>
     </div>
-    <!--<div class="toolbar-notas-mapa" style="z-index: auto;">
-      <textarea
-      class="form-control form-control-lg form-control-solid"
-      style="height: 100%;"
-      (keyup.enter)="addNote($event)"
-      placeholder="Agregar Nota"
-      name="nota"
-      id="agregar_nota"
-      ></textarea>
-    </div>-->
   </div>
   <!-- Video -->
     <!-- Fondo Opaco   -->

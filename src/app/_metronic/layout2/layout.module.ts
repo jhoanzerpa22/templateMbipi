@@ -45,7 +45,7 @@ import { ObjetivosCortoDecisionComponent } from '../../pages/objetivos-corto-dec
 import { ObjetivosLargoComponent } from '../../pages/objetivos-largo/objetivos-largo.component';
 import { ObjetivosLargoDecisionComponent } from '../../pages/objetivos-largo-decision/objetivos-largo-decision.component';
 import { PropositosComponent } from '../../pages/propositos/propositos.component';
-import { PropositosVotoComponent } from '../../pages/propositos-voto/propositos-voto.component';
+//import { PropositosVotoComponent } from '../../pages/propositos-voto/propositos-voto.component';
 import { PropositosDecisionComponent } from '../../pages/propositos-decision/propositos-decision.component';
 import { AccionesComponent } from '../../pages/acciones/acciones.component';
 import { AccionesDecisionComponent } from '../../pages/acciones-decision/acciones-decision.component';
@@ -79,6 +79,7 @@ import { BosquejarComponent } from '../../pages/bosquejar/bosquejar.component';
 import { BosquejarMovilComponent } from '../../pages/bosquejar-movil/bosquejar-movil.component';
 import { MapaCalorComponent } from '../../pages/mapa-calor/mapa-calor.component';
 import { ExhibicionComponent } from '../../pages/exhibicion/exhibicion.component';
+import { DecidirComponent } from '../../pages/decidir/decidir.component';
 import { PrincipalModule } from '../../pages/principal/principal.module';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
@@ -130,6 +131,7 @@ import { BosquejarModule } from '../../pages/bosquejar/bosquejar.module';
 import { BosquejarMovilModule } from '../../pages/bosquejar-movil/bosquejar-movil.module';
 import { MapaCalorModule } from '../../pages/mapa-calor/mapa-calor.module';
 import { ExhibicionModule } from '../../pages/exhibicion/exhibicion.module';
+import { DecidirModule } from '../../pages/decidir/decidir.module';
 import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -352,6 +354,10 @@ const routes: Routes = [
   {
     path: 'fase47',
     component: ExhibicionComponent
+  },
+  {
+    path: 'fase48',
+    component: DecidirComponent
   }
 ];
 

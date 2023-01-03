@@ -471,13 +471,13 @@ export class ExhibicionComponent implements OnInit, AfterViewInit, OnDestroy {
 
     tablero.push({'title': 'Como podriamos', "data": mapa});
 
-    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase47', tablero: this.notes_all, type: 'notas'};
+    const data_etapa = {etapa_activa: '/proyect-init/'+this.proyecto_id+'/fase48', tablero: this.notes_all, type: 'notas'};
 
     this._proyectsService.updateEtapaMapaCalor(this.proyecto_id, data_etapa)
     .subscribe(
         data => {
 
-          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase47');
+          this.socketWebService.emitEventSetEtapa('/proyect-init/'+this.proyecto_id+'/fase48');
 
           this.socketWebService.emitEventTableroSaveMapaCalor({tablero: JSON.stringify(tablero)});
 
@@ -486,11 +486,11 @@ export class ExhibicionComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     );
 
-    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase38']);
+    //this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase48']);
   }
 
   continue() {
-    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase38']);
+    this._router.navigate(['/proyect-init/'+this.proyecto_id+'/fase48']);
   }
 
   etapa_active(etapa_active: any) {
