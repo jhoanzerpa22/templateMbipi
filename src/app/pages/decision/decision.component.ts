@@ -349,6 +349,24 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
     return usuario_rol[0].usuario_id == voto.usuario_id ? 'width: 50px;height: 50px;position: absolute;left: -50px;top: -10px;' : 'width: 30px;height: 30px;position: absolute;left: -30px;top: -10px;';
   }
 
+  getClassDecisor(voto: any){
+    let usuario_rol = this.usuarios.filter(
+      (op: any) => (
+        op.rol == 'Decisor')
+      );
+
+    return usuario_rol[0].usuario_id == voto.usuario_id ? 'cursor: pointer;background:transparente !important;display:block !important;height:0em !important;width:0em !important;box-shadow: 0px 0px 0px !important;padding: 0px !important; margin: 2em !important;' : 'cursor: pointer;';
+  }
+  
+  getIsDecisor(voto: any){
+    let usuario_rol = this.usuarios.filter(
+      (op: any) => (
+        op.rol == 'Decisor')
+      );
+
+    return usuario_rol[0].usuario_id == voto.usuario_id ? false : true;
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
