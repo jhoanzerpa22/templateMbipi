@@ -80,6 +80,7 @@ import { BosquejarMovilComponent } from '../../pages/bosquejar-movil/bosquejar-m
 import { MapaCalorComponent } from '../../pages/mapa-calor/mapa-calor.component';
 import { ExhibicionComponent } from '../../pages/exhibicion/exhibicion.component';
 import { DecidirComponent } from '../../pages/decidir/decidir.component';
+import { DecisionComponent } from '../../pages/decision/decision.component';
 import { PrincipalModule } from '../../pages/principal/principal.module';
 import { BoardsModule } from '../../pages/boards/boards.module';
 import { BoardsVotoModule } from '../../pages/boards-voto/boards-voto.module';
@@ -132,7 +133,8 @@ import { BosquejarMovilModule } from '../../pages/bosquejar-movil/bosquejar-movi
 import { MapaCalorModule } from '../../pages/mapa-calor/mapa-calor.module';
 import { ExhibicionModule } from '../../pages/exhibicion/exhibicion.module';
 import { DecidirModule } from '../../pages/decidir/decidir.module';
-import { TimerModule/*TimerComponent*/ } from './timer/timer.module';
+import { DecisionModule } from '../../pages/decision/decision.module';
+import { TimerModule } from './timer/timer.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
@@ -358,6 +360,10 @@ const routes: Routes = [
   {
     path: 'fase48',
     component: DecidirComponent
+  },
+  {
+    path: 'fase49',
+    component: DecisionComponent
   }
 ];
 

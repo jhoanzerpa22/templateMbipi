@@ -94,18 +94,18 @@
   <!-- Titulo -->
   <div class="container title-container">
     <h1>
-      Decidir - Votación
+      Decidir - Decisión
     </h1>
   </div>
   <!-- Instrucciones -->
   <div class="container instructions-container">
-    <app-entender-decidir-accordion></app-entender-decidir-accordion>
+    <app-entender-decision-accordion></app-entender-decision-accordion>
   </div>
 
   <!-- Tablero -->
   <div class="container tablero-container">
     <!--<div class="app" *ngFor="let note of notes">
-      <app-note-decidir (dismiss)="deleteNote($event)" (focusout)="saveNote($event)" id="{{note.id}}">{{note.content}}</app-note-decidir>
+      <app-note-decision (dismiss)="deleteNote($event)" (focusout)="saveNote($event)" id="{{note.id}}">{{note.content}}</app-note-decision>
     </div>-->
     <div style="width: 50%;float: left;">
     <ng-container *ngFor="let img_u of recursos; let i3 = index;">
@@ -118,19 +118,19 @@
     <ul class="ul-container-votos" #tableroRef2>
       <!--<ng-container >-->
       <li *ngFor="let voto of bosquejar_voto; let j = index;" id="{{voto.id}}" style="cursor: pointer;" cdkDragBoundary=".tablero-container" [cdkDragData]="voto" (cdkDragMoved)="onDragMove2($event, 0, j)" (cdkDragEnded)="onDragEnded2($event, 0, j)" [cdkDragFreeDragPosition]="dragPosition2[j]" cdkDrag>
-          <img src="assets/images/circulo.png" [style]="width_votos"/>
-          <h2 contenteditable class="caja-nota" style="cursor: auto;" (mousedown)="$event.stopPropagation()" (blur)="saveNote2($event)">{{voto.content}}</h2>
+          <img src="assets/images/circulo.png" [style]="styleVotos(voto)"/>
+          <h2 class="caja-nota" style="cursor: auto;" (mousedown)="$event.stopPropagation()">{{voto.content}}</h2>
       </li>
     <!--</ng-container>-->
     </ul>
     <ul class="ul-container" #tableroRef>
       <li *ngFor="let note of notes; let j = index;" id="{{note.id}}" style="cursor: pointer;" cdkDragBoundary=".tablero-container" [cdkDragData]="note" (cdkDragMoved)="onDragMove($event, 0, j)" (cdkDragEnded)="onDragEnded($event, 0, j)" [cdkDragFreeDragPosition]="dragPosition[j]" cdkDrag>
-          <div class="note_toolbar">
+          <!--<div class="note_toolbar">
             <span class="close material-icons" (click)="deleteNote($event, note.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
               </svg></span>
-          </div>
-          <h2 contenteditable class="caja-nota" style="cursor: auto;" (mousedown)="$event.stopPropagation()" (blur)="saveNote($event)">{{note.content}}</h2>
+          </div>-->
+          <h2 class="caja-nota" style="cursor: auto;" (mousedown)="$event.stopPropagation()">{{note.content}}</h2>
       </li>
     </ul>
     </div>

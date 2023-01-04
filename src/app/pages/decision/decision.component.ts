@@ -22,12 +22,12 @@ import { take, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-decidir',
-  templateUrl: './decidir.component.html',
-  styleUrls: ['./decidir.component.scss'],
+  selector: 'app-decision',
+  templateUrl: './decision.component.html',
+  styleUrls: ['./decision.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
   // Public variables
   selfLayout = 'default';
   asideSelfDisplay: true;
@@ -340,6 +340,15 @@ export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
     window.removeEventListener('scroll', this.disableScroll);
   }
 
+  styleVotos(voto: any){
+    let usuario_rol = this.usuarios.filter(
+      (op: any) => (
+        op.rol == 'Decisor')
+      );
+
+    return usuario_rol[0].usuario_id == voto.usuario_id ? 'width: 50px;height: 50px;position: absolute;left: -50px;top: -10px;' : 'width: 30px;height: 30px;position: absolute;left: -30px;top: -10px;';
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
@@ -352,8 +361,6 @@ export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
                 op.usuario_id == this.usuario.id)
               );
             this.rol = usuario_proyecto[0].rol;
-            this.maximo_votos = this.rol == 'Decisor' ? 1 : 2;
-            this.width_votos = this.rol == 'Decisor' ? 'width: 50px;height: 50px;position: absolute;left: -50px;top: -10px;' : 'width: 30px;height: 30px;position: absolute;left: -30px;top: -10px;';
 
             if(this.proyecto.tiempo != '' && this.proyecto.tiempo != undefined){
               let tiempo = this.proyecto.tiempo.split(':');
@@ -387,55 +394,16 @@ export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
 
              if(this.proyecto.proyecto_recursos[c].bosquejar_voto != null){
 
-              if(this.proyecto.proyecto_recursos[c].usuario_id == this.usuario.id){
               bosquejar_voto.push({'id': this.proyecto.proyecto_recursos[c].bosquejar_voto.id,'content': this.proyecto.proyecto_recursos[c].bosquejar_voto.contenido, 'usuario_id': this.proyecto.proyecto_recursos[c].usuario_id, 'position': this.proyecto.proyecto_recursos[c].bosquejar_voto.position ? this.proyecto.proyecto_recursos[c].bosquejar_voto.position : position, 'dragPosition': this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition) :  {'x': 0, 'y': 0}});
 
               this.dragPosition2.push(this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition ? JSON.parse(this.proyecto.proyecto_recursos[c].bosquejar_voto.dragPosition) : {x: 0, y: 0});
               
               position2 = position2 + 1;
-              }
              
             }
             }
 
-            if(bosquejar_voto.length > 0){
-              this.bosquejar_voto = bosquejar_voto;
-            }else{              
-              //this.bosquejar_voto.push({ id: 1, content: 'Prueba 1', usuario_id: this.usuario.id, position: 0, dragPosition: {'x': 0, 'y': 0} });
-              //this.bosquejar_voto.push({ id: 2, content: 'Prueba 2', usuario_id: this.usuario.id, position: 1, dragPosition: {'x': 0, 'y': 0} });
-
-              for (let cre = 0; cre < this.maximo_votos; cre++) {
-                
-                  const position = cre;
-                  const data = {
-                    proyecto_id: this.proyecto_id,
-                    usuario_id: this.usuario.id,
-                    content: '', 
-                    position: position,
-                    dragPosition: {'x': 0, 'y': 0}
-                  };
-                  
-                  this._proyectsService.createBosquejarVoto(data)
-                      .subscribe(
-                          data => {
-                  const id = data.bosquejar_voto_id;
-                  
-                  this.bosquejar_voto.push({ id: id, content: '', usuario_id: this.usuario.id, position: position, dragPosition: {'x': 0, 'y': 0} });
-                  // sort the array
-                  this.bosquejar_voto = this.bosquejar_voto.sort((a: any,b: any)=>{ return b.id-a.id});
-                  localStorage.setItem('notes_bosquejar_voto', JSON.stringify(this.bosquejar_voto));
-              
-                  this.dragPosition2.push({x: 0, y: 0});
-              
-                  this.ref.detectChanges();
-                  
-                  this.socketWebService.emitEventTableroUpdateBosquejarVoto({id: id, content: '', usuario_id: this.usuario.id, position: position,dragPosition: {'x': 0, 'y': 0} });
-                },
-                          (response) => {
-                          }
-                  );
-            }
-            }
+            this.bosquejar_voto = bosquejar_voto;
 
             this.recursos = imagenes;
             this.notes = mapa_calor;
