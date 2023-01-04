@@ -111,7 +111,7 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
   dragPosition2: any = [];
 
   public isAvailabe: boolean = false;
-  maximo_votos: number = 2;
+  maximo_votos: number = 1;
   width_votos: any = 'width: 30px;height: 30px;position: absolute;left: -30px;top: -10px;';
 
   @HostListener('document:mousemove', ['$event'])

@@ -111,7 +111,7 @@ export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
   dragPosition2: any = [];
 
   public isAvailabe: boolean = false;
-  maximo_votos: number = 2;
+  maximo_votos: number = 1;
   width_votos: any = 'width: 30px;height: 30px;position: absolute;left: -30px;top: -10px;';
 
   @HostListener('document:mousemove', ['$event'])
@@ -352,7 +352,7 @@ export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
                 op.usuario_id == this.usuario.id)
               );
             this.rol = usuario_proyecto[0].rol;
-            this.maximo_votos = this.rol == 'Decisor' ? 1 : 2;
+            this.maximo_votos = this.rol == 'Decisor' ? 3 : 1;
             this.width_votos = this.rol == 'Decisor' ? 'width: 50px;height: 50px;position: absolute;left: -50px;top: -10px;' : 'width: 30px;height: 30px;position: absolute;left: -30px;top: -10px;';
 
             if(this.proyecto.tiempo != '' && this.proyecto.tiempo != undefined){
