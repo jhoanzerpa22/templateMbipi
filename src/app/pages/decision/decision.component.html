@@ -117,9 +117,9 @@
     <div style="width: 50%;float: left;">
     <ul class="ul-container-votos" #tableroRef2>
       <!--<ng-container >-->
-      <li *ngFor="let voto of bosquejar_voto; let j = index;" id="{{voto.id}}" style="cursor: pointer;" cdkDragBoundary=".tablero-container" [cdkDragData]="voto" (cdkDragMoved)="onDragMove2($event, 0, j)" (cdkDragEnded)="onDragEnded2($event, 0, j)" [cdkDragFreeDragPosition]="dragPosition2[j]" cdkDrag>
+      <li *ngFor="let voto of bosquejar_voto; let j = index;" id="{{voto.id}}" [style]="getClassDecisor(voto)" cdkDragBoundary=".tablero-container" [cdkDragData]="voto" (cdkDragMoved)="onDragMove2($event, 0, j)" (cdkDragEnded)="onDragEnded2($event, 0, j)" [cdkDragFreeDragPosition]="dragPosition2[j]" cdkDrag>
           <img src="assets/images/circulo.png" [style]="styleVotos(voto)"/>
-          <h2 class="caja-nota" style="cursor: auto;" (mousedown)="$event.stopPropagation()">{{voto.content}}</h2>
+          <h2 class="caja-nota" style="cursor: auto;" (mousedown)="$event.stopPropagation()" *ngIf="getIsDecisor(voto)">{{voto.content}}</h2>
       </li>
     <!--</ng-container>-->
     </ul>

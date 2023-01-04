@@ -233,7 +233,7 @@ export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
     //escuchamos el evento de las bosquejar_voto de los usuarios
     this.socketWebService.outEvenTableroBosquejarVoto.subscribe((res: any) => {
       const { tablero } = res;
-      this.readBoard2(tablero, false);
+      //this.readBoard2(tablero, false);
     });
 
     //escuchamos el evento para continuar
@@ -338,6 +338,24 @@ export class DecidirComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketWebService.emitEventUsersInactive(this.usuario);
     this.socketWebService.ioSocket.disconnect();
     window.removeEventListener('scroll', this.disableScroll);
+  }
+
+  getClassDecisor(voto: any){
+    let usuario_rol = this.usuarios.filter(
+      (op: any) => (
+        op.rol == 'Decisor')
+      );
+
+    return usuario_rol[0].usuario_id == voto.usuario_id ? 'cursor: pointer;background:transparente !important;display:block !important;height:0em !important;width:0em !important;box-shadow: 0px 0px 0px !important;padding: 0px !important; margin: 2em !important;' : 'cursor: pointer;';
+  }
+  
+  getIsDecisor(voto: any){
+    let usuario_rol = this.usuarios.filter(
+      (op: any) => (
+        op.rol == 'Decisor')
+      );
+
+    return usuario_rol[0].usuario_id == voto.usuario_id ? false : true;
   }
 
   getProyect(){
