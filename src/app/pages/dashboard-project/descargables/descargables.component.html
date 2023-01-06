@@ -1,0 +1,146 @@
+<!--begin::Row-->
+<div class="row g-6 g-xl-9">
+  <!--begin::Col-->
+  <div class="col-lg-6">
+    <!--begin::Summary-->
+    <div class="card card-flush h-lg-100">
+      <!--begin::Card header-->
+      <div class="card-header mt-6">
+        <!--begin::Card title-->
+        <div class="card-title flex-column">
+          <h3 class="fw-bold mb-1">Scope Canvas</h3>
+          <!--<div class="fs-6 fw-semibold text-gray-400">24 Overdue Tasks</div>-->
+        </div>
+        <!--end::Card title-->
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+          <a href="#" (click)="downloadScope()" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_view_scope">Descargar</a>
+        </div>
+        <!--end::Card toolbar-->
+      </div>
+      <!--end::Card header-->
+      <!--begin::Card header-->
+      <div class="card-header mt-6">
+        <!--begin::Card title-->
+        <div class="card-title flex-column">
+          <h3 class="fw-bold mb-1">Lean Canvas</h3>
+          <!--<div class="fs-6 fw-semibold text-gray-400">24 Overdue Tasks</div>-->
+        </div>
+        <!--end::Card title-->
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+          <a href="#" (click)="downloadLean()" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_view_lean">Descargar</a>
+        </div>
+        <!--end::Card toolbar-->
+      </div>
+      <!--end::Card header-->
+    </div>
+    <!--end::Summary-->
+  </div>
+  <!--end::Col-->
+</div>
+
+
+<!--begin::Modals-->
+								<!--begin::Modal - View Scope-->
+								<div class="modal fade" id="kt_modal_view_scope" tabindex="-1" aria-hidden="true">
+									<!--begin::Modal dialog-->
+									<div class="modal-dialog mw-1000px" style="max-width: 1700px !important;">
+										<!--begin::Modal content-->
+										<div class="modal-content">
+											<!--begin::Modal header-->
+											<div class="modal-header pb-0 border-0 justify-content-end">
+												<!--begin::Close-->
+												<div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+													<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+													<span class="svg-icon svg-icon-1">
+														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+															<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+															<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+														</svg>
+													</span>
+													<!--end::Svg Icon-->
+												</div>
+												<!--end::Close-->
+											</div>
+											<!--begin::Modal header-->
+											<!--begin::Modal body-->
+											<div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+												<!--begin::Heading-->
+												<div class="text-center mb-13">
+													<!--begin::Title-->
+													<h1 class="mb-3">Scope Canvas</h1>
+													<!--end::Title-->
+												</div>
+												<!--end::Heading-->
+												<!--begin::Users-->
+												<div class="mb-15" #scope>
+                          
+                          <app-scope-print [proyecto_id]="proyecto_id"></app-scope-print>
+                          <img #canvas_scope>
+                          <a #downloadLinkScope></a>
+													<!--begin::List-->
+													<!--<div class="mh-375px scroll-y me-n7 pe-7" style="height: 100% !important;max-height: 100% !important;">
+													</div>-->
+													<!--end::List-->
+												</div>
+												<!--end::Users-->
+											</div>
+											<!--end::Modal body-->
+										</div>
+										<!--end::Modal content-->
+									</div>
+									<!--end::Modal dialog-->
+								</div>
+								<!--end::Modal - View Scope-->
+                
+								<!--begin::Modal - View Lean-->
+								<div class="modal fade" id="kt_modal_view_lean" tabindex="-1" aria-hidden="true">
+									<!--begin::Modal dialog-->
+									<div class="modal-dialog mw-1000px" style="max-width: 1700px !important;">
+										<!--begin::Modal content-->
+										<div class="modal-content">
+											<!--begin::Modal header-->
+											<div class="modal-header pb-0 border-0 justify-content-end">
+												<!--begin::Close-->
+												<div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+													<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+													<span class="svg-icon svg-icon-1">
+														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+															<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+															<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+														</svg>
+													</span>
+													<!--end::Svg Icon-->
+												</div>
+												<!--end::Close-->
+											</div>
+											<!--begin::Modal header-->
+											<!--begin::Modal body-->
+											<div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+												<!--begin::Heading-->
+												<div class="text-center mb-13">
+													<!--begin::Title-->
+													<h1 class="mb-3">Lean Canvas</h1>
+													<!--end::Title-->
+												</div>
+												<!--end::Heading-->
+												<!--begin::Users-->
+												<div class="mb-15" #lean>
+													<!--begin::List-->
+                          <app-lean-print [proyecto_id]="proyecto_id"  *ngIf="!showDownloadLean"></app-lean-print>
+                          <img #canvas_lean>
+                          <a #downloadLinkLean></a>
+													<!--<div class="mh-375px scroll-y me-n7 pe-7" style="height: 100% !important;max-height: 100% !important;">
+													</div>-->
+													<!--end::List-->
+												</div>
+												<!--end::Users-->
+											</div>
+											<!--end::Modal body-->
+										</div>
+										<!--end::Modal content-->
+									</div>
+									<!--end::Modal dialog-->
+								</div>
+								<!--end::Modal - View Lean-->
