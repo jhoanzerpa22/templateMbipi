@@ -1,0 +1,90 @@
+<!--begin::Root-->
+  <div class="" style="overflow: hidden;">
+  
+  <div class="container lean-container">
+      <div class="categoria-problema">
+        Problema
+        <ul class="notas-listas">
+          <li *ngFor="let pro of problema">
+              <h2 class="texto-nota">{{pro.content}}</h2>
+          </li>
+        </ul>
+      </div>
+      <div class="solucion-metricas">
+      <div class="categoria-solucion">
+        Solución
+        <ul class="notas-listas">
+          <li *ngFor="let sol of solucion">
+              <h2 class="texto-nota">{{sol.content}}</h2>
+          </li>
+        </ul>
+      </div>
+      <div class="categoria-metricas">
+        Métricas
+        <ul class="notas-listas">
+          <li *ngFor="let met of metricas">
+              <h2 class="texto-nota">{{met.content}}</h2>
+          </li>
+        </ul>
+      </div>
+      </div>
+      <div class="categoria-propuesta">
+        Propuesta
+        <ul class="notas-listas">
+          <li *ngFor="let pr of propuesta">
+              <h2 class="texto-nota">{{pr.content}}</h2>
+          </li>
+        </ul>
+      </div>
+      <div class="ventajas-canales">
+      <div class="categoria-ventajas">
+        Ventaja Especial
+        <ul class="notas-listas">
+          <li *ngFor="let ve of ventajas">
+              <h2 class="texto-nota">{{ve.content}}</h2>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="categoria-canales">
+        Canales
+        <ul class="notas-listas">
+          <li *ngFor="let ca of canales">
+              <h2 class="texto-nota">{{ca.content}}</h2>
+          </li>
+        </ul>
+      </div>
+      </div>
+      
+      <div class="categoria-clientes">
+        Segmento Clientes
+        <ul class="notas-listas">
+          <li *ngFor="let cl of clientes">
+              <h2 class="texto-nota">{{cl.content}}</h2>
+          </li>
+        </ul>
+      </div>
+
+      <div class="categoria-estructuras">
+        Estructura de Costos
+        <ul class="notas-listas">
+          <li *ngFor="let es of estructuras">
+              <h2 class="texto-nota">{{es.content}}</h2>
+          </li>
+        </ul>
+      </div>
+
+      <div class="categoria-flujos">
+        Flujos de Ingresos
+        <ul class="notas-listas">
+          <li *ngFor="let fl of flujos">
+              <h2 class="texto-nota">{{fl.content}}</h2>
+          </li>
+        </ul>
+      </div>
+  </div>
+  <!--end::Highlight-->
+
+<!--end::Scrolltop-->
+</div>
+<!--end::Root-->
