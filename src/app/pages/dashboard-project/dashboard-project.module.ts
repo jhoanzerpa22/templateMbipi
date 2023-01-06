@@ -7,10 +7,20 @@ import { WidgetsModule } from '../../_metronic/partials/content/widgets/widgets.
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
 import { OverviewComponent } from './overview/overview.component';
+import { DescargablesComponent } from './descargables/descargables.component';
+import { ScopePrintComponent } from './descargables/scope_canvas/scope_print.component';
+import { LeanPrintComponent } from './descargables/lean_canvas/lean_print.component';
 import { InlineSVGModule } from 'ng-inline-svg-2';
+import {MatDialogModule} from '@angular/material/dialog';
+
+import {
+  NgbDropdownModule,
+  NgbProgressbarModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [DashboardProjectComponent, SettingsComponent, OverviewComponent],
+  declarations: [DashboardProjectComponent, SettingsComponent, OverviewComponent, DescargablesComponent, ScopePrintComponent, LeanPrintComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -31,15 +41,20 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
             path: 'settings',
             component: SettingsComponent
           },
+          {
+            path: 'descargables',
+            component: DescargablesComponent
+          },
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: '**', redirectTo: 'overview', pathMatch: 'full' },
         ]
       },
-
     ]),
     WidgetsModule,
     InlineSVGModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+    MatDialogModule
+  ],
+  exports: [MatDialogModule]
 })
 export class DashboardProjectModule { }

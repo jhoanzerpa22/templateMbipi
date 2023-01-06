@@ -21,8 +21,6 @@ export class SettingsComponent implements OnInit {
   public formProyect: FormGroup;
   public formData: any;
 
-
-
   constructor(
     private route: ActivatedRoute,
     private _proyectsService: ProyectsService,
