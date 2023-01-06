@@ -188,7 +188,7 @@ export class DecisionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dragPosition2[j] = {x: xPos, y: yPos};
 
     this.bosquejar_voto[j].position = j;
-    this.bosquejar_voto[j].dragPosition = this.dragPosition[j];
+    this.bosquejar_voto[j].dragPosition = this.dragPosition2[j];
     
     this.bosquejar_voto_all = this.bosquejar_voto;
 

@@ -147,6 +147,9 @@ module.exports = app => {
     // Update the flujo of Proyectos with id
     router.put("/updateFlujo/:id", proyectos.updateFlujo);
 
+    // Update the mapaCalor of Proyectos with id
+    router.put("/updateMapaCalor/:id", proyectos.updateMapaCalor);
+
     // Update the mapa calor of Proyectos with id
     router.put("/updateBosquejarVoto/:id", proyectos.updateBosquejarVoto);
 
