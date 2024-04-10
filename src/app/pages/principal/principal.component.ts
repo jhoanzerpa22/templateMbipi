@@ -78,6 +78,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
   hr: any = '0' + 0;
 
   isLoading: boolean = true;
+  mostrarTexto: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -144,6 +145,14 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  mostrarTextoCompleto() {
+    this.mostrarTexto = true;
+  }
+
+  mostrarInicial() {
+    this.mostrarTexto = false;
   }
 
   getProyect(){

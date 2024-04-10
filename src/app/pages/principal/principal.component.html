@@ -38,8 +38,11 @@
                 </div>-->
                 <div class="container symbol-group symbol-hover mb-3">
                   <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
-                  <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
-                      <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
+                  <div [ngClass]="mostrarTexto ? 'symbol symbol-auto' : 'symbol symbol-35px symbol-circle'" data-bs-toggle="tooltip" title="{{usu2.nombre}}" (mouseenter)="mostrarTextoCompleto()" (mouseleave)="mostrarInicial()">
+                      
+                      <span [ngClass]="usu2.active ? 'symbol-label2 bg-primary text-inverse-primary fw-bold' : 'symbol-label2 bg-gray text-inverse-gray fw-bold'" *ngIf="mostrarTexto">{{usu2.nombre}}</span>
+                      <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'" *ngIf="!mostrarTexto">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
+
                   </div>
                   </ng-container>
                 </div>
@@ -91,8 +94,524 @@
       <!--end::Curve bottom-->
   </div>
     <!--end::Header Section-->
+
+    <!--Nuevo diseño-->
+    <div class="container-new" *ngIf="etapa == 'principal'">
+      <div [ngClass]="fase >= 1 ? 'card' : 'card-inactiva'" style="--clr:#a024ff;">
+          <div class="box">
+              <div class="icon">
+                  <div class="iconBox">
+                     Día 1<!--<ion-icon name="analytics-outline"></ion-icon>-->
+                  </div>
+              </div>
+              <div class="content">
+                  <h3>Entender</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+                  <a (click)="entrar('entender',(fase >= 1))">Entrar</a>
+              </div>
+          </div>
+      </div>
+
+      <div [ngClass]="fase >= 9 ? 'card' : 'card-inactiva'" style="--clr:#fff81f;">
+          <div class="box">
+              <div class="icon">
+                  <div class="iconBox">
+                    Día 2
+                  </div>
+              </div>
+              <div class="content">
+                  <h3>Enfoque solución</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+                  <a (click)="entrar('enfoque',(fase >= 9))">Entrar</a>
+              </div>
+          </div>
+      </div>
+
+      <div [ngClass]="fase >= 23 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+          <div class="box">
+              <div class="icon">
+                  <div class="iconBox">
+                    Día 3
+                  </div>
+              </div>
+              <div class="content">
+                  <h3>Modelo de negocios</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+                  <a (click)="entrar('modelo',(fase >= 23))">Entrar</a>
+              </div>
+          </div>
+      </div>
+      
+
+      <div [ngClass]="fase >= 41 ? 'card' : 'card-inactiva'" style="--clr:#009ef7;">
+        <div class="box">
+            <div class="icon">
+                <div class="iconBox">
+                  Día 4
+                </div>
+            </div>
+            <div class="content">
+                <h3>Bosquejar</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+                <a (click)="entrar('bosquejar',(fase >= 41))">Entrar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div [ngClass]="fase >= 46 ? 'card' : 'card-inactiva'"  style="--clr:#f1416c;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Día 5
+              </div>
+          </div>
+          <div class="content">
+              <h3>Decidir</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="entrar('decidir',(fase >= 46))">Entrar</a>
+          </div>
+      </div>
+  </div>
+  </div>
+
+  <div class="container-new" *ngIf="etapa == 'entender'">
+    <div [ngClass]="fase >= 1 ? 'card' : 'card-inactiva'" style="--clr:#a024ff;">
+        <div class="box">
+            <div class="icon">
+                <div class="iconBox">
+                   Paso 1
+                </div>
+            </div>
+            <div class="content">
+                <h3>Entender al experto</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+                <a (click)="ir('/fase1',(fase >= 1))">Entrar</a>
+            </div>
+        </div>
+    </div>
+
+    <div [ngClass]="fase >= 4 ? 'card' : 'card-inactiva'" style="--clr:#a024ff;">
+        <div class="box">
+            <div class="icon">
+                <div class="iconBox">
+                  Paso 2
+                </div>
+            </div>
+            <div class="content">
+                <h3>Metas a largo plazo</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+                <a (click)="ir('/fase4',(fase >= 4))">Entrar</a>
+            </div>
+        </div>
+    </div>
+
+    <div [ngClass]="fase >= 6 ? 'card' : 'card-inactiva'" style="--clr:#a024ff;">
+        <div class="box">
+            <div class="icon">
+                <div class="iconBox">
+                  Paso 3
+                </div>
+            </div>
+            <div class="content">
+                <h3>Preguntas del Sprint</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+                <a (click)="ir('/fase6',(fase >= 6))">Entrar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div [ngClass]="fase >= 8 ? 'card' : 'card-inactiva'" style="--clr:#a024ff;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 4
+              </div>
+          </div>
+          <div class="content">
+              <h3>Mapa de experiencia de Usuario</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase8',(fase >= 8))">Entrar</a>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="container-new" *ngIf="etapa == 'enfoque'">
+  <div [ngClass]="fase >= 9 ? 'card' : 'card-inactiva'" style="--clr:#fff81f;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                 Paso 1
+              </div>
+          </div>
+          <div class="content">
+              <h3>Necesidades</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase9',(fase >= 9))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 13 ? 'card' : 'card-inactiva'" style="--clr:#fff81f;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 2
+              </div>
+          </div>
+          <div class="content">
+              <h3>Propósito</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase13',(fase >= 13))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 15 ? 'card' : 'card-inactiva'" style="--clr:#fff81f;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 3
+              </div>
+          </div>
+          <div class="content">
+              <h3>Objetivos</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase15',(fase >= 15))">Entrar</a>
+          </div>
+      </div>
+  </div>
   
-  <div class="container principal-container" *ngIf="etapa == 'principal'">
+  <div [ngClass]="fase >= 19 ? 'card' : 'card-inactiva'" style="--clr:#fff81f;">
+    <div class="box">
+        <div class="icon">
+            <div class="iconBox">
+              Paso 4
+            </div>
+        </div>
+        <div class="content">
+            <h3>Acciones</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+            <a (click)="ir('/fase19',(fase >= 19))">Entrar</a>
+        </div>
+    </div>
+</div>
+
+  
+<div [ngClass]="fase >= 21 ? 'card' : 'card-inactiva'" style="--clr:#fff81f;">
+  <div class="box">
+      <div class="icon">
+          <div class="iconBox">
+            Paso 5
+          </div>
+      </div>
+      <div class="content">
+          <h3>Métricas</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+          <a (click)="ir('/fase21',(fase >= 21))">Entrar</a>
+      </div>
+  </div>
+</div>
+</div>
+
+<div class="container-new" *ngIf="etapa == 'modelo'">
+  <div [ngClass]="fase >= 23 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                 Paso 1
+              </div>
+          </div>
+          <div class="content">
+              <h3>Segmento Clientes</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase23',(fase >= 23))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 25 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 2
+              </div>
+          </div>
+          <div class="content">
+              <h3>Problema</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase25',(fase >= 25))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 27 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 3
+              </div>
+          </div>
+          <div class="content">
+              <h3>Solución</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase27',(fase >= 27))">Entrar</a>
+          </div>
+      </div>
+  </div>
+  
+  <div [ngClass]="fase >= 29 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+    <div class="box">
+        <div class="icon">
+            <div class="iconBox">
+              Paso 4
+            </div>
+        </div>
+        <div class="content">
+            <h3>Métricas Clave</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+            <a (click)="ir('/fase29',(fase >= 29))">Entrar</a>
+        </div>
+    </div>
+</div>
+
+  
+<div [ngClass]="fase >= 31 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+  <div class="box">
+      <div class="icon">
+          <div class="iconBox">
+            Paso 5
+          </div>
+      </div>
+      <div class="content">
+          <h3>Propuesta de Valor</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+          <a (click)="ir('/fase31',(fase >= 31))">Entrar</a>
+      </div>
+  </div>
+</div>
+  
+<div [ngClass]="fase >= 33 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+  <div class="box">
+      <div class="icon">
+          <div class="iconBox">
+            Paso 6
+          </div>
+      </div>
+      <div class="content">
+          <h3>Ventaja Especial</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+          <a (click)="ir('/fase33',(fase >= 33))">Entrar</a>
+      </div>
+  </div>
+</div>
+  
+<div [ngClass]="fase >= 35 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+  <div class="box">
+      <div class="icon">
+          <div class="iconBox">
+            Paso 7
+          </div>
+      </div>
+      <div class="content">
+          <h3>Canales</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+          <a (click)="ir('/fase35',(fase >= 35))">Entrar</a>
+      </div>
+  </div>
+</div>
+  
+<div [ngClass]="fase >= 37 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+  <div class="box">
+      <div class="icon">
+          <div class="iconBox">
+            Paso 8
+          </div>
+      </div>
+      <div class="content">
+          <h3>Estructura de Costos</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+          <a (click)="ir('/fase37',(fase >= 37))">Entrar</a>
+      </div>
+  </div>
+</div>
+  
+<div [ngClass]="fase >= 39 ? 'card' : 'card-inactiva'" style="--clr:#21ffe9;">
+  <div class="box">
+      <div class="icon">
+          <div class="iconBox">
+            Paso 9
+          </div>
+      </div>
+      <div class="content">
+          <h3>Flujo de Ingresos</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+          <a (click)="ir('/fase39',(fase >= 39))">Entrar</a>
+      </div>
+  </div>
+</div>
+</div>
+
+<div class="container-new" *ngIf="etapa == 'bosquejar'">
+  <div [ngClass]="fase >= 41 ? 'card' : 'card-inactiva'" style="--clr:#009ef7;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                 Paso 1
+              </div>
+          </div>
+          <div class="content">
+              <h3>Demos Rápidas</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase41',(fase >= 41))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 42 ? 'card' : 'card-inactiva'" style="--clr:#009ef7;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 2
+              </div>
+          </div>
+          <div class="content">
+              <h3>Ideación de 4 pasos <br>Notas de Repaso</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase42',(fase >= 42))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 43 ? 'card' : 'card-inactiva'" style="--clr:#009ef7;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 3
+              </div>
+          </div>
+          <div class="content">
+              <h3>Ideación de 4 pasos <br>Generar ideas</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase43',(fase >= 43))">Entrar</a>
+          </div>
+      </div>
+  </div>
+  
+  <div [ngClass]="fase >= 44 ? 'card' : 'card-inactiva'" style="--clr:#009ef7;">
+    <div class="box">
+        <div class="icon">
+            <div class="iconBox">
+              Paso 4
+            </div>
+        </div>
+        <div class="content">
+            <h3>Ideación de 4 pasos <br>Crazy 8's</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+            <a (click)="ir('/fase44',(fase >= 44))">Entrar</a>
+        </div>
+    </div>
+</div>
+
+<div [ngClass]="fase >= 45 ? 'card' : 'card-inactiva'" style="--clr:#009ef7;">
+  <div class="box">
+      <div class="icon">
+          <div class="iconBox">
+            Paso 5
+          </div>
+      </div>
+      <div class="content">
+          <h3>Ideación de 4 pasos <br>Bocetar la solución</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+          <a (click)="ir('/fase45',(fase >= 45))">Entrar</a>
+      </div>
+  </div>
+</div>
+</div>
+
+
+<div class="container-new" *ngIf="etapa == 'decidir'">
+  <div [ngClass]="fase >= 46 ? 'card' : 'card-inactiva'" style="--clr:#f1416c;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                 Paso 1
+              </div>
+          </div>
+          <div class="content">
+              <h3>Mapa de Calor</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase46',(fase >= 46))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 47 ? 'card' : 'card-inactiva'" style="--clr:#f1416c;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 2
+              </div>
+          </div>
+          <div class="content">
+              <h3>Presentación</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase47',(fase >= 47))">Entrar</a>
+          </div>
+      </div>
+  </div>
+
+  <div [ngClass]="fase >= 48 ? 'card' : 'card-inactiva'" style="--clr:#f1416c;">
+      <div class="box">
+          <div class="icon">
+              <div class="iconBox">
+                Paso 3
+              </div>
+          </div>
+          <div class="content">
+              <h3>Decisión</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+              <a (click)="ir('/fase48',(fase >= 48))">Entrar</a>
+          </div>
+      </div>
+  </div>
+  
+</div>
+    <!--Fin nuevo diseño-->
+  
+  <!--<div class="container principal-container" *ngIf="etapa == 'principal'">
       <div [ngClass]="fase >= 1 ? 'categoria-principal' : 'categoria-inactiva'" (click)="entrar('entender',(fase >= 1))">
         Dia 1
         <label class="label-principal">Entender</label>
@@ -117,8 +636,10 @@
         Dia 6
         <label class="label-principal">Dia 6</label>
       </div>
-  </div>
-  
+  </div>-->
+
+  <!--Inicio diseño viejo-->
+  <!--
   <div class="container principal-container" *ngIf="etapa == 'entender'">
     <div class="button-principal" (click)="entrar('principal',true)">
       <label class="label-button-principal">Principal</label>
@@ -251,7 +772,8 @@
       Decisión - Paso 3
       <label class="label-principal">Decisión</label>
     </div>
-</div>
+</div>-->
+<!--Fin diseño viejo-->
 
   <!--end::Highlight-->
 
@@ -261,7 +783,7 @@
     </div>
     <!-- Video Container -->
     <div class="video-container">
-      <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="auto"></video>
+      <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="500px"></video>
     </div>
       <!--begin::Bottom Toolbar-->
     <div style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
@@ -282,6 +804,10 @@
             </svg>
           </a>
         </ng-template>
+      </div>
+      <div class="container" style="align-items: flex-start;" *ngIf="etapa != 'principal'">
+        <a (click)="entrar('principal',true)" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
+        float: left;">Volver</a>
       </div>
       <div class="container" style="align-items: flex-end;">
         <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
