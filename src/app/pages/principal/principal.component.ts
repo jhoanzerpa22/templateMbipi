@@ -216,7 +216,42 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
     this._router.navigate(['/proyect-init/'+this.proyecto_id+fase]);
     }
   }
+  
+  capitalize(etapa: string): string {
+    return etapa.charAt(0).toUpperCase() + etapa.slice(1).toLowerCase();
+  }
 
+  getDay(etapa: any){
+    switch (etapa) {
+      case 'entender':
+        return 'Día 1'
+        break;
+      
+      case 'enfoque':
+        return 'Día 2'
+        break;
+          
+      case 'modelo':
+        return 'Día 3'
+        break;
+        
+      case 'bosquejar':
+        return 'Día 4'
+        break;
+        
+      case 'decidir':
+        return 'Día 5'
+        break;
+        
+      case 'entender':
+        return 'Día 6'
+        break;
+    
+      default:
+        return '';
+        break;
+    }
+  }
   
   onPlayPause(){
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
