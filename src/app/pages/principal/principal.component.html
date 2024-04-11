@@ -36,16 +36,27 @@
                   </div>
                   </ng-container>
                 </div>-->
+                
+                <div class="mb-3" style="
+                margin-left: -5%;float: left;position: absolute;
+                "><h1 style="color: #fff;">{{getDay(etapa)}}</h1></div>
+
                 <div class="container symbol-group symbol-hover mb-3">
                   <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
-                  <div [ngClass]="mostrarTexto ? 'symbol symbol-auto' : 'symbol symbol-35px symbol-circle'" data-bs-toggle="tooltip" title="{{usu2.nombre}}" (mouseenter)="mostrarTextoCompleto()" (mouseleave)="mostrarInicial()">
+                  <div [ngClass]="mostrarTexto ? 'symbol symbol-auto' : 'symbol symbol-35px symbol-circle'" data-bs-toggle="tooltip" title="{{usu2.nombre}}"><!-- (mouseenter)="mostrarTextoCompleto()" (mouseleave)="mostrarInicial()"-->
                       
-                      <span [ngClass]="usu2.active ? 'symbol-label2 bg-primary text-inverse-primary fw-bold' : 'symbol-label2 bg-gray text-inverse-gray fw-bold'" *ngIf="mostrarTexto">{{usu2.nombre}}</span>
+                      <!--<span [ngClass]="usu2.active ? 'symbol-label2 bg-primary text-inverse-primary fw-bold' : 'symbol-label2 bg-gray text-inverse-gray fw-bold'" *ngIf="mostrarTexto">{{usu2.nombre}}</span>-->
                       <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'" *ngIf="!mostrarTexto">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
 
                   </div>
+                  <span class="symbol-label fw-bold" style="color: #fff;">{{usu2.nombre}}</span>
                   </ng-container>
                 </div>
+                <div class="mb-3" style="
+                margin-left: 584px;
+                float: left;
+                position: absolute;
+            "><h1 style="color: #fff;">{{capitalize(etapa)}}</h1></div>
                 <!-- Timer -->
                 <div class="mb-3">
                   <div>
@@ -177,6 +188,22 @@
           </div>
       </div>
   </div>
+  
+  <div [ngClass]="fase >= 48 ? 'card' : 'card-inactiva'"  style="--clr:#fa4b28;">
+    <div class="box">
+        <div class="icon">
+            <div class="iconBox">
+              Día 6
+            </div>
+        </div>
+        <div class="content">
+            <h3>Día 6</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+
+            <a href="#">Entrar</a>
+        </div>
+    </div>
+</div>
   </div>
 
   <div class="container-new" *ngIf="etapa == 'entender'">
