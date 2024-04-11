@@ -16,6 +16,7 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-layout',
@@ -96,7 +97,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   private ref: ChangeDetectorRef,
   private modalService: NgbModal,
   private _router: Router,
-  private route: ActivatedRoute
+  private route: ActivatedRoute, 
+  private _location: Location
   ) {
     /*this.initService.init();*/
 
@@ -599,6 +601,10 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
       window.removeEventListener('scroll', this.disableScroll);
     }
 
+  }
+  
+  volver() {
+    this._location.back();
   }
 
   disableScroll(){

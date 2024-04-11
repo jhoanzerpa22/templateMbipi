@@ -6,6 +6,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragMove, CdkDragEnd
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import {Location} from '@angular/common';
 
 declare var $: any;
 declare var jQuery: any;
@@ -153,7 +154,8 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     private _proyectsService: ProyectsService,
     private el:ElementRef,
     private ref: ChangeDetectorRef,
-    private _router: Router
+    private _router: Router, 
+    private _location: Location
   ) {
     this.socketWebService.outEvenTableroVotoMeta.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
@@ -702,6 +704,9 @@ export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  volver() {
+    this._location.back();
+  }
 
   onPlayPause(){
     //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)

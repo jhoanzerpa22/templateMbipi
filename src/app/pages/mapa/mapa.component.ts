@@ -26,6 +26,7 @@ import Drawflow, {
 import { NodeElement } from './node.model';
 import { ReplaySubject, Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-mapa',
@@ -125,7 +126,8 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
   private ref: ChangeDetectorRef,
   private modalService: NgbModal,
   private _router: Router,
-  private route: ActivatedRoute
+  private route: ActivatedRoute, 
+  private _location: Location
   ) {
     /*this.initService.init();*/
 
@@ -661,6 +663,10 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
     if(etapa_active != ''){
       this._router.navigate([etapa_active]);
     }
+  }
+  
+  volver() {
+    this._location.back();
   }
 
   onPlayPause(){
