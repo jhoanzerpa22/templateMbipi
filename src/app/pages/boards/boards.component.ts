@@ -6,6 +6,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 //import {maxlengthContentEditable} from 'maxlength-contenteditable';
+import {Location} from '@angular/common';
 
 declare var $: any;
 declare var jQuery: any;
@@ -111,7 +112,8 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     private _proyectsService: ProyectsService,
     private el:ElementRef,
     private ref: ChangeDetectorRef,
-    private _router: Router
+    private _router: Router, 
+    private _location: Location
   ) {
     this.socketWebService.outEven.subscribe((res: any) => {
       //console.log('escucha_tablero',res);
@@ -546,6 +548,10 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     if(etapa_active != ''){
       this._router.navigate([etapa_active]);
     }
+  }
+  
+  volver() {
+    this._location.back();
   }
 
   onPlayPause(){

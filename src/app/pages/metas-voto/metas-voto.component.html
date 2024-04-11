@@ -36,14 +36,27 @@
                   </div>
                   </ng-container>
                 </div>-->
+                
+                <div class="mb-3" style="
+                margin-left: -5%;float: left;position: absolute;
+                "><h1 style="color: #fff;">Día 1</h1></div>
+              
                 <div class="container symbol-group symbol-hover mb-3">
                   <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
                   <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
                       <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
                   </div>
+                  
+                  <span class="symbol-label fw-bold" style="color: #fff;">{{usu2.nombre}}</span>
                   </ng-container>
                 </div>
                 
+                <div class="mb-3" style="
+                margin-left: 584px;
+                float: left;
+                position: absolute;
+                "><h1 style="color: #fff;">Entender</h1></div>
+                  
                 <!-- Timer -->
                 <div class="mb-3">
                   <div>
@@ -172,7 +185,8 @@
     <div  class="fondo-video" [ngClass]="showVideoFlag ? videoOn : videoOff">
     </div>
     <div class="video-container">
-      <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="auto"></video>
+      <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="500px"></video>
+      <h1 style="margin-top: 30px;color: #fff;">Día 1 – Paso 5 – Votación Meta Largo plazo</h1>
     </div>
   <!--begin::Highlight-->
   <div style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
@@ -193,6 +207,11 @@
           </svg>
         </a>
       </ng-template>
+    </div>
+    
+    <div class="container" style="align-items: flex-start;">
+      <a (click)="volver()" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
+      float: left;">Volver</a>
     </div>
     <div class="container" style="align-items: flex-end;">
       <a (click)="saveVotoAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
