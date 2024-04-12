@@ -104,7 +104,7 @@
               draggable="true"
               (dragstart)="onDragStart($event)"
             >
-              {{ node.name }}
+              <!--{{ node.name }}-->Nuevo
               <div class="container" style="align-items:center;">
                 <div class="draw-flow-palette">
                   <div class="box">
@@ -112,6 +112,7 @@
                   </div>
                 </div>
               </div>
+              Arrastre para agregar
             </div>
             <!-- <div>
               <label>Inputs:</label>
@@ -192,8 +193,8 @@
   <div style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
     <!--begin::Link-->
     <!-- PlayPause Bttn -->
-    <div class="container" style="text-align: center;">
-      <ng-container *ngIf="!playing; else elseBlock">
+    <div class="container" style="text-align: center;margin-bottom: 30px;">
+      <!--<ng-container *ngIf="!playing; else elseBlock">
         <a (click)="onPlayPause()" class="btn btn-lg flex-shrink-0 my-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="margin:-46px; margin-left: 10px;position: absolute;background-color:#03A588; border-radius: 100%; color:white">
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
@@ -206,7 +207,7 @@
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
           </svg>
         </a>
-      </ng-template>
+      </ng-template>-->
     </div>
     
     <div class="container" style="align-items: flex-start;">

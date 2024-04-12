@@ -354,7 +354,7 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < length; i++) {
       this.nodes.push({
         id: i + 1,
-        name: 'node ' + (i + 1),
+        name: 'Nuevo\nArrastre para agregar',// + (i + 1),
         inputs: 1,
         outputs: 1,
       });
