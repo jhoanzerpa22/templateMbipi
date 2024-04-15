@@ -385,6 +385,47 @@ export class MetasComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  buttonNote() {
+    const nota: any = $('#agregar_nota').val();
+    if (nota.trim() == ""){
+      Swal.fire({
+        text: "Ups, la nota no puede estar vacia.",
+        icon: "error",
+        buttonsStyling: false,
+        confirmButtonText: "Ok!",
+        customClass: {
+          confirmButton: "btn btn-primary"
+        }
+      });
+    }else{
+    const data = {
+      proyecto_id: this.proyecto_id,
+      usuario_id: this.usuario.id,
+      content: nota
+    };
+    this._proyectsService.createMetaLp(data)
+        .subscribe(
+            data => {
+    const id = data.meta_id;
+    //const id = this.notes.length+'-'+this.usuario.nombre;
+    this.notes.push({ id: /*this.notes.length + 1*/id, content: nota, usuario_id: this.usuario.id });
+    // sort the array
+    this.notes= this.notes.sort((a: any,b: any)=>{ return b.id-a.id});
+    localStorage.setItem('notes_metas', JSON.stringify(this.notes));
+
+    this.ref.detectChanges();
+    
+    this.socketWebService.emitEventTableroUpdateMeta({id: id, content: nota, usuario_id: this.usuario.id });
+
+    $('#agregar_nota').val('');
+    $('#agregar_nota').text('');
+    $('#agregar_nota').focus();},
+            (response) => {
+            }
+    );
+    }
+  }
+
   /*saveNote(event: any){
     console.log('event',event);
     const id = event.srcElement.parentElement.parentElement.getAttribute('id');
