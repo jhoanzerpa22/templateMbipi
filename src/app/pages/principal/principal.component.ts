@@ -13,7 +13,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.scss'],
+  styleUrls: ['./principal2.component.scss'],
   encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
