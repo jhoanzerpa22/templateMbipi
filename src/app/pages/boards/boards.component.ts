@@ -34,6 +34,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   voto_maximo: any = [];
   _user: any = {};
   equipo: any = [];
+  focusIn: any;
 
   public filteredTablero: ReplaySubject<any> = new ReplaySubject<[]>(1);
   public filteredNotas: ReplaySubject<any> = new ReplaySubject<[]>(1);
@@ -464,10 +465,15 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.saveCategoryBD();
   }
 
+  onFocusIn(i: any){
+    this.focusIn = i;
+  }
+
   onFocusOut(event: any, i: any){
     this.tablero[i].title = event.target.innerText;
     this.tablero2 = JSON.stringify(this.tablero);
 
+    this.focusIn = 0;
     this.socketWebService.emitEvent({tablero: JSON.stringify(this.tablero)});
   }
 

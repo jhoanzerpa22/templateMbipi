@@ -1,10 +1,10 @@
 // VIDEO
 .fondo-video{
   background-color: black;
-  height: 1125px;
+  height: 100vw;
   width: 100%;
   position: absolute;
-  margin: -1125px 0 0 0;
+  margin: -1140px 0 0 0;
   opacity: 0.9;
 }
 
@@ -12,7 +12,8 @@
   text-align: center;
   position: absolute;
   width: 100%;
-  margin: -930px 0px 0px 0;
+  /*margin: -930px 0px 0px 0;*/
+  top: 10%;
 
   video{
     border-radius: 10px;
@@ -67,7 +68,7 @@
 
 .tablero-container{
   min-width: 100%;
-  min-height: 520px;
+  min-height: 600px;
   overflow: auto;
   background-color: #232323;
   position: relative;
