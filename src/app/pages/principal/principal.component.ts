@@ -218,7 +218,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   capitalize(etapa: string): string {
-    return etapa.charAt(0).toUpperCase() + etapa.slice(1).toLowerCase();
+    return etapa == 'principal' ? this.proyecto.nombre : etapa.charAt(0).toUpperCase() + etapa.slice(1).toLowerCase();
   }
 
   getDay(etapa: any){

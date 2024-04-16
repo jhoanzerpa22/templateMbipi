@@ -26,18 +26,19 @@
               
               <div class="container symbol-group symbol-hover mb-3">
                 <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
-                <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
+                <div class="symbol symbol-35px symbol-circle"  style="margin-right:10px;" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
                     <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
                 </div>
-                <span class="symbol-label fw-bold" style="color: #fff;">{{usu2.nombre}}</span>
+                <span class="symbol-label fw-bold" style="color: #fff;margin-right:20px;">{{usu2.nombre}}</span>
                 </ng-container>
               </div>
 
               <div class="mb-3" style="
-              margin-left: 584px;
+              margin-left: 460px;
               float: left;
+              text-align: center;
               position: absolute;
-              "><h1 style="color: #fff;">Entender</h1></div>
+              "><h1 style="color: #fff;">Entender<br>Paso 8 – Mapa de experiencia de usuario</h1></div>
 
               <!-- Timer -->
               <div class="mb-3">

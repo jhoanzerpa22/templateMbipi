@@ -429,7 +429,7 @@ onRemove(event: any) {
 
   continue() {
     Swal.fire({
-      text: "Has finalizado el día Bosquejar, ahora puedes continuar con el siguiente día!",
+      text: "Felicitaciones! Has finalizado el día 4 – Bosquejar, ahora puedes continuar con el siguiente día",
       icon: "success",
       buttonsStyling: false,
       confirmButtonText: "Ok!",
