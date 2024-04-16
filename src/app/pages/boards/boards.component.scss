@@ -13,7 +13,7 @@
   position: absolute;
   width: 100%;
   /*margin: -1110px 0px 0px 0;*/
-  top: 20px;
+  top: 10%;
 
   video{
     border-radius: 10px;
@@ -110,6 +110,10 @@
     color: white !important;
   }
 
+  .edit-icon {
+    margin-left: 5px; /* Espacio entre el texto y el icono */
+    font-size: 1em; /* Tamaño del icono */
+  }
 
   /*Ajustes Layout*/
   .notes-container{

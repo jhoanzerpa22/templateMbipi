@@ -43,13 +43,14 @@
 
                 <div class="container symbol-group symbol-hover mb-3">
                   <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
-                  <div [ngClass]="mostrarTexto ? 'symbol symbol-auto' : 'symbol symbol-35px symbol-circle'" data-bs-toggle="tooltip" title="{{usu2.nombre}}"><!-- (mouseenter)="mostrarTextoCompleto()" (mouseleave)="mostrarInicial()"-->
+                  <div [ngClass]="mostrarTexto ? 'symbol symbol-auto' : 'symbol symbol-35px symbol-circle'" style="margin-right:10px;" data-bs-toggle="tooltip" title="{{usu2.nombre}}"><!-- (mouseenter)="mostrarTextoCompleto()" (mouseleave)="mostrarInicial()"-->
                       
                       <!--<span [ngClass]="usu2.active ? 'symbol-label2 bg-primary text-inverse-primary fw-bold' : 'symbol-label2 bg-gray text-inverse-gray fw-bold'" *ngIf="mostrarTexto">{{usu2.nombre}}</span>-->
                       <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'" *ngIf="!mostrarTexto">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
 
                   </div>
-                  <span class="symbol-label fw-bold" style="color: #fff;">{{usu2.nombre}}</span>
+                  <span class="symbol-label fw-bold" style="color: #fff;margin-right:20px;">{{usu2.nombre}}</span>
+
                   </ng-container>
                 </div>
                 <div class="mb-3" style="
@@ -811,6 +812,11 @@
     <!-- Video Container -->
     <div class="video-container">
       <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="500px"></video>
+      
+      <h1 style="margin-top: 30px;color: #fff;" *ngIf="showVideoFlag">Proyecto: {{proyecto ? proyecto.nombre : ''}}</h1>
+      
+      <!--<a (click)="ir('/fase8',true)" style="color: #fff;">Entrar</a>-->
+
     </div>
       <!--begin::Bottom Toolbar-->
     <div style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
