@@ -53,18 +53,8 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
   extrasQuickPanelDisplay = false;
   extrasScrollTopDisplay = false;
   asideDisplay: boolean;
-  showVideoFlag = true;
+
   showTimer: boolean = false;
-
-  //Clases para esconder o mostrar video.
-  videoOn = "videoOn";
-  videoOff = "videoOff";
-  currentTime = 0;
-
-  //Eventos sobre video
-  primerEventoFlag = false;
-  segundoEventoFlag = false;
-  playing = false;
 
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
@@ -92,6 +82,7 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
   hr: any = '0' + 0;
 
   isLoading:boolean = true;
+  video_url: any = 'http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4';
 
   _user: any = {};
   equipo: any = [];
@@ -362,8 +353,7 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
                 this.sendNotes(this.notes);
               }
               
-              this.isLoading = false;    
-              this.onPlayPause();
+              this.isLoading = false;
 
             this.ref.detectChanges();
           },
@@ -645,56 +635,10 @@ export class MetricasClaveDecisionComponent implements OnInit, AfterViewInit, On
     this.addNote();
   }
 
-  onPlayPause(){
-    //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
-    this.playing= true;
-    if($('#myVideo').prop('paused')){
-
-      window.scrollTo(0, 0);
-      window.addEventListener('scroll', this.disableScroll)
-
-      console.log('Play');
-      this.displayVideo();
-      this.ref.detectChanges();
-      $('#myVideo').trigger('play');
-      if(this.primerEventoFlag){
-        //Cuenta los segundos desde que se hace play en el video
-        var id = setInterval(()=>{
-          //Asigna el valor de la propiedad 'currentTime' a la variable cada 1 segundo
-          this.currentTime = $('#myVideo').prop('this.currentTime');
-          console.log(this.currentTime);
-          //Gatilla eventos cada cierto valor de currentTime
-          if(this.currentTime >= 3){
-            this.hideVideo();
-            $('#myVideo').trigger('pause');
-            this.ref.detectChanges();
-            clearInterval(id); //Detiene intervalo
-          }
-        }, 500)
-      }
-    }else{
-      this.playing= false;
-      console.log('Pause');
-      this.hideVideo();
-      this.ref.detectChanges();
-      $('#myVideo').trigger('pause');
-      window.removeEventListener('scroll', this.disableScroll);
-    }
-
-  }
-
   disableScroll(){
     window.scrollTo(0, 0);
   }
 
-  displayVideo(){
-    this.showVideoFlag = true;
-  }
-
-  hideVideo(){
-    this.showVideoFlag = false;
-    $('#agregar_nota').focus();
-  }
 }
 
 export interface IWindow extends Window {
