@@ -6,93 +6,20 @@
   <app-loadmask [loader]="isLoading" *ngIf="isLoading"></app-loadmask>
   <!-- Fin Seccion Loader-->
 
-  <!--begin::Header Section-->
-  <div class="mb-0" id="home">
-    <!--begin::Wrapper-->
-    <div class="bgi-no-repeat bgi-size-contain bgi-position-x-center bgi-position-y-bottom landing-dark-bg" style="background-image: url(assets/media/svg/illustrations/landing.svg)">
-      <!--begin::Header-->
-      <div class="landing-header" data-kt-sticky="true" data-kt-sticky-name="landing-header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
-        <!--begin::Container-->
-        <div class="container">
-          <!--begin::Wrapper-->
-          <div class="d-flex align-items-center justify-content-between">
-            <!--begin::Logo-->
-            <div class="d-flex align-items-center flex-equal">
-              <!--begin::Mobile menu toggle-->
-              
-              <div class="mb-3" style="
-              margin-left: -5%;float: left;position: absolute;
-              "><h1 style="color: #fff;">Día 1</h1></div>
-              
-              <div class="container symbol-group symbol-hover mb-3">
-                <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
-                <div class="symbol symbol-35px symbol-circle"  style="margin-right:10px;" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
-                    <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
-                </div>
-                <span class="symbol-label fw-bold" style="color: #fff;margin-right:20px;">{{usu2.nombre}}</span>
-                </ng-container>
-              </div>
+  <!-- Seccion Header-->
+  <app-header [usuarios_active]="usuarios_active" [titulo]="'Entender'" [paso]="'Paso 8 – Mapa de experiencia de usuario'" [dia]="'Día 1'" [ms]="ms" [sec]="sec" [min]="min" [hr]="hr" [showTimer]="showTimer"></app-header>
+  <!-- Fin Seccion Header-->
 
-              <div class="mb-3" style="
-              margin-left: 460px;
-              float: left;
-              text-align: center;
-              position: absolute;
-              "><h1 style="color: #fff;">Entender<br>Paso 8 – Mapa de experiencia de usuario</h1></div>
-
-              <!-- Timer -->
-              <div class="mb-3">
-                <div>
-                  <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
-                </div>
-              </div>
-              <!--end::Mobile menu toggle-->
-              
-            </div>
-            <!--end::Logo-->
-            <!--begin::Menu wrapper-->
-            <div class="d-lg-block" id="kt_header_nav_wrapper">
-              <div class="d-lg-block p-5 p-lg-0" data-kt-drawer="true" data-kt-drawer-name="landing-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="200px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_landing_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav_wrapper'}">
-                <!--begin::Menu-->
-                <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-500 menu-state-title-primary nav nav-flush fs-5 fw-bold" style="display:none;" id="kt_landing_menu">
-                  <!--begin::Menu item-->
-                  <!--end::Menu item-->
-                </div>
-                <!--end::Menu-->
-              </div>
-            </div>
-            <!--end::Menu wrapper-->
-            <!--begin::Toolbar-->
-
-            <!--end::Toolbar-->
-          </div>
-          <!--end::Wrapper-->
-        </div>
-        <!--end::Container-->
-      </div>
-      <!--end::Header-->
-    </div>
-    <!--end::Wrapper-->
-    <!--begin::Curve bottom-->
-    <div class="landing-curve landing-dark-color mb-3 mb-lg-3">
-      <svg viewBox="15 12 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 11C3.93573 11.3356 7.85984 11.6689 11.7725 12H1488.16C1492.1 11.6689 1496.04 11.3356 1500 11V12H1488.16C913.668 60.3476 586.282 60.6117 11.7725 12H0V11Z" fill="currentColor"></path>
-      </svg>
-    </div>
-    <!--end::Curve bottom-->
-  </div>
-  <!--end::Header Section-->
-  <!-- Timer -->
   <!-- Titulo -->
-  <div class="container title-container">
+  <!--<div class="container title-container">
     <h1>
       Mapa de Experiencia de Usuario
     </h1>
-  </div>
+  </div>-->
   <!-- Instrucciones -->
-  <div class="container instructions-container">
+  <!--<div class="container instructions-container">
     <app-mapa-accordion></app-mapa-accordion>
-  </div>
+  </div>-->
 
   <!-- Tablero -->
   <div class="container tablero-container">
@@ -176,55 +103,13 @@
         </div>
       </div>
     </div>
-    
-
+  
   </div>
-  <!-- Video -->
-    <!-- Fondo Opaco   -->
-  <div class="fondo-video" [ngClass]="showVideoFlag ? videoOn : videoOff">
-  </div>
-  <!-- Video Container -->
-  <div class="video-container">
-    <!--
-      <video controls id="myVideo" [ngClass]="showVideoFlag ? videoOn : videoOff" src="http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4" width="1200" height="500px"></video>
-    <h1 style="margin-top: 30px;color: #fff;">Día 1 – Paso 8 – Mapa de experiencia de usuario</h1>
-    -->
-  </div>
-  	<!--begin::Bottom Toolbar-->
-  <div style="background-color: #03A588;position: fixed; bottom: 0px;width: 100%; height: 80px;">
-    <!--begin::Link-->
-    <!-- PlayPause Bttn -->
-    <div class="container" style="text-align: center;margin-bottom: 30px;">
-      <!--<ng-container *ngIf="!playing; else elseBlock">
-        <a (click)="onPlayPause()" class="btn btn-lg flex-shrink-0 my-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="margin:-46px; margin-left: 10px;position: absolute;background-color:#03A588; border-radius: 100%; color:white">
-          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
-          </svg>
-        </a>
-      </ng-container>
-      <ng-template #elseBlock>
-        <a (click)="onPlayPause()" class="btn btn-lg flex-shrink-0 my-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="margin:-46px;margin-left: 10px;position: absolute;background-color:#03A588; border-radius: 100%; color:white">
-          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
-          </svg>
-        </a>
-      </ng-template>-->
-    </div>
-    
-    <div class="container" style="align-items: flex-start;">
-      <a (click)="volver()" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
-      float: left;">Volver</a>
-    </div>
-    <div class="container" style="align-items: flex-end;">
-      <a (click)="saveNoteAll()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
-      float: right;" *ngIf="rol == 'Decisor'">Siguiente Etapa</a>
-      <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
-      float: right;">Salir de MbipiLab</a>
-    </div>
-
-    <!--end::Link-->
-  </div>
-    <!--end::Bottom Toolbar-->
+  
+  <!--Footer-->
+  <app-footer-lab [dia]="'Dia 1'" [paso]="'Paso 8 – Mapa de experiencia de usuario'" [proyecto_id]="proyecto_id" [rol]="rol" [video_url]="video_url" [showVideo]="false" (activeNext)="saveNoteAll()" *ngIf="!isLoading"></app-footer-lab>
+  <!--Fin Footer-->
+  
   <!--begin::Scrolltop-->
   <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
     <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->

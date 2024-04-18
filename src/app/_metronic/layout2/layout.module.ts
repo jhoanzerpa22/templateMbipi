@@ -135,6 +135,8 @@ import { ExhibicionModule } from '../../pages/exhibicion/exhibicion.module';
 import { DecidirModule } from '../../pages/decidir/decidir.module';
 import { DecisionModule } from '../../pages/decision/decision.module';
 import { TimerModule } from './timer/timer.module';
+import { HeaderModule } from './header/header.module';
+import { FooterLabModule } from './footer-lab/footer-lab.module';
 import { EntenderAccordionComponent } from './instructions/entender-accordion/entender-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
@@ -400,6 +402,8 @@ const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:
     ExtrasModule,
     NgbModule,
     TimerModule,
+    HeaderModule,
+    FooterLabModule,
     LoadMaskModule,
     /*
     BoardsModule,*/

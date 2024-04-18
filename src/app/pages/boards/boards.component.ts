@@ -50,18 +50,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public isAvailabe: boolean = false;
 
-    showVideoFlag = true;
     showTimer: boolean = false;
-
-  //Clases para esconder o mostrar video.
-  videoOn = "videoOn";
-  videoOff = "videoOff";
-  currentTime = 0;
-
-  //Eventos sobre video
-  primerEventoFlag = false;
-  segundoEventoFlag = false;
-  playing = false;
 
   usuarios: any = [];
   usuarios_active: any = [];
@@ -77,6 +66,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
   hr: any = '0' + 0;
 
   isLoading: boolean = true;
+  video_url: any = 'http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4'; 
 
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
@@ -314,7 +304,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.filteredTablero.next(this.tablero.slice());
 
             this.isLoading = false; 
-            this.onPlayPause();
+            //this.onPlayPause();
 
             this.ref.detectChanges();
           },
@@ -383,7 +373,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     //}
   }
 
-  private drawOnCanvas(prevPos: any, currentPost: any) {
+  /*private drawOnCanvas(prevPos: any, currentPost: any) {
     if (!this.cx) return;
     this.cx.beginPath();
 
@@ -394,7 +384,7 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cx.lineTo(currentPost.x, currentPost.y);
       this.cx.stroke();
     }
-  }
+  }*/
 
   public clearZone = () => {
     this.points = [];
@@ -434,14 +424,14 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredTablero.next(this.tablero.slice());
   }
 
-  private readNotas(notas: any, emit: boolean){
+  /*private readNotas(notas: any, emit: boolean){
     const data = JSON.parse(notas);
     console.log('readNota',data);
     //console.log('data',data);
     this.notas = data;
 
     this.filteredNotas.next(this.notas.slice());
-  }
+  }*/
 
   addCategory(){
     let title = 'Categoria '+ /*(*/this.tablero.length/* + 1)*/;
@@ -555,59 +545,8 @@ export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
       this._router.navigate([etapa_active]);
     }
   }
-  
-  volver() {
-    this._location.back();
-  }
-
-  onPlayPause(){
-    //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
-    this.playing= true;
-    if($('#myVideo').prop('paused')){
-      window.scrollTo(0,0);
-      window.addEventListener('scroll', this.disableScroll)
-
-      console.log('Play');
-      this.displayVideo();
-      this.ref.detectChanges();
-      $('#myVideo').trigger('play');
-      if(this.primerEventoFlag){
-        //Cuenta los segundos desde que se hace play en el video
-        var id = setInterval(()=>{
-          //Asigna el valor de la propiedad 'currentTime' a la variable cada 1 segundo
-          this.currentTime = $('#myVideo').prop('this.currentTime');
-          console.log(this.currentTime);
-          //Gatilla eventos cada cierto valor de currentTime
-          if(this.currentTime >= 3){
-            this.hideVideo();
-            $('#myVideo').trigger('pause');
-            this.ref.detectChanges();
-            clearInterval(id); //Detiene intervalo
-          }
-        }, 500)
-      }
-    }else{
-      this.playing= false;
-      console.log('Pause');
-      this.hideVideo();
-      this.ref.detectChanges();
-      $('#myVideo').trigger('pause');
-      window.removeEventListener('scroll', this.disableScroll);
-    }
-
-  }
-
-  disableScroll(){
+    disableScroll(){
     window.scrollTo(0, 0);
-  }
-
-  displayVideo(){
-    this.showVideoFlag = true;
-  }
-
-  hideVideo(){
-    this.showVideoFlag = false;
-    this.ref.detectChanges();
   }
 
 }

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,10 +8,8 @@ import {
   NgbProgressbarModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { PrincipalComponent } from './principal.component';
-import { WidgetsModule } from '../../_metronic/partials';
+import { FooterLabComponent} from './footer-lab.component';
 
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,29 +26,22 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from "../../../environments/environment";
-import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
-import { HeaderModule } from '../../_metronic/layout2/header/header.module';
-import { FooterLabModule } from '../../_metronic/layout2/footer-lab/footer-lab.module';
-import { LoadMaskModule/*LoadMaskComponent*/ } from '../../_metronic/layout2/loadMask/loadMask.module';
 
-const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
 
 @NgModule({
-  declarations: [PrincipalComponent],
+  declarations: [
+    FooterLabComponent,
+  ],
+  exports: [
+    FooterLabComponent,
+  ],
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: PrincipalComponent,
-      },
-    ]),
+    RouterModule,
     InlineSVGModule,
     NgbDropdownModule,
     NgbProgressbarModule,
     NgbModule,
-    WidgetsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
@@ -63,12 +55,7 @@ const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:
     MatDividerModule,
     MatMenuModule,
     MatRadioModule,
-    DragDropModule,
-    TimerModule,
-    HeaderModule,
-    FooterLabModule,
-    LoadMaskModule,
-    SocketIoModule.forRoot(config)
+    DragDropModule
   ]
 })
-export class PrincipalModule {}
+export class FooterLabModule { }
