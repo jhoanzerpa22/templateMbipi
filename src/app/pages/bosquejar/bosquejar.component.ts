@@ -60,6 +60,15 @@ export class BosquejarComponent implements OnInit, AfterViewInit, OnDestroy {
   min: any = '0' + 0;
   hr: any = '0' + 0;
 
+  ms_paso:any = '0' + 0;
+  sec_paso: any = '0' + 0;
+  min_paso: any = '0' + 0;
+  hr_paso: any = '0' + 0;
+  dia_paso: any = 'dia4_paso5';
+  tiempo_paso: any = '';
+
+  showTimerPass: boolean = false;
+
   isLoading: boolean = true;
   video_url: any = 'http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4'; 
 
@@ -322,6 +331,20 @@ onRemove(event: any) {
               this.min = tiempo[1];
             }
             this.showTimer = true;
+
+            if(this.proyecto.tiempo_paso != '' && this.proyecto.tiempo_paso != undefined){
+              this.tiempo_paso = this.proyecto.tiempo_paso;
+              
+              const time_proyect = JSON.parse(this.tiempo_paso);
+
+              if (time_proyect.hasOwnProperty(this.dia_paso)) {
+                
+                let tiempo_paso_dia = time_proyect[this.dia_paso].split(':');
+                this.hr_paso = tiempo_paso_dia[0];
+                this.min_paso = tiempo_paso_dia[1];
+              }
+            }
+            this.showTimerPass = true;
 
             let imagenes: any = [];
             let imagenes_usuario: any = [];

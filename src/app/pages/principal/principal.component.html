@@ -7,7 +7,7 @@
   <!-- Fin Seccion Loader--> 
 
   <!-- Seccion Header-->
-  <app-header [usuarios_active]="usuarios_active" [titulo]="capitalize(etapa)" [paso]="" [dia]="getDay(etapa)" [ms]="ms" [sec]="sec" [min]="min" [hr]="hr" [showTimer]="showTimer"></app-header>
+  <app-header [proyecto_id]="proyecto_id" [rol]="rol" [usuarios_active]="usuarios_active" [titulo]="capitalize(etapa)" [paso]="" [dia]="getDay(etapa)" [ms]="ms" [sec]="sec" [min]="min" [hr]="hr" [showTimer]="showTimer"></app-header>
   <!-- Fin Seccion Header-->
 
     <!--Nuevo diseño-->
@@ -25,6 +25,11 @@
 
                   <a (click)="entrar('entender',(fase >= 1))">Entrar</a>
               </div>
+              <div class="time">
+                <div class="time-text">
+                  {{sumarHoras('dia1')}}
+                </div>
+              </div>
           </div>
       </div>
 
@@ -41,6 +46,11 @@
 
                   <a (click)="entrar('enfoque',(fase >= 9))">Entrar</a>
               </div>
+              <div class="time">
+                <div class="time-text">
+                  {{sumarHoras('dia2')}}
+                </div>
+              </div>
           </div>
       </div>
 
@@ -56,6 +66,11 @@
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
                   <a (click)="entrar('modelo',(fase >= 23))">Entrar</a>
+              </div>
+              <div class="time">
+                <div class="time-text">
+                  {{sumarHoras('dia3')}}
+                </div>
               </div>
           </div>
       </div>
@@ -74,6 +89,11 @@
 
                 <a (click)="entrar('bosquejar',(fase >= 41))">Entrar</a>
             </div>
+            <div class="time">
+              <div class="time-text">
+                {{sumarHoras('dia4')}}
+              </div>
+            </div>
         </div>
     </div>
     
@@ -90,6 +110,11 @@
 
               <a (click)="entrar('decidir',(fase >= 46))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{sumarHoras('dia5')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -105,6 +130,11 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
             <a href="#">Entrar</a>
+        </div>
+        <div class="time">
+          <div class="time-text">
+            00:00
+          </div>
         </div>
     </div>
 </div>
@@ -124,6 +154,11 @@
 
                 <a (click)="ir('/fase1',(fase >= 1))">Entrar</a>
             </div>
+            <div class="time">
+              <div class="time-text">
+                {{getTimePass('dia1_paso1')}}
+              </div>
+            </div>
         </div>
     </div>
 
@@ -139,6 +174,11 @@
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
                 <a (click)="ir('/fase4',(fase >= 4))">Entrar</a>
+            </div>
+            <div class="time">
+              <div class="time-text">
+                {{getTimePass('dia1_paso2')}}
+              </div>
             </div>
         </div>
     </div>
@@ -156,6 +196,11 @@
 
                 <a (click)="ir('/fase6',(fase >= 6))">Entrar</a>
             </div>
+            <div class="time">
+              <div class="time-text">
+                {{getTimePass('dia1_paso3')}}
+              </div>
+            </div>
         </div>
     </div>
     
@@ -171,6 +216,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase8',(fase >= 8))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia1_paso4')}}
+            </div>
           </div>
       </div>
   </div>
@@ -191,6 +241,11 @@
 
               <a (click)="ir('/fase9',(fase >= 9))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia2_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -206,6 +261,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase13',(fase >= 13))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia2_paso2')}}
+            </div>
           </div>
       </div>
   </div>
@@ -223,6 +283,11 @@
 
               <a (click)="ir('/fase15',(fase >= 15))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia2_paso3')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -238,6 +303,11 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
             <a (click)="ir('/fase19',(fase >= 19))">Entrar</a>
+        </div>
+        <div class="time">
+          <div class="time-text">
+            {{getTimePass('dia2_paso4')}}
+          </div>
         </div>
     </div>
 </div>
@@ -255,6 +325,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase21',(fase >= 21))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia2_paso5')}}
+        </div>
       </div>
   </div>
 </div>
@@ -274,6 +349,11 @@
 
               <a (click)="ir('/fase23',(fase >= 23))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia3_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -289,6 +369,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase25',(fase >= 25))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia3_paso2')}}
+            </div>
           </div>
       </div>
   </div>
@@ -306,6 +391,11 @@
 
               <a (click)="ir('/fase27',(fase >= 27))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia3_paso3')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -321,6 +411,11 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
             <a (click)="ir('/fase29',(fase >= 29))">Entrar</a>
+        </div>
+        <div class="time">
+          <div class="time-text">
+            {{getTimePass('dia3_paso4')}}
+          </div>
         </div>
     </div>
 </div>
@@ -339,6 +434,11 @@
 
           <a (click)="ir('/fase31',(fase >= 31))">Entrar</a>
       </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso5')}}
+        </div>
+      </div>
   </div>
 </div>
   
@@ -354,6 +454,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase33',(fase >= 33))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso6')}}
+        </div>
       </div>
   </div>
 </div>
@@ -371,6 +476,11 @@
 
           <a (click)="ir('/fase35',(fase >= 35))">Entrar</a>
       </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso7')}}
+        </div>
+      </div>
   </div>
 </div>
   
@@ -387,6 +497,11 @@
 
           <a (click)="ir('/fase37',(fase >= 37))">Entrar</a>
       </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso8')}}
+        </div>
+      </div>
   </div>
 </div>
   
@@ -402,6 +517,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase39',(fase >= 39))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso9')}}
+        </div>
       </div>
   </div>
 </div>
@@ -421,6 +541,11 @@
 
               <a (click)="ir('/fase41',(fase >= 41))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia4_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -436,6 +561,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase42',(fase >= 42))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia4_paso2')}}
+            </div>
           </div>
       </div>
   </div>
@@ -453,6 +583,11 @@
 
               <a (click)="ir('/fase43',(fase >= 43))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia4_paso3')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -469,6 +604,11 @@
 
             <a (click)="ir('/fase44',(fase >= 44))">Entrar</a>
         </div>
+        <div class="time">
+          <div class="time-text">
+            {{getTimePass('dia4_paso4')}}
+          </div>
+        </div>
     </div>
 </div>
 
@@ -484,6 +624,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase45',(fase >= 45))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia4_paso5')}}
+        </div>
       </div>
   </div>
 </div>
@@ -504,6 +649,11 @@
 
               <a (click)="ir('/fase46',(fase >= 46))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia5_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -520,6 +670,11 @@
 
               <a (click)="ir('/fase47',(fase >= 47))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia5_paso2')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -535,6 +690,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase48',(fase >= 48))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia5_paso3')}}
+            </div>
           </div>
       </div>
   </div>

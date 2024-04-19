@@ -80,6 +80,16 @@ export class ObjetivosCortoDecisionComponent implements OnInit, AfterViewInit, O
   sec: any = '0' + 0;
   min: any = '0' + 0;
   hr: any = '0' + 0;
+
+  ms_paso:any = '0' + 0;
+  sec_paso: any = '0' + 0;
+  min_paso: any = '0' + 0;
+  hr_paso: any = '0' + 0;
+  dia_paso: any = 'dia2_paso3';
+  tiempo_paso: any = '';
+
+  showTimerPass: boolean = false;
+
   _user: any = {};
   equipo: any = [];
 
@@ -324,6 +334,20 @@ export class ObjetivosCortoDecisionComponent implements OnInit, AfterViewInit, O
               this.min = tiempo[1];
             }
             this.showTimer = true;
+
+            if(this.proyecto.tiempo_paso != '' && this.proyecto.tiempo_paso != undefined){
+              this.tiempo_paso = this.proyecto.tiempo_paso;
+              
+              const time_proyect = JSON.parse(this.tiempo_paso);
+
+              if (time_proyect.hasOwnProperty(this.dia_paso)) {
+                
+                let tiempo_paso_dia = time_proyect[this.dia_paso].split(':');
+                this.hr_paso = tiempo_paso_dia[0];
+                this.min_paso = tiempo_paso_dia[1];
+              }
+            }
+            this.showTimerPass = true;
             
             let objetivos_corto: any = [];
             let position: number = 0;

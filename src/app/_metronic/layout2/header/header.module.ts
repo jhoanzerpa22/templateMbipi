@@ -26,6 +26,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TimerModule/*TimerComponent*/ } from '../../../_metronic/layout2/timer/timer.module';
+import { TimerPassModule/*TimerComponent*/ } from '../../../_metronic/layout2/timer_pass/timer_pass.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { TimerModule/*TimerComponent*/ } from '../../../_metronic/layout2/timer/
     MatMenuModule,
     MatRadioModule,
     DragDropModule,
-    TimerModule
+    TimerModule,
+    TimerPassModule
   ]
 })
 export class HeaderModule { }

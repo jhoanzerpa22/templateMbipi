@@ -23,11 +23,20 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dia: any = '';
   @Input() usuarios_active: any = [];
   @Input() showTimer: boolean = false;
+  @Input() showTimerPass: boolean = false;
 
   @Input() ms:any = '0' + 0;
   @Input() sec: any = '0' + 0;
   @Input() min: any = '0' + 0;
   @Input() hr: any = '0' + 0;
+  
+  @Input() ms_paso:any = '0' + 0;
+  @Input() sec_paso: any = '0' + 0;
+  @Input() min_paso: any = '0' + 0;
+  @Input() hr_paso: any = '0' + 0;
+
+  @Input() tiempo_paso: any = '';
+  @Input() dia_paso: any = '';
 
   constructor() { }
 

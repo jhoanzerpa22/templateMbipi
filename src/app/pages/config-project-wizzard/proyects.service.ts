@@ -133,6 +133,10 @@ export class ProyectsService
         return this.http.put(environment.API_G +`${baseUrl}/updateTime/${id}`, data);
       }
 
+      updateTimePass(id: any, data: any): Observable<any> {
+        return this.http.put(environment.API_G +`${baseUrl}/updateTimePass/${id}`, data);
+      }
+
       updateNotaCp(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/updateNotaCp/${id}`, data);
       }

@@ -81,6 +81,15 @@ export class AccionesDecisionComponent implements OnInit, AfterViewInit, OnDestr
   min: any = '0' + 0;
   hr: any = '0' + 0;
 
+  ms_paso:any = '0' + 0;
+  sec_paso: any = '0' + 0;
+  min_paso: any = '0' + 0;
+  hr_paso: any = '0' + 0;
+  dia_paso: any = 'dia2_paso4';
+  tiempo_paso: any = '';
+
+  showTimerPass: boolean = false;
+
   isLoading:boolean = true;
   video_url: any = 'http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4'; 
 
@@ -325,6 +334,20 @@ export class AccionesDecisionComponent implements OnInit, AfterViewInit, OnDestr
               this.min = tiempo[1];
             }
             this.showTimer = true;
+
+            if(this.proyecto.tiempo_paso != '' && this.proyecto.tiempo_paso != undefined){
+              this.tiempo_paso = this.proyecto.tiempo_paso;
+              
+              const time_proyect = JSON.parse(this.tiempo_paso);
+
+              if (time_proyect.hasOwnProperty(this.dia_paso)) {
+                
+                let tiempo_paso_dia = time_proyect[this.dia_paso].split(':');
+                this.hr_paso = tiempo_paso_dia[0];
+                this.min_paso = tiempo_paso_dia[1];
+              }
+            }
+            this.showTimerPass = true;
             
             let acciones: any = [];
             let position: number = 0;

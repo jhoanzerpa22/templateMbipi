@@ -155,6 +155,57 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mostrarTexto = false;
   }
 
+  getTimePass(dia_paso: any){
+    let tiempo_paso_dia_format = '00:00';
+
+    if(this.proyecto.tiempo_paso != '' && this.proyecto.tiempo_paso != undefined){
+      const tiempo_paso = this.proyecto.tiempo_paso;
+      
+      const time_proyect = JSON.parse(tiempo_paso);
+
+      if (time_proyect.hasOwnProperty(dia_paso)) {
+        
+        tiempo_paso_dia_format = time_proyect[dia_paso];
+        let tiempo_paso_dia = tiempo_paso_dia_format.split(':');
+        const hr_paso = tiempo_paso_dia[0];
+        const min_paso = tiempo_paso_dia[1];
+      }
+    }
+    return tiempo_paso_dia_format;
+  }
+  
+  sumarHoras(dia: any): string {
+
+    let horasString = '00';
+    let minutosString = '00';
+
+    if(this.proyecto.tiempo_paso != '' && this.proyecto.tiempo_paso != undefined){
+      const tiempo_paso = this.proyecto.tiempo_paso;
+      
+      const time_proyect = JSON.parse(tiempo_paso);
+      let totalMinutos = 0;
+      for (const key in time_proyect) {
+        if (key.includes(dia)) {
+    
+          const [hora1Horas, hora1Minutos] = time_proyect[key].split(':').map(Number);
+          const [hora2Horas, hora2Minutos] = time_proyect[key].split(':').map(Number);
+
+          totalMinutos += hora1Horas * 60 + hora1Minutos/* + hora2Horas * 60 + hora2Minutos*/;
+        }
+      }
+      
+
+      const horas = totalMinutos > 0 ? Math.floor(totalMinutos / 60) : 0;
+      const minutos = totalMinutos > 0 ? totalMinutos % 60 : 0;
+
+      horasString = String(horas).padStart(2, '0');
+      minutosString = String(minutos).padStart(2, '0');
+
+
+    }
+    return `${horasString}:${minutosString}`;
+  }
+
   getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
