@@ -414,24 +414,24 @@
     margin-left: 10px;
   }
 
-  .toolbar {/*
+  /*.toolbar {/*
     left: 0;
     bottom: 0;*/
-    position: fixed;
+    /*position: fixed;
     /*top: 180px;*/
-    right: 60px;
-    height:55px;/*
+    /*right: 60px;
+    /*height:55px;/*
     text-align: center;
     position: fixed;*/
-    width: 100%;
-    background: transparent;/*
+    /*width: 100%;
+    /*background: transparent;/*
     background-color: gold;
     border: 10px solid gray;
     border-bottom: 0;*/
-    color: gray;/*
+    /*color: gray;/*
     font-size: -webkit-xxx-large;*/
-    font-weight: bold;
-  }
+    /*font-weight: bold;
+  }*/
 
   .add-category{
     float: right;
@@ -716,15 +716,15 @@
     }
   }
 
-  ul,li{
+  .scope-container ul,li{
     list-style:none;
   }
-  ul{
+  .scope-container ul{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
-  ul li{
+  .scope-container ul li{
     text-decoration:none;
     color:#000;
     background:#ffc;
@@ -739,31 +739,31 @@
     transition: transform .15s linear;
   }
   
-  ul li:nth-child(even){
+  .scope-container ul li:nth-child(even){
     transform:rotate(4deg);
     position:relative;
     top:5px;
     background:#cfc;
   }
-  ul li:nth-child(3n){
+  .scope-container ul li:nth-child(3n){
     transform:rotate(-3deg);
     position:relative;
     top:-5px;
     background:#ccf;
   }
-  ul li:nth-child(5n){
+  .scope-container ul li:nth-child(5n){
     transform:rotate(5deg);
     position:relative;
     top:-10px;
   }
   
-  ul li:hover,ul li:focus{
+  .scope-container ul li:hover,ul li:focus{
     box-shadow:10px 10px 7px rgba(0,0,0,.7);
     transform: scale(1.25);
     position:relative;
     z-index:5;
   }
   
-  ul li{
+  .scope-container ul li{
     margin:1em;
   }
