@@ -1,0 +1,132 @@
+<!--begin::Header Section-->
+<div class="mb-0" id="home">
+  <!--begin::Wrapper-->
+  <div class="bgi-no-repeat bgi-size-contain bgi-position-x-center bgi-position-y-bottom landing-dark-bg" style="background-image: url(assets/media/svg/illustrations/landing.svg)">
+    <!--begin::Header-->
+    <div class="landing-header" data-kt-sticky="true" data-kt-sticky-name="landing-header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
+      <!--begin::Container-->
+      <div class="container" style="
+      padding: 0px;
+      margin-right: 20px;
+      margin-left: 20px;
+      max-width: 100%;
+  ">
+        <!--begin::Wrapper-->
+        <div class="d-flex align-items-center justify-content-between">
+          <!--begin::Logo-->
+          <div class="d-flex align-items-center flex-equal">
+            <!--begin::Mobile menu toggle-->
+            <!-- <button class="btn btn-icon btn-active-color-primary me-3 d-flex d-lg-none" id="kt_landing_menu_toggle"> -->
+              <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+              <!-- <span class="svg-icon svg-icon-2hx">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor" />
+                  <path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="currentColor" />
+                </svg>
+              </span> -->
+              <!--end::Svg Icon-->
+            <!-- </button> -->
+            <!--<div class="symbol-group symbol-hover mb-3">
+              <ng-container *ngFor="let usu of usuarios; let i = index;">
+              <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.title}}">
+                  <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{usu.title.substring(0, 1).toUpperCase()}}</span>
+              </div>
+              </ng-container>
+            </div>-->
+            
+            <div class="mb-3" style="/* margin-left: -5%; */float: left;width: 100px;/* position: absolute; */"><h1 style="color: #fff;">{{dia}}</h1></div>
+
+            <div class="mb-3" style="min-width: 200px;">
+              <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
+              <div class="symbol symbol-35px symbol-circle"  style="margin-right:10px;" data-bs-toggle="tooltip" title="{{usu2.nombre}}">
+                  <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
+              </div>
+              <span class="symbol-label fw-bold" style="color: #fff;margin-right: 20px;">{{usu2.nombre}}</span>
+              </ng-container>
+            </div>
+            
+            <div class="mb-3" style="/* margin-left: 620px; *//* float: left; */text-align: center;/* position: fixed; */margin: auto;align-items: center;align-content: center;align-self: center;/* display: contents; */
+        ">
+        <h1 style="color: #fff;">{{titulo}}<br>{{paso}}</h1>
+        </div>
+
+            <!-- Timer container align-items-center   style="width: 300px;padding: 0;margin: auto;"-->
+            <div class="mb-3">
+              <div>
+                <app-timer-pass [hr]="hr_paso" [min]="min_paso" [sec]="sec_paso" [ms]="ms_paso" [proyecto_id]="proyecto_id" [rol]="rol" [tiempo_paso]="tiempo_paso" [dia_paso]="dia_paso" *ngIf="showTimerPass"></app-timer-pass>
+              </div>
+            </div>
+            <div class="mb-3" style="margin-left: 10px;">
+              <div>
+                <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
+              </div>
+            </div>
+            <!--end::Mobile menu toggle-->
+            <!--begin::Logo image-->
+            <!-- <a href="../../demo1/dist/landing.html">
+              <img alt="Logo" src="assets/media/logos/logo-landing.svg" class="logo-default h-25px h-lg-30px" />
+              <img alt="Logo" src="assets/media/logos/logo-landing-dark.svg" class="logo-sticky h-20px h-lg-25px" />
+            </a> -->
+            <!--end::Logo image-->
+          </div>
+          <!--end::Logo-->
+          <!--begin::Menu wrapper-->
+          <div class="d-lg-block" id="kt_header_nav_wrapper">
+            <div class="d-lg-block p-5 p-lg-0" data-kt-drawer="true" data-kt-drawer-name="landing-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="200px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_landing_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav_wrapper'}">
+              <!--begin::Menu-->
+              <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-500 menu-state-title-primary nav nav-flush fs-5 fw-bold" id="kt_landing_menu">
+                <!--begin::Menu item-->
+                <!-- <div class="menu-item">
+                  <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Home</a>
+                </div> -->
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <!-- <div class="menu-item">
+                  <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#how-it-works" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">How it Works</a>
+                </div> -->
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <!-- <div class="menu-item">
+                  <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Achievements</a>
+                </div> -->
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <!-- <div class="menu-item">
+                  <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#team" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Team</a>
+                </div> -->
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <!-- <div class="menu-item">
+                  <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#portfolio" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Portfolio</a>
+                </div> -->
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <!-- <div class="menu-item">
+                  <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Pricing</a>
+                </div> -->
+                <!--end::Menu item-->
+              </div>
+              <!--end::Menu-->
+            </div>
+          </div>
+          <!--end::Menu wrapper-->
+          <!--begin::Toolbar-->
+
+          <!--end::Toolbar-->
+        </div>
+        <!--end::Wrapper-->
+      </div>
+      <!--end::Container-->
+    </div>
+    <!--end::Header-->
+  </div>
+  <!--end::Wrapper-->
+  <!--begin::Curve bottom-->
+  <div class="landing-curve landing-dark-color mb-3 mb-lg-3">
+    <svg viewBox="15 12 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 11C3.93573 11.3356 7.85984 11.6689 11.7725 12H1488.16C1492.1 11.6689 1496.04 11.3356 1500 11V12H1488.16C913.668 60.3476 586.282 60.6117 11.7725 12H0V11Z" fill="currentColor"></path>
+    </svg>
+  </div>
+  <!--end::Curve bottom-->
+</div>
+<!--end::Header Section-->

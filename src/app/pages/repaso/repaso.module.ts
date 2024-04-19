@@ -28,6 +28,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
+import { HeaderModule } from '../../_metronic/layout2/header/header.module';
+import { FooterLabModule } from '../../_metronic/layout2/footer-lab/footer-lab.module';
 import { EntenderRepasoAccordionComponent } from './instructions/entender-repaso-accordion/entender-repaso-accordion.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
@@ -69,6 +71,8 @@ const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:
     MatRadioModule,
     DragDropModule,
     TimerModule,
+    HeaderModule,
+    FooterLabModule,
     LoadMaskModule,
     CdTimerModule,
     SocketIoModule.forRoot(config)

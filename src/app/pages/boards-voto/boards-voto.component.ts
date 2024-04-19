@@ -50,22 +50,11 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public isAvailabe: boolean = false;
 
-    showVideoFlag = true;
     showTimer: boolean = false;
 
-  //Clases para esconder o mostrar video.
-  videoOn = "videoOn";
-  videoOff = "videoOff";
-  currentTime = 0;
-
-  //Eventos sobre video
-  primerEventoFlag = false;
-  segundoEventoFlag = false;
-  playing = false;
-
-  usuarios: any = [];
-  usuarios_active: any = [];
-  usuario: any = {};
+    usuarios: any = [];
+    usuarios_active: any = [];
+    usuario: any = {};
 
   public proyecto: any = {};
   public proyecto_id: number;
@@ -76,7 +65,17 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
   min: any = '0' + 0;
   hr: any = '0' + 0;
 
+  ms_paso:any = '0' + 0;
+  sec_paso: any = '0' + 0;
+  min_paso: any = '0' + 0;
+  hr_paso: any = '0' + 0;
+  dia_paso: any = 'dia1_paso1';
+  tiempo_paso: any = '';
+
+  showTimerPass: boolean = false;
+
   isLoading: boolean = true;
+  video_url: any = 'http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4'; 
 
     @HostListener('document:mousemove', ['$event'])
     onMouseMove = (e: any) => {
@@ -274,6 +273,20 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
               this.min = tiempo[1];
             }
             this.showTimer = true;
+            
+            if(this.proyecto.tiempo_paso != '' && this.proyecto.tiempo_paso != undefined){
+              this.tiempo_paso = this.proyecto.tiempo_paso;
+              
+              const time_proyect = JSON.parse(this.tiempo_paso);
+
+              if (time_proyect.hasOwnProperty(this.dia_paso)) {
+                
+                let tiempo_paso_dia = time_proyect[this.dia_paso].split(':');
+                this.hr_paso = tiempo_paso_dia[0];
+                this.min_paso = tiempo_paso_dia[1];
+              }
+            }
+            this.showTimerPass = true;
 
             this.tablero = [];
             let categorias: any = [];
@@ -310,7 +323,7 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
             this.filteredTablero.next(this.tablero.slice());
             
             this.isLoading = false;   
-            this.onPlayPause();
+            //this.onPlayPause();
 
             this.ref.detectChanges();
           },
@@ -466,19 +479,6 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     //}
   }
 
-  private drawOnCanvas(prevPos: any, currentPost: any) {
-    if (!this.cx) return;
-    this.cx.beginPath();
-
-    if (prevPos) {
-      this.points = [];
-      this.cx.clearRect(0, 0, this.width, this.height);
-      this.cx.moveTo(prevPos.x, prevPos.y);
-      this.cx.lineTo(currentPost.x, currentPost.y);
-      this.cx.stroke();
-    }
-  }
-
   public clearZone = () => {
     this.points = [];
     this.cx.clearRect(0, 0, this.width, this.height);
@@ -613,7 +613,6 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.writeBoard();
   }
 
-
   quitarMaximo(i: any, j: any){
     //console.log('quitar_maximo', i, j);
     //console.log(this.tablero[i].data[j].label);
@@ -666,7 +665,6 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-
   verifyVotoTablero(i: any){
     //console.log('voto_tablero',this.voto_tablero);
     const index = this.voto_tablero.findIndex((c: any) => c == i);
@@ -679,60 +677,8 @@ export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-
-  onPlayPause(){
-    //Revisa si el video esta pausado mediante su propiedad 'paused'(bool)
-    this.playing= true;
-    if($('#myVideo').prop('paused')){
-
-      window.scrollTo(0, 0);
-      window.addEventListener('scroll', this.disableScroll)
-
-      console.log('Play');
-      this.displayVideo();
-      this.ref.detectChanges();
-      $('#myVideo').trigger('play');
-      if(this.primerEventoFlag){
-        //Cuenta los segundos desde que se hace play en el video
-        var id = setInterval(()=>{
-          //Asigna el valor de la propiedad 'currentTime' a la variable cada 1 segundo
-          this.currentTime = $('#myVideo').prop('this.currentTime');
-          console.log(this.currentTime);
-          //Gatilla eventos cada cierto valor de currentTime
-          if(this.currentTime >= 3){
-            this.hideVideo();
-            $('#myVideo').trigger('pause');
-            this.ref.detectChanges();
-            clearInterval(id); //Detiene intervalo
-          }
-        }, 500)
-      }
-    }else{
-      this.playing= false;
-      console.log('Pause');
-      this.hideVideo();
-      this.ref.detectChanges();
-      $('#myVideo').trigger('pause');
-      window.removeEventListener('scroll', this.disableScroll);
-    }
-
-  }
-  
-  volver() {
-    this._location.back();
-  }
-
   disableScroll(){
     window.scrollTo(0, 0);
-  }
-
-  displayVideo(){
-    this.showVideoFlag = true;
-  }
-
-  hideVideo(){
-    this.showVideoFlag = false;
-    this.ref.detectChanges();
   }
 
 }

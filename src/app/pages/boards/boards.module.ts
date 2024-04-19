@@ -30,6 +30,8 @@ import { CategorizacionNotasAccordionComponent } from './instructions/categoriza
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from "../../../environments/environment";
 import { TimerModule/*TimerComponent*/ } from '../../_metronic/layout2/timer/timer.module';
+import { HeaderModule } from '../../_metronic/layout2/header/header.module';
+import { FooterLabModule } from '../../_metronic/layout2/footer-lab/footer-lab.module';
 import { LoadMaskModule/*LoadMaskComponent*/ } from '../../_metronic/layout2/loadMask/loadMask.module';
 
 const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:4000'*/, options: { transports: ['websocket'], jsonp:false } };
@@ -65,6 +67,8 @@ const config: SocketIoConfig = { url: environment.API_SOCKET/*'http://localhost:
     MatRadioModule,
     DragDropModule,
     TimerModule,
+    HeaderModule,
+    FooterLabModule,
     LoadMaskModule,
     SocketIoModule.forRoot(config)
   ]

@@ -6,106 +6,9 @@
   <app-loadmask [loader]="isLoading" *ngIf="isLoading"></app-loadmask>
   <!-- Fin Seccion Loader--> 
 
-    <!--begin::Header Section-->
-    <div class="mb-0" id="home">
-      <!--begin::Wrapper-->
-      <div class="bgi-no-repeat bgi-size-contain bgi-position-x-center bgi-position-y-bottom landing-dark-bg" style="background-image: url(assets/media/svg/illustrations/landing.svg)">
-        <!--begin::Header-->
-        <div class="landing-header" data-kt-sticky="true" data-kt-sticky-name="landing-header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
-          <!--begin::Container-->
-          <div class="container">
-            <!--begin::Wrapper-->
-            <div class="d-flex align-items-center justify-content-between">
-              <!--begin::Logo-->
-              <div class="d-flex align-items-center flex-equal">
-                <!--begin::Mobile menu toggle-->
-                <!-- <button class="btn btn-icon btn-active-color-primary me-3 d-flex d-lg-none" id="kt_landing_menu_toggle"> -->
-                  <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
-                  <!-- <span class="svg-icon svg-icon-2hx">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor" />
-                      <path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="currentColor" />
-                    </svg>
-                  </span> -->
-                  <!--end::Svg Icon-->
-                <!-- </button> -->
-                <!--<div class="symbol-group symbol-hover mb-3">
-                  <ng-container *ngFor="let usu of usuarios; let i = index;">
-                  <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.title}}">
-                      <span class="symbol-label bg-primary text-inverse-primary fw-bold">{{usu.title.substring(0, 1).toUpperCase()}}</span>
-                  </div>
-                  </ng-container>
-                </div>-->
-                
-                <div class="mb-3" style="
-                margin-left: -5%;float: left;position: absolute;
-                "><h1 style="color: #fff;">{{getDay(etapa)}}</h1></div>
-
-                <div class="container symbol-group symbol-hover mb-3">
-                  <ng-container *ngFor="let usu2 of usuarios_active; let i2 = index;">
-                  <div [ngClass]="mostrarTexto ? 'symbol symbol-auto' : 'symbol symbol-35px symbol-circle'" style="margin-right:10px;" data-bs-toggle="tooltip" title="{{usu2.nombre}}"><!-- (mouseenter)="mostrarTextoCompleto()" (mouseleave)="mostrarInicial()"-->
-                      
-                      <!--<span [ngClass]="usu2.active ? 'symbol-label2 bg-primary text-inverse-primary fw-bold' : 'symbol-label2 bg-gray text-inverse-gray fw-bold'" *ngIf="mostrarTexto">{{usu2.nombre}}</span>-->
-                      <span [ngClass]="usu2.active ? 'symbol-label bg-primary text-inverse-primary fw-bold' : 'symbol-label bg-gray text-inverse-gray fw-bold'" *ngIf="!mostrarTexto">{{usu2.nombre.substring(0, 1).toUpperCase()}}</span>
-
-                  </div>
-                  <span class="symbol-label fw-bold" style="color: #fff;margin-right:20px;">{{usu2.nombre}}</span>
-
-                  </ng-container>
-                </div>
-                <div class="mb-3" style="
-                margin-left: 584px;
-                float: left;
-                position: absolute;
-            "><h1 style="color: #fff;">{{capitalize(etapa)}}</h1></div>
-                <!-- Timer -->
-                <div class="mb-3">
-                  <div>
-                    <app-timer [hr]="hr" [min]="min" [sec]="sec" [ms]="ms" [proyecto_id]="proyecto_id" [rol]="rol" *ngIf="showTimer"></app-timer>
-                  </div>
-                </div>
-                
-                <!--end::Mobile menu toggle-->
-                <!--begin::Logo image-->
-                <!-- <a href="../../demo1/dist/landing.html">
-                  <img alt="Logo" src="assets/media/logos/logo-landing.svg" class="logo-default h-25px h-lg-30px" />
-                  <img alt="Logo" src="assets/media/logos/logo-landing-dark.svg" class="logo-sticky h-20px h-lg-25px" />
-                </a> -->
-                <!--end::Logo image-->
-              </div>
-              <!--end::Logo-->
-              <!--begin::Menu wrapper-->
-              <div class="d-lg-block" id="kt_header_nav_wrapper">
-                <div class="d-lg-block p-5 p-lg-0" data-kt-drawer="true" data-kt-drawer-name="landing-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="200px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_landing_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav_wrapper'}">
-                  <!--begin::Menu-->
-                  <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-500 menu-state-title-primary nav nav-flush fs-5 fw-bold" id="kt_landing_menu">
-                    
-                    <!--end::Menu item-->
-                  </div>
-                  <!--end::Menu-->
-                </div>
-              </div>
-              <!--end::Menu wrapper-->
-              <!--begin::Toolbar-->
-
-              <!--end::Toolbar-->
-            </div>
-            <!--end::Wrapper-->
-          </div>
-          <!--end::Container-->
-        </div>
-        <!--end::Header-->
-      </div>
-      <!--end::Wrapper-->
-      <!--begin::Curve bottom-->
-      <div class="landing-curve landing-dark-color mb-3 mb-lg-3">
-        <svg viewBox="15 12 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 11C3.93573 11.3356 7.85984 11.6689 11.7725 12H1488.16C1492.1 11.6689 1496.04 11.3356 1500 11V12H1488.16C913.668 60.3476 586.282 60.6117 11.7725 12H0V11Z" fill="currentColor"></path>
-        </svg>
-      </div>
-      <!--end::Curve bottom-->
-  </div>
-    <!--end::Header Section-->
+  <!-- Seccion Header-->
+  <app-header [proyecto_id]="proyecto_id" [rol]="rol" [usuarios_active]="usuarios_active" [titulo]="capitalize(etapa)" [paso]="" [dia]="getDay(etapa)" [ms]="ms" [sec]="sec" [min]="min" [hr]="hr" [showTimer]="showTimer"></app-header>
+  <!-- Fin Seccion Header-->
 
     <!--Nuevo diseño-->
     <div class="container-new" *ngIf="etapa == 'principal'">
@@ -121,6 +24,11 @@
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
                   <a (click)="entrar('entender',(fase >= 1))">Entrar</a>
+              </div>
+              <div class="time">
+                <div class="time-text">
+                  {{sumarHoras('dia1')}}
+                </div>
               </div>
           </div>
       </div>
@@ -138,6 +46,11 @@
 
                   <a (click)="entrar('enfoque',(fase >= 9))">Entrar</a>
               </div>
+              <div class="time">
+                <div class="time-text">
+                  {{sumarHoras('dia2')}}
+                </div>
+              </div>
           </div>
       </div>
 
@@ -153,6 +66,11 @@
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
                   <a (click)="entrar('modelo',(fase >= 23))">Entrar</a>
+              </div>
+              <div class="time">
+                <div class="time-text">
+                  {{sumarHoras('dia3')}}
+                </div>
               </div>
           </div>
       </div>
@@ -171,6 +89,11 @@
 
                 <a (click)="entrar('bosquejar',(fase >= 41))">Entrar</a>
             </div>
+            <div class="time">
+              <div class="time-text">
+                {{sumarHoras('dia4')}}
+              </div>
+            </div>
         </div>
     </div>
     
@@ -187,6 +110,11 @@
 
               <a (click)="entrar('decidir',(fase >= 46))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{sumarHoras('dia5')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -202,6 +130,11 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
             <a href="#">Entrar</a>
+        </div>
+        <div class="time">
+          <div class="time-text">
+            00:00
+          </div>
         </div>
     </div>
 </div>
@@ -221,6 +154,11 @@
 
                 <a (click)="ir('/fase1',(fase >= 1))">Entrar</a>
             </div>
+            <div class="time">
+              <div class="time-text">
+                {{getTimePass('dia1_paso1')}}
+              </div>
+            </div>
         </div>
     </div>
 
@@ -236,6 +174,11 @@
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
                 <a (click)="ir('/fase4',(fase >= 4))">Entrar</a>
+            </div>
+            <div class="time">
+              <div class="time-text">
+                {{getTimePass('dia1_paso2')}}
+              </div>
             </div>
         </div>
     </div>
@@ -253,6 +196,11 @@
 
                 <a (click)="ir('/fase6',(fase >= 6))">Entrar</a>
             </div>
+            <div class="time">
+              <div class="time-text">
+                {{getTimePass('dia1_paso3')}}
+              </div>
+            </div>
         </div>
     </div>
     
@@ -268,6 +216,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase8',(fase >= 8))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia1_paso4')}}
+            </div>
           </div>
       </div>
   </div>
@@ -288,6 +241,11 @@
 
               <a (click)="ir('/fase9',(fase >= 9))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia2_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -303,6 +261,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase13',(fase >= 13))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia2_paso2')}}
+            </div>
           </div>
       </div>
   </div>
@@ -320,6 +283,11 @@
 
               <a (click)="ir('/fase15',(fase >= 15))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia2_paso3')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -335,6 +303,11 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
             <a (click)="ir('/fase19',(fase >= 19))">Entrar</a>
+        </div>
+        <div class="time">
+          <div class="time-text">
+            {{getTimePass('dia2_paso4')}}
+          </div>
         </div>
     </div>
 </div>
@@ -352,6 +325,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase21',(fase >= 21))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia2_paso5')}}
+        </div>
       </div>
   </div>
 </div>
@@ -371,6 +349,11 @@
 
               <a (click)="ir('/fase23',(fase >= 23))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia3_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -386,6 +369,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase25',(fase >= 25))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia3_paso2')}}
+            </div>
           </div>
       </div>
   </div>
@@ -403,6 +391,11 @@
 
               <a (click)="ir('/fase27',(fase >= 27))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia3_paso3')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -418,6 +411,11 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
             <a (click)="ir('/fase29',(fase >= 29))">Entrar</a>
+        </div>
+        <div class="time">
+          <div class="time-text">
+            {{getTimePass('dia3_paso4')}}
+          </div>
         </div>
     </div>
 </div>
@@ -436,6 +434,11 @@
 
           <a (click)="ir('/fase31',(fase >= 31))">Entrar</a>
       </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso5')}}
+        </div>
+      </div>
   </div>
 </div>
   
@@ -451,6 +454,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase33',(fase >= 33))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso6')}}
+        </div>
       </div>
   </div>
 </div>
@@ -468,6 +476,11 @@
 
           <a (click)="ir('/fase35',(fase >= 35))">Entrar</a>
       </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso7')}}
+        </div>
+      </div>
   </div>
 </div>
   
@@ -484,6 +497,11 @@
 
           <a (click)="ir('/fase37',(fase >= 37))">Entrar</a>
       </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso8')}}
+        </div>
+      </div>
   </div>
 </div>
   
@@ -499,6 +517,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase39',(fase >= 39))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia3_paso9')}}
+        </div>
       </div>
   </div>
 </div>
@@ -518,6 +541,11 @@
 
               <a (click)="ir('/fase41',(fase >= 41))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia4_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -533,6 +561,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase42',(fase >= 42))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia4_paso2')}}
+            </div>
           </div>
       </div>
   </div>
@@ -550,6 +583,11 @@
 
               <a (click)="ir('/fase43',(fase >= 43))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia4_paso3')}}
+            </div>
+          </div>
       </div>
   </div>
   
@@ -566,6 +604,11 @@
 
             <a (click)="ir('/fase44',(fase >= 44))">Entrar</a>
         </div>
+        <div class="time">
+          <div class="time-text">
+            {{getTimePass('dia4_paso4')}}
+          </div>
+        </div>
     </div>
 </div>
 
@@ -581,6 +624,11 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
           <a (click)="ir('/fase45',(fase >= 45))">Entrar</a>
+      </div>
+      <div class="time">
+        <div class="time-text">
+          {{getTimePass('dia4_paso5')}}
+        </div>
       </div>
   </div>
 </div>
@@ -601,6 +649,11 @@
 
               <a (click)="ir('/fase46',(fase >= 46))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia5_paso1')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -617,6 +670,11 @@
 
               <a (click)="ir('/fase47',(fase >= 47))">Entrar</a>
           </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia5_paso2')}}
+            </div>
+          </div>
       </div>
   </div>
 
@@ -632,6 +690,11 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
               <a (click)="ir('/fase48',(fase >= 48))">Entrar</a>
+          </div>
+          <div class="time">
+            <div class="time-text">
+              {{getTimePass('dia5_paso3')}}
+            </div>
           </div>
       </div>
   </div>
