@@ -251,7 +251,9 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(
           'Editor Event :>> Node selected ' + id,
           this.editor.getNodeFromId(id)
+          
         );
+    
         this.writeBoard();
   
         this.getNodeHeight();
@@ -373,7 +375,6 @@ export class MapaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editor.line_path = 1;
     this.editor.editor_mode = 'edit';
     this.editor.draggable_inputs = false;
-
 
     this.editor.start();
 
