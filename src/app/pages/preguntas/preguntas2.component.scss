@@ -42,7 +42,8 @@
 
 .tablero-container{
   min-width: 100%;
-  min-height: 600px;
+  //min-height: 600px;
+  min-height: 60%;
   overflow: auto;
   background-color: #232323;
   position: relative;
@@ -107,14 +108,14 @@
 
 .toolbar-notas {/*
   left: 0;
-  bottom: 0;*//*
-  position: fixed;*/
-  position: absolute;
+  bottom: 0;*/
+  position: fixed;
+  //position: absolute;
   //top: 180px;
   top: 50%;
-  right: 25%;
-  left: 25%;
-  margin: auto;
+  //right: 25%;
+  left: 50%;
+  //margin: auto;
   //right: 60px;
   height:155px;/*
   text-align: center;
@@ -127,6 +128,7 @@
   color: gray;
   font-size: -webkit-xxx-large;
   font-weight: bold;
+  transform: translate(-50%, -50%);
 }
 
 .add{
