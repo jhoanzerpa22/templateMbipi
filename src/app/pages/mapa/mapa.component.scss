@@ -336,8 +336,11 @@ header a {
   border: 2px solid var(--border-color);
 }
 
-.drawflow .drawflow-node .input:hover,
 .drawflow .drawflow-node .output:hover {
+  background: #43b993;
+}
+
+.drawflow .drawflow-node .input:hover {
   background: #4ea9ff;
 }
 
@@ -361,9 +364,9 @@ header a {
 .drawflow-delete {
   border: 2px solid #4ea9ff;
   background: white;
-  color: #4ea9ff;
+  color: #4ea9ff;/*
   -webkit-box-shadow: 0 2px 20px 2px #4ea9ff;
-  box-shadow: 0 2px 20px 2px #4ea9ff;
+  box-shadow: 0 2px 20px 2px #4ea9ff;*/
 }
 
 .drawflow-node .title-box {
@@ -548,8 +551,9 @@ header a {
   width: 20px;
   height: 20px;
   /* background: white; */
+  background: #4682b4;
   border-radius: 50%;
-  border: 0px solid black;
+  border: 1px solid black;
   cursor: crosshair;
   z-index: 1;
   margin-bottom: 5px;
@@ -619,10 +623,10 @@ header a {
   display: block;
   width: 30px;
   height: 30px;
-  background: black;
-  color: white;
+  background: transparent;
+  color: black;
   z-index: 4;
-  border: 2px solid white;
+  border: 0px solid white;
   line-height: 30px;
   font-weight: bold;
   text-align: center;
@@ -637,6 +641,6 @@ header a {
 }
 
 .parent-node .drawflow-delete {
-  right: -15px;
-  top: -15px;
+  right: -5px;
+  top: -5px;
 }
