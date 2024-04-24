@@ -37,6 +37,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() tiempo_paso: any = '';
   @Input() dia_paso: any = '';
+  
+  public showModal = false;
 
   constructor() { }
 
@@ -48,6 +50,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     //si salimos de la pantalla indicamos que usuario salio
     console.log('ngdestroy');
+  }
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 
 }
