@@ -1,30 +1,3 @@
-// VIDEO
-.fondo-video{
-  background-color: black;
-  height: 1125px;
-  width: 100%;
-  position: absolute;
-  margin: -1140px 0 0 0;
-  opacity: 0.9;
-}
-
-.video-container{
-  text-align: center;
-  position: absolute;
-  width: 100%;
-  margin: -1110px 0px 0px 0;
-
-  video{
-    border-radius: 10px;
-    -webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-    -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-    box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-  }
-
-}
-//VIDEO ENDS
-
-
 .texto-nota{
   outline: none;
   //overflow: auto;
@@ -468,6 +441,11 @@
   padding: 20px 20px 40px 20px;
   margin: auto;
   margin-bottom: 70px;
+  
+  display: grid;
+  justify-content: center;
+  align-items: center;
+
 }
 
 :host {
@@ -484,14 +462,6 @@
       opacity: 1;
       transition: opacity 1s ease-in-out;
     }
-  }
-
-  .videoOn{
-    display: inline;
-  }
-
-  .videoOff{
-    display: none;
   }
 
   // #myVideo{
@@ -748,42 +718,6 @@
     position: absolute;
     /*background-color:#000;
     border: 2px solid green;*/
-  }
-
-  @media (max-width: 1200px) {
-    .video-container{
-      text-align: center;
-      position: absolute;
-      width: 100%;
-      margin: -870px 0px 0px 0;
-      padding: 10px;
-
-      video{
-        width: 100%;
-        border-radius: 10px;
-        -webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-        -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-        box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-      }
-    }
-  }
-
-  @media (max-width: 993px) {
-    .video-container{
-      text-align: center;
-      position: absolute;
-      width: 100%;
-      margin: -760px 0px 0px 0;
-      padding: 10px;
-
-      video{
-        width: 100%;
-        border-radius: 10px;
-        -webkit-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-        -moz-box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-        box-shadow: 0px 0px 10px 3px rgba(255,255,255,1);
-      }
-    }
   }
 
   ul,li{
