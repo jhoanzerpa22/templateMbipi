@@ -37,14 +37,14 @@
       </ng-template>
       
       <div class="container" style="align-items: flex-start;">
-        <a (click)="volver()" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
+        <a (click)="volver()" class="btn btn-danger" style="margin: -40px 10px 0px 10px;
         float: left;">Volver</a>
       </div>
   
       <div class="container" style="align-items: flex-end;">
-        <a (click)="siguiente()" class="btn btn-success" style="margin: -15px 10px 0px 10px;
+        <a (click)="siguiente()" class="btn btn-success" style="margin: -40px 10px 0px 10px;
         float: right;" *ngIf="rol == 'Decisor'">Siguiente Etapa</a>
-        <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -15px 10px 0px 10px;
+        <a routerLink="/dashboard-project/{{proyecto_id}}" class="btn btn-danger" style="margin: -40px 10px 0px 10px;
         float: right;">Salir de MbipiLab</a>
       </div>
   

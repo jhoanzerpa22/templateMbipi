@@ -22,9 +22,11 @@
               <div class="content">
                   <h3>Entender</h3>
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
-
-                  <a (click)="entrar('entender',(fase >= 1))">Entrar</a>
               </div>
+              <div class="entrar">
+                <a (click)="entrar('entender',(fase >= 1))">Entrar</a>
+              </div>
+
               <div class="time">
                 <div class="time-text">
                   {{sumarHoras('dia1')}}
@@ -44,7 +46,10 @@
                   <h3>Enfoque solución</h3>
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
-                  <a (click)="entrar('enfoque',(fase >= 9))">Entrar</a>
+              </div>
+              
+              <div class="entrar">
+                <a (click)="entrar('enfoque',(fase >= 9))">Entrar</a>
               </div>
               <div class="time">
                 <div class="time-text">
@@ -64,8 +69,10 @@
               <div class="content">
                   <h3>Modelo de negocios</h3>
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
+              </div>
 
-                  <a (click)="entrar('modelo',(fase >= 23))">Entrar</a>
+              <div class="entrar">
+                <a (click)="entrar('modelo',(fase >= 23))">Entrar</a>
               </div>
               <div class="time">
                 <div class="time-text">
@@ -87,6 +94,8 @@
                 <h3>Bosquejar</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+            </div>
+            <div class="entrar">
                 <a (click)="entrar('bosquejar',(fase >= 41))">Entrar</a>
             </div>
             <div class="time">
@@ -108,6 +117,8 @@
               <h3>Decidir</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="entrar('decidir',(fase >= 46))">Entrar</a>
           </div>
           <div class="time">
@@ -129,6 +140,8 @@
             <h3>Día 6</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+        </div>
+        <div class="entrar">
             <a href="#">Entrar</a>
         </div>
         <div class="time">
@@ -152,8 +165,10 @@
                 <h3>Entender al experto</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
-                <a (click)="ir('/fase1',(fase >= 1))">Entrar</a>
             </div>
+            <div class="entrar">
+                <a (click)="ir('/fase1',(fase >= 1))">Entrar</a>
+            </div>            
             <div class="time">
               <div class="time-text">
                 {{getTimePass('dia1_paso1')}}
@@ -173,6 +188,8 @@
                 <h3>Metas a largo plazo</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+            </div>
+            <div class="entrar">
                 <a (click)="ir('/fase4',(fase >= 4))">Entrar</a>
             </div>
             <div class="time">
@@ -194,6 +211,8 @@
                 <h3>Preguntas del Sprint</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+            </div>
+            <div class="entrar">
                 <a (click)="ir('/fase6',(fase >= 6))">Entrar</a>
             </div>
             <div class="time">
@@ -215,6 +234,8 @@
               <h3>Mapa de experiencia de Usuario</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase8',(fase >= 8))">Entrar</a>
           </div>
           <div class="time">
@@ -239,6 +260,8 @@
               <h3>Necesidades</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase9',(fase >= 9))">Entrar</a>
           </div>
           <div class="time">
@@ -260,6 +283,8 @@
               <h3>Propósito</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase13',(fase >= 13))">Entrar</a>
           </div>
           <div class="time">
@@ -281,6 +306,8 @@
               <h3>Objetivos</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase15',(fase >= 15))">Entrar</a>
           </div>
           <div class="time">
@@ -302,6 +329,8 @@
             <h3>Acciones</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+        </div>
+        <div class="entrar">
             <a (click)="ir('/fase19',(fase >= 19))">Entrar</a>
         </div>
         <div class="time">
@@ -324,6 +353,8 @@
           <h3>Métricas</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+      </div>
+      <div class="entrar">
           <a (click)="ir('/fase21',(fase >= 21))">Entrar</a>
       </div>
       <div class="time">
@@ -347,6 +378,8 @@
               <h3>Segmento Clientes</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase23',(fase >= 23))">Entrar</a>
           </div>
           <div class="time">
@@ -368,6 +401,8 @@
               <h3>Problema</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase25',(fase >= 25))">Entrar</a>
           </div>
           <div class="time">
@@ -389,6 +424,8 @@
               <h3>Solución</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase27',(fase >= 27))">Entrar</a>
           </div>
           <div class="time">
@@ -410,6 +447,8 @@
             <h3>Métricas Clave</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+        </div>
+        <div class="entrar">
             <a (click)="ir('/fase29',(fase >= 29))">Entrar</a>
         </div>
         <div class="time">
@@ -432,6 +471,8 @@
           <h3>Propuesta de Valor</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+      </div>
+      <div class="entrar">
           <a (click)="ir('/fase31',(fase >= 31))">Entrar</a>
       </div>
       <div class="time">
@@ -453,6 +494,8 @@
           <h3>Ventaja Especial</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+      </div>
+      <div class="entrar">
           <a (click)="ir('/fase33',(fase >= 33))">Entrar</a>
       </div>
       <div class="time">
@@ -474,6 +517,8 @@
           <h3>Canales</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+      </div>
+      <div class="entrar">
           <a (click)="ir('/fase35',(fase >= 35))">Entrar</a>
       </div>
       <div class="time">
@@ -495,6 +540,8 @@
           <h3>Estructura de Costos</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+      </div>
+      <div class="entrar">
           <a (click)="ir('/fase37',(fase >= 37))">Entrar</a>
       </div>
       <div class="time">
@@ -516,6 +563,8 @@
           <h3>Flujo de Ingresos</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+      </div>
+      <div class="entrar">
           <a (click)="ir('/fase39',(fase >= 39))">Entrar</a>
       </div>
       <div class="time">
@@ -539,6 +588,8 @@
               <h3>Demos Rápidas</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase41',(fase >= 41))">Entrar</a>
           </div>
           <div class="time">
@@ -560,6 +611,8 @@
               <h3>Ideación de 4 pasos <br>Notas de Repaso</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase42',(fase >= 42))">Entrar</a>
           </div>
           <div class="time">
@@ -581,6 +634,8 @@
               <h3>Ideación de 4 pasos <br>Generar ideas</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase43',(fase >= 43))">Entrar</a>
           </div>
           <div class="time">
@@ -602,6 +657,8 @@
             <h3>Ideación de 4 pasos <br>Crazy 8's</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+        </div>
+        <div class="entrar">
             <a (click)="ir('/fase44',(fase >= 44))">Entrar</a>
         </div>
         <div class="time">
@@ -623,6 +680,8 @@
           <h3>Ideación de 4 pasos <br>Bocetar la solución</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+      </div>
+      <div class="entrar">
           <a (click)="ir('/fase45',(fase >= 45))">Entrar</a>
       </div>
       <div class="time">
@@ -647,6 +706,8 @@
               <h3>Mapa de Calor</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase46',(fase >= 46))">Entrar</a>
           </div>
           <div class="time">
@@ -668,6 +729,8 @@
               <h3>Presentación</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase47',(fase >= 47))">Entrar</a>
           </div>
           <div class="time">
@@ -689,6 +752,8 @@
               <h3>Decisión</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, nostrum!</p>
 
+          </div>
+          <div class="entrar">
               <a (click)="ir('/fase48',(fase >= 48))">Entrar</a>
           </div>
           <div class="time">

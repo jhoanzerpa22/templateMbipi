@@ -534,13 +534,13 @@
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
-      gap: 80px;
+      gap: 10px;//80px;
       margin-bottom: 100px;
   }
   
   .container-new .card{
       position: relative;
-      width: 300px;
+      width: 240px;//300px;
       height: 400px;
       background: var(--clr);
       border-radius: 20px;
@@ -557,8 +557,8 @@
   
   .container-new .card .box .icon {
       position: absolute;
-      width: 140px;
-      height: 140px;
+      width: 100px;//140px;
+      height: 100px;//140px;
       background: var(--clr);
       border-bottom-right-radius: 50%;
   }
@@ -609,9 +609,10 @@
   
   .container-new .card .box .content{
       position: absolute;
-      top: 150px;
+      top: 100px;//150px;
       text-align: center;
       padding: 20px;
+      min-height: 200px;
   }
   
   .container-new .card .box .content h3{
@@ -629,7 +630,15 @@
       margin: 0 0 10px;
   }
   
-  .container-new .card .box .content a{
+  .container-new .card .box .entrar{
+    position: absolute;
+    top: 280px;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+  
+  .container-new .card .box .entrar a{
       background: var(--clr);
       display: inline-block;
       padding: 10px 25px;
@@ -642,7 +651,7 @@
       cursor: pointer;
   }
   
-  .container-new .card .box .content a:hover {
+  .container-new .card .box .entrar a:hover {
       letter-spacing: 0.25em;
   }
   /*Fin activo*/
@@ -650,7 +659,7 @@
   /*Inicio Inactivo*/
   .container-new .card-inactiva{
     position: relative;
-    width: 300px;
+    width: 240px;//300px;
     height: 400px;
     background: #7c7c7c !important;
     border-radius: 20px;
@@ -667,8 +676,8 @@
   
   .container-new .card-inactiva .box .icon {
       position: absolute;
-      width: 140px;
-      height: 140px;
+      width: 100px;//140px;
+      height: 100px;//140px;
       background: #7c7c7c !important;
       border-bottom-right-radius: 50%;
   }
@@ -719,9 +728,10 @@
   
   .container-new .card-inactiva .box .content{
       position: absolute;
-      top: 150px;
+      top: 100px;//150px;
       text-align: center;
       padding: 20px;
+      min-height: 200px;
   }
   
   .container-new .card-inactiva .box .content h3{
@@ -737,9 +747,17 @@
       font-size: 0.95em;
       opacity: 0.75;
       margin: 0 0 10px;
-  }
+  }  
   
-  .container-new .card-inactiva .box .content a{  
+  .container-new .card-inactiva .box .entrar{
+    position: absolute;
+    top: 280px;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+
+  .container-new .card-inactiva .box .entrar a{  
       background: #7c7c7c !important;
       display: inline-block;
       padding: 10px 25px;
@@ -752,7 +770,7 @@
       cursor: no-drop;
   }
   
-  .container-new .card-inactiva .box .content a:hover {
+  .container-new .card-inactiva .box .entrar a:hover {
       letter-spacing: 0.25em;
   }
   /*fin inactivo*/
