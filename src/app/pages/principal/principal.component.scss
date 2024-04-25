@@ -534,13 +534,13 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 80px;
+    gap: 10px;//80px;
     margin-bottom: 100px;
 }
 
 .container-new .card{
     position: relative;
-    width: 300px;
+    width: 240px;//300px;
     height: 400px;
     background: var(--clr);
     border-radius: 20px;
@@ -557,8 +557,8 @@
 
 .container-new .card .box .icon {
     position: absolute;
-    width: 140px;
-    height: 140px;
+    width: 110px;//140px;
+    height: 110px;//140px;
     background: var(--clr);
     border-bottom-right-radius: 50%;
 }
