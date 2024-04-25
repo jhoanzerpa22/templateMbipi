@@ -720,15 +720,15 @@
     border: 2px solid green;*/
   }
 
-  ul,li{
+  .lean-container ul,li{
     list-style:none;
   }
-  ul{
+  .lean-container ul{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
-  ul li{
+  .lean-container ul li{
     text-decoration:none;
     color:#000;
     background:#ffc;
@@ -743,31 +743,31 @@
     transition: transform .15s linear;
   }
   
-  ul li:nth-child(even){
+  .lean-container ul li:nth-child(even){
     transform:rotate(4deg);
     position:relative;
     top:5px;
     background:#cfc;
   }
-  ul li:nth-child(3n){
+  .lean-container ul li:nth-child(3n){
     transform:rotate(-3deg);
     position:relative;
     top:-5px;
     background:#ccf;
   }
-  ul li:nth-child(5n){
+  .lean-container ul li:nth-child(5n){
     transform:rotate(5deg);
     position:relative;
     top:-10px;
   }
   
-  ul li:hover,ul li:focus{
+  .lean-container ul li:hover,ul li:focus{
     box-shadow:10px 10px 7px rgba(0,0,0,.7);
     transform: scale(1.25);
     position:relative;
     z-index:5;
   }
   
-  ul li{
+  .lean-container ul li{
     margin:1em;
   }
