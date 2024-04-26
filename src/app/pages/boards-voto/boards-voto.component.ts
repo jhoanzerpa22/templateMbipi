@@ -15,7 +15,7 @@ declare var jQuery: any;
   selector: 'app-boards-voto',
   templateUrl: './boards-voto.component.html',
   styleUrls: ['./boards-voto.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardsVotoComponent implements OnInit, AfterViewInit, OnDestroy {
