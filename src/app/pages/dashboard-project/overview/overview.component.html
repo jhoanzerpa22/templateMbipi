@@ -8,13 +8,13 @@
       <div class="card-header mt-6">
         <!--begin::Card title-->
         <div class="card-title flex-column">
-          <h3 class="fw-bold mb-1">Tasks Summary</h3>
-          <div class="fs-6 fw-semibold text-gray-400">24 Overdue Tasks</div>
+          <h3 class="fw-bold mb-1">Días del Proyecto</h3>
+          <div class="fs-6 fw-semibold text-gray-400">2 Días Completados</div>
         </div>
         <!--end::Card title-->
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
-          <a href="#" class="btn btn-light btn-sm">View Tasks</a>
+          <button class="btn btn-light btn-sm">Ver Días</button>
         </div>
         <!--end::Card toolbar-->
       </div>
@@ -26,8 +26,8 @@
           <!--begin::Chart-->
           <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
             <div class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
-              <span class="fs-2qx fw-bold">237</span>
-              <span class="fs-6 fw-semibold text-gray-400">Total Tasks</span>
+              <span class="fs-2qx fw-bold">6</span>
+              <span class="fs-6 fw-semibold text-gray-400">Total Días</span>
             </div>
             <canvas id="project_overview_chart"></canvas>
           </div>
@@ -37,49 +37,44 @@
             <!--begin::Label-->
             <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
               <div class="bullet bg-primary me-3"></div>
-              <div class="text-gray-400">Active</div>
-              <div class="ms-auto fw-bold text-gray-700">30</div>
+              <div class="text-gray-400">En Curso</div>
+              <div class="ms-auto fw-bold text-gray-700">1</div>
             </div>
             <!--end::Label-->
             <!--begin::Label-->
             <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
               <div class="bullet bg-success me-3"></div>
-              <div class="text-gray-400">Completed</div>
-              <div class="ms-auto fw-bold text-gray-700">45</div>
+              <div class="text-gray-400">Completados</div>
+              <div class="ms-auto fw-bold text-gray-700">2</div>
             </div>
             <!--end::Label-->
             <!--begin::Label-->
             <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
               <div class="bullet bg-danger me-3"></div>
-              <div class="text-gray-400">Overdue</div>
-              <div class="ms-auto fw-bold text-gray-700">0</div>
+              <div class="text-gray-400">Sin iniciar</div>
+              <div class="ms-auto fw-bold text-gray-700">3</div>
             </div>
             <!--end::Label-->
             <!--begin::Label-->
-            <div class="d-flex fs-6 fw-semibold align-items-center">
+            <!--<div class="d-flex fs-6 fw-semibold align-items-center">
               <div class="bullet bg-gray-300 me-3"></div>
               <div class="text-gray-400">Yet to start</div>
               <div class="ms-auto fw-bold text-gray-700">25</div>
-            </div>
+            </div>-->
             <!--end::Label-->
           </div>
           <!--end::Labels-->
         </div>
         <!--end::Wrapper-->
-        <!--begin::Notice-->
+        <!--
         <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6">
-          <!--begin::Wrapper-->
           <div class="d-flex flex-stack flex-grow-1">
-            <!--begin::Content-->
             <div class="fw-semibold">
               <div class="fs-6 text-gray-700">
               <a href="#" class="fw-bold me-1">Invite New .NET Collaborators</a>to create great outstanding business to business .jsp modutr class scripts</div>
             </div>
-            <!--end::Content-->
           </div>
-          <!--end::Wrapper-->
-        </div>
-        <!--end::Notice-->
+        </div>-->
       </div>
       <!--end::Card body-->
     </div>
@@ -94,20 +89,20 @@
       <div class="card-header mt-6">
         <!--begin::Card title-->
         <div class="card-title flex-column">
-          <h3 class="fw-bold mb-1">Tasks Over Time</h3>
+          <h3 class="fw-bold mb-1">Pasos por Tiempo</h3>
           <!--begin::Labels-->
           <div class="fs-6 d-flex text-gray-400 fs-6 fw-semibold">
             <!--begin::Label-->
             <div class="d-flex align-items-center me-6">
             <span class="menu-bullet d-flex align-items-center me-2">
               <span class="bullet bg-success"></span>
-            </span>Complete</div>
+            </span>Completados</div>
             <!--end::Label-->
             <!--begin::Label-->
             <div class="d-flex align-items-center">
             <span class="menu-bullet d-flex align-items-center me-2">
               <span class="bullet bg-primary"></span>
-            </span>Incomplete</div>
+            </span>Sin iniciar</div>
             <!--end::Label-->
           </div>
           <!--end::Labels-->
@@ -116,11 +111,12 @@
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
           <!--begin::Select-->
-          <select name="status" data-control="select2" data-hide-search="true" class="form-select form-select-solid form-select-sm fw-bold w-100px">
-            <option value="1">2020 Q1</option>
-            <option value="2">2020 Q2</option>
-            <option value="3" selected="selected">2020 Q3</option>
-            <option value="4">2020 Q4</option>
+          <select name="status" data-control="select2" data-hide-search="true" class="form-select form-select-solid form-select-sm fw-bold w-150px">
+            <option value="1">2024 Enero</option>
+            <option value="2">2024 Febrero</option>
+            <option value="3">2024 Marzo</option>
+            <option value="4">2024 Abril</option>
+            <option value="5" selected="selected">2024 Mayo</option>
           </select>
           <!--end::Select-->
         </div>
