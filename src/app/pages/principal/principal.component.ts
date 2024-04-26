@@ -14,7 +14,7 @@ declare var jQuery: any;
   selector: 'app-principal',
   templateUrl: './principal.component.html',
   styleUrls: ['./principal2.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -109,6 +109,13 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
       //console.log('params',params);
       this.proyecto_id = params['id'];
       this.getProyect();
+    });
+    
+    this.route.queryParams.subscribe(params2 => {
+      const etapa = params2['etapa'];
+      console.log('Etapa:', etapa);
+      this.etapa = etapa && etapa != '' && etapa != undefined ? etapa : 'principal';
+      this.ref.detectChanges();
     });
     
     this.socketWebService.ioSocket.connect();
@@ -257,6 +264,7 @@ export class PrincipalComponent implements OnInit, AfterViewInit, OnDestroy {
   entrar(ruta: any, valid: boolean) {
     //this._router.navigate(['/principal/'+ruta]);
     if(valid){
+    this._router.navigate([], { queryParams: { etapa: ruta } });
     this.etapa = ruta;
     this.ref.detectChanges();
     }

@@ -14,7 +14,7 @@ declare var jQuery: any;
   selector: 'app-scope-print',
   templateUrl: './scope_print.component.html',
   styleUrls: ['./scope_print.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScopePrintComponent implements OnInit, AfterViewInit, OnDestroy {

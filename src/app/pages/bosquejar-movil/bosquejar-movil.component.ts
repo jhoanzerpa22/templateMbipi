@@ -17,7 +17,7 @@ declare var jQuery: any;
   selector: 'app-bosquejar-movil',
   templateUrl: './bosquejar-movil.component.html',
   styleUrls: ['./bosquejar-movil.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BosquejarMovilComponent implements OnInit, AfterViewInit, OnDestroy {
