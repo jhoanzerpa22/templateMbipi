@@ -14,7 +14,7 @@ declare var jQuery: any;
   selector: 'app-scope',
   templateUrl: './scope.component.html',
   styleUrls: ['./scope.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScopeComponent implements OnInit, AfterViewInit, OnDestroy {

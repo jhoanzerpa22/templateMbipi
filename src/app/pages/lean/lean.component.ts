@@ -14,7 +14,7 @@ declare var jQuery: any;
   selector: 'app-lean',
   templateUrl: './lean.component.html',
   styleUrls: ['./lean.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LeanComponent implements OnInit, AfterViewInit, OnDestroy {

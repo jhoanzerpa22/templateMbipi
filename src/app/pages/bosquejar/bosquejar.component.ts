@@ -17,7 +17,7 @@ declare var jQuery: any;
   selector: 'app-bosquejar',
   templateUrl: './bosquejar.component.html',
   styleUrls: ['./bosquejar.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BosquejarComponent implements OnInit, AfterViewInit, OnDestroy {

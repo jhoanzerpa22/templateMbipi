@@ -13,7 +13,7 @@ declare var jQuery: any;
   selector: 'app-boards-default',
   templateUrl: './boards-default.component.html',
   styleUrls: ['./boards-default.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardsDefaultComponent implements OnInit, AfterViewInit, OnDestroy {

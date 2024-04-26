@@ -14,7 +14,7 @@ declare var jQuery: any;
   selector: 'app-propositos-voto',
   templateUrl: './propositos-voto.component.html',
   styleUrls: ['./propositos-voto.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PropositosVotoComponent implements OnInit, AfterViewInit, OnDestroy {

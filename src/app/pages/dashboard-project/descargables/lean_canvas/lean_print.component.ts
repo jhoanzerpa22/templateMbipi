@@ -14,7 +14,7 @@ declare var jQuery: any;
   selector: 'app-lean-print',
   templateUrl: './lean_print.component.html',
   styleUrls: ['./lean_print.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LeanPrintComponent implements OnInit, AfterViewInit, OnDestroy {

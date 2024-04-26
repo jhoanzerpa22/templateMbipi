@@ -15,7 +15,7 @@ declare var jQuery: any;
   selector: 'app-metas-voto',
   templateUrl: './metas-voto.component.html',
   styleUrls: ['./metas-voto.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MetasVotoComponent implements OnInit, AfterViewInit, OnDestroy {

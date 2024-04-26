@@ -15,7 +15,7 @@ declare var jQuery: any;
   selector: 'app-boards',
   templateUrl: './boards.component.html',
   styleUrls: ['./boards.component.scss'],
-  encapsulation  : ViewEncapsulation.None,
+  //encapsulation  : ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardsComponent implements OnInit, AfterViewInit, OnDestroy {
