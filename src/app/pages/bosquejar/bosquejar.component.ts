@@ -402,7 +402,7 @@ onRemove(event: any) {
 
 
   continue() {
-    Swal.fire({
+    /*Swal.fire({
       text: "Felicitaciones! Has finalizado el día 4 – Bosquejar, ahora puedes continuar con el siguiente día",
       icon: "success",
       buttonsStyling: false,
@@ -410,7 +410,7 @@ onRemove(event: any) {
       customClass: {
         confirmButton: "btn btn-primary"
       }
-    });
+    });*/
 
     this._router.navigate(['/proyect-init/'+this.proyecto_id]);
   }
