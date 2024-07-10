@@ -1,71 +1,77 @@
   <div class="" style="overflow: hidden;">
   
-  <div class="container scope-container">
-      <div class="categoria-necesidades">
-        Necesidades
+    <div class="container scope-container">
+    
+      <div class="row">
+        <div class="categoria-necesidades">
+          Necesidades
+          
+          <div class="left-necesidades">
+            Dolores
+          <ul>
+            <li *ngFor="let nec of necesidades_d">
+                <h2 class="texto-nota">{{nec.content}}</h2>
+            </li>
+          </ul>
+          </div>
+          <div class="right-necesidades">
+          Motivadores
+          <ul>
+            <li *ngFor="let nec2 of necesidades_m">
+                <h2 class="texto-nota">{{nec2.content}}</h2>
+            </li>
+          </ul>
+          </div>
+        </div>
+        <div class="categoria-propositos">
+          Propósito
+          <ul>
+            <li *ngFor="let pro of propositos">
+                <h2 class="texto-nota">{{pro.content}}</h2>
+            </li>
+          </ul>
+        </div>
+        <div class="categoria-objetivos">
+          Objetivos
+          <div class="left-objetivos">
+          Cortos
+          <ul>
+            <li *ngFor="let obj of objetivos_c">
+                <h2 class="texto-nota">{{obj.content}}</h2>
+            </li>
+          </ul>
+          
+          </div>
+          <div class="right-objetivos">
+            Largos
+          <ul>
+            <li *ngFor="let obj_l of objetivos_l">
+                <h2 class="texto-nota">{{obj_l.content}}</h2>
+            </li>
+          </ul>
+        </div>
+        </div>
+        </div>
         
-        <div class="left-necesidades">
-          Dolores
-        <ul class="notas-listas">
-          <li *ngFor="let nec of necesidades_d">
-              <h2 class="texto-nota">{{nec.content}}</h2>
-          </li>
-        </ul>
+        <div class="row">
+        <div class="categoria-acciones">
+          Acciones
+          <ul>
+            <li *ngFor="let acc of acciones">
+                <h2 class="texto-nota">{{acc.content}}</h2>
+            </li>
+          </ul>
         </div>
-        <div class="right-necesidades">
-        Motivadores
-        <ul class="notas-listas">
-          <li *ngFor="let nec2 of necesidades_m">
-              <h2 class="texto-nota">{{nec2.content}}</h2>
-          </li>
-        </ul>
+        <div class="categoria-metricas">
+          Métricas
+          <ul>
+            <li *ngFor="let me of metricas">
+                <h2 class="texto-nota">{{me.content}}</h2>
+            </li>
+          </ul>
         </div>
-      </div>
-      <div class="categoria-propositos">
-        Propósito
-        <ul class="notas-listas">
-          <li *ngFor="let pro of propositos">
-              <h2 class="texto-nota">{{pro.content}}</h2>
-          </li>
-        </ul>
-      </div>
-      <div class="categoria-objetivos">
-        Objetivos
-        <div class="left-objetivos">
-        Cortos
-        <ul class="notas-listas">
-          <li *ngFor="let obj of objetivos_c">
-              <h2 class="texto-nota">{{obj.content}}</h2>
-          </li>
-        </ul>
-        
         </div>
-        <div class="right-objetivos">
-          Largos
-        <ul class="notas-listas">
-          <li *ngFor="let obj_l of objetivos_l">
-              <h2 class="texto-nota">{{obj_l.content}}</h2>
-          </li>
-        </ul>
-      </div>
-      </div>
-      <div class="categoria-acciones">
-        Acciones
-        <ul class="notas-listas">
-          <li *ngFor="let acc of acciones">
-              <h2 class="texto-nota">{{acc.content}}</h2>
-          </li>
-        </ul>
-      </div>
-      <div class="categoria-metricas">
-        Métricas
-        <ul class="notas-listas">
-          <li *ngFor="let me of metricas">
-              <h2 class="texto-nota">{{me.content}}</h2>
-          </li>
-        </ul>
-      </div>
-  </div>
+    </div>
   <!--end::Highlight-->
 <!--end::Scrolltop-->
 </div>

@@ -65,16 +65,21 @@
 											</div>
 											<!--begin::Modal header-->
 											<!--begin::Modal body-->
-											<div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+											<div class="modal-body scroll-y pt-0 pb-15" #scope><!--mx-5 mx-xl-18-->
 												<!--begin::Heading-->
-												<div class="text-center mb-13">
+												<div class="text-end">
+													{{getFechaFormateada()}}
+												</div>
+												<div class="text-center">
 													<!--begin::Title-->
+													<img src="./assets/media/logos/Logo_mbipi.png" alt="Mbipi logo"/>
+													<h1>{{proyecto.nombre}}</h1>
 													<h1 class="mb-3">Scope Canvas</h1>
 													<!--end::Title-->
 												</div>
 												<!--end::Heading-->
 												<!--begin::Users-->
-												<div class="mb-15" #scope>
+												<div class="mb-15">
                           
                           <app-scope-print [proyecto_id]="proyecto_id"></app-scope-print>
                           <img #canvas_scope>
@@ -117,16 +122,21 @@
 											</div>
 											<!--begin::Modal header-->
 											<!--begin::Modal body-->
-											<div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+											<div class="modal-body scroll-y pt-0 pb-15" #lean><!--mx-5 mx-xl-18-->
 												<!--begin::Heading-->
-												<div class="text-center mb-13">
+												<div class="text-end">
+													{{getFechaFormateada()}}
+												</div>
+												<div class="text-center">
 													<!--begin::Title-->
+													<img src="./assets/media/logos/Logo_mbipi.png" alt="Mbipi logo"/>
+													<h1>{{proyecto.nombre}}</h1>
 													<h1 class="mb-3">Lean Canvas</h1>
 													<!--end::Title-->
 												</div>
 												<!--end::Heading-->
 												<!--begin::Users-->
-												<div class="mb-15" #lean>
+												<div class="mb-15">
 													<!--begin::List-->
                           <app-lean-print [proyecto_id]="proyecto_id"  *ngIf="!showDownloadLean"></app-lean-print>
                           <img #canvas_lean>
