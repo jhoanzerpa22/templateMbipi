@@ -108,4 +108,12 @@ export class DashboardComponent implements OnInit {
     return '' + (d <= 9 ? '0' + d : d) + ' ' + m + ', ' + y;
 }
 
+imgError(ev: any){
+
+  let source = ev.srcElement;
+  let imgSrc = 'assets/media/svg/brand-logos/plurk.svg';
+
+  source.src = imgSrc;
+}
+
 }
