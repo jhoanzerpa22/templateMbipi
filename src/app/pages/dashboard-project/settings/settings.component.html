@@ -18,27 +18,28 @@
           <label class="col-lg-4 col-form-label fw-bold fs-6">Proyecto</label>
           <div class="col-lg-8">
             <!--begin::Image input-->
-<div class="image-input image-input-empty" data-kt-image-input="true" [style.background-image]="'url(./assets/media/avatars/blank.png'">
+            <div class="image-input image-input-empty" data-kt-image-input="true" [style.background-image]="'url(./assets/media/avatars/blank.png'">
   
-  <div
-  class="image-input-wrapper w-125px h-125px"
-  [style.background-image]="
-    'url(assets/media/svg/brand-logos/volicity-9.svg'
-  "
-  ></div>
-  <!--end::Image preview wrapper-->
+            <div
+            class="image-input-wrapper w-125px h-125px"
+            [style.background-image]="
+              'url(assets/media/svg/brand-logos/volicity-9.svg'" *ngIf="!imgView"
+            ></div>
+            <img [src]="imgView" (error)="imgError($event)" *ngIf="imgView"
+                                        class="image-input-wrapper w-125px h-125px">
+            <!--end::Image preview wrapper-->
 
   <!--begin::Edit button-->
   <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
   data-kt-image-input-action="change"
   data-bs-toggle="tooltip"
   data-bs-dismiss="click"
-  title="Change avatar">
+  title="Cambiar logo">
       <i class="fas fa-pencil fs-6"><span class="path1"></span><span class="path2"></span></i>
 
       <!--begin::Inputs-->
-      <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-      <input type="hidden" name="avatar_remove" />
+      <input type="file" id="fileLogo" formControlName="logo" #logoInput name="logo" accept=".png, .jpg, .jpeg" (change)="onFileSelected($event)">
+      <input type="hidden" name="logo_remove" />
       <!--end::Inputs-->
   </label>
   <!--end::Edit button-->
@@ -48,7 +49,7 @@
   data-kt-image-input-action="cancel"
   data-bs-toggle="tooltip"
   data-bs-dismiss="click"
-  title="Cancel avatar">
+  title="Cancelar logo">
       <i class="ki-outline ki-cross fs-3"></i>
   </span>
   <!--end::Cancel button-->
@@ -58,7 +59,7 @@
   data-kt-image-input-action="remove"
   data-bs-toggle="tooltip"
   data-bs-dismiss="click"
-  title="Remove avatar">
+  title="Quitar Logo">
       <i class="ki-outline ki-cross fs-3"></i>
   </span>
   <!--end::Remove button-->

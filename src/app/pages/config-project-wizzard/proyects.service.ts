@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from "../../../environments/environment";
 
@@ -33,8 +33,18 @@ export class ProyectsService
         return this.http.post(environment.API_G + baseUrl, data);
       }
 
-      update(id: any, data: any): Observable<any> {
+      /*update(id: any, data: any): Observable<any> {
         return this.http.put(environment.API_G +`${baseUrl}/${id}`, data);
+      }*/
+      
+      update(id: any, data: any): Observable<any> {
+          
+        const httpOptions4 = {
+            headers: new HttpHeaders({ "Accept": 'application/json', 'enctype': 'multipart/form-data', }),
+          };
+
+        return this.http.put(environment.API_G +`${baseUrl}/${id}`, data, httpOptions4);
+    
       }
 
       updateMembers(id: any, data: any): Observable<any> {
