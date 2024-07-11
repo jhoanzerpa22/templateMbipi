@@ -216,6 +216,14 @@ export class DashboardProjectComponent implements OnInit {
           }
       );
   }
+  
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/media/svg/brand-logos/volicity-9.svg';
+
+    source.src = imgSrc;
+  }
 
   add(){
     const search_members = this.form.get('search_members')?.value;

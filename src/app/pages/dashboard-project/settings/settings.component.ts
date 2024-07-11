@@ -21,6 +21,12 @@ export class SettingsComponent implements OnInit {
   public formProyect: FormGroup;
   public formData: any;
 
+  selectedFile: any;
+  pdfURL: any;
+
+  imageChangedEvent: any = '';
+  imgView: any;
+
   constructor(
     private route: ActivatedRoute,
     private _proyectsService: ProyectsService,
@@ -32,7 +38,8 @@ export class SettingsComponent implements OnInit {
       'nombre'          : [''],
       'descripcion'      : [''],
       'proyecto_tipo_id'   : [''],
-      'aplicacion_tipo': ['']
+      'aplicacion_tipo': [''],
+      'logo': ['']
     });
   }
 
@@ -46,6 +53,14 @@ export class SettingsComponent implements OnInit {
     });
     console.log(this.route.params)
   }
+  
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/media/svg/brand-logos/volicity-9.svg';
+
+    source.src = imgSrc;
+  }
 
   updateData(){
 
@@ -55,8 +70,15 @@ export class SettingsComponent implements OnInit {
       'proyecto_tipo_id'  : this.formProyect.value.proyecto_tipo_id,
       'aplicacion_tipo'   : this.formProyect.value.aplicacion_tipo
     }
+
+    const formData = new FormData();
+     
+    formData.append("file", this.selectedFile);
+    
+    formData.append('data', JSON.stringify(this.formData));
+    
     console.log(this.formData)
-    this._proyectsService.update(this.proyecto_id, this.formData)
+    this._proyectsService.update(this.proyecto_id, formData)
       .subscribe(
         (response) =>{
           console.log(response);
@@ -101,7 +123,21 @@ export class SettingsComponent implements OnInit {
           }
       );
   }
+ 
+onFileSelected(event: any){
 
+  this.imageChangedEvent = event;
+  this.selectedFile = <File>event.target.files[0];
+
+  var reader = new FileReader();
+  reader.readAsDataURL(this.selectedFile);
+  reader.onload = (_event) => {
+    console.log(reader.result);
+    this.imgView = reader.result;
+    //this.pdfURL = this.selectedFile.name;
+    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    }
+}
 
   setValueEdit(data:any)
     {
@@ -109,8 +145,13 @@ export class SettingsComponent implements OnInit {
       'nombre'          : data.nombre,
       'descripcion'      : data.descripcion,
       'proyecto_tipo_id'      : data.proyecto_tipo_id,
-      'aplicacion_tipo'  : data.aplicacion_tipo
+      'aplicacion_tipo'  : data.aplicacion_tipo,
+      'logo': ''
     });
+
+    if(data.logo != ''){
+      this.imgView = data.logo;
+    }
    }
 
 }
