@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectsService } from '../../config-project-wizzard/proyects.service';
+import { getCSSVariableValue } from '../../../_metronic/kt/_utils';
 
 @Component({
   selector: 'app-overview',
@@ -15,6 +16,10 @@ export class OverviewComponent implements OnInit {
   dias: number = 0;
   completadas: number = 0;
   curso: number = 0;
+  
+  chartOptions: any = {};
+  public miembros: any = [];
+  public proyecto_recursos: any = [];
 
   constructor(private ref: ChangeDetectorRef, private route: ActivatedRoute, private _proyectsService: ProyectsService) { 
     /*this.route.queryParams.subscribe(params => {
@@ -24,12 +29,54 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    this.getChartOptions([]);
     this.route.params.subscribe(params => {
       //console.log('params',params);
       this.proyecto_id = params['id'];
       this.getProyect();
     });
   }
+
+  getChartOptions(miembros?: any) {
+    const labelColor = getCSSVariableValue('--bs-gray-500');
+    const borderColor = getCSSVariableValue('--bs-gray-200');
+    const baseColor = getCSSVariableValue('--bs-primary');
+    const secondaryColor = getCSSVariableValue('--bs-gray-300');
+
+    let labels: any = [];
+    let values: any = [];
+
+    for (let index = 0; index < miembros.length; index++) {
+      labels.push(miembros[index].label);
+      values.push(miembros[index].value);
+    }
+
+    this.chartOptions = {
+      series: miembros.length > 0 ? values : [],
+      chart: {
+        type: "donut",
+        width: 400,
+        height: 400
+      },
+      labels: miembros.length > 0 ? labels : [],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 400,
+              height: 400
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+  }
+  
 
   getDias(etapa_activa: any){
     let dias: number = 6;
@@ -113,6 +160,33 @@ export class OverviewComponent implements OnInit {
       .subscribe(
           (response) => {
             this.proyecto = response;
+            this.miembros = this.proyecto.proyecto_equipo.equipo_usuarios;
+            this.proyecto_recursos = this.proyecto.proyecto_recursos;
+
+            let miembros: any = [];
+
+            for (let index = 0; index < this.miembros.length; index++) {
+
+              let label: any = (this.miembros[index].correo ? this.miembros[index].correo : '');
+              let value: number = 0; 
+              
+              if(this.miembros[index].eq_usu_plat != null){
+                label = this.miembros[index].eq_usu_plat.nombre;
+
+                const filter_recursos: any = this.proyecto_recursos.filter(
+                  (re: any) => (
+                    re.usuario_id == this.miembros[index].eq_usu_plat.id)
+                  );
+
+                  value = filter_recursos.length;
+
+              }
+
+              miembros.push({label: label, value: value}); 
+            }
+
+            this.getChartOptions(miembros);
+
             this.getDias(this.proyecto.etapa_activa);
             this.ref.detectChanges();
           },

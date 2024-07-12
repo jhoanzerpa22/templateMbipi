@@ -12,6 +12,7 @@ import { ScopePrintComponent } from './descargables/scope_canvas/scope_print.com
 import { LeanPrintComponent } from './descargables/lean_canvas/lean_print.component';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import {MatDialogModule} from '@angular/material/dialog';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 import {
   NgbDropdownModule,
@@ -53,7 +54,8 @@ import {
     WidgetsModule,
     InlineSVGModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgApexchartsModule
   ],
   exports: [MatDialogModule]
 })
