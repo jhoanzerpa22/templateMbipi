@@ -149,8 +149,9 @@ onFileSelected(event: any){
       'logo': ''
     });
 
-    if(data.logo != ''){
-      this.imgView = data.logo;
+    if(data.logo_id > 0){
+      this.imgView = data.cloud_user ? data.cloud_user.secure_url : '';
+      this.ref.detectChanges();
     }
    }
 
