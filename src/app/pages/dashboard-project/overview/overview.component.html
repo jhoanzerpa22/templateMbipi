@@ -89,28 +89,24 @@
       <div class="card-header mt-6">
         <!--begin::Card title-->
         <div class="card-title flex-column">
-          <h3 class="fw-bold mb-1">Pasos por Tiempo</h3>
-          <!--begin::Labels-->
-          <div class="fs-6 d-flex text-gray-400 fs-6 fw-semibold">
-            <!--begin::Label-->
+          <h3 class="fw-bold mb-1">Cantidad de Participación</h3>
+          
+          <!--<div class="fs-6 d-flex text-gray-400 fs-6 fw-semibold">
             <div class="d-flex align-items-center me-6">
             <span class="menu-bullet d-flex align-items-center me-2">
               <span class="bullet bg-success"></span>
             </span>Completados</div>
-            <!--end::Label-->
-            <!--begin::Label-->
+            
             <div class="d-flex align-items-center">
             <span class="menu-bullet d-flex align-items-center me-2">
               <span class="bullet bg-primary"></span>
             </span>Sin iniciar</div>
-            <!--end::Label-->
           </div>
-          <!--end::Labels-->
+          -->
         </div>
         <!--end::Card title-->
         <!--begin::Card toolbar-->
-        <div class="card-toolbar">
-          <!--begin::Select-->
+        <!--<div class="card-toolbar">
           <select name="status" data-control="select2" data-hide-search="true" class="form-select form-select-solid form-select-sm fw-bold w-150px">
             <option value="1">2024 Enero</option>
             <option value="2">2024 Febrero</option>
@@ -118,15 +114,24 @@
             <option value="4">2024 Abril</option>
             <option value="5" selected="selected">2024 Mayo</option>
           </select>
-          <!--end::Select-->
-        </div>
+        </div>-->
         <!--end::Card toolbar-->
       </div>
       <!--end::Card header-->
       <!--begin::Card body-->
       <div class="card-body pt-10 pb-0 px-5">
         <!--begin::Chart-->
-        <div id="kt_project_overview_graph" class="card-rounded-bottom" style="height: 300px"></div>
+        <!--<div id="kt_project_overview_graph" class="card-rounded-bottom" style="height: 300px"></div>-->
+        <!-- begin::Chart-->
+  <div #chartRef id="kt_charts_widget_1_chart" [style.height]="'350px'">
+    <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [labels]="chartOptions.labels"
+    [responsive]="chartOptions.responsive"
+    ></apx-chart>
+  </div>
+  <!-- end::Chart-->
         <!--end::Chart-->
       </div>
       <!--end::Card body-->

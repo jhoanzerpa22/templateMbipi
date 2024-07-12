@@ -101,7 +101,7 @@ export class DescargablesComponent implements OnInit {
       const width = pdf.internal.pageSize.getWidth(); // Ancho de la página del PDF
       const height = pdf.internal.pageSize.getHeight(); // Alto de la página del PDF
 
-      pdf.addImage(imgData, 'PNG', 0, 0, width, height); // Ajusta las coordenadas y dimensiones según sea necesario
+      pdf.addImage(imgData, 'PNG', 0, 0, width, (height / 2)); // Ajusta las coordenadas y dimensiones según sea necesario
       pdf.save('scope.pdf');
     });
     
@@ -138,7 +138,7 @@ export class DescargablesComponent implements OnInit {
       const width = pdf.internal.pageSize.getWidth(); // Ancho de la página del PDF
       const height = pdf.internal.pageSize.getHeight(); // Alto de la página del PDF
 
-      pdf.addImage(imgData, 'PNG', 0, 0, width, height); // Ajusta las coordenadas y dimensiones según sea necesario
+      pdf.addImage(imgData, 'PNG', 0, 0, width, (height / 2)); // Ajusta las coordenadas y dimensiones según sea necesario
       pdf.save('lean.pdf');
 
     });
