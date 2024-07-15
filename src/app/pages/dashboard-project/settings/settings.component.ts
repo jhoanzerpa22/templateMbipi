@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit {
 
   imageChangedEvent: any = '';
   imgView: any;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -113,11 +114,13 @@ export class SettingsComponent implements OnInit {
           (response) => {
             this.proyecto = response;
             this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
-            this.ref.detectChanges();
             console.log(this.proyecto)
             this.setValueEdit(this.proyecto);
+            this.isLoading = false; 
+            this.ref.detectChanges();
           },
           (response) => {
+            this.isLoading = false; 
               // Reset the form
               //this.signUpNgForm.resetForm();
           }

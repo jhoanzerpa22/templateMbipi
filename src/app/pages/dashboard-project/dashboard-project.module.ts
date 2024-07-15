@@ -13,6 +13,7 @@ import { LeanPrintComponent } from './descargables/lean_canvas/lean_print.compon
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import {MatDialogModule} from '@angular/material/dialog';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { LoadMaskModule } from '../../_metronic/layout2/loadMask/loadMask.module';
 
 import {
   NgbDropdownModule,
@@ -55,7 +56,8 @@ import {
     InlineSVGModule,
     ReactiveFormsModule,
     MatDialogModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    LoadMaskModule
   ],
   exports: [MatDialogModule]
 })

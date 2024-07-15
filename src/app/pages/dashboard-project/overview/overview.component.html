@@ -1,3 +1,7 @@
+<!-- Seccion Loader-->  
+<app-loadmask [loader]="isLoading" *ngIf="isLoading"></app-loadmask>
+<!-- Fin Seccion Loader--> 
+
 <!--begin::Row-->
 <div class="row g-6 g-xl-9">
   <!--begin::Col-->
@@ -9,7 +13,7 @@
         <!--begin::Card title-->
         <div class="card-title flex-column">
           <h3 class="fw-bold mb-1">Días del Proyecto</h3>
-          <div class="fs-6 fw-semibold text-gray-400">2 Días Completados</div>
+          <div class="fs-6 fw-semibold text-gray-400">{{completadas}} {{completadas == 1 ? 'Día Completado' : 'Días Completados'}}</div>
         </div>
         <!--end::Card title-->
         <!--begin::Card toolbar-->
@@ -89,7 +93,7 @@
       <div class="card-header mt-6">
         <!--begin::Card title-->
         <div class="card-title flex-column">
-          <h3 class="fw-bold mb-1">Cantidad de Participación</h3>
+          <h3 class="fw-bold mb-1">Participación</h3>
           
           <!--<div class="fs-6 d-flex text-gray-400 fs-6 fw-semibold">
             <div class="d-flex align-items-center me-6">
