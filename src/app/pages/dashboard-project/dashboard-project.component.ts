@@ -48,6 +48,7 @@ export class DashboardProjectComponent implements OnInit {
   parentMessage = "message from parent"
 
   form: FormGroup;
+  isLoading: boolean = true;
 
   constructor(private ref: ChangeDetectorRef, private _proyectsService: ProyectsService,
     private _router: Router,
@@ -209,8 +210,10 @@ export class DashboardProjectComponent implements OnInit {
             this.rol = usuario_proyecto[0].rol;
             this.retrieveUsuarios();
             this.ref.detectChanges();
+            this.isLoading = false; 
           },
           (response) => {
+              this.isLoading = false; 
               // Reset the form
               //this.signUpNgForm.resetForm();
           }

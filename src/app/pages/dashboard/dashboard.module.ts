@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { WidgetsModule } from '../../_metronic/partials';
+import { LoadMaskModule } from '../../_metronic/layout2/loadMask/loadMask.module';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -15,6 +16,7 @@ import { WidgetsModule } from '../../_metronic/partials';
       },
     ]),
     WidgetsModule,
+    LoadMaskModule
   ],
 })
 export class DashboardModule {}
