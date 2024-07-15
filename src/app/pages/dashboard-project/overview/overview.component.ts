@@ -21,6 +21,8 @@ export class OverviewComponent implements OnInit {
   public miembros: any = [];
   public proyecto_recursos: any = [];
 
+  isLoading: boolean = true;
+
   constructor(private ref: ChangeDetectorRef, private route: ActivatedRoute, private _proyectsService: ProyectsService) { 
     /*this.route.queryParams.subscribe(params => {
       const proyecto = params['proyecto'];
@@ -145,7 +147,7 @@ export class OverviewComponent implements OnInit {
 
           }
 
-          dias = dias - completadas;
+          dias = dias - (completadas + curso);
       }
     }
 
@@ -188,9 +190,12 @@ export class OverviewComponent implements OnInit {
             this.getChartOptions(miembros);
 
             this.getDias(this.proyecto.etapa_activa);
+            
+            this.isLoading = false; 
             this.ref.detectChanges();
           },
           (response) => {
+              this.isLoading = false;
               // Reset the form
               //this.signUpNgForm.resetForm();
           }
