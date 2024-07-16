@@ -246,8 +246,39 @@
         </div>
         <!--end::Info-->
         <!--begin::Progress-->
-        <div class="h-4px w-100 bg-light mb-5" data-bs-toggle="tooltip" title="Este proyecto esta {{proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa!= '' && proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa != undefined ? getCompleted(proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa) : '0'}}% completado">
-          <div class="bg-primary rounded h-4px" role="progressbar" style="width: {{proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa!= '' && proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa != undefined ? getCompleted(proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa) : '0'}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+        <!--<div class="h-4px w-100 bg-light mb-5" data-bs-toggle="tooltip" title="Este proyecto esta {{proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa!= '' && proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa != undefined ? getCompleted(proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa) : '0'}}% completado">
+          <div class="bg-primary rounded h-4px" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>-->
+        <div class="d-flex flex-column w-100 mr-2 mb-5">
+          <div
+            class="
+              d-flex
+              align-items-center
+              justify-content-between
+              mb-2
+            "
+          >
+            <span
+              class="text-muted mr-2 font-size-sm font-weight-bold"
+            >
+            {{proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa!= '' && proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa != undefined ? getCompleted(proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa) : '0'}}%
+            </span>
+            <span class="text-muted font-size-sm font-weight-bold">
+              Avance
+            </span>
+          </div>
+          <div class="progress progress-xs w-100 h-4px">
+            <div
+              class="progress-bar bg-primary rounded h-4px"
+              role="progressbar"
+              style="width: {{proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa!= '' && proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa != undefined ? getCompleted(proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa) : '0'}}%"
+              aria-valuenow="50"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              data-bs-toggle="tooltip" 
+              title="Este proyecto esta {{proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa!= '' && proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa != undefined ? getCompleted(proyecto.equipos_equipo.equipo_proyecto[0].etapa_activa) : '0'}}% completado"
+            ></div>
+          </div>
         </div>
         <!--end::Progress-->
         <!--begin::Users-->
