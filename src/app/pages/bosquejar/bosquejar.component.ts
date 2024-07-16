@@ -70,6 +70,7 @@ export class BosquejarComponent implements OnInit, AfterViewInit, OnDestroy {
   showTimerPass: boolean = false;
 
   isLoading: boolean = true;
+  isLoading2: boolean;
   video_url: any = 'http://res.cloudinary.com/tresideambipi/video/upload/v1659722491/videos/video_test_clgg4o.mp4'; 
 
   necesidades_d: any = [];
@@ -118,7 +119,7 @@ onRemove(event: any) {
     
     const loadingSubscr = this.isLoading$
       .asObservable()
-      .subscribe((res) => (this.isLoading = res));
+      .subscribe((res) => (this.isLoading2 = res));
     this.unsubscribe.push(loadingSubscr);
 
     this.socketWebService.outEvenUsersActive.subscribe((res: any) => {
@@ -252,7 +253,7 @@ onRemove(event: any) {
             this.files = [];
             this.socketWebService.emitEventRefresh();
             this.isLoading$.next(false);
-            console.log('data_resp',data);
+            //console.log('data_resp',data);
           },
           (response) => {
             this.isLoading$.next(false);

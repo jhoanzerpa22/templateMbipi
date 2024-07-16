@@ -69,7 +69,7 @@
         position: relative;
         display: block;
         " (click)="enviar()">
-        <ng-container *ngIf="isLoading$ | async">
+        <ng-container *ngIf="isLoading2">
           <span class="indicator-progress" [style.display]="'block'">
             Por favor espere...
             <span
@@ -77,7 +77,7 @@
             ></span>
           </span>
         </ng-container>
-        <ng-container *ngIf="!(isLoading$ | async)">
+        <ng-container *ngIf="!isLoading2">
           <span class="indicator-label">Enviar</span>
         </ng-container>
         </button>
