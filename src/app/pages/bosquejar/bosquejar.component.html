@@ -12,8 +12,13 @@
   
   <div class="container bosquejar-container">
       <div class="categoria-equipo">
-        Equipo
+        
+        <div class="container mb-3 mt-6">
+          <h4 style="color: white;">Equipo</h4>
+        </div>
+          
         <div class="container symbol-group symbol-hover mb-3">
+          
           <ng-container *ngFor="let usu2 of usuarios; let i2 = index;">
           
             <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
@@ -39,7 +44,10 @@
         </div>
       </div>
       <div class="categoria-archivo">
-        Adjuntar
+        
+        <div class="container mb-3 mt-6">
+          <h4 style="color: white;">Adjuntar</h4>
+        </div> 
 
         <ngx-dropzone style="margin: 10px 60px;" (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label style="z-index: 0 !important;">Seleccione las imagenes o arrastrelas!</ngx-dropzone-label>
@@ -84,12 +92,12 @@
         </ng-container>
       </div>
 
-        <div style="margin-top: 50px; display: grid;" *ngIf="showQr">
+        <div style="margin-top: 50px; display: ruby-text;" *ngIf="showQr">
         <ngx-qrcode
-  [elementType]="elementType"
-  [errorCorrectionLevel]="correctionLevel"
-  [value]="urlQr"
-  cssClass="bshadow"></ngx-qrcode>
+        [elementType]="elementType"
+        [errorCorrectionLevel]="correctionLevel"
+        [value]="urlQr"
+        cssClass="bshadow"></ngx-qrcode>
         </div>
         <!--<form [formGroup]='formFiles' enctype="multipart/form-data">
             <input type="file" formControlName="files" name="files[]" id="file" multiple />
