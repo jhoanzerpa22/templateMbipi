@@ -111,7 +111,7 @@
         <!--end::Card title-->
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
-          <select name="status" data-control="select2" data-hide-search="true" class="form-select form-select-solid form-select-sm fw-bold w-150px">
+          <select name="status" data-control="select2" data-hide-search="true" class="form-select form-select-solid form-select-sm fw-bold w-150px" (change)="getParticipacion($event)">
             <option value="1">Día 1</option>
             <option value="2">Día 2</option>
             <option value="3">Día 3</option>

@@ -40,6 +40,93 @@ export class OverviewComponent implements OnInit {
     });
   }
 
+  getParticipacion($event?: any){
+    let dia: any = $event.target.value;
+    
+    let miembros: any = [];
+
+    for (let index = 0; index < this.miembros.length; index++) {
+
+      let label: any = (this.miembros[index].correo ? this.miembros[index].correo : '');
+      let value: number = 0; 
+      
+      if(this.miembros[index].eq_usu_plat != null){
+        label = this.miembros[index].eq_usu_plat.nombre;
+
+        if(dia > 0 && dia < 6){
+
+          switch (dia) {
+            case '1':              
+                  const filter_recursos1: any = this.proyecto_recursos.filter(
+                    (re: any) => (
+                      re.usuario_id == this.miembros[index].eq_usu_plat.id && (re.notascp_id > 0 || re.metaslp_id > 0 || re.preguntasprint_id > 0 || re.mapaux_id > 0)
+                    ));
+          
+                    value = filter_recursos1.length;
+              break;
+              case '2':              
+                    const filter_recursos2: any = this.proyecto_recursos.filter(
+                      (re: any) => (
+                        re.usuario_id == this.miembros[index].eq_usu_plat.id && (re.scopecanvas_necesidades_id > 0 || re.scopecanvas_propositos_id > 0 || re.scopecanvas_objetivos_id > 0 || re.scopecanvas_acciones_id > 0 || re.scopecanvas_metricas_id)
+                      ));
+            
+                      value = filter_recursos2.length;
+                break;
+                case '3':              
+                      const filter_recursos3: any = this.proyecto_recursos.filter(
+                        (re: any) => (
+                          re.usuario_id == this.miembros[index].eq_usu_plat.id && (re.leancanvas_problema_id > 0 || re.leancanvas_clientes_id > 0 || re.leancanvas_solucion_id > 0 || re.leancanvas_metricas_clave_id > 0 || re.leancanvas_propuesta_id || re.leancanvas_ventajas_id || re.leancanvas_canales_id || re.leancanvas_estructura_id || re.leancanvas_flujo_id)
+                        ));
+              
+                        value = filter_recursos3.length;
+                  break;
+                  case '4':
+                        const filter_recursos4: any = this.proyecto_recursos.filter(
+                          (re: any) => (
+                            re.usuario_id == this.miembros[index].eq_usu_plat.id && (re.bosquejar_id > 0 || re.mapa_calor_id > 0)
+                          ));
+                
+                          value = filter_recursos4.length;
+                    break;
+                    case '5':              
+                          const filter_recursos5: any = this.proyecto_recursos.filter(
+                            (re: any) => (
+                              re.usuario_id == this.miembros[index].eq_usu_plat.id && re.bosquejar_voto_id > 0
+                            ));
+                  
+                            value = filter_recursos5.length;
+                      break;
+          
+            default:
+              
+                const filter_recursos: any = this.proyecto_recursos.filter(
+                  (re: any) => (
+                    re.usuario_id == this.miembros[index].eq_usu_plat.id)
+                  );
+        
+                  value = filter_recursos.length;
+              break;
+          }
+        
+        }else if(!dia){
+
+          const filter_recursos_all: any = this.proyecto_recursos.filter(
+            (re: any) => (
+              re.usuario_id == this.miembros[index].eq_usu_plat.id)
+            );
+  
+            value = filter_recursos_all.length;
+        }
+
+      }
+
+      miembros.push({label: label, value: value}); 
+    }
+
+    this.getChartOptions(miembros);
+
+  }
+
   getChartOptions(miembros?: any) {
     const labelColor = getCSSVariableValue('--bs-gray-500');
     const borderColor = getCSSVariableValue('--bs-gray-200');
