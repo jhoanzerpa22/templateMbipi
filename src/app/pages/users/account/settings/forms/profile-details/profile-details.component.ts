@@ -6,6 +6,7 @@ import { RolService } from '../../../../rol.service';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-profile-details',
@@ -17,6 +18,15 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   roles: any = [];
   user: any = [];
   id: any = '';
+
+  imgView: any;
+  selectedFile: any;
+  pdfURL: any;
+  imgOld: any;
+
+  imageChangedEvent: any = '';
+  imageChange: boolean = false;
+  
   private unsubscribe: Subscription[] = [];
   profileForm: FormGroup;
 
@@ -29,7 +39,8 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     private _usersService: UsersService,
     private rolService: RolService,
     private _router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute, 
+    private _location: Location) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
@@ -49,7 +60,8 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
               password  : ['', Validators.required],
               conf_password  : ['', Validators.required],
               fono   : [''],
-              roles: ['', [Validators.required]]
+              roles: ['', [Validators.required]],
+              foto: ['']
             });
             this.getUser(params['id']);
           }else{
@@ -60,7 +72,8 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
               password  : ['', Validators.required],
               conf_password  : ['', Validators.required],
               fono   : [''],
-              roles: ['', [Validators.required]]
+              roles: ['', [Validators.required]],
+              foto: ['']
             });
           }
           
@@ -115,7 +128,38 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
           'conf_password' : '********',
           'fono'      : data.fono,
           'roles': data.user.roles.length > 0 ? data.user.roles[0].id : '',
+          'foto': ''
       });
+      
+      if(data.img != null && data.img != ''){
+        this.imgOld = data.img;
+        this.imgView = /*data.cloud_user ? data.cloud_user.secure_url : ''*/ data.img;
+        this.cdr.detectChanges();
+      }
+  }
+
+  onFileSelected(event: any){
+
+    this.imageChangedEvent = event;
+    this.selectedFile = <File>event.target.files[0];
+  
+    var reader = new FileReader();
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload = (_event) => {
+      console.log(reader.result);
+      this.imgView = reader.result;
+      this.imageChange = true;
+      //this.pdfURL = this.selectedFile.name;
+      //this.formUsuario.controls['img'].setValue(this.selectedFile);
+      }
+  }  
+
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/media/avatars/300-1.jpg';
+
+    source.src = imgSrc;
   }
 
   saveSettings() {
@@ -130,7 +174,6 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     let data_general = {};
     if(this.id){
 
-      
       if(val.password != val.conf_password && (val.password != '********' || val.conf_password != '********')){
     
       }else{
@@ -143,7 +186,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
             'correo_login' : val.correo_login.toLowerCase(),
             'password' : val.password,
             'fono'   : val.fono,
-            'roles'   : val.roles
+            'roles'   : val.roles,
+            'img': this.imgOld,
+            'img_changed': this.imageChange
           }
         }else{
           
@@ -152,17 +197,26 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
             'rut'      : val.rut,
             'correo_login' : val.correo_login.toLowerCase(),
             'fono'   : val.fono,
-            'roles'   : val.roles
+            'roles'   : val.roles,
+            'img': this.imgOld,
+            'img_changed': this.imageChange
           }
         }
+
+        const formData2 = new FormData();
+     
+        formData2.append("file", this.selectedFile);
+        
+        formData2.append('data', JSON.stringify(data_general));
       
-    this._usersService.update(this.id, data_general)
+    this._usersService.update(this.id, formData2)
       .subscribe(
           (response) => {
               this.isLoading$.next(false);
               this.cdr.detectChanges();
               // Navigate to the confirmation required page
-              this._router.navigateByUrl('/users');
+              //this._router.navigateByUrl('/users');
+              this._location.back();
           },
           (response) => {
 
@@ -188,16 +242,24 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
               'correo_login' : val.correo_login.toLowerCase(),
               'password' : val.password,
               'fono'   : val.fono,
-              'roles'   : val.roles
+              'roles'   : val.roles,
+              'img_changed': this.imageChange
             }
 
-          this._usersService.create(data_general)
+            const formData = new FormData();
+     
+            formData.append("file", this.selectedFile);
+            
+            formData.append('data', JSON.stringify(data_general));
+
+          this._usersService.create(formData)
           .subscribe(
               (response) => {
                   // Navigate to the confirmation required page
                   this.isLoading$.next(false);
                   this.cdr.detectChanges();
-                  this._router.navigateByUrl('/users');
+                  //this._router.navigateByUrl('/users');    
+                  this._location.back();
               },
               (response) => {
 

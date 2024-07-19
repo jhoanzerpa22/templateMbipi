@@ -22,6 +22,14 @@ export class AccountComponent implements OnInit {
       }
     });
   }
+  
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/media/avatars/300-1.jpg';
+
+    source.src = imgSrc;
+  }
 
   getUser(id: any): void {
     this._usersService.get(id)
