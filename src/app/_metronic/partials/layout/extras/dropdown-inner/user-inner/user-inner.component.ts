@@ -27,8 +27,16 @@ export class UserInnerComponent implements OnInit, OnDestroy {
     this.user$ = this.auth.currentUserSubject.asObservable();
     const usuario: any = localStorage.getItem('usuario');
     this._user = JSON.parse(usuario);
-    //console.log('usuario',this._user);
+    //console.log('usuario======>',this._user);
     this.setLanguage(this.translationService.getSelectedLanguage());
+  }
+  
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/media/avatars/300-1.jpg';
+
+    source.src = imgSrc;
   }
 
   logout() {
