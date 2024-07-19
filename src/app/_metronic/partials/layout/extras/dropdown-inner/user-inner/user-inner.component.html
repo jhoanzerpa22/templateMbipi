@@ -2,8 +2,8 @@
   <div class="menu-item px-3">
     <div class="menu-content d-flex align-items-center px-3">
       <div class="symbol symbol-50px me-5">
-        <img alt="Logo" src="./assets/media/avatars/300-1.jpg" />
-        <!--<img alt="Logo" [src]="_user.pic" />-->
+        <!--<img alt="Foto" src="./assets/media/avatars/300-1.jpg" />-->
+        <img alt="Foto" [src]="_user.img" (error)="imgError($event)"/>
       </div>
 
       <div class="d-flex flex-column">
@@ -32,15 +32,13 @@
       Cambiar Cuenta
     </a>
   </div>
-
-  <!--
   <div class="menu-item px-5">
-    <a routerLink="/crafted/pages/profile" class="menu-link px-5">
-      My Profile
-    </a>
+    <a routerLink="/users/edit/{{_user.id}}/overview" class="menu-link px-5">
+      Mi Perfil
+    </a><!--crafted/pages/profile-->
   </div>
 
-  <div class="menu-item px-5">
+  <!--<div class="menu-item px-5">
     <a class="menu-link px-5 cursor-pointer" placement="top-start" ngbTooltip="Coming soon">
       <span class="menu-text">My Projects</span>
       <span class="menu-badge">
