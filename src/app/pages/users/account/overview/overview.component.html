@@ -51,7 +51,7 @@
 
       <div class="col-lg-8">
         <a href="#" class="fw-bold fs-6 text-dark text-hover-primary">
-          {{user.user.correo_login}}
+          {{ user && user.user ? user.user.correo_login : ''}}
         </a>
       </div>
     </div>

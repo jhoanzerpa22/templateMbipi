@@ -69,23 +69,21 @@
             </div>
           </div>
         </div>
+        
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label required fw-bold fs-6"
             >Nombre</label
           >
-          <div class="col-lg-8">
-            <div class="row">
-              <div class="col-lg-6 fv-row">
+          <!--<div class="col-lg-8">
+            <div class="row">-->
+              <div class="col-lg-8 fv-row">
                 <input
                   type="text"
-                  class="
-                    form-control form-control-lg form-control-solid
-                    mb-3 mb-lg-0
-                  "
+                  class="form-control form-control-lg form-control-solid"
                   matInput
                   [placeholder]="'Nombre'"
                   [formControlName]="'nombre'"
-                />
+                /><!--mb-3 mb-lg-0-->
               </div>
               <!--<div class="col-lg-6 fv-row">
                 <input
@@ -96,13 +94,12 @@
                   value="Smith"
                 />
               </div>-->
-            </div>
-          </div>
+            <!--</div>
+          </div>-->
         </div>
         <div class="row mb-6">
-          <label class="col-lg-4 col-form-label required fw-bold fs-6"
-            >RUT</label
-          >
+          <label class="col-lg-4 col-form-label fw-bold fs-6"
+            >RUT</label><!--required-->
           <div class="col-lg-8 fv-row">
             <input
               type="text"
@@ -115,7 +112,7 @@
         </div>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6"
-            ><span class="required">Teléfono</span></label
+            ><!--<span class="required">-->Teléfono<!--</span>--></label
           >
           <div class="col-lg-8 fv-row">
             <input
@@ -647,7 +644,7 @@
             </select>
           </div>
         </div>-->
-        <div class="row mb-6">
+        <div class="row mb-6" *ngIf="isAdmin()">
           <label class="col-lg-4 col-form-label fw-bold fs-6"
             ><span class="required">Rol</span></label
           >
