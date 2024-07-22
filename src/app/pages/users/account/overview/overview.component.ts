@@ -14,7 +14,8 @@ export class OverviewComponent implements OnInit {
   constructor(
     private _usersService: UsersService,
     private _router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -33,6 +34,7 @@ export class OverviewComponent implements OnInit {
       .subscribe(
         data => {
           this.user = data;
+          this.ref.detectChanges();
         },
         error => {
           console.log(error);

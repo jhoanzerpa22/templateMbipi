@@ -33,6 +33,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   public filteredRoles: ReplaySubject<any> = new ReplaySubject<[]>(1);
 
   private _onDestroy = new Subject<void>();
+  _user: any;
 
   constructor(private cdr: ChangeDetectorRef, 
     private _formBuilder: FormBuilder,
@@ -45,6 +46,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
     this.unsubscribe.push(loadingSubscr);
+    
+    const usuario: any = localStorage.getItem('usuario');
+    this._user = JSON.parse(usuario);
   }
 
   ngOnInit(): void {
@@ -55,19 +59,19 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
           if(this.id > 0){
             this.profileForm = this._formBuilder.group({
               nombre      : ['', Validators.required],
-              rut      : ['', Validators.required],
+              rut      : [''],
               correo_login    : ['', [Validators.required, Validators.email]],
               password  : ['', Validators.required],
               conf_password  : ['', Validators.required],
               fono   : [''],
-              roles: ['', [Validators.required]],
+              roles: [''],
               foto: ['']
             });
             this.getUser(params['id']);
           }else{
             this.profileForm = this._formBuilder.group({
               nombre      : ['', Validators.required],
-              rut      : ['', Validators.required],
+              rut      : [''],
               correo_login    : ['', [Validators.required, Validators.email]],
               password  : ['', Validators.required],
               conf_password  : ['', Validators.required],
@@ -90,6 +94,15 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
       });
+  }
+
+  isAdmin(){
+    
+    if (this._user.roles.includes('ADMINISTRADOR')) {
+      return true;
+    }
+
+    return false;
   }
 
     getRoles(): void {
@@ -149,6 +162,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
       console.log(reader.result);
       this.imgView = reader.result;
       this.imageChange = true;
+      this.cdr.detectChanges();
       //this.pdfURL = this.selectedFile.name;
       //this.formUsuario.controls['img'].setValue(this.selectedFile);
       }
