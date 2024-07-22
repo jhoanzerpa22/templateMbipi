@@ -70,7 +70,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#kt_modal_upgrade_plan"
               >
-              {{user.user.roles[0].nombre}}
+              {{ user && user.user && user.user.roles.length > 0 ? user.user.roles[0].nombre : ''}}
               </a>
             </div>
 
@@ -126,7 +126,7 @@
                   "
                   class="svg-icon svg-icon-4 me-1"
                 ></span>
-                {{user.user.correo_login}}
+                {{ user && user.user ? user.user.correo_login : ''}}
               </a>
             </div>
           </div>

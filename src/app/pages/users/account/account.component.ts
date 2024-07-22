@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UsersService } from '../users.service';
 
@@ -10,7 +10,8 @@ export class AccountComponent implements OnInit {
   constructor(
     private _usersService: UsersService,
     private _router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private ref: ChangeDetectorRef) {}
     user: any = [];
     id: any = '';
 
@@ -36,6 +37,7 @@ export class AccountComponent implements OnInit {
       .subscribe(
         data => {
           this.user = data;
+          this.ref.detectChanges();
         },
         error => {
           console.log(error);
