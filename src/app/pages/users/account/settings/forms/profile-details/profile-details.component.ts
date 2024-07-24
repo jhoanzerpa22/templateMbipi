@@ -3,6 +3,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UsersService } from '../../../../users.service';
 import { RolService } from '../../../../rol.service';
+import { UserService } from '../../../user.service';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
@@ -41,7 +42,8 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     private rolService: RolService,
     private _router: Router,
     private route: ActivatedRoute, 
-    private _location: Location) {
+    private _location: Location,
+    private userService: UserService) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
@@ -230,6 +232,8 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
               this.cdr.detectChanges();
               // Navigate to the confirmation required page
               //this._router.navigateByUrl('/users');
+              this.userService.setChanges('active');
+                  
               this._location.back();
           },
           (response) => {
@@ -272,6 +276,8 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
                   // Navigate to the confirmation required page
                   this.isLoading$.next(false);
                   this.cdr.detectChanges();
+                  
+                  this.userService.setChanges('active');
                   //this._router.navigateByUrl('/users');    
                   this._location.back();
               },

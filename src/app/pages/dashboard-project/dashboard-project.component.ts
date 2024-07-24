@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { Observable} from 'rxjs';
 import { map, startWith} from 'rxjs/operators';
 import { UsersService } from '../users/users.service';
+import { ProyectService } from './proyect.service';
 
 export interface Usuario {
   id: number;
@@ -51,8 +52,7 @@ export class DashboardProjectComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(private ref: ChangeDetectorRef, private _proyectsService: ProyectsService,
-    private _router: Router,
-    private route: ActivatedRoute, private fb: FormBuilder, private _usersService: UsersService) { }
+    private _router: Router, private route: ActivatedRoute, private fb: FormBuilder, private _usersService: UsersService, private proyectService:ProyectService) { }
 
   ngOnInit(): void {
 
@@ -63,6 +63,8 @@ export class DashboardProjectComponent implements OnInit {
     const usuario: any = localStorage.getItem('usuario');
     let user: any = JSON.parse(usuario);
     this.usuario = user;
+    
+    this.searchOnchangeActive();
 
     //this.rol = user.roles[0];
     this.route.params.subscribe(params => {
@@ -103,6 +105,15 @@ export class DashboardProjectComponent implements OnInit {
         (option.correo != '' && option.correo.toLowerCase().search(filterValue) >= 0)
       )
     );
+  }
+
+  searchOnchangeActive() {
+    this.proyectService._changes$.subscribe((resp:any) => {
+  
+        if (resp && resp == 'active') {
+          this.getProyect();
+        } 
+      });
   }
 
  retrieveUsuarios(): void {
