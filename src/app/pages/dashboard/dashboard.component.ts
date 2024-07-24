@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
 
   dias: number = 0;
   completadas: number = 0;
+  curso: number = 0;
   
   public idEquiposArray:any;
   public correoMiembrosEquipoList:any;
@@ -139,6 +140,7 @@ export class DashboardComponent implements OnInit {
       }
     }
 
+    this.curso += curso;
     this.dias += dias;
     this.completadas += completadas;
   }
