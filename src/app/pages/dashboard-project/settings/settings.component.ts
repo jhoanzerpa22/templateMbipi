@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectsService } from '../../config-project-wizzard/proyects.service';
+import { ProyectService } from '../proyect.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-settings',
@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     private _proyectsService: ProyectsService,
     private ref: ChangeDetectorRef,
     private fb: FormBuilder,
-
+    private proyectService: ProyectService
   ) {
     this.formProyect = this.fb.group({
       'nombre'          : [''],
@@ -92,6 +92,8 @@ export class SettingsComponent implements OnInit {
               confirmButton: "btn btn-primary"
             }
           });
+          
+          this.proyectService.setChanges('active');
         }, (err) =>{
           console.log(err)
           Swal.fire({
@@ -137,6 +139,7 @@ onFileSelected(event: any){
   reader.onload = (_event) => {
     console.log(reader.result);
     this.imgView = reader.result;
+    this.ref.detectChanges();
     //this.pdfURL = this.selectedFile.name;
     //this.formUsuario.controls['img'].setValue(this.selectedFile);
     }
