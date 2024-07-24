@@ -14,6 +14,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import {MatDialogModule} from '@angular/material/dialog';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LoadMaskModule } from '../../_metronic/layout2/loadMask/loadMask.module';
+import { ProyectService } from './proyect.service';
 
 import {
   NgbDropdownModule,
@@ -59,6 +60,7 @@ import {
     NgApexchartsModule,
     LoadMaskModule
   ],
-  exports: [MatDialogModule]
+  exports: [MatDialogModule],
+  providers: [ProyectService]
 })
 export class DashboardProjectModule { }

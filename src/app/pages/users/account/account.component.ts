@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UsersService } from '../users.service';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-account',
@@ -11,11 +12,15 @@ export class AccountComponent implements OnInit {
     private _usersService: UsersService,
     private _router: Router,
     private route: ActivatedRoute,
-    private ref: ChangeDetectorRef) {}
+    private ref: ChangeDetectorRef, 
+    private userService: UserService) {}
     user: any = [];
     id: any = '';
 
   ngOnInit(): void {
+    
+    this.searchOnchangeActive();
+
     this.route.params.subscribe(params => {
       this.id = params['id'];
       if(this.id > 0){
@@ -30,6 +35,15 @@ export class AccountComponent implements OnInit {
     let imgSrc = 'assets/media/avatars/300-1.jpg';
 
     source.src = imgSrc;
+  }
+  
+  searchOnchangeActive() {
+    this.userService._changes$.subscribe((resp:any) => {
+  
+        if (resp && resp == 'active') {
+          this.getUser(this.id);
+        } 
+      });
   }
 
   getUser(id: any): void {

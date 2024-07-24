@@ -32,6 +32,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { OverviewComponent } from './account/overview/overview.component';
 import { AccountComponent } from './account/account.component';
 import { SettingsComponent } from './account/settings/settings.component';
+import { UserService } from './account/user.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -94,7 +95,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         DropdownMenusModule,
         WidgetsModule,
         InlineSVGModule
-    ]
+    ],
+    providers: [UserService]
 })
 export class UsersModule
 {
