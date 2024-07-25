@@ -187,7 +187,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     this.isLoading$.next(true);
 
     const val = this.profileForm.value;
-    let data_general = {};
+    let data_general: any = {};
     if(this.id){
 
       if(val.password != val.conf_password && (val.password != '********' || val.conf_password != '********')){
@@ -229,12 +229,23 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
       .subscribe(
           (response) => {
               this.isLoading$.next(false);
-              this.cdr.detectChanges();
               // Navigate to the confirmation required page
               //this._router.navigateByUrl('/users');
-              this.userService.setChanges('active');
-                  
-              this._location.back();
+
+              if(this.id == this._user.id){
+                this._user.nombre = data_general.nombre;
+                this._user.rut = data_general.rut;
+                this._user.img = this.imgView;
+
+                localStorage.setItem('usuario', JSON.stringify(this._user));
+                //this.userService.setChangeProfile('active');
+                document.location.reload();
+              }else{
+                this.userService.setChanges('active');
+                this.cdr.detectChanges();
+                this._location.back();
+              }
+
           },
           (response) => {
 
