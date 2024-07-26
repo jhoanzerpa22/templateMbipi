@@ -241,18 +241,16 @@
       <!--end::Nav item-->
       <!--begin::Nav item-->
       <!-- <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6" href="../../demo1/dist/apps/projects/files.html">Files</a>
-      </li> -->
-      <!--end::Nav item-->
-      <!--begin::Nav item-->
-      <!-- <li class="nav-item">
         <a class="nav-link text-active-primary py-5 me-6" href="../../demo1/dist/apps/projects/activity.html">Activity</a>
       </li> -->
       <!--end::Nav item-->
       <!--begin::Nav item-->
 	  <li class="nav-item">
         <a class="nav-link text-active-primary py-5 me-6" (click)="setActive('descargables')" [ngClass]="{'active': activeClass  == 'descargables'}" routerLink="descargables">Descargables</a>
-      </li> 
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link text-active-primary py-5 me-6" (click)="setActive('documentos')" [ngClass]="{'active': activeClass  == 'documentos'}" routerLink="documentos" >Archivos</a>
+      </li>
 	  <li class="nav-item">
         <a class="nav-link text-active-primary py-5 me-6" (click)="setActive('settings')" [ngClass]="{'active': activeClass  == 'settings'}" routerLink="settings" *ngIf="rol == 'Decisor'">Ajustes</a>
       </li>
