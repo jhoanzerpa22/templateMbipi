@@ -32,30 +32,6 @@
   </div>
   
   <!--<div class="row g-6 g-xl-9 mb-6 mb-xl-9">
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/folder-document.svg"
-		title="Finance"
-		description="7 files"
-	  ></app-card4>
-	</div>
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/folder-document.svg"
-		title="Customers"
-		description="3 files"
-	  ></app-card4>
-	</div>
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/folder-document.svg"
-		title="CRM Project"
-		description="25 files"
-	  ></app-card4>
-	</div>
-  </div>-->
-  
-  <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
 
   <ng-container *ngFor="let p of proyecto_documents; let i = index;">
 	<div class="col-12 col-sm-12 col-xl">
@@ -67,59 +43,36 @@
 	</div>  
   </ng-container>
   
-	<!--<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/pdf.svg"
-		title="Project Reqs.."
-		description="3 days ago"
-	  ></app-card4>
-	</div>
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/doc.svg"
-		title="CRM App Docs.."
-		description="3 days ago"
-	  ></app-card4>
-	</div>
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/css.svg"
-		title="User CRUD Styles"
-		description="4 days ago"
-	  ></app-card4>
-	</div>
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/ai.svg"
-		title="Metronic Logo"
-		description="5 days ago"
-	  ></app-card4>
-	</div>
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/sql.svg"
-		title="Orders backup"
-		description="1 week ago"
-	  ></app-card4>
-	</div>-->
-  </div>
-  
-  <!--<div class="row g-6 g-xl-9 mb-6 mb-xl-9">
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/xml.svg"
-		title="UTAIR CRM API Co.."
-		description="2 week ago"
-	  ></app-card4>
-	</div>
-	<div class="col-12 col-sm-12 col-xl">
-	  <app-card4
-		icon="./assets/media/svg/files/tif.svg"
-		title="Tower Hill App.."
-		description="3 week ago"
-	  ></app-card4>
-	</div>
   </div>-->
+
+  <!--begin::Row-->
+  <div class="row g-6 g-xl-9">
+	<!--begin::Col-->
+	<div class="col-lg-6">
+	  <!--begin::Summary-->
+	  <div class="card card-flush h-lg-100">
+		<ng-container *ngFor="let p of proyecto_documents; let i = index;">
+		<!--begin::Card header-->
+		<div class="card-header mt-6">
+		  <!--begin::Card title-->
+		  <div class="card-title flex-column">
+			<h3 class="fw-bold mb-1">{{p.cloud_user ? p.cloud_user.name : 'Archivo'}}</h3>
+		  </div>
+		  <!--end::Card title-->
+		  <!--begin::Card toolbar-->
+		  <div class="card-toolbar">
+			<a href="{{p.cloud_user ? p.cloud_user.secure_url : '#'}}" target="_new" class="btn btn-light btn-sm">Descargar</a>
+			<button class="btn btn-danger btn-sm" (click)="deleteDocument(p.id, p.archivo_id);$event.stopPropagation();$event.preventDefault()" *ngIf="rol == 'Decisor' || usuario.id == p.usuario_id">Quitar</button>
+		  </div>
+		  <!--end::Card toolbar-->
+		</div>
+		</ng-container>
+		<!--end::Card header-->
+	  </div>
+	  <!--end::Summary-->
+	</div>
+	<!--end::Col-->
+  </div>
   
   <!--begin::Modal - Upload File-->
   <div class="modal fade" id="kt_modal_upload" tabindex="-1" aria-hidden="true">
@@ -147,8 +100,27 @@
 				</div>
 				<!--end::Modal header-->
 				<!--begin::Modal body-->
+				
+				<div class="modal-body">
+				<form novalidate="" class="form" [formGroup]="uploadForm">
+					
+					<div class="row mb-6">
+						<label class="col-lg-4 col-form-label required fw-bold fs-6"
+						  >Nombre</label
+						>
+							<div class="col-lg-8 fv-row">
+							  <input
+								type="text"
+								class="form-control form-control-lg form-control-solid"
+								matInput
+								[placeholder]="'Nombre'"
+								[formControlName]="'nombre'"
+							  />
+							</div>
+					</div>
+				
 				<ngx-dropzone style="margin: 10px 60px;" (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif">
-					<ngx-dropzone-label style="z-index: 0 !important;">Seleccione las imagenes o arrastrelas!</ngx-dropzone-label>
+					<ngx-dropzone-label style="z-index: 0 !important;">Seleccione o arrastre la imagen o documento!</ngx-dropzone-label>
 					<!--<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
 					  <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
 					</ngx-dropzone-preview>-->
@@ -166,7 +138,7 @@
 					align-content: center;
 					position: relative;
 					display: block;
-					" (click)="enviar()" data-bs-dismiss="modal">
+					" (click)="enviar()" data-bs-dismiss="modal" [disabled]="uploadForm.invalid">
 					<ng-container *ngIf="isLoading2">
 					  <span class="indicator-progress" [style.display]="'block'">
 						Por favor espere...
@@ -179,6 +151,8 @@
 					  <span class="indicator-label">Enviar</span>
 					</ng-container>
 					</button>
+				</div>
+				</form>
 				</div>
 				<!--end: Modal body-->
 		</div>

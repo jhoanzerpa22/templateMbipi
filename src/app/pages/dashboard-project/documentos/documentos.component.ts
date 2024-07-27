@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReplaySubject, Subject,BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ProyectsService } from '../../config-project-wizzard/proyects.service';
 import Swal from 'sweetalert2';
 
@@ -15,12 +16,19 @@ declare var jQuery: any;
 export class DocumentosComponent implements OnInit {
 
   public proyecto_id: number;
-  public proyecto_documents: any = {};
+  public proyecto_documents: any = [];
+  
+  public proyecto: any = {};
+  public miembros: any = [];
+  public rol: any = '';
+
   fecha: Date = new Date();
   _user: any = {};
   usuario: any = {};
   files: File[] = [];
   isLoading2: boolean;
+  
+  uploadForm: FormGroup;
 
   private unsubscribe: Subscription[] = [];
   //isLoading$: Observable<boolean>;
@@ -38,7 +46,8 @@ onRemove(event: any) {
   this.files.splice(this.files.indexOf(event), 1);
 }
 
-constructor(private route: ActivatedRoute, private _proyectsService: ProyectsService,
+constructor(private route: ActivatedRoute,  
+  private _formBuilder: FormBuilder, private _proyectsService: ProyectsService,
     private ref: ChangeDetectorRef) { 
    
     const loadingSubscr = this.isLoading$
@@ -54,7 +63,12 @@ constructor(private route: ActivatedRoute, private _proyectsService: ProyectsSer
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.proyecto_id = params['id'];
+      this.getProyect();
       this.getDocumentsProyect();
+    });
+
+    this.uploadForm = this._formBuilder.group({
+      nombre      : ['', Validators.required]
     });
   }
 
@@ -65,6 +79,27 @@ constructor(private route: ActivatedRoute, private _proyectsService: ProyectsSer
 
     return `${day}/${month}/${year}`;
   }
+
+  getProyect(){
+
+    this._proyectsService.get(this.proyecto_id)
+      .subscribe(
+          (response) => {
+            this.proyecto = response;
+            this.miembros = this.proyecto.proyecto_equipo.equipo_usuarios;
+            let usuario_proyecto = this.miembros.filter(
+              (op: any) => (
+                op.usuario_id == this.usuario.id)
+              );
+            this.rol = usuario_proyecto[0].rol;
+            this.ref.detectChanges(); 
+          },
+          (response) => { 
+              // Reset the form
+              //this.signUpNgForm.resetForm();
+          }
+      );
+  }  
   
   getDocumentsProyect(){
 
@@ -72,6 +107,7 @@ constructor(private route: ActivatedRoute, private _proyectsService: ProyectsSer
       .subscribe(
           (response) => {
             this.proyecto_documents = response;
+            this.ref.detectChanges();
           },
           (response) => {
               // Reset the form
@@ -80,7 +116,28 @@ constructor(private route: ActivatedRoute, private _proyectsService: ProyectsSer
       );
   }
   
+  deleteDocument(id: any, cloudinary_id: any){
+
+    this.isLoading$.next(true);
+
+    this._proyectsService.deleteDocument(id,cloudinary_id)
+      .subscribe(
+          (response) => {
+            this.isLoading$.next(false);
+            this.getDocumentsProyect();
+          },
+          (response) => {    
+            this.isLoading$.next(false);
+          }
+      );
+  }
+  
   enviar(){
+    
+    if ( this.uploadForm.invalid )
+      {
+          return;
+      }
     
     this.isLoading$.next(true);
     //for(let f in this.files){
@@ -90,7 +147,10 @@ constructor(private route: ActivatedRoute, private _proyectsService: ProyectsSer
       'usuario_id': this.usuario.id,
       'proyecto_id': this.proyecto_id
     };*/
-    this._proyectsService.uploadDocument(this.files, this.proyecto_id, this.usuario.id)
+    
+    const val = this.uploadForm.value;
+
+    this._proyectsService.uploadDocument(this.files, val.nombre, this.proyecto_id, this.usuario.id)
       .subscribe(
           data => {
             Swal.fire({
