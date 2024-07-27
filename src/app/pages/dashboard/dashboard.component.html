@@ -135,8 +135,8 @@
         <!--begin::Users group-->
         <div class="symbol-group symbol-hover mb-9">
         <ng-container *ngFor="let usu of correoMiembrosEquipoList; let u = index;">
-          <div *ngIf="avatar_img; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
-            <img src="{{avatar_img}}" alt="a_img">
+          <div *ngIf="usu.eq_usu_plat != null; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+            <img src="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.img : avatar_img}}" alt="a_img">
           </div>
           <ng-template #elseBlock>
             <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
@@ -298,8 +298,8 @@
         <div class="symbol-group symbol-hover">
 
           <ng-container *ngFor="let usu of proyecto.equipos_equipo.equipo_usuarios; let u = index;">
-            <div *ngIf="avatar_img; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
-              <img src="{{avatar_img}}" alt="a_img">
+            <div *ngIf="usu.eq_usu_plat != null; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
+              <img src="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.img : avatar_img}}" alt="a_img">
             </div>
             <ng-template #elseBlock>
               <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
