@@ -120,7 +120,7 @@ export class DashboardProjectComponent implements OnInit {
     this._usersService.getAll()
       .subscribe(
         (data: any) => {
-            //console.log('usuarios',data);
+          //console.log('usuarios',data);
           //this.usuarios = data;
           //this.filteredUsuarios.next(this.usuarios.slice());
 

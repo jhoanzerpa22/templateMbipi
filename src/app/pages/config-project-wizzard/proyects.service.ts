@@ -334,7 +334,23 @@ export class ProyectsService
       // Make http post request over api
       // with formData as req
       return this.http.post(environment.API_G +'cloud_user/saveFilesMulti', formData);
-  }
+      }
+  
+      uploadDocument(file: File[], nombre: any, proyecto_id: any, usuario_id: any):Observable<any> {
+        // Create form data
+        const formData = new FormData(); 
+          
+        // Store form name as "file" with file data
+        formData.append("file", file[0], file[0].name);
+          
+        // Make http post request over api
+        // with formData as req
+        return this.http.post(environment.API_G +'cloud_user/saveFilesProyect/'+nombre+proyecto_id+'/'+usuario_id, formData);
+      }
+
+      deleteDocument(id: any, cloudinary_id: any): Observable<any> {
+        return this.http.delete(environment.API_G +'cloud_user/deleteImgProyect/'+ id +'/'+cloudinary_id);
+      }
 
       deleteImg(id: any, cloudinary_id: any): Observable<any> {
         return this.http.delete(environment.API_G +'cloud_user/deleteImg/'+ id +'/'+cloudinary_id);
@@ -434,5 +450,9 @@ export class ProyectsService
 
       invitations(data: any): Observable<any> {
         return this.http.post(environment.API_G + 'invitacions', data);
+      }
+      
+      getDocuments(id: any): Observable<any> {
+        return this.http.get(environment.API_G +`${baseUrl}/documentsProyect/${id}`);
       }
 }

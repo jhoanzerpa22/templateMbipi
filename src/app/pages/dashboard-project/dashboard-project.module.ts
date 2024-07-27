@@ -8,13 +8,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
 import { OverviewComponent } from './overview/overview.component';
 import { DescargablesComponent } from './descargables/descargables.component';
+import { DocumentosComponent } from './documentos/documentos.component';
 import { ScopePrintComponent } from './descargables/scope_canvas/scope_print.component';
 import { LeanPrintComponent } from './descargables/lean_canvas/lean_print.component';
 import { InlineSVGModule } from 'ng-inline-svg-2';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LoadMaskModule } from '../../_metronic/layout2/loadMask/loadMask.module';
 import { ProyectService } from './proyect.service';
+import {
+  CardsModule,
+  DropdownMenusModule
+} from '../../_metronic/partials';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import {
   NgbDropdownModule,
@@ -23,7 +29,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [DashboardProjectComponent, SettingsComponent, OverviewComponent, DescargablesComponent, ScopePrintComponent, LeanPrintComponent],
+  declarations: [DashboardProjectComponent, SettingsComponent, OverviewComponent, DescargablesComponent, ScopePrintComponent, LeanPrintComponent, DocumentosComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -48,6 +54,10 @@ import {
             path: 'descargables',
             component: DescargablesComponent
           },
+          {
+            path: 'documentos',
+            component: DocumentosComponent
+          },
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: '**', redirectTo: 'overview', pathMatch: 'full' },
         ]
@@ -58,7 +68,10 @@ import {
     ReactiveFormsModule,
     MatDialogModule,
     NgApexchartsModule,
-    LoadMaskModule
+    LoadMaskModule,
+    DropdownMenusModule,
+    CardsModule,
+    NgxDropzoneModule
   ],
   exports: [MatDialogModule],
   providers: [ProyectService]
