@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ScopePrintComponent } from './scope_canvas/scope_print.component';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,8 @@ import jsPDF from 'jspdf';
 export class DescargablesComponent implements OnInit {
 
   public proyecto_id: number;
-  public proyecto: any = {};
+  //public proyecto: any = {};
+  @Input() proyecto: any = {};
   fecha: Date = new Date();
 
   @ViewChild('scope') scope: ElementRef;
@@ -32,7 +33,7 @@ export class DescargablesComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.proyecto_id = params['id'];
-      this.getProyect();
+      //this.getProyect();
     });
   }
 
@@ -44,7 +45,7 @@ export class DescargablesComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
   
-  getProyect(){
+  /*getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
       .subscribe(
@@ -56,7 +57,7 @@ export class DescargablesComponent implements OnInit {
               //this.signUpNgForm.resetForm();
           }
       );
-  }
+  }*/
 
   printPage() {
     /*const dialogRef = this.dialog.open(ScopePrintComponent, {

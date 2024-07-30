@@ -44,19 +44,19 @@ import {
         children: [
           {
             path: 'overview',
-            component: OverviewComponent
+            component: DashboardProjectComponent//OverviewComponent
           },
           {
             path: 'settings',
-            component: SettingsComponent
+            component: DashboardProjectComponent//SettingsComponent
           },
           {
             path: 'descargables',
-            component: DescargablesComponent
+            component: DashboardProjectComponent//DescargablesComponent
           },
           {
             path: 'documentos',
-            component: DocumentosComponent
+            component: DashboardProjectComponent//DocumentosComponent
           },
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: '**', redirectTo: 'overview', pathMatch: 'full' },
@@ -74,6 +74,7 @@ import {
     NgxDropzoneModule
   ],
   exports: [MatDialogModule],
+  entryComponents: [OverviewComponent, SettingsComponent, DescargablesComponent, DocumentosComponent],
   providers: [ProyectService]
 })
 export class DashboardProjectModule { }
