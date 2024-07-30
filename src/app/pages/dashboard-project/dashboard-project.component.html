@@ -167,7 +167,7 @@
           <div class="symbol-group symbol-hover mb-3">
             <ng-container *ngFor="let usu of miembros; let u = index;">
               <div *ngIf="usu.eq_usu_plat != null; else elseBlock" class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
-                <img src="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.img : avatar_img}}" alt="a_img">
+                <img src="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.img : avatar_img}}" alt="a_img" (error)="imgErrorUser($event)">
               </div>
               <ng-template #elseBlock>
                 <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="{{usu.eq_usu_plat != null ? usu.eq_usu_plat.nombre : (usu.correo ? usu.correo : usuario.correo_login)}}">
@@ -725,7 +725,7 @@
 																		<!--end::Checkbox-->
 																		<!--begin::Avatar-->
 																		<div class="symbol symbol-35px symbol-circle">
-																			<img alt="Pic" src="assets/media/avatars/300-1.jpg" />
+																			<img alt="Pic" src="assets/media/svg/avatars/blank-dark.svg" />
 																		</div>
 																		<!--end::Avatar-->
 																		<!--begin::Details-->
@@ -1229,7 +1229,7 @@
 																		<!--end::Checkbox-->
 																		<!--begin::Avatar-->
 																		<div class="symbol symbol-35px symbol-circle">
-																			<img alt="Pic" src="assets/media/avatars/300-1.jpg" />
+																			<img alt="Pic" src="assets/media/svg/avatars/blank-dark.svg" />
 																		</div>
 																		<!--end::Avatar-->
 																		<!--begin::Details-->

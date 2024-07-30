@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   public idEquiposArray:any;
   public correoMiembrosEquipoList:any;
 
-  public avatar_img = '/assets/media/avatars/300-1.jpg'
+  public avatar_img = '/assets/media/svg/avatars/blank-dark.svg'
   isLoading: boolean = true;
 
   constructor(
@@ -269,6 +269,14 @@ imgError(ev: any){
 
   let source = ev.srcElement;
   let imgSrc = 'assets/media/svg/brand-logos/plurk.svg';
+
+  source.src = imgSrc;
+}
+ 
+imgErrorUser(ev: any){
+
+  let source = ev.srcElement;
+  let imgSrc = 'assets/media/svg/avatars/blank-dark.svg';
 
   source.src = imgSrc;
 }

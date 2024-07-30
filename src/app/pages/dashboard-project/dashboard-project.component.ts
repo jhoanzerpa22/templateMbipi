@@ -32,7 +32,7 @@ export class DashboardProjectComponent implements OnInit {
   public miembros: any = [];
   public members: any = [];
   public rol: any = '';
-  public avatar_img = '/assets/media/avatars/300-1.jpg';
+  public avatar_img = '/assets/media/svg/avatars/blank-dark.svg';
 
   filteredOptionsUsuario: Observable<Usuario[]>;
   searchUsuarios: any[] = [];
@@ -235,6 +235,14 @@ export class DashboardProjectComponent implements OnInit {
 
     let source = ev.srcElement;
     let imgSrc = 'assets/media/svg/brand-logos/volicity-9.svg';
+
+    source.src = imgSrc;
+  }
+  
+  imgErrorUser(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/media/svg/avatars/blank-dark.svg';
 
     source.src = imgSrc;
   }
