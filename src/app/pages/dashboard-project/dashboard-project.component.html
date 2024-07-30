@@ -260,9 +260,11 @@
   </div>
 </div>
 <!--end::Navbar-->
-<router-outlet></router-outlet>
-
-
+<!--<router-outlet></router-outlet>-->
+<app-overview *ngIf="activeClass == 'overview' && proyecto && miembros.length > 0" [proyecto]="proyecto" [miembros]="miembros" [proyecto_recursos]="proyecto_recursos"></app-overview>
+<app-descargables *ngIf="activeClass == 'descargables' && proyecto" [proyecto]="proyecto"></app-descargables>
+<app-documentos *ngIf="activeClass == 'documentos' && proyecto && miembros.length > 0" [proyecto]="proyecto" [miembros]="miembros"></app-documentos>
+<app-settings *ngIf="activeClass == 'settings' && proyecto && miembros.length > 0" [proyecto]="proyecto" [usuarios]="miembros"></app-settings>
 <!--begin::Modals-->
 								<!--begin::Modal - View Users-->
 								<div class="modal fade" id="kt_modal_view_users" tabindex="-1" aria-hidden="true">

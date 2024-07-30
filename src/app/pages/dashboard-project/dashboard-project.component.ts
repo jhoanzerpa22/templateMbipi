@@ -31,6 +31,7 @@ export class DashboardProjectComponent implements OnInit {
   public usuarios: any = [];
   public miembros: any = [];
   public members: any = [];
+  public proyecto_recursos: any = [];
   public rol: any = '';
   public avatar_img = '/assets/media/svg/avatars/blank-dark.svg';
 
@@ -214,6 +215,8 @@ export class DashboardProjectComponent implements OnInit {
           (response) => {
             this.proyecto = response;
             this.miembros = this.proyecto.proyecto_equipo.equipo_usuarios;
+            this.proyecto_recursos = this.proyecto.proyecto_recursos;
+            
             let usuario_proyecto = this.miembros.filter(
               (op: any) => (
                 op.usuario_id == this.usuario.id)
