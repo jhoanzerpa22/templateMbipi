@@ -34,7 +34,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   imgError(ev: any){
 
     let source = ev.srcElement;
-    let imgSrc = 'assets/media/avatars/300-1.jpg';
+    let imgSrc = 'assets/media/svg/avatars/blank-dark.svg';
 
     source.src = imgSrc;
   }
