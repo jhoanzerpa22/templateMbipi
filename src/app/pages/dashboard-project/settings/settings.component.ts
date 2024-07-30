@@ -12,10 +12,10 @@ import Swal from 'sweetalert2';
 })
 export class SettingsComponent implements OnInit {
 
-  public proyecto: any = {};
+  //public proyecto: any = {};
   public proyecto_id: number;
   public usuario: any = {};
-  public usuarios: any = [];
+  //public usuarios: any = [];
   public members: any = [];
 
   public formProyect: FormGroup;
@@ -26,7 +26,10 @@ export class SettingsComponent implements OnInit {
 
   imageChangedEvent: any = '';
   imgView: any;
-  isLoading: boolean = true;
+  //isLoading: boolean = true;
+  
+  @Input() proyecto: any = {};
+  @Input() usuarios: any = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -49,10 +52,12 @@ export class SettingsComponent implements OnInit {
     this.route.params.subscribe(params => {
       //console.log('params',params);
       this.proyecto_id = params['id'];
-      console.log(params)
-      this.getProyect();
+      //console.log(params)
+      //this.getProyect();
+      this.setValueEdit(this.proyecto);
+      this.ref.detectChanges();
     });
-    console.log(this.route.params)
+    //console.log(this.route.params)
   }
   
   imgError(ev: any){
@@ -109,14 +114,14 @@ export class SettingsComponent implements OnInit {
       )
   }
 
-  getProyect(){
+  /*getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
       .subscribe(
           (response) => {
             this.proyecto = response;
             this.usuarios = this.proyecto.proyecto_equipo.equipo_usuarios;
-            console.log(this.proyecto)
+            //console.log(this.proyecto)
             this.setValueEdit(this.proyecto);
             this.isLoading = false; 
             this.ref.detectChanges();
@@ -127,7 +132,7 @@ export class SettingsComponent implements OnInit {
               //this.signUpNgForm.resetForm();
           }
       );
-  }
+  }*/
  
 onFileSelected(event: any){
 

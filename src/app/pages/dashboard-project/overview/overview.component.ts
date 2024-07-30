@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectsService } from '../../config-project-wizzard/proyects.service';
 import { getCSSVariableValue } from '../../../_metronic/kt/_utils';
@@ -10,7 +10,7 @@ import { getCSSVariableValue } from '../../../_metronic/kt/_utils';
 })
 export class OverviewComponent implements OnInit {
   
-  public proyecto: any = {};
+  //public proyecto: any = {};
   public proyecto_id: any;
 
   dias: number = 0;
@@ -18,10 +18,14 @@ export class OverviewComponent implements OnInit {
   curso: number = 0;
   
   chartOptions: any = {};
-  public miembros: any = [];
-  public proyecto_recursos: any = [];
+  //public miembros: any = [];
+  //public proyecto_recursos: any = [];
 
-  isLoading: boolean = true;
+  //isLoading: boolean = true;
+  
+  @Input() proyecto: any = {};
+  @Input() miembros: any = [];
+  @Input() proyecto_recursos: any = [];
 
   constructor(private ref: ChangeDetectorRef, private route: ActivatedRoute, private _proyectsService: ProyectsService) { 
     /*this.route.queryParams.subscribe(params => {
@@ -33,10 +37,11 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     
     this.getChartOptions([]);
+    this.getMiembros();
     this.route.params.subscribe(params => {
       //console.log('params',params);
       this.proyecto_id = params['id'];
-      this.getProyect();
+      //this.getProyect();
     });
   }
 
@@ -196,8 +201,6 @@ export class OverviewComponent implements OnInit {
             break;
         }
 
-        console.log('etapa',);
-
           if(fase_final > 0){
 
             curso = 1;
@@ -242,8 +245,36 @@ export class OverviewComponent implements OnInit {
     this.completadas = completadas;
     this.curso = curso;
   }
+
+  getMiembros(){
+    let miembros: any = [];
+    for (let index = 0; index < this.miembros.length; index++) {
+
+      let label: any = (this.miembros[index].correo ? this.miembros[index].correo : '');
+      let value: number = 0; 
+      
+      if(this.miembros[index].eq_usu_plat != null){
+        label = this.miembros[index].eq_usu_plat.nombre;
+
+        const filter_recursos: any = this.proyecto_recursos.filter(
+          (re: any) => (
+            re.usuario_id == this.miembros[index].eq_usu_plat.id)
+          );
+
+          value = filter_recursos.length;
+
+      }
+
+      miembros.push({label: label, value: value}); 
+    }
+
+    this.getChartOptions(miembros);
+    this.getDias(this.proyecto.etapa_activa);
+    
+    this.ref.detectChanges();
+  }
   
-  getProyect(){
+  /*getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
       .subscribe(
@@ -283,10 +314,8 @@ export class OverviewComponent implements OnInit {
           },
           (response) => {
               this.isLoading = false;
-              // Reset the form
-              //this.signUpNgForm.resetForm();
           }
       );
-  }
+  }*/
 
 }

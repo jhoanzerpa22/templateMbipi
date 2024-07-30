@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReplaySubject, Subject,BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -18,8 +18,8 @@ export class DocumentosComponent implements OnInit {
   public proyecto_id: number;
   public proyecto_documents: any = [];
   
-  public proyecto: any = {};
-  public miembros: any = [];
+  //public proyecto: any = {};
+  //public miembros: any = [];
   public rol: any = '';
 
   fecha: Date = new Date();
@@ -30,6 +30,9 @@ export class DocumentosComponent implements OnInit {
   
   uploadForm: FormGroup;
 
+  @Input() proyecto: any = {};
+  @Input() miembros: any = [];
+  
   private unsubscribe: Subscription[] = [];
   //isLoading$: Observable<boolean>;
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -63,7 +66,7 @@ constructor(private route: ActivatedRoute,
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.proyecto_id = params['id'];
-      this.getProyect();
+      //this.getProyect();
       this.getDocumentsProyect();
     });
 
@@ -80,7 +83,7 @@ constructor(private route: ActivatedRoute,
     return `${day}/${month}/${year}`;
   }
 
-  getProyect(){
+  /*getProyect(){
 
     this._proyectsService.get(this.proyecto_id)
       .subscribe(
@@ -99,7 +102,16 @@ constructor(private route: ActivatedRoute,
               //this.signUpNgForm.resetForm();
           }
       );
-  }  
+  }*/
+
+  getRol(){
+    let usuario_proyecto = this.miembros.filter(
+      (op: any) => (
+        op.usuario_id == this.usuario.id)
+      );
+    this.rol = usuario_proyecto[0].rol;
+    this.ref.detectChanges(); 
+  }
   
   getDocumentsProyect(){
 
